@@ -11,18 +11,17 @@
 
         <ImageView
             android:id="@+id/ivBaseEmptyDefaultItmIcon"
-            android:layout_width="@dimen/fbase_dimen_180"
-            android:layout_height="@dimen/fbase_dimen_180"
+            android:layout_width="@dimen/dimen_180"
+            android:layout_height="@dimen/dimen_180"
             android:scaleType="centerInside"
-            tools:ignore="ContentDescription"
-            tools:src="@drawable/default_photo" />
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tvBaseEmptyDefaultItmMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fbase_dimen_12"
-            android:textColor="@color/fbase_color_gray"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:textColor="@color/black"
             tools:text="Không có dữ liệu" />
 
     </LinearLayout>

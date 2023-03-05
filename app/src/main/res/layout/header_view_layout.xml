@@ -75,4 +75,13 @@
         app:layout_constraintTop_toTopOf="@id/ivHeaderViewRight"
         app:layout_constraintBottom_toBottomOf="@id/ivHeaderViewRight"/>
 
+    <View
+        android:id="@+id/vHeaderViewUnder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivHeaderViewLeft"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

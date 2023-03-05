@@ -7,15 +7,15 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/fbase_dimen_16"
-        android:paddingBottom="@dimen/fbase_dimen_24"
+        android:paddingTop="@dimen/dimen_16"
+        android:paddingBottom="@dimen/dimen_24"
         android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/pbBaseLoadMoreDefaultItmLoading"
-            android:layout_width="@dimen/fbase_dimen_14"
-            android:layout_height="@dimen/fbase_dimen_14"
-            android:indeterminateTint="@color/fbase_color_gray" />
+            android:layout_width="@dimen/dimen_14"
+            android:layout_height="@dimen/dimen_14"
+            android:indeterminateTint="@color/black" />
 
         <TextView
             android:id="@+id/tvBaseLoadMoreDefaultItmMessage"
@@ -25,7 +25,7 @@
             android:layout_marginEnd="8dp"
             android:includeFontPadding="false"
             android:text="Đang tải thêm..."
-            android:textColor="@color/fbase_color_gray"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
     </LinearLayout>

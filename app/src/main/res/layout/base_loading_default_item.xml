@@ -5,17 +5,17 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/fbase_dimen_20"
+        android:paddingVertical="@dimen/dimen_20"
         tools:layout_gravity="center">
 
         <ProgressBar
             android:id="@+id/pbBaseLoadingDefaultItmLoading"
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="@dimen/fbase_dimen_30"
-            android:layout_height="@dimen/fbase_dimen_30"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
             android:layout_gravity="center"
             android:indeterminateBehavior="repeat"
-            android:indeterminateTint="@color/fbase_color_gray" />
+            android:indeterminateTint="@color/black" />
 
     </FrameLayout>
 
