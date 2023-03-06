@@ -1,4 +1,4 @@
-package com.mobile.videocutter.common.adapter
+package com.example.base.common.adapter
 
 abstract class BaseGridAdapter : BaseAdapter() {
 

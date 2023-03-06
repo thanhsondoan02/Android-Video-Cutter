@@ -1,4 +1,4 @@
-package com.mobile.videocutter.common.widget
+package com.mobile.videocutter.presentation.widget
 
 import android.content.Context
 import android.graphics.Typeface
@@ -14,10 +14,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.R
-import com.mobile.videocutter.common.extension.gone
-import com.mobile.videocutter.common.extension.hide
-import com.mobile.videocutter.common.extension.setOnSafeClick
-import com.mobile.videocutter.common.extension.show
+import com.example.base.common.extension.gone
+import com.example.base.common.extension.hide
+import com.example.base.common.extension.setOnSafeClick
+import com.example.base.common.extension.show
 
 class HeaderView constructor(
     ctx: Context,

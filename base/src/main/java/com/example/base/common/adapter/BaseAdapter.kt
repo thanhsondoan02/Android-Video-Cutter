@@ -1,4 +1,4 @@
-package com.mobile.videocutter.common.adapter
+package com.example.base.common.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
@@ -10,9 +10,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.videocutter.R
-import com.mobile.videocutter.common.extension.STRING_DEFAULT
-import com.mobile.videocutter.common.extension.getAppColor
-import com.mobile.videocutter.common.extension.getAppDrawable
+import com.example.base.extension.STRING_DEFAULT
+import com.example.base.extension.getAppColor
+import com.example.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.BaseEmptyDefaultItemBinding
 import com.mobile.videocutter.databinding.BaseLoadMoreDefaultItemBinding
 

@@ -1,4 +1,4 @@
-package com.mobile.videocutter.common
+package com.mobile.videocutter.presentation.widget
 
 import android.view.View
 import java.lang.System.currentTimeMillis
