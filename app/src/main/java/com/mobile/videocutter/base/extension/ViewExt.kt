@@ -21,6 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.presentation.widget.DEFAULT_DEBOUNCE_INTERVAL
 import com.mobile.videocutter.presentation.widget.DebouncedOnClickListener
 
+
 fun View.setOnSafeClick(
     delayBetweenClicks: Long = DEFAULT_DEBOUNCE_INTERVAL,
     click: (view: View) -> Unit
