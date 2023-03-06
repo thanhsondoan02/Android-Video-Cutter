@@ -29,6 +29,10 @@
         <activity android:name=".presentation.cutvideo.CutVideoActivity">
 
         </activity>
+
+        <activity android:name=".presentation.selectlibrary.SelectLibraryFolderActivity">
+
+        </activity>
     </application>
 
 </manifest>

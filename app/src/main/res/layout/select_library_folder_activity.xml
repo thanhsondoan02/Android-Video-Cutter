@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/hvLibraryFolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hv_left_ic="@drawable/ic_black_back"
+            app:hv_center_tv_text="Library"
+            app:hv_center_ic="@drawable/ic_black_up"
+            app:hv_right_ic="@drawable/ic_black_camera"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLibraryFolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</layout>
