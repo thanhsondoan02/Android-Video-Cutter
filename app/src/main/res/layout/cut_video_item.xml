@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivCutVideoItmRoot"
         android:layout_width="@dimen/dimen_60"
-        android:layout_height="@dimen/dimen_60" />
+        android:layout_height="@dimen/dimen_60"
+        android:layout_gravity="center" />
 
-</FrameLayout>
+</layout>

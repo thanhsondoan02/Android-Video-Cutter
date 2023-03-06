@@ -11,7 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.mobile.videocutter.base.common.BaseView
 
-
+/**
+ * cần thêm thẻ layout vào file xml
+ */
 abstract class BaseBindingActivity<DB : ViewDataBinding>(layoutId: Int) : BaseActivity(layoutId),
     BaseView {
 
