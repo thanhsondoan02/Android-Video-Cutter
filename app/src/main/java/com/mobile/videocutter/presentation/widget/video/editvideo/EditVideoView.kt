@@ -1,4 +1,4 @@
-package com.mobile.videocutter.presentation.customview
+package com.mobile.videocutter.presentation.widget.video.editvideo
 
 import android.content.Context
 import android.util.AttributeSet

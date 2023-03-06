@@ -15,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.gone
-import com.mobile.videocutter.base.extension.hide
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 
@@ -99,7 +98,7 @@ class HeaderView constructor(
 
         // left
         if (leftIc == null) {
-            ivLeft?.hide()
+            ivLeft?.gone()
             if (leftTvMargin != 0f) {
                 newParams = tvLeft?.layoutParams as MarginLayoutParams
                 newParams?.leftMargin = leftTvMargin.toInt()
@@ -293,6 +292,4 @@ class HeaderView constructor(
     fun setOnCenterClickListener(onClick: (() -> Unit)?) {
         this.llCenterOnClick = onClick
     }
-
-
 }
