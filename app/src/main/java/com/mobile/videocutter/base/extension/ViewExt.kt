@@ -18,8 +18,8 @@ import androidx.annotation.FontRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.example.base.common.DEFAULT_DEBOUNCE_INTERVAL
-import com.example.base.common.DebouncedOnClickListener
+import com.mobile.videocutter.presentation.widget.DEFAULT_DEBOUNCE_INTERVAL
+import com.mobile.videocutter.presentation.widget.DebouncedOnClickListener
 
 fun View.setOnSafeClick(
     delayBetweenClicks: Long = DEFAULT_DEBOUNCE_INTERVAL,

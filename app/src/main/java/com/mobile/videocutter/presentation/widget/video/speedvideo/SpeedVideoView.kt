@@ -1,4 +1,4 @@
-package com.mobile.videocutter.presentation.widget
+package com.mobile.videocutter.presentation.widget.video.speedvideo
 
 import android.annotation.SuppressLint
 import android.content.Context

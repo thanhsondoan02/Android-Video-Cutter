@@ -14,10 +14,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.R
-import com.example.base.common.extension.gone
-import com.example.base.common.extension.hide
-import com.example.base.common.extension.setOnSafeClick
-import com.example.base.common.extension.show
+import com.mobile.videocutter.base.extension.gone
+import com.mobile.videocutter.base.extension.setOnSafeClick
+import com.mobile.videocutter.base.extension.show
 
 class HeaderView constructor(
     ctx: Context,
@@ -99,7 +98,7 @@ class HeaderView constructor(
 
         // left
         if (leftIc == null) {
-            ivLeft?.hide()
+            ivLeft?.gone()
             if (leftTvMargin != 0f) {
                 newParams = tvLeft?.layoutParams as MarginLayoutParams
                 newParams?.leftMargin = leftTvMargin.toInt()
@@ -196,27 +195,27 @@ class HeaderView constructor(
         val ta = context.theme.obtainStyledAttributes(attributeSet, R.styleable.HeaderView, 0, 0)
 
         // left
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_ic)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_ic)) {
             leftIc = ta.getDrawable(R.styleable.HeaderView_hv_left_ic)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text)) {
             leftTvContent = ta.getString(R.styleable.HeaderView_hv_left_tv_text)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_margin)){
-            leftTvMargin = ta.getDimensionPixelOffset(R.styleable.HeaderView_hv_left_tv_margin,0).toFloat()
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_margin)) {
+            leftTvMargin = ta.getDimensionPixelOffset(R.styleable.HeaderView_hv_left_tv_margin, 0).toFloat()
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text_color)){
-            leftTextColor = ta.getColor(R.styleable.HeaderView_hv_left_tv_text_color,0)
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text_color)) {
+            leftTextColor = ta.getColor(R.styleable.HeaderView_hv_left_tv_text_color, 0)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text_size)){
-            leftTextSize = ta.getDimension(R.styleable.HeaderView_hv_left_tv_text_size,0f)
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_text_size)) {
+            leftTextSize = ta.getDimension(R.styleable.HeaderView_hv_left_tv_text_size, 0f)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_font_family)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_left_tv_font_family)) {
             val fontId = ta.getResourceId(R.styleable.HeaderView_hv_left_tv_font_family, -1)
             if (fontId != -1) {
                 leftFont = ResourcesCompat.getFont(context, fontId)
@@ -224,23 +223,23 @@ class HeaderView constructor(
         }
 
         // center
-        if (ta.hasValue(R.styleable.HeaderView_hv_center_ic)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_center_ic)) {
             centerIc = ta.getDrawable(R.styleable.HeaderView_hv_center_ic)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text)) {
             centerTvContent = ta.getString(R.styleable.HeaderView_hv_center_tv_text)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text_color)){
-            centerTextColor = ta.getColor(R.styleable.HeaderView_hv_center_tv_text_color,0)
+        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text_color)) {
+            centerTextColor = ta.getColor(R.styleable.HeaderView_hv_center_tv_text_color, 0)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text_size)){
-            centerTextSize = ta.getDimension(R.styleable.HeaderView_hv_center_tv_text_size,0f)
+        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_text_size)) {
+            centerTextSize = ta.getDimension(R.styleable.HeaderView_hv_center_tv_text_size, 0f)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_font_family)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_center_tv_font_family)) {
             val fontId = ta.getResourceId(R.styleable.HeaderView_hv_center_tv_font_family, -1)
             if (fontId != -1) {
                 centerFont = ResourcesCompat.getFont(context, fontId)
@@ -248,27 +247,27 @@ class HeaderView constructor(
         }
 
         // right
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_ic)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_ic)) {
             rightIc = ta.getDrawable(R.styleable.HeaderView_hv_right_ic)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text)) {
             rightTvContent = ta.getString(R.styleable.HeaderView_hv_right_tv_text)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_margin)){
-            rightTvMargin = ta.getDimensionPixelOffset(R.styleable.HeaderView_hv_right_tv_margin,0).toFloat()
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_margin)) {
+            rightTvMargin = ta.getDimensionPixelOffset(R.styleable.HeaderView_hv_right_tv_margin, 0).toFloat()
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text_color)){
-            rightTextColor = ta.getColor(R.styleable.HeaderView_hv_right_tv_text_color,0)
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text_color)) {
+            rightTextColor = ta.getColor(R.styleable.HeaderView_hv_right_tv_text_color, 0)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text_size)){
-            rightTextSize = ta.getDimension(R.styleable.HeaderView_hv_right_tv_text_size,0f)
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_text_size)) {
+            rightTextSize = ta.getDimension(R.styleable.HeaderView_hv_right_tv_text_size, 0f)
         }
 
-        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_font_family)){
+        if (ta.hasValue(R.styleable.HeaderView_hv_right_tv_font_family)) {
             val fontId = ta.getResourceId(R.styleable.HeaderView_hv_right_tv_font_family, -1)
             if (fontId != -1) {
                 rightFont = ResourcesCompat.getFont(context, fontId)
@@ -293,6 +292,4 @@ class HeaderView constructor(
     fun setOnCenterClickListener(onClick: (() -> Unit)?) {
         this.llCenterOnClick = onClick
     }
-
-
 }
