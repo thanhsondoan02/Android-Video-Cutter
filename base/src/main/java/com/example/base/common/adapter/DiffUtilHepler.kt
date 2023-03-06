@@ -1,4 +1,4 @@
-package com.mobile.videocutter.common.adapter
+package com.example.base.common.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
