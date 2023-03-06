@@ -19,3 +19,5 @@
             app:hv_right_ic="@drawable/ic_black_up"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
