@@ -6,25 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.base.common.widget.HeaderView
-        android:id="@+id/hvTest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        app:hv_left_tv_text="Home"
-        app:hv_center_ic="@drawable/ic_black_up"
-        app:hv_center_tv_text="Li"
-        app:hv_right_ic="@drawable/ic_black_camera"
-        app:hv_right_tv_text="Camera"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.example.base.common.widget.SpeedVideoView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/hvTest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
