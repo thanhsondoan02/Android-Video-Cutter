@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/ivHeaderViewLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_black_back" />
+
+    <TextView
+        android:id="@+id/tvHeaderViewLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Home"
+        android:textSize="18sp"
+        tools:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/ivHeaderViewLeft"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeaderViewLeft"
+        app:layout_constraintStart_toEndOf="@id/ivHeaderViewLeft"/>
+
+    <LinearLayout
+        android:id="@+id/llHeaderViewCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivHeaderViewLeft"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeaderViewLeft">
+
+        <TextView
+            android:id="@+id/tvHeaderViewCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text= "Library"
+            android:textSize="18sp"
+            tools:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/ivHeaderViewCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_black_up" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivHeaderViewRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_black_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivHeaderViewLeft"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeaderViewLeft"/>
+
+    <TextView
+        android:id="@+id/tvHeaderViewRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Camera"
+        android:textSize="18sp"
+        tools:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/ivHeaderViewRight"
+        app:layout_constraintTop_toTopOf="@id/ivHeaderViewRight"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeaderViewRight"/>
+
+    <View
+        android:id="@+id/vHeaderViewUnder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivHeaderViewLeft"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
