@@ -1,4 +1,4 @@
-package com.example.base.extension
+package com.mobile.videocutter.base.extension
 
 import android.app.Application
 

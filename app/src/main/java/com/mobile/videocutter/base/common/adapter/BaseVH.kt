@@ -1,4 +1,4 @@
-package com.example.base.common.adapter
+package com.mobile.videocutter.base.common.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
