@@ -31,10 +31,6 @@ class SafeActionManager {
         this.isSafeAction = isSafeAction
     }
 
-    fun resetWaitingActionList() {
-        this.waitingActionList.clear()
-    }
-
     private fun removeWaitingAction(action: WAITING_ACTION) {
         this.waitingActionList.remove(action)
     }

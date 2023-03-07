@@ -1,4 +1,4 @@
-package com.mobile.videocutter.presentation.widget.video.editvideo
+package com.mobile.videocutter.presentation.widget.cutvideo
 
 import android.graphics.Bitmap
 import androidx.databinding.ViewDataBinding

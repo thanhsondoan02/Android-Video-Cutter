@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Video Cutter</string>
+    <string name="cut_video_time_start">00:00</string>
+    <string name="cut_video_time_end">04:00</string>
 </resources>

@@ -1,11 +1,6 @@
-package ai.ftech.base.common.binding
+package com.mobile.videocutter.base.common.binding
 
 import com.mobile.videocutter.base.common.BaseFragment
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
 abstract class BaseBindingFragment<DB : ViewDataBinding>(layoutId: Int) : BaseFragment(layoutId) {
@@ -13,12 +8,6 @@ abstract class BaseBindingFragment<DB : ViewDataBinding>(layoutId: Int) : BaseFr
     private var _binding: DB? = null
 
     open fun hasClickable() = false
-
-    override fun attachView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = DataBindingUtil.inflate(myInflater, layoutId, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
-    }
 
     override fun onInitView() {
         super.onInitView()
