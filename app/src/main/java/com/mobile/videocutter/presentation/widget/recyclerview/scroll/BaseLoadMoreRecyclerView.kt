@@ -12,7 +12,6 @@ abstract class BaseLoadMoreRecyclerView(
     open val lastPage: Boolean = false
     open val isLoading: Boolean = false
 
-
     private var isScrollDown = false
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

@@ -2,7 +2,6 @@ package com.mobile.videocutter.presentation.widget.recyclerview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -167,6 +166,4 @@ class CustomRecyclerView constructor(
     }
 
     fun getCountData() = baseAdapter?.itemCount
-
-
 }

@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
-import com.mobile.videocutter.presentation.exampleloadmore.TestAdapter
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.databinding.ActivityMainBinding
+import com.mobile.videocutter.presentation.exampleloadmore.TestAdapter
 import com.mobile.videocutter.presentation.exampleloadmore.TestViewModel
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
@@ -19,6 +19,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
         super.onPrepareInitView()
         viewModel.fakeData()
     }
+
     override fun onInitView() {
         super.onInitView()
         binding.rv.setAdapter(test)
@@ -34,17 +35,17 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
         super.onObserverViewModel()
 
         lifecycleScope.launchWhenResumed {
-            viewModel.observerData.collect{
+            viewModel.observerData.collect {
                 Log.d(TAG, "onInitView: ${it?.size}")
-                if (it != null){
-                    binding.rv.submitList(it as List<TestAdapter.TestModel>,viewModel.dataPage.hasLoadMore())
+                if (it != null) {
+                    binding.rv.submitList(it as List<TestAdapter.TestModel>, viewModel.dataPage.hasLoadMore())
                 }
 
             }
         }
 
         lifecycleScope.launchWhenResumed {
-            viewModel.testObserver.collect{
+            viewModel.testObserver.collect {
                 Log.d(TAG, "setDataERTYUI: ${it}")
             }
         }

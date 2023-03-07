@@ -30,7 +30,6 @@ class TestAdapter : BaseAdapter() {
         }
     }
 
-
     class DiffCallback(oldData: List<TestModel>, newData: List<TestModel>) :
         BaseDiffUtilCallback<TestModel>(oldData, newData) {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
