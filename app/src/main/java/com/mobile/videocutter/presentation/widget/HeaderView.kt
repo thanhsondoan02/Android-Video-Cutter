@@ -11,7 +11,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.gone
@@ -59,9 +61,10 @@ class HeaderView constructor(
     private var rightTextSize: Float = 0f
     private var rightFont: Typeface? = null
     private var rightTextColor: Int = 0
-    private var rightTvMargin: Float? = null
+    private var rightTvMargin: Float? = 0f
 
     private var ivRightOnClick: (() -> Unit)? = null
+    private var tvRightOnClick: (() -> Unit)? = null
 
     // view under
     private var vUnder: View? = null
@@ -162,7 +165,7 @@ class HeaderView constructor(
             ivRight?.gone()
             if (rightTvMargin != 0f) {
                 newParams = tvRight?.layoutParams as MarginLayoutParams
-                newParams?.leftMargin = rightTvMargin?.toInt()
+                newParams?.rightMargin = rightTvMargin?.toInt()
                 tvRight?.layoutParams = newParams
             }
         } else {
@@ -188,6 +191,10 @@ class HeaderView constructor(
 
         ivRight?.setOnSafeClick {
             ivRightOnClick?.invoke()
+        }
+
+        tvRight?.setOnSafeClick {
+            tvRightOnClick?.invoke()
         }
     }
 
@@ -289,7 +296,29 @@ class HeaderView constructor(
         this.ivRightOnClick = onClick
     }
 
+    fun setOnRightTextClickListener(onClick: (() -> Unit)?) {
+        this.tvRightOnClick = onClick
+    }
+
     fun setOnCenterClickListener(onClick: (() -> Unit)?) {
         this.llCenterOnClick = onClick
+    }
+
+    fun setLeftIcon(@DrawableRes res: Int) {
+        leftIc = ContextCompat.getDrawable(context, res)
+        this.ivLeft?.setImageDrawable(leftIc)
+    }
+
+    fun showRightText(isShown: Boolean) {
+        if (isShown) {
+            this.tvRight?.visibility = VISIBLE
+        } else {
+            this.tvRight?.visibility = GONE
+        }
+    }
+
+    fun setTextCenter(text: CharSequence?) {
+        centerTvContent = text
+        this.tvCenter?.text = centerTvContent
     }
 }

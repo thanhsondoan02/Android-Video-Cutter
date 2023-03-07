@@ -40,6 +40,19 @@
         <activity android:name=".MainActivity">
 
         </activity>
+
+        <activity
+            android:name=".presentation.cutvideo.CutVideoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.home.mystudio.MyStudioActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.home.preview.PreviewVideoActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

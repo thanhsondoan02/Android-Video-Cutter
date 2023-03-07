@@ -2,32 +2,29 @@
 <resources>
 
     <declare-styleable name="HeaderView">
-        <!--        left-->
-        <attr name="hv_left_ic" format="reference" />
 
+        <!--left-->
+        <attr name="hv_left_ic" format="reference" />
         <attr name="hv_left_tv_text" format="string" />
         <attr name="hv_left_tv_text_size" format="dimension" />
         <attr name="hv_left_tv_text_color" format="reference" />
         <attr name="hv_left_tv_margin" format="dimension" />
         <attr name="hv_left_tv_font_family" format="reference" />
 
-        <!--        center-->
+        <!--center-->
         <attr name="hv_center_ic" format="reference" />
-
         <attr name="hv_center_tv_text" format="string" />
         <attr name="hv_center_tv_text_size" format="dimension" />
         <attr name="hv_center_tv_text_color" format="reference" />
         <attr name="hv_center_tv_font_family" format="reference" />
 
-        <!--        right-->
+        <!--right-->
         <attr name="hv_right_ic" format="reference" />
-
         <attr name="hv_right_tv_text" format="string" />
         <attr name="hv_right_tv_text_size" format="dimension" />
         <attr name="hv_right_tv_text_color" format="reference" />
         <attr name="hv_right_tv_margin" format="dimension" />
         <attr name="hv_right_tv_font_family" format="reference" />
-        <attr name="hv_bottom_v_is_visible" format="boolean" />
 
     </declare-styleable>
 
