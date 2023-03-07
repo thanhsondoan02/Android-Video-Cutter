@@ -10,7 +10,6 @@ import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 
-
 class MyStudioAdapter: BaseAdapter() {
     companion object {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"

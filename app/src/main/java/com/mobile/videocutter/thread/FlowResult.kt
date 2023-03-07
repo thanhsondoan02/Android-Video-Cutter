@@ -39,4 +39,3 @@ class FlowResult<DATA> private constructor() : BaseUiState() {
         this.data = null
     }
 }
-
