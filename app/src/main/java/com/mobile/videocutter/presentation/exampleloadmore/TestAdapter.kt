@@ -1,10 +1,10 @@
-package com.mobile.videocutter
+package com.mobile.videocutter.presentation.exampleloadmore
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
+import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
-import com.mobile.videocutter.base.common.adapter.BaseDiffUtilItemCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.databinding.TestItemBinding
 
@@ -37,7 +37,7 @@ class TestAdapter : BaseAdapter() {
             val oldUser = (getOldItem(oldItemPosition) as? TestModel)
             val newUser = (getNewItem(newItemPosition) as? TestModel)
 
-            return oldUser?.text == newUser?.text
+            return oldUser?.hashCode() == newUser?.hashCode()
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

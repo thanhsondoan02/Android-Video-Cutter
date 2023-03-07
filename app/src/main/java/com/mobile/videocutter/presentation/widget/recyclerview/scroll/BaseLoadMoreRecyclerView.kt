@@ -8,13 +8,20 @@ abstract class BaseLoadMoreRecyclerView(
     private var layoutManager: RecyclerView.LayoutManager
 ) : RecyclerView.OnScrollListener() {
 
+    abstract fun onLoadMore()
     open val lastPage: Boolean = false
     open val isLoading: Boolean = false
 
-    abstract fun onLoadMore()
+
+    private var isScrollDown = false
+
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        isScrollDown = dy > 0
+    }
 
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-        if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+        if (newState == RecyclerView.SCROLL_STATE_SETTLING && isScrollDown) {
             val totalItemCount = layoutManager.itemCount
             var pastVisibleItems = 0
             when (layoutManager) {

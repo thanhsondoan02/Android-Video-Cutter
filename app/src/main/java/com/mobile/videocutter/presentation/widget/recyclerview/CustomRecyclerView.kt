@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import com.mobile.videocutter.presentation.widget.recyclerview.scroll.BaseLoadMo
 class CustomRecyclerView constructor(
     ctx: Context,
     attr: AttributeSet?
-) : RecyclerView(ctx, attr) {
+) : ConstraintLayout(ctx, attr) {
 
     private var rvList: RecyclerView? = null
     private var baseAdapter: BaseAdapter? = null
@@ -131,7 +132,6 @@ class CustomRecyclerView constructor(
             baseAdapter?.removeLoadMore()
         }
         hasLoadMore(hasLoadMore)
-        Log.d("tunglv", "submitList: ${newData?.size}")
         baseAdapter?.submitList(newData)
         if (newData != null) {
             if (newData.isEmpty()) {
