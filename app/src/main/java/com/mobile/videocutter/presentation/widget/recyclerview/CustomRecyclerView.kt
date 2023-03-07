@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation.widget.recyclerview
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,34 +28,8 @@ class CustomRecyclerView constructor(
     private var layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL
 
     init {
-        LayoutInflater.from(ctx).inflate(R.layout.custom_recycler_view_layout, this, true)
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-
-        // ánh xạ view
-        rvList = findViewById(R.id.rvCustom)
-        addLayoutManager()
-
-        baseLoadMoreRecyclerView = object : BaseLoadMoreRecyclerView(rvList?.layoutManager!!) {
-
-            override val lastPage: Boolean
-                get() = this@CustomRecyclerView.isLastPage
-
-            override val isLoading: Boolean
-                get() = this@CustomRecyclerView.isLoading
-
-            override fun onLoadMore() {
-                baseAdapter?.makeLoadMore()
-                onLoadMore?.invoke()
-                this@CustomRecyclerView.isLoading = true
-            }
-        }
-
-        baseLoadMoreRecyclerView?.let {
-            rvList?.addOnScrollListener(it)
-        }
+        LayoutInflater.from(context).inflate(R.layout.custom_recycler_view_layout, this, true)
+        initView(attr)
     }
 
     private fun addLayoutManager() {
@@ -70,7 +45,17 @@ class CustomRecyclerView constructor(
             LAYOUT_MANAGER_MODE.GRID -> {
                 getGridLayoutManager()
             }
+            else -> {
+                getLinearLayoutManagerVertical()
+            }
         }
+    }
+
+    private fun initView(attr: AttributeSet?) {
+        // ánh xạ view
+        rvList = findViewById(R.id.rvCustom)
+        setLayoutManagerMode()
+        addLayoutManager()
     }
 
     private fun getLinearLayoutManagerVertical(): RecyclerView.LayoutManager {
@@ -110,22 +95,24 @@ class CustomRecyclerView constructor(
         return spanCount
     }
 
+    private fun hasLoadMore(isLoadMore: Boolean) {
+        this@CustomRecyclerView.isLastPage = !isLoadMore
+    }
+
     fun setAdapter(baseAdapter: BaseAdapter) {
         this.baseAdapter = baseAdapter
+        rvList?.adapter = baseAdapter
     }
 
     fun setAdapter(baseGridAdapter: BaseGridAdapter) {
         this.baseAdapter = baseGridAdapter
-    }
-
-    private fun hasLoadMore(isLoadMore: Boolean) {
-        this@CustomRecyclerView.isLastPage = !isLoadMore
+        rvList?.adapter = baseGridAdapter
     }
 
     /**
      * để set recyclerview theo chiều nào
      */
-    fun setLayoutManagerMode(layoutManagerMode: LAYOUT_MANAGER_MODE) {
+    fun setLayoutManagerMode(layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL) {
         this.layoutManagerMode = layoutManagerMode
     }
 
@@ -138,13 +125,13 @@ class CustomRecyclerView constructor(
         baseAdapter?.removeLoading()
     }
 
-    fun submitList(newData: List<Any>? = null, hasLoadMore: Boolean = true) {
+    fun submitList(newData: List<Any>? = null, hasLoadMore: Boolean = false) {
         hideLoading()
         if (baseAdapter != null && baseAdapter!!.dataList.isNotEmpty()) {
             baseAdapter?.removeLoadMore()
         }
         hasLoadMore(hasLoadMore)
-
+        Log.d("tunglv", "submitList: ${newData?.size}")
         baseAdapter?.submitList(newData)
         if (newData != null) {
             if (newData.isEmpty()) {
@@ -155,4 +142,31 @@ class CustomRecyclerView constructor(
         }
         this.isLoading = false
     }
+
+    fun setLoadMore(onClick: (() -> Unit)?) {
+        onLoadMore = onClick
+
+        baseLoadMoreRecyclerView = object : BaseLoadMoreRecyclerView(rvList?.layoutManager!!) {
+
+            override val lastPage: Boolean
+                get() = this@CustomRecyclerView.isLastPage
+
+            override val isLoading: Boolean
+                get() = this@CustomRecyclerView.isLoading
+
+            override fun onLoadMore() {
+                baseAdapter?.makeLoadMore()
+                onLoadMore?.invoke()
+                this@CustomRecyclerView.isLoading = true
+            }
+        }
+
+        baseLoadMoreRecyclerView?.let {
+            rvList?.addOnScrollListener(it)
+        }
+    }
+
+    fun getCountData() = baseAdapter?.itemCount
+
+
 }
