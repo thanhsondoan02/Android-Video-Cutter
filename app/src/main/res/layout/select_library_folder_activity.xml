@@ -11,15 +11,18 @@
             android:id="@+id/hvLibraryFolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hv_left_ic="@drawable/ic_black_back"
-            app:hv_center_tv_text="Library"
             app:hv_center_ic="@drawable/ic_black_up"
-            app:hv_right_ic="@drawable/ic_black_camera"/>
+            app:hv_center_tv_font_family="@font/font_bold"
+            app:hv_center_tv_text="Library"
+            app:hv_center_tv_text_color="@color/color_black_87"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_ic="@drawable/ic_black_camera" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLibraryFolder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/dimen_16" />
     </LinearLayout>
 
 </layout>

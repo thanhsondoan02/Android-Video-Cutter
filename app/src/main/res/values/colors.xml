@@ -14,4 +14,6 @@
     <color name="color_purple">#6F4FEE</color>
     <color name="color_purple_38">#616F4FEE</color>
     <color name="color_red_50">#FF4545</color>
+    <color name="color_black_54">#8A000000</color>
+    <color name="color_black_87">#DE000000</color>
 </resources>
