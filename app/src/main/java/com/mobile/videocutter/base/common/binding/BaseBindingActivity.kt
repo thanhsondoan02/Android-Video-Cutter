@@ -9,23 +9,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.mobile.videocutter.base.common.BaseView
 
 /**
  * cần thêm thẻ layout vào file xml
  */
-abstract class BaseBindingActivity<DB : ViewDataBinding>(layoutId: Int) : BaseActivity(layoutId),
-    BaseView {
+abstract class BaseBindingActivity<DB : ViewDataBinding>(layoutId: Int) : BaseActivity(layoutId) {
 
     protected val binding
         get() = _binding!!
     private var _binding: DB? = null
 
     protected var initSetFullScreen = false
-
-    init {
-
-    }
 
     //region lifecycle
     override fun onDestroy() {
