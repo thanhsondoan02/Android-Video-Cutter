@@ -12,10 +12,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowInsets
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.FontRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.mobile.videocutter.presentation.widget.DEFAULT_DEBOUNCE_INTERVAL
@@ -122,6 +119,13 @@ fun getAppColor(
     return context?.let {
         ContextCompat.getColor(it, colorRes)
     } ?: Color.TRANSPARENT
+}
+
+fun getAppDimension(
+    @DimenRes dimenId: Int,
+    context: Context? = getApplication()
+): Float {
+    return context?.resources?.getDimension(dimenId) ?: -1f
 }
 
 fun Activity.getScreenHeight(): Int {
