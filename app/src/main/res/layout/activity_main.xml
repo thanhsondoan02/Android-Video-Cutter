@@ -6,17 +6,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".presentation.MainActivity">
 
-        <com.mobile.videocutter.presentation.widget.HeaderView
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:hv_center_ic="@drawable/ic_black_up"
-            app:hv_center_tv_text="ajcfa"
-            app:hv_left_ic="@drawable/ic_black_up"
-            app:hv_left_tv_text="sdsadsa"
-            app:hv_right_ic="@drawable/ic_black_up"
-            app:hv_right_tv_text="jhgh" />
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

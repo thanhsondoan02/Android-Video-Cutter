@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.home.mystudio.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.mobile.videocutter.presentation.widget.HeaderView
+                android:id="@+id/hvMyStudioHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hv_center_tv_font_family="@font/font_bold"
+                app:hv_center_tv_text="@string/my_studio"
+                app:hv_center_tv_text_color="@color/black"
+                app:hv_center_tv_text_size="@dimen/dimen_text_size_18"
+                app:hv_left_ic="@drawable/ic_black_back"
+                app:hv_right_tv_font_family="@font/font_semibold"
+                app:hv_right_tv_margin="@dimen/dimen_16"
+                app:hv_right_tv_text="@string/select"
+                app:hv_right_tv_text_color="@color/color_purple"
+                app:hv_right_tv_text_size="@dimen/dimen_text_size_18" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyStudioVideoList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dimen_4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMyStudioBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_gravity="bottom"
+            android:background="@color/white">
+
+            <FrameLayout
+                android:id="@+id/flMyStudioSave"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMyStudioSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_black_save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ivMyStudioDelete"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/flMyStudioDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMyStudioDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_black_delete_item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivMyStudioSave"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>
