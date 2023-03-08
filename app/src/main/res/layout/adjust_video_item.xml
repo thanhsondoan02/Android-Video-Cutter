@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mcvMyStudioVideoItmRoot"
+            android:id="@+id/mcvAdjustVideoItmRoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_10"
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivMyStudioVideoItmImage"
+                    android:id="@+id/ivAdjustVideoItmImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -32,55 +32,44 @@
                     tools:src="@tools:sample/avatars" />
 
                 <View
-                    android:id="@+id/vMyStudioVideoItmInvisibleLine"
+                    android:id="@+id/vAdjustVideoItmInvisibleLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="@dimen/dimen_6"
-                    app:layout_constraintBottom_toTopOf="@id/tvMyStudioVideoItmDuration" />
+                    app:layout_constraintBottom_toTopOf="@id/tvAdjustVideoItmDuration" />
 
                 <View
-                    android:id="@+id/vMyStudioVideoItmBlackBlur"
+                    android:id="@+id/vAdjustVideoItmBlackBlur"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/shape_black_blur"
-                    app:layout_constraintBottom_toBottomOf="@id/ivMyStudioVideoItmImage"
-                    app:layout_constraintTop_toBottomOf="@id/vMyStudioVideoItmInvisibleLine" />
+                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
+                    app:layout_constraintTop_toBottomOf="@id/vAdjustVideoItmInvisibleLine" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvMyStudioVideoItmDuration"
+                    android:id="@+id/tvAdjustVideoItmDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen_6"
                     android:layout_marginBottom="@dimen/dimen_6"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/ivMyStudioVideoItmImage"
-                    app:layout_constraintEnd_toEndOf="@id/ivMyStudioVideoItmImage"
+                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
+                    app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
                     tools:text="00:22" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivMyStudioVideoItmSelected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_10"
-                    android:src="@drawable/ic_select_item"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/ivMyStudioVideoItmImage"
-                    app:layout_constraintTop_toTopOf="@id/ivMyStudioVideoItmImage" />
+                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
+                    app:layout_constraintTop_toTopOf="@id/ivAdjustVideoItmImage" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
-            android:id="@+id/ivMyStudioDelete"
+            android:id="@+id/ivAdjustDeleteItm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_4"
