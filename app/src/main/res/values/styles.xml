@@ -2,32 +2,43 @@
 <resources>
 
     <declare-styleable name="HeaderView">
-<!--        left-->
+        <!--        left-->
         <attr name="hv_left_ic" format="reference" />
 
-        <attr name="hv_left_tv_text" format="string"/>
-        <attr name="hv_left_tv_text_size" format="dimension"/>
-        <attr name="hv_left_tv_text_color" format="reference"/>
-        <attr name="hv_left_tv_margin" format="dimension"/>
-        <attr name="hv_left_tv_font_family" format="reference"/>
-        
-<!--        center-->
-        <attr name="hv_center_ic" format="reference"/>
+        <attr name="hv_left_tv_text" format="string" />
+        <attr name="hv_left_tv_text_size" format="dimension" />
+        <attr name="hv_left_tv_text_color" format="reference" />
+        <attr name="hv_left_tv_margin" format="dimension" />
+        <attr name="hv_left_tv_font_family" format="reference" />
 
-        <attr name="hv_center_tv_text" format="string"/>
-        <attr name="hv_center_tv_text_size" format="dimension"/>
-        <attr name="hv_center_tv_text_color" format="reference"/>
-        <attr name="hv_center_tv_font_family" format="reference"/>
+        <!--        center-->
+        <attr name="hv_center_ic" format="reference" />
 
-<!--        right-->
-        <attr name="hv_right_ic" format="reference"/>
+        <attr name="hv_center_tv_text" format="string" />
+        <attr name="hv_center_tv_text_size" format="dimension" />
+        <attr name="hv_center_tv_text_color" format="reference" />
+        <attr name="hv_center_tv_font_family" format="reference" />
 
-        <attr name="hv_right_tv_text" format="string"/>
-        <attr name="hv_right_tv_text_size" format="dimension"/>
-        <attr name="hv_right_tv_text_color" format="reference"/>
-        <attr name="hv_right_tv_margin" format="dimension"/>
-        <attr name="hv_right_tv_font_family" format="reference"/>
+        <!--        right-->
+        <attr name="hv_right_ic" format="reference" />
 
+        <attr name="hv_right_tv_text" format="string" />
+        <attr name="hv_right_tv_text_size" format="dimension" />
+        <attr name="hv_right_tv_text_color" format="reference" />
+        <attr name="hv_right_tv_margin" format="dimension" />
+        <attr name="hv_right_tv_font_family" format="reference" />
+
+    </declare-styleable>
+
+    <declare-styleable name="VideoPlayerControl">
+        <attr name="vpc_left_icon" format="reference" />
+        <attr name="vpc_show_left_icon" format="boolean" />
+        <attr name="vpc_show_left_text" format="boolean" />
+        <attr name="vpc_left_text" format="string" />
+        <attr name="vpc_seekbar" format="reference" />
+        <attr name="vpc_show_seekbar" format="boolean" />
+        <attr name="vpc_show_right_text" format="boolean" />
+        <attr name="vpc_right_text" format="string" />
     </declare-styleable>
 
 </resources>

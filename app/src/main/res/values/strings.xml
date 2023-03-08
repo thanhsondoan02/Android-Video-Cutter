@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Video Cutter</string>
+
+    // Adjust
+    <string name="adjust_seeking_video">00:32</string>
+    <string name="adjust_duration_video">01:09</string>
 </resources>
