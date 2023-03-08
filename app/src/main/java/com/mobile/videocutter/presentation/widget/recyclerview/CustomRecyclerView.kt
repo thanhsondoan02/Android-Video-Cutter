@@ -22,7 +22,6 @@ class CustomRecyclerView constructor(
     private var baseLoadMoreRecyclerView: BaseLoadMoreRecyclerView? = null
     private var onLoadMore: (() -> Unit)? = null
 
-    private var isLoading: Boolean = false
     private var isLastPage: Boolean = false
     private var maxItemHorizontal: Int = 2
     private var layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL
@@ -139,7 +138,6 @@ class CustomRecyclerView constructor(
         } else {
             baseAdapter?.makeLoading()
         }
-        this.isLoading = false
     }
 
     fun setLoadMore(onClick: (() -> Unit)?) {
@@ -150,13 +148,9 @@ class CustomRecyclerView constructor(
             override val lastPage: Boolean
                 get() = this@CustomRecyclerView.isLastPage
 
-            override val isLoading: Boolean
-                get() = this@CustomRecyclerView.isLoading
-
             override fun onLoadMore() {
                 baseAdapter?.makeLoadMore()
                 onLoadMore?.invoke()
-                this@CustomRecyclerView.isLoading = true
             }
         }
 
