@@ -43,7 +43,7 @@ class VideoPlayerControl constructor(
     private var isShowRightText: Boolean = false
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.video_player_control, this, true)
+        LayoutInflater.from(context).inflate(R.layout.video_player_control_layout, this, true)
         initView(attrs)
     }
 
@@ -184,20 +184,20 @@ class VideoPlayerControl constructor(
             leftIcon = ta.getDrawable(R.styleable.VideoPlayerControl_vpc_left_icon)
         }
 
-        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_show_left_icon)) {
-            isShowLeftIcon = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_show_left_icon, true)
+        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_left_icon_show)) {
+            isShowLeftIcon = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_left_icon_show, true)
         }
 
         if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_left_text)) {
             leftText = ta.getString(R.styleable.VideoPlayerControl_vpc_left_text)
         }
 
-        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_show_left_text)) {
-            isShowLeftText = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_show_left_text, true)
+        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_left_text_show)) {
+            isShowLeftText = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_left_text_show, true)
         }
 
-        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_show_seekbar)) {
-            isShowSeekBar = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_show_seekbar, true)
+        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_seekbar_show)) {
+            isShowSeekBar = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_seekbar_show, true)
         }
 
         //right
@@ -205,8 +205,8 @@ class VideoPlayerControl constructor(
             rightText = ta.getString(R.styleable.VideoPlayerControl_vpc_right_text)
         }
 
-        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_show_right_text)) {
-            isShowRightText = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_show_right_text, true)
+        if (ta.hasValue(R.styleable.VideoPlayerControl_vpc_right_text_show)) {
+            isShowRightText = ta.getBoolean(R.styleable.VideoPlayerControl_vpc_right_text_show, true)
         }
 
         ta.recycle()

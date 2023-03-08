@@ -36,12 +36,12 @@
 
     <declare-styleable name="VideoPlayerControl">
         <attr name="vpc_left_icon" format="reference" />
-        <attr name="vpc_show_left_icon" format="boolean" />
-        <attr name="vpc_show_left_text" format="boolean" />
+        <attr name="vpc_left_icon_show" format="boolean" />
+        <attr name="vpc_left_text_show" format="boolean" />
         <attr name="vpc_left_text" format="string" />
         <attr name="vpc_seekbar" format="reference" />
-        <attr name="vpc_show_seekbar" format="boolean" />
-        <attr name="vpc_show_right_text" format="boolean" />
+        <attr name="vpc_seekbar_show" format="boolean" />
+        <attr name="vpc_right_text_show" format="boolean" />
         <attr name="vpc_right_text" format="string" />
     </declare-styleable>
 

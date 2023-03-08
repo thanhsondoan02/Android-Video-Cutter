@@ -9,7 +9,7 @@
         android:id="@+id/ivVideoPlayerControlLeftIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="@dimen/dimen_24"
         android:paddingVertical="@dimen/dimen_12"
         android:src="@drawable/ic_black_pause_video"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,12 +20,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_16"
-        android:text="@string/adjust_seeking_video"
-        android:textColor="@color/color_black_text_21"
+        android:textColor="@color/color_black_player"
         android:textSize="@dimen/dimen_text_size_14"
         app:layout_constraintBottom_toBottomOf="@id/ivVideoPlayerControlLeftIcon"
         app:layout_constraintStart_toEndOf="@id/ivVideoPlayerControlLeftIcon"
-        app:layout_constraintTop_toTopOf="@id/ivVideoPlayerControlLeftIcon" />
+        app:layout_constraintTop_toTopOf="@id/ivVideoPlayerControlLeftIcon"
+        tools:text="0:32" />
 
     <SeekBar
         android:id="@+id/sbVideoPlayerControlSeekBar"
@@ -36,8 +36,8 @@
         android:maxHeight="@dimen/dimen_2"
         android:paddingHorizontal="@dimen/dimen_16"
         android:progress="46"
-        android:progressDrawable="@drawable/seekbar_custom_style"
-        android:thumb="@drawable/seekbar_custom_thumb"
+        android:progressDrawable="@drawable/shape_grayplayer_bg_blackplayer_progress"
+        android:thumb="@drawable/shape_oval_blackplayer_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvVideoPlayerControlRightText"
         app:layout_constraintStart_toEndOf="@id/tvVideoPlayerControlLeftText"
@@ -50,10 +50,10 @@
         android:layout_marginEnd="@dimen/dimen_18"
         android:gravity="center"
         android:paddingVertical="@dimen/dimen_12"
-        android:text="@string/adjust_duration_video"
         android:textSize="@dimen/dimen_text_size_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:textColor="@color/color_black_text_21" />
+        tools:text="01:09"
+        tools:textColor="@color/color_black_player" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
