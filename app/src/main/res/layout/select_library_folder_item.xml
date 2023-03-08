@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_default" />
+                android:src="@drawable/ic_default_null_image_album" />
 
         </androidx.cardview.widget.CardView>
 

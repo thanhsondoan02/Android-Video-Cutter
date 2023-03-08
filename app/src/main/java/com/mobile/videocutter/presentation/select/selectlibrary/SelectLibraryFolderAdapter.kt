@@ -11,7 +11,6 @@ import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SelectLibraryFolderItemBinding
 
-@Suppress("DEPRECATION")
 class SelectLibraryFolderAdapter() : BaseAdapter() {
 
     var albumListener: IAlbumListener? = null
@@ -27,7 +26,7 @@ class SelectLibraryFolderAdapter() : BaseAdapter() {
             binding.constSelectLibFolderItm.setOnSafeClick {
                 var item = getDataAtPosition(adapterPosition)
                 (item as? Album)?.let {
-                    albumListener?.onClickAlbum(it.idAlbum, it.nameAlbum)
+                    it.idAlbum?.let { it1 -> it.nameAlbum?.let { it2 -> albumListener?.onClickAlbum(it1, it2) } }
                 }
             }
         }
@@ -36,10 +35,10 @@ class SelectLibraryFolderAdapter() : BaseAdapter() {
             super.onBind(data)
             Glide.with(binding.root.context)
                 .load(Uri.parse(data.coverUriAlbum.toString()))
-                .placeholder(R.drawable.ic_default)
-                .into(binding.ivSelectLibFolderItmBackGround)
-            binding.tvSelectLibFolderItmName.text = data.nameAlbum
-            binding.tvSelectLibFolderItmCount.text = "(${data.countAlbum})"
+                .placeholder(R.drawable.ic_default_null_image_album)
+                .into(binding.ivSelectLibraryFolderItmBackGround)
+            binding.tvSelectLibraryFolderItmName.text = data.nameAlbum
+            binding.tvSelectLibraryFolderItmCount.text = "(${data.countAlbum})"
         }
     }
 

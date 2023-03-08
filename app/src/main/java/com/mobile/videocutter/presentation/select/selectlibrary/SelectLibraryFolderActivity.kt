@@ -19,18 +19,26 @@ import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivit
 
 class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActivityBinding>(R.layout.select_library_folder_activity) {
 
-    private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 100
     private var selectLibFolderAdapter: SelectLibraryFolderAdapter = SelectLibraryFolderAdapter()
 
     override fun onInitView() {
         super.onInitView()
-        binding.hvLibraryFolder.setVisibleViewUnderLine(false)
+        binding.hvSelectLibraryFolder.setVisibleViewUnderLine(false)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this,
+            doRequestPermission(
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
+                object : PermissionListener {
+                    override fun onAllow() {
+                        loadAlbums()
+                        initListener()
+                    }
+
+                    override fun onDenied(neverAskAgainPermissionList: List<String>) {
+                        TODO("Not yet implemented")
+                    }
+                })
         } else {
             loadAlbums()
             initListener()
@@ -38,8 +46,8 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
     }
 
     private fun loadAlbums() {
-        binding.rvLibraryFolder.layoutManager = LinearLayoutManager(baseContext)
-        binding.rvLibraryFolder.adapter = selectLibFolderAdapter
+        binding.rvSelectLibraryFolder.layoutManager = LinearLayoutManager(baseContext)
+        binding.rvSelectLibraryFolder.adapter = selectLibFolderAdapter
         val projection = arrayOf(
             MediaStore.Video.Media._ID,
             MediaStore.Video.Media.BUCKET_ID,
