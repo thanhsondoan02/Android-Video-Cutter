@@ -7,7 +7,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 
 import com.mobile.videocutter.base.common.adapter.BaseVH
-import com.mobile.videocutter.base.common.model.Album
+import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SelectLibraryFolderItemBinding
 

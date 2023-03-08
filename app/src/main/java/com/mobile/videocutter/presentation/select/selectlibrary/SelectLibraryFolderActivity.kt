@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
-import com.mobile.videocutter.base.common.model.Album
+import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.databinding.SelectLibraryFolderActivityBinding
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
 
