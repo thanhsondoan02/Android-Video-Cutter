@@ -20,7 +20,7 @@
         android:theme="@style/Theme.VideoCutter"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.selectlibrary.SelectLibraryFolderActivity"
+            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +47,9 @@
 
         <activity
             android:name=".presentation.home.preview.PreviewVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.select.selectvideo.SelectVideoActivity"
             android:exported="false" />
 
     </application>

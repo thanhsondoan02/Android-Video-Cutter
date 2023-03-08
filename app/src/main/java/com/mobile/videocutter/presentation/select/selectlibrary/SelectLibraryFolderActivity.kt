@@ -1,9 +1,9 @@
-package com.mobile.videocutter.presentation.selectlibrary
+package com.mobile.videocutter.presentation.select.selectlibrary
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
@@ -15,10 +15,13 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.common.model.Album
 import com.mobile.videocutter.databinding.SelectLibraryFolderActivityBinding
+import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
 
 class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActivityBinding>(R.layout.select_library_folder_activity) {
+
     private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 100
     private var selectLibFolderAdapter: SelectLibraryFolderAdapter = SelectLibraryFolderAdapter()
+
     override fun onInitView() {
         super.onInitView()
         binding.hvLibraryFolder.setVisibleViewUnderLine(false)
@@ -30,6 +33,7 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
                 PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
         } else {
             loadAlbums()
+            initListener()
         }
     }
 
@@ -119,5 +123,16 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
         }
         cursor?.close()
         return coverUri
+    }
+
+    private fun initListener() {
+        selectLibFolderAdapter.albumListener = object : SelectLibraryFolderAdapter.IAlbumListener {
+            override fun onClickAlbum(idAlbum: Long, nameAlbum: String) {
+                val intent = Intent(this@SelectLibraryFolderActivity, SelectVideoActivity::class.java)
+                intent.putExtra("idAlbum", idAlbum.toString())
+                intent.putExtra("nameAlbum", nameAlbum)
+                startActivity(intent)
+            }
+        }
     }
 }
