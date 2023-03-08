@@ -37,7 +37,7 @@
         android:paddingHorizontal="@dimen/dimen_16"
         android:progress="46"
         android:progressDrawable="@drawable/selector_gray_player_bg_black_player_progress_corner_4"
-        android:thumb="@drawable/shape_oval_blackplayer_bg_size10"
+        android:thumb="@drawable/shape_oval_black_player_bg_size10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvVideoPlayerControlRightText"
         app:layout_constraintStart_toEndOf="@id/tvVideoPlayerControlLeftText"
