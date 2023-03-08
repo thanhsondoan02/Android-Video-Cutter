@@ -37,4 +37,9 @@
 
     </declare-styleable>
 
+    <!--ShapeableImageView-->
+    <style name="roundedCorner">
+        <item name="cornerSize">@dimen/dimen_8</item>
+    </style>
+
 </resources>
