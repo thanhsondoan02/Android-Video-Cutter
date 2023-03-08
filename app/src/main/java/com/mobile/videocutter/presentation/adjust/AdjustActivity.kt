@@ -66,7 +66,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
         super.onObserverViewModel()
 
         lifecycleScope.launchWhenResumed {
-            viewModel._localVideoAdjust.collect {
+            viewModel.localVideoAdjust.collect {
                 binding.crvAdjust.submitList(it)
             }
         }

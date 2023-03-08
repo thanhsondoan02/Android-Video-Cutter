@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class AdjustViewModel : BaseViewModel() {
 
-    var _localVideoAdjust = MutableStateFlow<MutableList<Any>>(arrayListOf())
+    private var _localVideoAdjust = MutableStateFlow<MutableList<Any>>(arrayListOf())
     val localVideoAdjust = _localVideoAdjust.asStateFlow()
 
     init {
