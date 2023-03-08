@@ -26,8 +26,8 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
         binding.rv.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_VERTICAL)
 
         binding.rv.setLoadMore {
+            Log.d(TAG, "onInitView: FGHJKLOKJNB BNKL:LKNBNJKL:LMN ")
             viewModel.fakeData()
-            viewModel.reser()
         }
     }
 
@@ -36,11 +36,10 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
 
         lifecycleScope.launchWhenResumed {
             viewModel.observerData.collect {
-                Log.d(TAG, "onInitView: ${it?.size}")
-                if (it != null) {
-                    binding.rv.submitList(it as List<TestAdapter.TestModel>, viewModel.dataPage.hasLoadMore())
+                Log.d(TAG, "onInitView: ${it.data?.dataList?.size}")
+                if (it.data != null) {
+                    binding.rv.submitList(it.data?.dataList as List<TestAdapter.TestModel>, viewModel.dataPage.hasLoadMore())
                 }
-
             }
         }
 
