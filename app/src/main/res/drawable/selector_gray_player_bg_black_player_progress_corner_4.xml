@@ -4,7 +4,7 @@
     <item android:id="@+id/ISeekBarBackground">
 
         <shape>
-            <corners android:radius="@dimen/dimen_4" />
+            <corners android:radius="@dimen/dimen_corner_4" />
             <size android:height="@dimen/dimen_2" />
             <solid android:color="@color/color_gray_player" />
         </shape>
@@ -16,7 +16,7 @@
         <clip>
 
             <shape android:shape="rectangle">
-                <corners android:radius="@dimen/dimen_4" />
+                <corners android:radius="@dimen/dimen_corner_4" />
                 <size android:height="@dimen/dimen_2" />
                 <solid android:color="@color/color_black_player" />
             </shape>
