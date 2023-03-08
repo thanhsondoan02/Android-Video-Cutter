@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--HeaderView-->
     <declare-styleable name="HeaderView">
 
         <!--left-->
@@ -25,6 +26,11 @@
         <attr name="hv_right_tv_text_color" format="reference" />
         <attr name="hv_right_tv_margin" format="dimension" />
         <attr name="hv_right_tv_font_family" format="reference" />
+
+    </declare-styleable>
+
+    <!--Custom RecyclerView-->
+    <declare-styleable name="CustomRecyclerView">
 
     </declare-styleable>
 
