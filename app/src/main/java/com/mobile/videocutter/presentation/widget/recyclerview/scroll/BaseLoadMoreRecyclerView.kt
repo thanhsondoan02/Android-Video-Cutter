@@ -10,7 +10,6 @@ abstract class BaseLoadMoreRecyclerView(
 
     abstract fun onLoadMore()
     open val lastPage: Boolean = false
-    open val isLoading: Boolean = false
 
     private var isScrollDown = false
 
@@ -30,7 +29,7 @@ abstract class BaseLoadMoreRecyclerView(
                     pastVisibleItems = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
             }
 
-            if (!isLoading && totalItemCount > 0) {
+            if (totalItemCount > 0) {
                 if (pastVisibleItems == totalItemCount - 1 && !lastPage) {
                     onLoadMore()
                 }

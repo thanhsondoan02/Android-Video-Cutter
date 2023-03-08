@@ -1,8 +1,9 @@
 package com.mobile.videocutter.presentation.widget.recyclerview
 
+import android.util.Log
 import com.mobile.videocutter.AppConfig
 
-class DataPage {
+class DataPage<DATA> {
 
     private val limit = AppConfig.ITEM_SIZE
 
@@ -11,7 +12,7 @@ class DataPage {
 
     private var isLoadMore: Boolean = false
 
-    var dataList: MutableList<Any> = arrayListOf()
+    var dataList: MutableList<DATA> = arrayListOf()
 
     fun reset() {
         this.nextPage = 0
@@ -19,7 +20,7 @@ class DataPage {
         this.dataList.clear()
     }
 
-    fun addList(list: List<Any>?) {
+    fun addList(list: List<DATA>?) {
         if (list != null) {
             if (list.size > limit) {
                 if (nextPage * limit <= list.size) {
