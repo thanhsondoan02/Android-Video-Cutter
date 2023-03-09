@@ -35,7 +35,7 @@ class SelectLibraryFolderAdapter() : BaseAdapter() {
         override fun onBind(data: Album) {
             super.onBind(data)
             Glide.with(binding.root.context)
-                .load(Uri.parse(data.coverUriAlbum.toString()))
+                .load(data.coverUriAlbum)
                 .placeholder(R.drawable.ic_default)
                 .into(binding.ivSelectLibFolderItmBackGround)
             binding.tvSelectLibFolderItmName.text = data.nameAlbum
