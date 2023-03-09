@@ -1,5 +1,9 @@
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
+import com.mobile.videocutter.R
+import com.mobile.videocutter.base.common.loader.LoaderFactory
+import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.presentation.widget.recyclerview.DataPage
 import com.mobile.videocutter.thread.FlowResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,4 +34,21 @@ fun <T> getDataPage(dataPage: DataPage<T>?): DataPage<T> {
         _dataPage = DataPage()
     }
     return _dataPage
+}
+
+fun ImageView.loadImage(
+    uri: Uri?,
+    ignoreCache: Boolean = false,
+    placeHolder: Drawable? = getPlaceHolderDefault()
+) {
+    LoaderFactory.glide().loadImage(
+        view = this,
+        uri = uri,
+        placeHolder = placeHolder,
+        ignoreCache = ignoreCache
+    )
+}
+
+private fun getPlaceHolderDefault(): Drawable? {
+    return getAppDrawable(R.drawable.ic_placeholder)
 }
