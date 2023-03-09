@@ -11,7 +11,6 @@ import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SelectLibraryFolderItemBinding
 
-@Suppress("DEPRECATION")
 class SelectLibraryFolderAdapter : BaseAdapter() {
 
     var albumListener: IAlbumListener? = null
