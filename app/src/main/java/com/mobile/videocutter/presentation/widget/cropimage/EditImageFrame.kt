@@ -5,16 +5,28 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
 import com.mobile.videocutter.util.UtilPaint
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, attr) {
 
     private val TAG = "EditImageFrame"
+
+    companion object {
+        private const val URL_IMAGE_DEFAULT = "https://cdn.vjshop.vn/tin-tuc/do-phan-giai-8k-la-gi/8k-la-gi-7.png"
+    }
 
     private val paintShape = UtilPaint().getPaintStroke().apply {
         this.color = getAppColor(R.color.white)
@@ -42,8 +54,8 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         inJustDecodeBounds = true
     }
 
-    private var source = R.drawable.img_gray_no_data
-    private var srcImage = BitmapFactory.decodeResource(resources, source)
+    private var source: String = URL_IMAGE_DEFAULT
+    private var srcImage: Bitmap? = null
     private var destImage: Bitmap? = null
 
     private var wightImage = 0f
@@ -103,9 +115,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private var linesBottomRight = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
 
     init {
-        // khởi tạo để lấy chiều cao và chiều rộng của ảnh thật thông qua option
-        // với inJustDecodeBounds = true sẽ trả về giá trị gốc và bitmap sẽ bằng null
-        BitmapFactory.decodeResource(resources, R.drawable.img_gray_no_data, option)
+        setResource(null)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -138,7 +148,9 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         // tạo ra một bản sao của bit map với các tỷ lệ mong muốn
-        destImage = Bitmap.createScaledBitmap(srcImage, wightImage.toInt(), heightImage.toInt(), true)
+        if (srcImage != null) {
+            destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightImage.toInt(), true)
+        }
 
         rectFBackground = RectF(0f, 0f, widthParent, heightParent)
     }
@@ -154,7 +166,9 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         canvas?.apply {
             // vẽ ảnh
-            drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+            if (destImage != null) {
+                drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+            }
 
             // vẽ lớp phủ lên ảnh
             drawRect(rectFBackground!!, paintBackground)
@@ -163,7 +177,9 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             clipRect(pos1X, pos1Y, pos2X, pos2Y)
 
             // vẽ lại ảnh đã cắt bởi clipRect
-            drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+            if (destImage != null) {
+                drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+            }
 
             // vẽ thêm các chi tiết cho hình chữ nhật đã cắt
             drawRect(pos1X, pos1Y, pos2X, pos2Y, paintShape)
@@ -290,6 +306,62 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             }
             else -> false
         }
+    }
+
+    fun setResource(url: String?) {
+        if (url != null) {
+            source = url
+        }
+
+        srcImage = getBitmapFromURL(source)
+
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>() {
+
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    wightImage = resource.width.toFloat()
+                    heightImage = resource.height.toFloat()
+                    Log.d(TAG, "setResource: $wightImage - $heightImage")
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+
+                }
+            });
+
+
+
+    }
+
+    private fun getBitmapFromURL(src: String?): Bitmap? {
+        var bitmap: Bitmap? = null
+        val thread = Thread {
+            try {
+                val url = URL(src)
+                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.connect()
+                val input: InputStream = connection.inputStream
+                bitmap = BitmapFactory.decodeStream(input)
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                bitmap = null
+            }
+        }
+        thread.start()
+        thread.join()
+        return bitmap
+    }
+
+    private fun getImageDimensions(imagePath: String?): IntArray {
+        // khởi tạo để lấy chiều cao và chiều rộng của ảnh thật thông qua option
+        // với inJustDecodeBounds = true sẽ trả về giá trị gốc và bitmap sẽ bằng null
+        BitmapFactory.decodeFile(imagePath, option)
+        val imageHeight = option.outHeight
+        val imageWidth = option.outWidth
+        return intArrayOf(imageWidth, imageHeight)
     }
 
     private fun isMove(): Boolean {

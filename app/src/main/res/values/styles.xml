@@ -51,11 +51,4 @@
 
     </declare-styleable>
 
-    <!-- Edit Image-->
-    <declare-styleable name="EditImageFrame">
-
-        <attr name="eif_src" format="reference"/>
-
-    </declare-styleable>
-
 </resources>
