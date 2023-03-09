@@ -28,8 +28,8 @@
         <activity
             android:name=".presentation.MainActivity"
             android:exported="false">
-
         </activity>
+
         <activity
             android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />

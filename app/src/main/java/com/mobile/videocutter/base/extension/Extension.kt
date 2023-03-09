@@ -1,5 +1,4 @@
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.widget.ImageView
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -42,7 +41,7 @@ fun <T> getDataPage(dataPage: DataPage<T>?): DataPage<T> {
 }
 
 fun ImageView.loadImage(
-    uri: Uri?,
+    uri: String?,
     ignoreCache: Boolean = false,
     placeHolder: Drawable? = getPlaceHolderDefault()
 ) {

@@ -35,8 +35,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             )
 
             getAppDrawable(R.drawable.shape_bg_purple_corner_6)?.let { setBackgroundTextViewRight(it) }
-
-            setVisibleViewUnderLine(false)
         }
 
         binding.crvAdjust.apply {

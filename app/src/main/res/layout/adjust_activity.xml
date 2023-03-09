@@ -21,11 +21,11 @@
         <com.google.android.exoplayer2.ui.PlayerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintBottom_toTopOf="@+id/llAdjust"
             app:layout_constraintTop_toBottomOf="@+id/hvAdjust" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/llAdjust"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_300"
             android:orientation="vertical"
