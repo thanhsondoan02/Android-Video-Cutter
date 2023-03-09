@@ -5,6 +5,4 @@
     <string name="select">Select</string>
     <string name="selected_item">Mục được chọn</string>
     <string name="text_long_press_to_sort_video">Long press to sort the videos</string>
-    <string name="text_count_album">(1032)</string>
-    <string name="text_name_album">Galary</string>
 </resources>

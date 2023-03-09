@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constSelectLibFolderItm"
@@ -12,8 +13,8 @@
             android:id="@+id/cvSelectLibraryFolderItm"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            app:cardCornerRadius="@dimen/dimen_corner_4"
             app:layout_constraintDimensionRatio="1:1"
-            app:cardCornerRadius="@dimen/dimen_4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,24 +34,24 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/font_regular"
             android:paddingStart="@dimen/dimen_16"
-            android:text="@string/text_name_album"
             android:textColor="@color/black"
             android:textSize="@dimen/dimen_text_size_18"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvSelectLibraryFolderItm"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Garary" />
 
         <TextView
             android:id="@+id/tvSelectLibraryFolderItmCount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/font_regular"
-            android:text="@string/text_count_album"
             android:textColor="@color/color_black_54"
             android:textSize="@dimen/dimen_text_size_18"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="(1032)" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

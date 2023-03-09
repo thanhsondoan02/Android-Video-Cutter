@@ -51,6 +51,10 @@ class LocalDataRepoImpl: ILocalDataRepo {
         return albumList
     }
 
+    override fun get() {
+
+    }
+
     private fun getVideoCount(contentResolver: ContentResolver, albumId: Long): Int {
         val projection = arrayOf(
             MediaStore.Video.Media._ID
