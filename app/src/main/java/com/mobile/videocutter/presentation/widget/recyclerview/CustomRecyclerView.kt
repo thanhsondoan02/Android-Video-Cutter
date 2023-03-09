@@ -29,7 +29,7 @@ class CustomRecyclerView constructor(
     private var maxItemHorizontal: Int = 2
     private var layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL
 
-    private var itemTouchHelper: ItemTouchHelperCustom? = null
+    private var itemTouchHelper: TouchHelper? = null
     private var hasLoadMore: Boolean = false
 
     var listener: IListener? = null
@@ -173,7 +173,7 @@ class CustomRecyclerView constructor(
     fun getCountData() = baseAdapter?.itemCount
 
     fun setDragRecyclerView() {
-        itemTouchHelper = object : ItemTouchHelperCustom() {
+        itemTouchHelper = object : TouchHelper() {
             override val dataList: MutableList<Any>?
                 get() = baseAdapter?.dataList
 

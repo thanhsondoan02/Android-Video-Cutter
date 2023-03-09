@@ -3,7 +3,7 @@ package com.mobile.videocutter.presentation.widget.recyclerview
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class ItemTouchHelperCustom : ItemTouchHelper.Callback() {
+abstract class TouchHelper : ItemTouchHelper.Callback() {
 
     private val TAG = "ItemTouchHelperCustom"
 
@@ -33,8 +33,12 @@ abstract class ItemTouchHelperCustom : ItemTouchHelper.Callback() {
         val dragIndex = viewHolder.bindingAdapterPosition
         val targetIndex = target.bindingAdapterPosition
 
-        this.eventMove(dragIndex, targetIndex)
-        return true
+        if (targetIndex != dataList!!.size - 1) {
+            this.eventMove(dragIndex, targetIndex)
+            return true
+        }
+        return false
+
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
