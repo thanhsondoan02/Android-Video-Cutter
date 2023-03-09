@@ -11,7 +11,10 @@
             android:id="@+id/mcvAdjustVideoItmRoot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_10"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+            android:maxHeight="@dimen/dimen_72"
             app:cardCornerRadius="@dimen/dimen_corner_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,13 +82,13 @@
             android:id="@+id/ivAdjustDeleteItm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/dimen_10"
             android:padding="@dimen/dimen_4"
             android:src="@drawable/ic_red_close"
             android:visibility="visible"
-            tools:visibility="visible"
-            android:elevation="@dimen/dimen_10"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

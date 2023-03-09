@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.adjust
 
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
@@ -9,8 +8,10 @@ import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
+import handleUiState
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
 
@@ -34,7 +35,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
                 getAppDimension(R.dimen.dimen_4)
             )
 
-            getAppDrawable(R.drawable.shape_bg_purple_corner_6)?.let { setBackgroundTextViewRight(it) }
+            getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
         }
 
         binding.crvAdjust.apply {
@@ -65,7 +66,11 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
         lifecycleScope.launchWhenResumed {
             viewModel.localVideoAdjust.collect {
-                binding.crvAdjust.submitList(it)
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        binding.crvAdjust.submitList(it.data)
+                    }
+                })
             }
         }
     }
