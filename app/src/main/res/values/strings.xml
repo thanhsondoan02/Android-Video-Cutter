@@ -4,4 +4,8 @@
     <string name="my_studio">My Studio</string>
     <string name="select">Select</string>
     <string name="selected_item">Mục được chọn</string>
+
+    // Crop
+    <string name="crop">Crop</string>
+    <string name="done">Done</string>
 </resources>

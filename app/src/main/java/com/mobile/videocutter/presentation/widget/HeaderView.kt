@@ -15,6 +15,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -70,6 +71,10 @@ class HeaderView constructor(
     private var vUnder: View? = null
     private var isShowViewUnder: Boolean = true
 
+    // view top
+    private var vTop: View? = null
+    private var isShowViewTop = false
+
     private var newParams: android.view.ViewGroup.MarginLayoutParams? = null
 
     init {
@@ -91,6 +96,7 @@ class HeaderView constructor(
         tvRight = findViewById(R.id.tvHeaderViewRight)
 
         vUnder = findViewById(R.id.vHeaderViewUnder)
+        vTop = findViewById(R.id.vHeaderViewTop)
 
         // view under line
         if (isShowViewUnder) {
@@ -196,6 +202,9 @@ class HeaderView constructor(
         tvRight?.setOnSafeClick {
             tvRightOnClick?.invoke()
         }
+
+        // view top
+        vTop?.isVisible = isShowViewTop
     }
 
     private fun initView(attributeSet: AttributeSet?) {
@@ -279,6 +288,11 @@ class HeaderView constructor(
             if (fontId != -1) {
                 rightFont = ResourcesCompat.getFont(context, fontId)
             }
+        }
+
+        // view top
+        if (ta.hasValue(R.styleable.HeaderView_hv_top_v_is_visible)) {
+            isShowViewTop = ta.getBoolean(R.styleable.HeaderView_hv_top_v_is_visible, false)
         }
 
         ta.recycle()

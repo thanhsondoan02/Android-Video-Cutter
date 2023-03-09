@@ -27,6 +27,9 @@
         <attr name="hv_right_tv_margin" format="dimension" />
         <attr name="hv_right_tv_font_family" format="reference" />
 
+        <!--view top-->
+        <attr name="hv_top_v_is_visible" format="boolean"/>
+
     </declare-styleable>
 
     <!--Custom RecyclerView-->
@@ -34,7 +37,9 @@
 
     </declare-styleable>
 
+    <!--VideoPlayerControl-->
     <declare-styleable name="VideoPlayerControl">
+
         <attr name="vpc_left_icon" format="reference" />
         <attr name="vpc_left_icon_show" format="boolean" />
         <attr name="vpc_left_text_show" format="boolean" />
@@ -43,6 +48,14 @@
         <attr name="vpc_seekbar_show" format="boolean" />
         <attr name="vpc_right_text_show" format="boolean" />
         <attr name="vpc_right_text" format="string" />
+
+    </declare-styleable>
+
+    <!-- Edit Image-->
+    <declare-styleable name="EditImageFrame">
+
+        <attr name="eif_src" format="reference"/>
+
     </declare-styleable>
 
 </resources>
