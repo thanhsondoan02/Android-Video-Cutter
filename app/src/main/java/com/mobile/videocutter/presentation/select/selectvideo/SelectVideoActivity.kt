@@ -4,6 +4,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 
+@Suppress("DEPRECATION")
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
     override fun onInitView() {
         super.onInitView()
