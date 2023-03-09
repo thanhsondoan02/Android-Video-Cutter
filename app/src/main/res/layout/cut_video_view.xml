@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/dimen_10">
+        android:layout_marginHorizontal="@dimen/dimen_10"
+        android:background="@color/color_edit_start">
 
         <FrameLayout
             android:id="@+id/flCutVideoSecond"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_height="@dimen/dimen_68">
 
             <View
                 android:id="@+id/vCutVideoStart"
@@ -63,7 +63,8 @@
             android:id="@+id/rvCutViewRoot"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/dimen_24" />
 
     </FrameLayout>
 
@@ -94,6 +95,8 @@
         android:layout_height="@dimen/dimen_76"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/dimen_34"
-        android:background="@drawable/bg_purple_corner_2" />
+        android:background="@drawable/bg_purple_corner_2"
+        android:gravity="center"
+        android:padding="@dimen/dimen_16" />
 
 </FrameLayout>

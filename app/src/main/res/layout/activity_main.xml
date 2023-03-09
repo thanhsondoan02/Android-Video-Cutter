@@ -8,25 +8,10 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <com.mobile.videocutter.presentation.widget.HeaderView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:hv_left_tv_text="sdsadsa"
-            app:hv_left_ic="@drawable/ic_black_up"
-            app:hv_center_tv_text="ajcfa"
-            app:hv_center_ic="@drawable/ic_black_up"
-            app:hv_right_tv_text="jhgh"
-            app:hv_right_ic="@drawable/ic_black_up"/>
-
         <com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-
-        <com.mobile.videocutter.presentation.widget.video.speedvideo.SpeedVideoView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
 
     </FrameLayout>
 
