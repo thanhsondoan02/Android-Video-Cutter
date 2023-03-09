@@ -8,4 +8,14 @@
     // Crop
     <string name="crop">Crop</string>
     <string name="done">Done</string>
+    <string name="custom">Custom</string>
+    <string name="instagram">Instagram</string>
+    <string name="_4x5">4x5</string>
+    <string name="_5x4">5x4</string>
+    <string name="_9x16">9x16</string>
+    <string name="_16x9">16x9</string>
+    <string name="_3x2">3x2</string>
+    <string name="_2x3">2x3</string>
+    <string name="_4x3">4x3</string>
+    <string name="_3x4">3x4</string>
 </resources>

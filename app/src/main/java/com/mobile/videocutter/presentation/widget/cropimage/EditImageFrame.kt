@@ -1,18 +1,15 @@
 package com.mobile.videocutter.presentation.widget.cropimage
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.RectF
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
 import com.mobile.videocutter.util.UtilPaint
@@ -114,8 +111,20 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private var linesBottomLeft = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     private var linesBottomRight = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
 
+    private var startXDrawBitmap = 0f
+    private var startYDrawBitmap = 0f
+
+    private var ratioWidth = 0
+    private var ratioHeight = 0
+
     init {
+        Log.d(TAG, "init: ")
         setResource(null)
+    }
+
+    fun setRatio(width: Int, height: Int) {
+        this.ratioWidth = width
+        this.ratioHeight = height
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -125,38 +134,45 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         heightParent = MeasureSpec.getSize(heightMeasureSpec).toFloat()
 
         wightImage = widthParent
-        heightImage = if (option.outHeight > 5 / 6 * heightParent) {
-            heightParent / 3
-        } else {
-            heightParent
-        }
 
         coordinateDrawBitmap = heightParent / 2 - heightImage / 2
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
 
-        pos1X = (widthParent / 3)
-        pos1Y = (heightImage)
+        if (wightImage < widthParent) {
+            // startXDrawBitmap = widthParent / 2 - wightImage / 2
+        }
 
-        pos2X = (2 * widthParent / 3)
-        pos2Y = (2 * heightImage)
+        if (heightImage < heightParent) {
+            startYDrawBitmap = heightParent / 2 - heightImage / 2
+        }
 
+        pos1X = 0f
+        pos1Y = startYDrawBitmap
+
+        pos2X = widthParent
+        pos2Y = startYDrawBitmap + heightImage
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        // tạo ra một bản sao của bit map với các tỷ lệ mong muốn
+
+        Log.d(TAG, "onSizeChanged: ")
+
         if (srcImage != null) {
             destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightImage.toInt(), true)
         }
-
         rectFBackground = RectF(0f, 0f, widthParent, heightParent)
     }
 
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        Log.d(TAG, "onDraw: ")
 
         lengthEdgeReal = pos2Y - pos1Y
         withEdgeReal = pos2X - pos1X
@@ -167,18 +183,20 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         canvas?.apply {
             // vẽ ảnh
             if (destImage != null) {
-                drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
             }
 
             // vẽ lớp phủ lên ảnh
-            drawRect(rectFBackground!!, paintBackground)
+            if (rectFBackground != null) {
+                drawRect(rectFBackground!!, paintBackground)
+            }
 
             // cắt phần một hình chữ nhật mong muốn
             clipRect(pos1X, pos1Y, pos2X, pos2Y)
 
             // vẽ lại ảnh đã cắt bởi clipRect
             if (destImage != null) {
-                drawBitmap(destImage!!, 0f, coordinateDrawBitmap, null)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
             }
 
             // vẽ thêm các chi tiết cho hình chữ nhật đã cắt
@@ -240,74 +258,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-
-        return when (event?.action) {
-            MotionEvent.ACTION_DOWN -> {
-                isShowLines = true
-                coordinatesFirstDownX = event.x
-                coordinatesFirstDownY = event.y
-                performClick()
-                true
-            }
-
-            MotionEvent.ACTION_MOVE -> {
-                offset1X = pos1X + (event.x - coordinatesFirstDownX)
-                offset1Y = pos1Y + (event.y - coordinatesFirstDownY)
-                offset2X = pos2X + (event.x - coordinatesFirstDownX)
-                offset2Y = pos2Y + (event.y - coordinatesFirstDownY)
-
-                // di chuyển và check xem nếu đến viền thì ko thay đổi tọa độ
-                if (isMove() && isLimitScreen()) {
-                    if (offset1X > moveLimit) {
-                        pos2X = offset2X
-                    }
-                    if (offset1Y > heightImage) {
-                        pos2Y = offset2Y
-                    }
-                    if (offset2Y < 2 * heightImage) {
-                        pos1Y = offset1Y
-                    }
-                    if (offset2X < widthParent - moveLimit) {
-                        pos1X = offset1X
-                    }
-                }
-                if (isDragLeft() || isDragTop()) {
-                    if (offset1Y >= heightImage && pos2Y > offset1Y + sizeDefault) {
-                        pos1Y = offset1Y
-                    }
-                    if (offset1X >= moveLimit && pos2X > offset1X + sizeDefault) {
-                        pos1X = offset1X
-                    }
-                }
-                if (isDragBottom() || isDragRight()) {
-                    if (offset2Y < 2 * heightImage && offset2Y > pos1Y + sizeDefault) {
-                        pos2Y = offset2Y
-                    }
-
-                    if (offset2X < widthParent - moveLimit && offset2X > pos1X + sizeDefault) {
-                        pos2X = offset2X
-                    }
-                }
-
-                coordinatesFirstDownX = event.x
-                coordinatesFirstDownY = event.y
-
-                invalidate()
-                true
-            }
-
-            MotionEvent.ACTION_UP -> {
-                isShowLines = false
-                coordinatesFirstDownX = event.x
-                coordinatesFirstDownY = event.y
-                invalidate()
-                true
-            }
-            else -> false
-        }
-    }
-
     fun setResource(url: String?) {
         if (url != null) {
             source = url
@@ -315,22 +265,12 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         srcImage = getBitmapFromURL(source)
 
-        Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .into(object : CustomTarget<Bitmap>() {
+        val bitmapNotScale = srcImage?.copy(Bitmap.Config.ARGB_8888, true)
 
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    wightImage = resource.width.toFloat()
-                    heightImage = resource.height.toFloat()
-                    Log.d(TAG, "setResource: $wightImage - $heightImage")
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-
-                }
-            });
-
+        bitmapNotScale?.let {
+            wightImage = bitmapNotScale.width.toFloat()
+            heightImage = bitmapNotScale.height.toFloat()
+        }
 
 
     }
@@ -372,8 +312,10 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     }
 
     private fun isLimitScreen(): Boolean {
-        return offset1X >= moveLimit && offset1Y >= heightImage &&
-                offset2X <= widthParent - moveLimit && offset2Y <= 2 * heightImage
+
+
+        
+        return true
     }
 
     private fun isDragTop(): Boolean {
