@@ -27,15 +27,26 @@
         <LinearLayout
             android:id="@+id/llAdjust"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_300"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-           <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/dimen_100"/>
+            <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+                android:id="@+id/vpcAdjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vpc_left_icon="@drawable/ic_black_pause_video"
+                app:vpc_left_icon_show="true"
+                app:vpc_left_text="90:00"
+                app:vpc_left_text_show="true"
+                app:vpc_right_text="98:09"
+                app:vpc_right_text_show="true"
+                app:vpc_seekbar_show="true" />
 
             <TextView
                 android:layout_width="wrap_content"
