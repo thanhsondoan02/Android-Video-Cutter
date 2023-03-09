@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VideoCutter"
         tools:targetApi="31">
+
         <activity
-            android:name=".presentation.adjust.AdjustActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -26,19 +27,21 @@
         </activity>
 
         <activity
-            android:name=".presentation.MainActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
             android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
+
         <activity
             android:name=".presentation.home.mystudio.MyStudioActivity"
             android:exported="false" />
+
         <activity
             android:name=".presentation.home.preview.PreviewVideoActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".presentation.adjust.AdjustActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
