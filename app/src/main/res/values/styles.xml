@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--HeaderView-->
-    <declare-styleable name="HeaderView">
 
-        <!--left-->
-        <attr name="hv_left_ic" format="reference" />
-        <attr name="hv_left_tv_text" format="string" />
-        <attr name="hv_left_tv_text_size" format="dimension" />
-        <attr name="hv_left_tv_text_color" format="reference" />
-        <attr name="hv_left_tv_margin" format="dimension" />
-        <attr name="hv_left_tv_font_family" format="reference" />
+    <style name="StyleRobotoSemiBoldBlack34">
+        <item name="android:textSize">@dimen/dimen_text_size_34</item>
+        <item name="android:textColor">@color/color_black_player</item>
+        <item name="android:fontFamily">@font/font_semibold</item>
+        <item name="fontFamily">@font/font_semibold</item>
+    </style>
 
-        <!--center-->
-        <attr name="hv_center_ic" format="reference" />
-        <attr name="hv_center_tv_text" format="string" />
-        <attr name="hv_center_tv_text_size" format="dimension" />
-        <attr name="hv_center_tv_text_color" format="reference" />
-        <attr name="hv_center_tv_font_family" format="reference" />
+    <style name="StyleRobotoBoldBlack34">
+        <item name="android:textSize">@dimen/dimen_text_size_34</item>
+        <item name="android:textColor">@color/color_black_player</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="fontFamily">@font/font_bold</item>
+    </style>
 
-        <!--right-->
-        <attr name="hv_right_ic" format="reference" />
-        <attr name="hv_right_tv_text" format="string" />
-        <attr name="hv_right_tv_text_size" format="dimension" />
-        <attr name="hv_right_tv_text_color" format="reference" />
-        <attr name="hv_right_tv_margin" format="dimension" />
-        <attr name="hv_right_tv_font_family" format="reference" />
+    <style name="StyleRobotoBoldWhite28">
+        <item name="android:textSize">@dimen/dimen_text_size_28</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="fontFamily">@font/font_bold</item>
+    </style>
 
-    </declare-styleable>
+    <style name="StyleRobotoBoldBlack22">
+        <item name="android:textSize">@dimen/dimen_text_size_22</item>
+        <item name="android:textColor">@color/color_black_player</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="fontFamily">@font/font_bold</item>
+    </style>
 
-    <!--Custom RecyclerView-->
-    <declare-styleable name="CustomRecyclerView">
-
-    </declare-styleable>
-
-    <declare-styleable name="VideoPlayerControl">
-        <attr name="vpc_left_icon" format="reference" />
-        <attr name="vpc_left_icon_show" format="boolean" />
-        <attr name="vpc_left_text_show" format="boolean" />
-        <attr name="vpc_left_text" format="string" />
-        <attr name="vpc_seekbar" format="reference" />
-        <attr name="vpc_seekbar_show" format="boolean" />
-        <attr name="vpc_right_text_show" format="boolean" />
-        <attr name="vpc_right_text" format="string" />
-    </declare-styleable>
+    <style name="StyleRobotoLightPurple18">
+        <item name="android:textSize">@dimen/dimen_text_size_18</item>
+        <item name="android:textColor">@color/color_purple_text_home</item>
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="fontFamily">@font/font_light</item>
+    </style>
 
 </resources>

@@ -18,4 +18,8 @@
     <color name="color_black_player">#212121</color>
     <color name="color_gray_player">#B9B9B9</color>
 
+    <color name="color_black_text_home">@color/color_black_player</color>
+    <color name="color_white_text_home">@color/white</color>
+    <color name="color_purple_text_home">@color/color_purple</color>
+
 </resources>
