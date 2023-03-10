@@ -1,4 +1,7 @@
-package com.mobile.videocutter.presentation.cropvideo
+package com.mobile.videocutter.data.repo
+
+import com.mobile.videocutter.domain.repo.IRatioDisplay
+import com.mobile.videocutter.presentation.cropvideo.RatioAdapter
 
 class RatioDisplayImpl: IRatioDisplay {
     override fun getListRatio(): List<RatioAdapter.RatioDisplay> {

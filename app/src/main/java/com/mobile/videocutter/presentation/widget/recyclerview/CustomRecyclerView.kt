@@ -32,29 +32,14 @@ class CustomRecyclerView constructor(
     }
 
     private fun addLayoutManager() {
-        rvList?.layoutManager = when (layoutManagerMode) {
-            LAYOUT_MANAGER_MODE.LINEAR_HORIZATION -> {
-                getLinearLayoutManagerHorization()
-            }
 
-            LAYOUT_MANAGER_MODE.LINEAR_VERTICAL -> {
-                getLinearLayoutManagerVertical()
-            }
-
-            LAYOUT_MANAGER_MODE.GRID -> {
-                getGridLayoutManager()
-            }
-            else -> {
-                getLinearLayoutManagerVertical()
-            }
-        }
     }
 
     private fun initView(attr: AttributeSet?) {
         // ánh xạ view
         rvList = findViewById(R.id.rvCustom)
         setLayoutManagerMode()
-        addLayoutManager()
+        //addLayoutManager()
     }
 
     private fun getLinearLayoutManagerVertical(): RecyclerView.LayoutManager {
@@ -113,6 +98,23 @@ class CustomRecyclerView constructor(
      */
     fun setLayoutManagerMode(layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL) {
         this.layoutManagerMode = layoutManagerMode
+
+        rvList?.layoutManager = when (layoutManagerMode) {
+            LAYOUT_MANAGER_MODE.LINEAR_HORIZATION -> {
+                getLinearLayoutManagerHorization()
+            }
+
+            LAYOUT_MANAGER_MODE.LINEAR_VERTICAL -> {
+                getLinearLayoutManagerVertical()
+            }
+
+            LAYOUT_MANAGER_MODE.GRID -> {
+                getGridLayoutManager()
+            }
+            else -> {
+                getLinearLayoutManagerVertical()
+            }
+        }
     }
 
     fun showLoading() {
