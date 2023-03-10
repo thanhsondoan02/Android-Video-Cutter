@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.adjust.AdjustActivity">
+
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/hvAdjust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hv_bottom_v_is_visible="false"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_tv_text="@string/next"
+            app:hv_right_tv_text_color="@color/white"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/llAdjust"
+            app:layout_constraintTop_toBottomOf="@+id/hvAdjust" />
+
+        <LinearLayout
+            android:id="@+id/llAdjust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+                android:id="@+id/vpcAdjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vpc_left_icon="@drawable/ic_black_pause_video"
+                app:vpc_left_icon_show="true"
+                app:vpc_left_text="90:00"
+                app:vpc_left_text_show="true"
+                app:vpc_right_text="98:09"
+                app:vpc_right_text_show="true"
+                app:vpc_seekbar_show="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_14"
+                android:layout_marginTop="@dimen/dimen_26"
+                android:text="@string/adjust_description"
+                android:textColor="@color/color_black_87" />
+
+            <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+                android:id="@+id/crvAdjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_28"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
