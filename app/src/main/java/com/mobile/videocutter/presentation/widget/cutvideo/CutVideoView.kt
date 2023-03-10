@@ -127,7 +127,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                             lengthLeft = (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
                         }
 
-                        Log.d("TAG", "moveTrimVideoStart: ${getTimeTrimVideo(coordinatesX)}")
+                        Log.d("TAG", "moveTrimVideoStart: ${getTimeTrimVideo(coordinatesX)/1000}")
 
                         paramsTrimVideo.leftMargin = lengthLeft.toInt()
                         paramsSelectTime.leftMargin = (lengthLeft + marginLeftSelectTimeDefault).toInt()
@@ -179,7 +179,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                         paramsTrimVideo.rightMargin = lengthEnd.toInt()
 
                         paramsSelectTime.leftMargin = (widthLayout - 2 * vEnd.width - vSelectTime.width + marginLeftSelectTimeDefault - lengthEnd).toInt()
-                        Log.d("TAG", "moveTrimVideoEnd: ${getTimeTrimVideo(coordinatesX)}")
+                        Log.d("TAG", "moveTrimVideoEnd: ${getTimeTrimVideo(coordinatesX)/1000}")
 
                         flSecond.layoutParams = paramsTrimVideo
 
@@ -224,7 +224,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                             lengthLeft = (widthLayout - vEnd.width + vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
                         }
 
-                        Log.d("TAG", "moveSelectTime: ${getTimeTrimVideo(coordinatesX)}")
+                        Log.d("TAG", "moveSelectTime: ${getTimeTrimVideo(coordinatesX)/1000}")
 
                         paramsSelectTime.leftMargin = lengthLeft.toInt()
 
@@ -288,8 +288,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         } else {
             vStart.setBackgroundResource(R.drawable.ic_yellow_start)
             vEnd.setBackgroundResource(R.drawable.ic_yellow_end)
-            vTop.setBackgroundColor(getAppColor(R.color.color_edit_end, context))
-            vBottom.setBackgroundColor(getAppColor(R.color.color_edit_end, context))
+            vTop.setBackgroundColor(getAppColor(R.color.color_yellow_gradient_end, context))
+            vBottom.setBackgroundColor(getAppColor(R.color.color_yellow_gradient_end, context))
         }
     }
 
