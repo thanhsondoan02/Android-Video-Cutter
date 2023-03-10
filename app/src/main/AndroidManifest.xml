@@ -21,22 +21,21 @@
         android:theme="@style/Theme.VideoCutter"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.cutvideo.CutVideoActivity">
+        <activity
+            android:name=".presentation.cutvideo.CutVideoActivity"
+            android:exported="false" />
 
-        </activity>
-
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity
+            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.home.mystudio.MyStudioActivity"
@@ -45,9 +44,14 @@
         <activity
             android:name=".presentation.home.preview.PreviewVideoActivity"
             android:exported="false" />
+
         <activity
             android:name=".presentation.select.selectvideo.SelectVideoActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".presentation.adjust.AdjustActivity"
+            android:exported="false"/>
 
     </application>
 

@@ -11,7 +11,7 @@
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

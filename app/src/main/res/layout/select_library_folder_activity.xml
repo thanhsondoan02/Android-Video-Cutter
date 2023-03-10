@@ -8,7 +8,7 @@
         android:orientation="vertical">
 
         <com.mobile.videocutter.presentation.widget.HeaderView
-            android:id="@+id/hvLibraryFolder"
+            android:id="@+id/hvSelectLibraryFolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hv_center_ic="@drawable/ic_black_up"
@@ -19,10 +19,11 @@
             app:hv_right_ic="@drawable/ic_black_camera" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLibraryFolder"
+            android:id="@+id/rvSelectLibraryFolder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="@dimen/dimen_16" />
+
     </LinearLayout>
 
 </layout>

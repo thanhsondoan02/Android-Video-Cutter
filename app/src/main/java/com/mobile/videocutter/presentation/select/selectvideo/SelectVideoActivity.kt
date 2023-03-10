@@ -13,7 +13,6 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoActivity
 import java.util.concurrent.TimeUnit
 
-@Suppress("DEPRECATION")
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
     var idAlbum = ""
     var nameAlbum = ""
@@ -28,7 +27,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         nameAlbum = intent.getStringExtra("nameAlbum").toString()
         binding.hvSelectVideo.setTextCenter(nameAlbum)
         binding.hvSelectVideo.setOnLeftIconClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
         loadVideo()
     }
