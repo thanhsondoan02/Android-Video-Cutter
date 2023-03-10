@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
 
-class LocalDataRepoImpl : ILocalDataRepo {
+class LocalDataRepoImpl: ILocalDataRepo {
     override fun getAlbumList(contentResolver: ContentResolver): List<Album> {
         val projection = arrayOf(
             MediaStore.Video.Media._ID,
@@ -50,45 +50,45 @@ class LocalDataRepoImpl : ILocalDataRepo {
         }
         return albumList
     }
-}
 
-private fun getVideoCount(contentResolver: ContentResolver, albumId: Long): Int {
-    val projection = arrayOf(
-        MediaStore.Video.Media._ID
-    )
-    val selection = "${MediaStore.Video.Media.BUCKET_ID} = ?"
-    val selectionArgs = arrayOf(albumId.toString())
+    private fun getVideoCount(contentResolver: ContentResolver, albumId: Long): Int {
+        val projection = arrayOf(
+            MediaStore.Video.Media._ID
+        )
+        val selection = "${MediaStore.Video.Media.BUCKET_ID} = ?"
+        val selectionArgs = arrayOf(albumId.toString())
 
-    val cursor = contentResolver.query(
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-        projection,
-        selection,
-        selectionArgs,
-        null
-    )
+        val cursor = contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            selection,
+            selectionArgs,
+            null
+        )
 
-    val videoCount = cursor?.count ?: 0
+        val videoCount = cursor?.count ?: 0
 
-    cursor?.close()
+        cursor?.close()
 
-    return videoCount
-}
-
-private fun getAlbumCoverUri(contentResolver: ContentResolver, albumId: Long): Uri? {
-    val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-    val projection = arrayOf(MediaStore.Video.Media._ID)
-    val selection = "${MediaStore.Video.Media.BUCKET_ID} = ? AND ${MediaStore.Video.Media._ID} != ?"
-    val selectionArgs = arrayOf(albumId.toString(), "0")
-    val sortOrder = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
-
-    val cursor = contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
-
-    var coverUri: Uri? = null
-    if (cursor != null && cursor.moveToFirst()) {
-        val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
-        val id = cursor.getLong(idColumn)
-        coverUri = ContentUris.withAppendedId(uri, id)
+        return videoCount
     }
-    cursor?.close()
-    return coverUri
+
+    private fun getAlbumCoverUri(contentResolver: ContentResolver, albumId: Long): Uri? {
+        val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.Video.Media._ID)
+        val selection = "${MediaStore.Video.Media.BUCKET_ID} = ? AND ${MediaStore.Video.Media._ID} != ?"
+        val selectionArgs = arrayOf(albumId.toString(), "0")
+        val sortOrder = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
+
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+
+        var coverUri: Uri? = null
+        if (cursor != null && cursor.moveToFirst()) {
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+            val id = cursor.getLong(idColumn)
+            coverUri = ContentUris.withAppendedId(uri, id)
+        }
+        cursor?.close()
+        return coverUri
+    }
 }
