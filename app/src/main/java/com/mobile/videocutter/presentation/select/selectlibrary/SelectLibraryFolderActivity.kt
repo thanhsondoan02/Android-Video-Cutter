@@ -24,7 +24,6 @@ import handleUiState
 import kotlinx.coroutines.flow.collect
 
 class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActivityBinding>(R.layout.select_library_folder_activity) {
-
     private val viewModel by viewModels<SelectLibraryFolderViewModel>()
     private val selectLibFolderAdapter by lazy {
         SelectLibraryFolderAdapter()
@@ -42,6 +41,7 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 object : PermissionListener {
                     override fun onAllow() {
+                        viewModel.getAlbumList()
                         initListener()
                     }
 
@@ -49,6 +49,7 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
                     }
                 })
         } else {
+            viewModel.getAlbumList()
             initListener()
         }
     }
@@ -63,12 +64,10 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
                     }
                 })
             }
-
         }
     }
 
     private fun initListener() {
-        viewModel.getAlbumList()
         selectLibFolderAdapter.albumListener = object : SelectLibraryFolderAdapter.IAlbumListener {
             override fun onClickAlbum(idAlbum: Long, nameAlbum: String) {
                 val intent = Intent(this@SelectLibraryFolderActivity, SelectVideoActivity::class.java)

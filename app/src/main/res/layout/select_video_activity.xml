@@ -40,7 +40,7 @@
                     android:id="@+id/tvSelectVideoTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_long_press_to_sort_video"
+                    android:text="@string/adjust_description"
                     android:textColor="@color/color_black_87"
                     android:textSize="@dimen/dimen_text_size_14"
                     app:layout_constraintBottom_toBottomOf="parent"
