@@ -35,7 +35,7 @@
             android:layout_height="@dimen/dimen_120"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_40"
-            android:background="@drawable/shape_main_gradient_corner_12"
+            android:background="@drawable/shape_orange_gradient_corner_12"
             android:gravity="center"
             app:layout_constraintBottom_toTopOf="@id/tvStartSeeAllMyStudio">
 
@@ -108,7 +108,7 @@
         </LinearLayout>
 
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
-            android:id="@+id/crvMyStudioVideoList"
+            android:id="@+id/crvStartVideoList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingStart="@dimen/dimen_20"

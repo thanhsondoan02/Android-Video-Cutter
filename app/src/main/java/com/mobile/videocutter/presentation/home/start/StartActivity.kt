@@ -25,16 +25,16 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     }
 
     private fun initRecyclerView() {
-        binding.crvMyStudioVideoList.setAdapter(startAdapter)
-        binding.crvMyStudioVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+        binding.crvStartVideoList.setAdapter(startAdapter)
+        binding.crvStartVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
 
         startAdapter.submitList(listStartVideo.map { MyStudioAdapter.VideoDisplay(it) })
 
         if (listStartVideo.isEmpty()) {
-            binding.crvMyStudioVideoList.gone()
+            binding.crvStartVideoList.gone()
             binding.llStartNoData.show()
         } else {
-            binding.crvMyStudioVideoList.show()
+            binding.crvStartVideoList.show()
             binding.llStartNoData.gone()
         }
     }

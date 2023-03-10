@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <style name="StyleRobotoSemiBoldBlack34">
         <item name="android:textSize">@dimen/dimen_text_size_34</item>
         <item name="android:textColor">@color/color_black_player</item>
@@ -32,7 +31,7 @@
 
     <style name="StyleRobotoLightPurple18">
         <item name="android:textSize">@dimen/dimen_text_size_18</item>
-        <item name="android:textColor">@color/color_purple_text_home</item>
+        <item name="android:textColor">@color/color_purple</item>
         <item name="android:fontFamily">@font/font_light</item>
         <item name="fontFamily">@font/font_light</item>
     </style>

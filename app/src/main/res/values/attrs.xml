@@ -3,7 +3,6 @@
 
     <!--HeaderView-->
     <declare-styleable name="HeaderView">
-
         <!--left-->
         <attr name="hv_left_ic" format="reference" />
         <attr name="hv_left_tv_text" format="string" />
@@ -32,7 +31,6 @@
 
         <!--view top-->
         <attr name="hv_top_v_is_visible" format="boolean" />
-
     </declare-styleable>
 
     <!--Custom RecyclerView-->
@@ -42,7 +40,6 @@
 
     <!--VideoPlayerControl-->
     <declare-styleable name="VideoPlayerControl">
-
         <attr name="vpc_left_icon" format="reference" />
         <attr name="vpc_left_icon_show" format="boolean" />
         <attr name="vpc_left_text_show" format="boolean" />
@@ -51,7 +48,6 @@
         <attr name="vpc_seekbar_show" format="boolean" />
         <attr name="vpc_right_text_show" format="boolean" />
         <attr name="vpc_right_text" format="string" />
-
     </declare-styleable>
 
     <!--ShapeableImageView-->

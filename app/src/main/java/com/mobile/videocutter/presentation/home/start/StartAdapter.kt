@@ -9,7 +9,6 @@ import com.mobile.videocutter.databinding.StartVideoItemBinding
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 
 class StartAdapter : BaseAdapter() {
-
     override fun getLayoutResource(viewType: Int) = R.layout.start_video_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*> {
@@ -23,5 +22,4 @@ class StartAdapter : BaseAdapter() {
             itemBinding.ivStartVideoItmImage.setImageResource(R.color.color_red_50)
         }
     }
-
 }
