@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -99,6 +100,7 @@ class HeaderView constructor(
         vTop = findViewById(R.id.vHeaderViewTop)
 
         // view under line
+
         if (isShowViewUnder) {
             vUnder?.show()
         } else {
@@ -295,6 +297,11 @@ class HeaderView constructor(
             isShowViewTop = ta.getBoolean(R.styleable.HeaderView_hv_top_v_is_visible, false)
         }
 
+        // view bottom
+        if (ta.hasValue(R.styleable.HeaderView_hv_bottom_v_is_visible)) {
+            isShowViewUnder = ta.getBoolean(R.styleable.HeaderView_hv_bottom_v_is_visible, false)
+        }
+
         ta.recycle()
     }
 
@@ -329,6 +336,30 @@ class HeaderView constructor(
         } else {
             this.tvRight?.visibility = GONE
         }
+    }
+
+    fun setBackgroundTextViewRight(background: Drawable) {
+        tvRight?.background = background
+    }
+
+    fun setTextViewRightMargin(
+        @DimenRes left: Float,
+        @DimenRes top: Float,
+        @DimenRes right: Float,
+        @DimenRes bottom: Float
+    ) {
+        newParams = tvRight?.layoutParams as MarginLayoutParams
+        newParams?.setMargins(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        tvRight?.layoutParams = newParams
+    }
+
+    fun setTextViewRightPadding(
+        @DimenRes left: Float,
+        @DimenRes top: Float,
+        @DimenRes right: Float,
+        @DimenRes bottom: Float
+    ) {
+        tvRight?.setPadding(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
     }
 
     fun setTextCenter(text: CharSequence?) {

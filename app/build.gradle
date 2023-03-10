@@ -67,4 +67,7 @@ dependencies {
 
     // view model
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
+
+    // media player
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.4'
 }

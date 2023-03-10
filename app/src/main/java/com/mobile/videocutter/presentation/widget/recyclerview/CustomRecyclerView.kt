@@ -5,12 +5,15 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseGridAdapter
 import com.mobile.videocutter.presentation.widget.recyclerview.scroll.BaseLoadMoreRecyclerView
+import java.util.*
+
 
 class CustomRecyclerView constructor(
     ctx: Context,
@@ -25,6 +28,11 @@ class CustomRecyclerView constructor(
     private var isLastPage: Boolean = false
     private var maxItemHorizontal: Int = 2
     private var layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL
+
+    private var itemTouchHelper: TouchHelper? = null
+    private var hasLoadMore: Boolean = false
+
+    var listener: IListener? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_recycler_view_layout, this, true)
@@ -132,6 +140,7 @@ class CustomRecyclerView constructor(
             baseAdapter?.removeLoadMore()
         }
         hasLoadMore(hasLoadMore)
+        this.hasLoadMore = hasLoadMore
         baseAdapter?.submitList(newData)
         if (newData != null) {
             if (newData.isEmpty()) {
@@ -162,4 +171,32 @@ class CustomRecyclerView constructor(
     }
 
     fun getCountData() = baseAdapter?.itemCount
+
+    fun setDragRecyclerView() {
+        itemTouchHelper = object : TouchHelper() {
+            override val dataList: MutableList<Any>?
+                get() = baseAdapter?.dataList
+
+            override fun eventMove(oldIndex: Int, newIndex: Int) {
+                if (dataList != null) {
+                    Collections.swap(dataList!!, oldIndex, newIndex)
+                    baseAdapter?.notifyItemMoved(oldIndex, newIndex)
+                    listener?.onScroll(newIndex)
+                }
+            }
+
+        }
+        itemTouchHelper?.let {
+            val itemTouchHelper = ItemTouchHelper(it)
+            itemTouchHelper.attachToRecyclerView(rvList)
+        }
+    }
+
+    fun smoothiePosition(position: Int) {
+        rvList?.scrollToPosition(position)
+    }
+
+    interface IListener {
+        fun onScroll(position: Int)
+    }
 }

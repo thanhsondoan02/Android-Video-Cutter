@@ -15,6 +15,8 @@
     <color name="color_purple">#6F4FEE</color>
     <color name="color_purple_38">#616F4FEE</color>
     <color name="color_red_50">#FF4545</color>
+    <color name="color_black_54">#8A000000</color>
+    <color name="color_black_87">#DE000000</color>
     <color name="color_black_player">#212121</color>
     <color name="color_gray_player">#B9B9B9</color>
     <color name="color_transparent_dark_90">#90000000</color>

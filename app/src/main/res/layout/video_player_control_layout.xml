@@ -20,12 +20,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_16"
+        tools:text="0:32"
         android:textColor="@color/color_black_player"
         android:textSize="@dimen/dimen_text_size_14"
         app:layout_constraintBottom_toBottomOf="@id/ivVideoPlayerControlLeftIcon"
         app:layout_constraintStart_toEndOf="@id/ivVideoPlayerControlLeftIcon"
-        app:layout_constraintTop_toTopOf="@id/ivVideoPlayerControlLeftIcon"
-        tools:text="0:32" />
+        app:layout_constraintTop_toTopOf="@id/ivVideoPlayerControlLeftIcon" />
 
     <SeekBar
         android:id="@+id/sbVideoPlayerControlSeekBar"
@@ -50,10 +50,10 @@
         android:layout_marginEnd="@dimen/dimen_18"
         android:gravity="center"
         android:paddingVertical="@dimen/dimen_12"
+        tools:text="1:09"
         android:textSize="@dimen/dimen_text_size_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="01:09"
         tools:textColor="@color/color_black_player" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

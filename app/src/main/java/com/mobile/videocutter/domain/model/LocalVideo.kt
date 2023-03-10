@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
+import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import java.io.File
 
 class LocalVideo {
@@ -49,6 +50,10 @@ class LocalVideo {
             e.printStackTrace()
         }
         return this
+    }
+
+    fun getImageThumbPath(): String {
+        return thumbPath ?: STRING_DEFAULT
     }
 
     /**
