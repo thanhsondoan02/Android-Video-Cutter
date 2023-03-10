@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--ShapeableImageView-->
+    <style name="roundedCorner">
+        <item name="cornerSize">@dimen/dimen_8</item>
+    </style>
+
     <style name="StyleRobotoSemiBoldBlack34">
         <item name="android:textSize">@dimen/dimen_text_size_34</item>
         <item name="android:textColor">@color/color_black_player</item>

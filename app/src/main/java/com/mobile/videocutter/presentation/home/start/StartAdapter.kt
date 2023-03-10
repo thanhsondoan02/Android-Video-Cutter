@@ -4,7 +4,6 @@ import androidx.databinding.ViewDataBinding
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
-import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.databinding.StartVideoItemBinding
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 
@@ -16,7 +15,6 @@ class StartAdapter : BaseAdapter() {
     }
 
     inner class VideoVH(private val itemBinding: StartVideoItemBinding) : BaseVH<MyStudioAdapter.VideoDisplay>(itemBinding) {
-
         override fun onBind(data: MyStudioAdapter.VideoDisplay) {
             itemBinding.tvStartVideoItmDuration.text = data.video.getFormattedDuration()
             itemBinding.ivStartVideoItmImage.setImageResource(R.color.color_red_50)

@@ -16,7 +16,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
     private val viewModel by viewModels<MyStudioViewModel>()
 
-    private val listStartVideo = mockLocalVideoList(0)
+    private val listStartVideo = mockLocalVideoList(50)
 
     override fun onInitView() {
         super.onInitView()

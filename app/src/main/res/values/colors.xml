@@ -20,5 +20,7 @@
     <color name="color_black_player">#212121</color>
     <color name="color_gray_player">#B9B9B9</color>
     <color name="color_gray_home">#8C8C8C</color>
+    <color name="color_black_20">#33000000</color>
+
 
 </resources>
