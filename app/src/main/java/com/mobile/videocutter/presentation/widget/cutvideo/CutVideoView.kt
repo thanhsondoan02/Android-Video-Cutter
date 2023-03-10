@@ -3,6 +3,7 @@ package com.mobile.videocutter.presentation.widget.cutvideo
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -62,6 +63,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     var marginRightTimeDefault = 0f
 
     var widthLayout: Int = 0
+    var totalTime: Long = 60000L
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.cut_video_view, this, true)
@@ -125,6 +127,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                             lengthLeft = (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
                         }
 
+                        Log.d("TAG", "moveTrimVideoStart: ${getTimeTrimVideo(coordinatesX)}")
+
                         paramsTrimVideo.leftMargin = lengthLeft.toInt()
                         paramsSelectTime.leftMargin = (lengthLeft + marginLeftSelectTimeDefault).toInt()
 
@@ -133,6 +137,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
                         vSelectTime.gone()
                         setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
+                        getTimeTrimVideo(coordinatesX)
                         invalidate()
 
                     }
@@ -174,11 +179,13 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                         paramsTrimVideo.rightMargin = lengthEnd.toInt()
 
                         paramsSelectTime.leftMargin = (widthLayout - 2 * vEnd.width - vSelectTime.width + marginLeftSelectTimeDefault - lengthEnd).toInt()
+                        Log.d("TAG", "moveTrimVideoEnd: ${getTimeTrimVideo(coordinatesX)}")
 
                         flSecond.layoutParams = paramsTrimVideo
 
                         vSelectTime.gone()
                         setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
+                        getTimeTrimVideo(coordinatesX)
                         invalidate()
 
                     }
@@ -217,10 +224,12 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                             lengthLeft = (widthLayout - vEnd.width + vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
                         }
 
+                        Log.d("TAG", "moveSelectTime: ${getTimeTrimVideo(coordinatesX)}")
+
                         paramsSelectTime.leftMargin = lengthLeft.toInt()
 
                         flSecond.layoutParams = paramsTrimVideo
-
+                        getTimeTrimVideo(coordinatesX)
                         invalidate()
 
                     }
@@ -228,6 +237,28 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
             }
             true
         }
+    }
+
+    private fun getTimeTrimVideo(coordinatePosition: Float): Long {
+        val totalLength = widthLayout - vStart.width - vEnd.width
+        val timeTrim = ((coordinatePosition - vStart.width - vEnd.width) / totalLength) * getTotalTimeVideo()
+        return if (timeTrim < 0) {
+            0L
+        } else {
+            if (timeTrim > getTotalTimeVideo()) {
+                getTotalTimeVideo()
+            } else {
+                timeTrim.toLong()
+            }
+        }
+    }
+
+    fun setTotalTimeVide(totalTime: Long) {
+        this.totalTime = totalTime
+    }
+
+    private fun getTotalTimeVideo(): Long {
+        return totalTime
     }
 
     private fun getParam() {
