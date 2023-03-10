@@ -27,6 +27,9 @@
         <attr name="hv_right_tv_margin" format="dimension" />
         <attr name="hv_right_tv_font_family" format="reference" />
 
+        <!--view bottom-->
+        <attr name="hv_bottom_v_is_visible" format="boolean" />
+
     </declare-styleable>
 
     <!--Custom RecyclerView-->
@@ -44,5 +47,10 @@
         <attr name="vpc_right_text_show" format="boolean" />
         <attr name="vpc_right_text" format="string" />
     </declare-styleable>
+
+    <!--ShapeableImageView-->
+    <style name="roundedCorner">
+        <item name="cornerSize">@dimen/dimen_8</item>
+    </style>
 
 </resources>

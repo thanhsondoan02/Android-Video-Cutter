@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation.home.mystudio
 
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -10,8 +11,9 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.domain.model.mockLocalVideoList
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoActivity
+import com.mobile.videocutter.presentation.model.IViewListener
+import handleUiState
 
 class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.my_studio_activity) {
     private val myStudioAdapter by lazy { MyStudioAdapter() }
@@ -54,6 +56,22 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
         binding.flMyStudioSave.setOnSafeClick {
 
         }
+
+        viewModel.getMyStudioVideos(contentResolver)
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.myStudioVideoState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        myStudioAdapter.submitList(it.data)
+                    }
+                })
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -71,8 +89,6 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
         }
         binding.rvMyStudioVideoList.adapter = myStudioAdapter
         binding.rvMyStudioVideoList.layoutManager = GridLayoutManager(this, 4)
-
-        myStudioAdapter.submitList(mockLocalVideoList(100).map { MyStudioAdapter.VideoDisplay(it) })
     }
 
     private fun setSelectedSize(size: Int) {
