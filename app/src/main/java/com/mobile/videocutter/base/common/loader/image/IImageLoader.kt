@@ -11,4 +11,11 @@ interface IImageLoader {
         placeHolder: Drawable? = null,
         ignoreCache: Boolean = false
     )
+
+    fun loadImage(
+        view: ImageView,
+        uri: String?,
+        placeHolder: Drawable? = null,
+        ignoreCache: Boolean = false
+    )
 }
