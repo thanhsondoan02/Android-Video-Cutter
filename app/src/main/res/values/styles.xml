@@ -48,4 +48,10 @@
         <item name="fontFamily">@font/font_semibold</item>
     </style>
 
+    <style name="StyleShapeableImageViewCornerTop4" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/dimen_4</item>
+        <item name="cornerSizeTopRight">@dimen/dimen_4</item>
+    </style>
+
 </resources>

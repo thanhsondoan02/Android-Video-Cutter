@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/vpcFilter"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/img_filter_original" />
+
+        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+            android:id="@+id/vpcFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_24"
+            app:layout_constraintBottom_toTopOf="@+id/crvFilter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:vpc_left_icon="@drawable/ic_black_pause_video"
+            app:vpc_left_text="00:32"
+            app:vpc_right_text="01:39"
+            app:vpc_right_text_show="true"
+            app:vpc_seekbar_show="true" />
+
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/crvFilter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_98"
+            android:layout_marginBottom="@dimen/dimen_36"
+            app:layout_constraintBottom_toTopOf="@id/footerFilter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/footerFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hv_bottom_v_is_visible="false"
+            app:hv_center_tv_font_family="@font/font_bold"
+            app:hv_center_tv_text="@string/filter"
+            app:hv_center_tv_text_size="@dimen/dimen_text_size_18"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_tv_font_family="@font/font_bold"
+            app:hv_right_tv_text="@string/done"
+            app:hv_right_tv_text_color="@color/white"
+            app:hv_top_v_is_visible="true"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
