@@ -12,7 +12,6 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_activity) {
-
     private val startAdapter = StartAdapter()
 
     private val viewModel by viewModels<MyStudioViewModel>()
@@ -38,5 +37,4 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
             binding.llStartNoData.gone()
         }
     }
-
 }

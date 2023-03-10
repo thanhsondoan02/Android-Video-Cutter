@@ -110,6 +110,7 @@
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
             android:id="@+id/crvStartVideoList"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="0dp"
             android:paddingStart="@dimen/dimen_20"
             android:paddingEnd="@dimen/dimen_4"
