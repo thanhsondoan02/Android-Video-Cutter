@@ -1,4 +1,4 @@
-package com.mobile.videocutter.domain.usecase.adjust
+package com.mobile.videocutter.domain.usecase
 
 import com.mobile.videocutter.base.common.BaseUseCase
 import com.mobile.videocutter.domain.model.mockLocalVideoList

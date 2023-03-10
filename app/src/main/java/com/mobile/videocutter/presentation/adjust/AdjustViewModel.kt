@@ -3,7 +3,7 @@ package com.mobile.videocutter.presentation.adjust
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.domain.usecase.adjust.GetLocalVideoAdjustUseCase
+import com.mobile.videocutter.domain.usecase.GetLocalVideoAdjustUseCase
 import com.mobile.videocutter.thread.FlowResult
 import data
 import kotlinx.coroutines.Dispatchers
