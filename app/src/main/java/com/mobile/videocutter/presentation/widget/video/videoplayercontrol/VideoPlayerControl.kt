@@ -43,7 +43,7 @@ class VideoPlayerControl constructor(
     private var isShowRightText: Boolean = false
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.video_player_control_layout, this, true)
+        LayoutInflater.from(ctx).inflate(R.layout.video_player_control_layout, this, true)
         initView(attrs)
     }
 

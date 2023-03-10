@@ -1,9 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Video Cutter</string>
 
     <string name="my_studio">My Studio</string>
     <string name="select">Select</string>
     <string name="selected_item">Mục được chọn</string>
+    <string name="next">Next</string>
+    <string name="adjust_description">Long press to sort the videos</string>
 
     <string name="home_get_started">Get Started</string>
     <string name="home_see_all">See All</string>

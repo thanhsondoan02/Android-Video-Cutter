@@ -54,6 +54,19 @@ fun ImageView.loadImage(
     )
 }
 
+fun ImageView.loadImage(
+    uri: String?,
+    ignoreCache: Boolean = false,
+    placeHolder: Drawable? = getPlaceHolderDefault()
+) {
+    LoaderFactory.glide().loadImage(
+        view = this,
+        uri = uri,
+        placeHolder = placeHolder,
+        ignoreCache = ignoreCache
+    )
+}
+
 private fun getPlaceHolderDefault(): Drawable? {
     return getAppDrawable(R.drawable.ic_placeholder)
 }
