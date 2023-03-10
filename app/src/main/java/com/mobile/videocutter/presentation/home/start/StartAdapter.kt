@@ -17,6 +17,7 @@ class StartAdapter : BaseAdapter() {
     }
 
     inner class VideoVH(private val itemBinding: StartVideoItemBinding) : BaseVH<MyStudioAdapter.VideoDisplay>(itemBinding) {
+
         override fun onBind(data: MyStudioAdapter.VideoDisplay) {
             itemBinding.tvStartVideoItmDuration.text = data.video.getFormattedDuration()
             itemBinding.ivStartVideoItmImage.setImageResource(R.color.color_red_50)

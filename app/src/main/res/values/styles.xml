@@ -37,4 +37,11 @@
         <item name="fontFamily">@font/font_light</item>
     </style>
 
+    <style name="StyleRobotoSemiBoldGray16">
+        <item name="android:textSize">@dimen/dimen_text_size_16</item>
+        <item name="android:textColor">@color/color_gray_home</item>
+        <item name="android:fontFamily">@font/font_semibold</item>
+        <item name="fontFamily">@font/font_semibold</item>
+    </style>
+
 </resources>

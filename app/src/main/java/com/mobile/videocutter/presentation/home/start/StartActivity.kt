@@ -1,9 +1,10 @@
 package com.mobile.videocutter.presentation.home.start
 
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.extension.gone
+import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.StartActivityBinding
 import com.mobile.videocutter.domain.model.mockLocalVideoList
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
@@ -16,6 +17,8 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
     private val viewModel by viewModels<MyStudioViewModel>()
 
+    private val listStartVideo = mockLocalVideoList(0)
+
     override fun onInitView() {
         super.onInitView()
         initRecyclerView()
@@ -25,7 +28,15 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         binding.crvMyStudioVideoList.setAdapter(startAdapter)
         binding.crvMyStudioVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
 
-        startAdapter.submitList(mockLocalVideoList(50).map { MyStudioAdapter.VideoDisplay(it) })
+        startAdapter.submitList(listStartVideo.map { MyStudioAdapter.VideoDisplay(it) })
+
+        if (listStartVideo.isEmpty()) {
+            binding.crvMyStudioVideoList.gone()
+            binding.llStartNoData.show()
+        } else {
+            binding.crvMyStudioVideoList.show()
+            binding.llStartNoData.gone()
+        }
     }
 
 }
