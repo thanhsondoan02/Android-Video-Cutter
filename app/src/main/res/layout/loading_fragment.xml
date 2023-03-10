@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/flLoadingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_black_80">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/dimen_54"
+            android:background="@drawable/shape_white_bg_corner_14"
+            app:layout_constraintBottom_toTopOf="@+id/ivLoadingSpinner"
+            app:layout_constraintTop_toTopOf="@+id/ivLoadingSpinner">
+
+            <TextView
+                android:id="@+id/tvLoadingTitle"
+                style="@style/StyleRobotoMediumBlack18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:gravity="center_horizontal"
+                android:text="@string/loading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivLoadingSpinner"
+                android:layout_width="@dimen/dimen_18"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:paddingTop="@dimen/dimen_10"
+                android:paddingBottom="@dimen/dimen_20"
+                android:src="@drawable/selector_item_spinner_loading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLoadingTitle" />
+
+            <View
+                android:id="@+id/vLoadingLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:background="@drawable/shape_gray_gradient"
+                app:layout_constraintBottom_toTopOf="@id/tvLoadingStop"
+                app:layout_constraintTop_toBottomOf="@id/ivLoadingSpinner" />
+
+            <TextView
+                android:id="@+id/tvLoadingStop"
+                style="@style/StyleRobotoBoldRed18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingVertical="@dimen/dimen_14"
+                android:text="@string/stop"
+                android:textColor="@color/color_red_loading"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
