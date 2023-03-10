@@ -29,7 +29,7 @@ class TestViewModel : BaseViewModel() {
 
     fun fakeData() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000)
+            delay(350)
             val list: MutableList<TestAdapter.TestModel> = arrayListOf()
 
             for (i in 0 until 100) {

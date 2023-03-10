@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.widget.cropimage
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,7 +7,6 @@ import android.graphics.Canvas
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
@@ -22,7 +20,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private val TAG = "EditImageFrame"
 
     companion object {
-        private const val URL_IMAGE_DEFAULT = "https://cdn.vjshop.vn/tin-tuc/do-phan-giai-8k-la-gi/8k-la-gi-7.png"
+        private const val URL_IMAGE_DEFAULT = "https://s3-alpha-sig.figma.com/img/f43b/4bde/f370522df7e7042b37cf1e8e6b2bdfb4?Expires=1679270400&Signature=g9j-RzHIATn75jTrT-BCPotPbcoKZNvwUR8g~cxxp-f4ZnVUYnhUu8KtluXwYSBvIDBFXuxZtUqev-AgRNt3NByrWg4gthruhy-5V~JE0ztQo2UFBzcyhF2xJxWK3fWXxhMGMD4OOXxL3YG-lf9uzGtguAZQ6GHAhtX9H79gsCetoGL~VxsNedr82iIgjNBVH6eZYAmI0BDhWIVBy~-S7KksDe6aPCxb8FB0Fm1UfcRxwFTewlt~VLmlWlsjGKB2~DiwTkGG6BwHSAYL4M6N~J0mIfyyXnhmfwGkLHyut10ag-JuRM1GRpMl6TexN9q4NJo3-vONP3VEcAHV-6nvOQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
     }
 
     private val paintShape = UtilPaint().getPaintStroke().apply {
@@ -118,7 +116,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private var ratioHeight = 0
 
     init {
-        Log.d(TAG, "init: ")
         setResource(null)
     }
 
@@ -138,7 +135,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         coordinateDrawBitmap = heightParent / 2 - heightImage / 2
     }
 
-    @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
 
@@ -148,6 +144,8 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         if (heightImage < heightParent) {
             startYDrawBitmap = heightParent / 2 - heightImage / 2
+        } else {
+            startYDrawBitmap = 0f
         }
 
         pos1X = 0f
@@ -160,10 +158,14 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
-        Log.d(TAG, "onSizeChanged: ")
-
         if (srcImage != null) {
-            destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightImage.toInt(), true)
+            if (srcImage!!.width > srcImage!!.height) {
+                Log.d(TAG, "onSizeChanged: dasdasd")
+                destImage = Bitmap.createBitmap(srcImage!!, srcImage!!.width/2 - srcImage!!.height / 2,0,srcImage!!.height, srcImage!!.height)
+            } else {
+                Log.d(TAG, "onSizeChanged: 123456789")
+                destImage = Bitmap.createBitmap(srcImage!!, 0,srcImage!!.height/2 - srcImage!!.height / 2,srcImage!!.width, srcImage!!.width)
+            }
         }
         rectFBackground = RectF(0f, 0f, widthParent, heightParent)
     }
@@ -171,8 +173,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-        Log.d(TAG, "onDraw: ")
 
         lengthEdgeReal = pos2Y - pos1Y
         withEdgeReal = pos2X - pos1X
@@ -183,7 +183,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         canvas?.apply {
             // vẽ ảnh
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, paintBackground)
             }
 
             // vẽ lớp phủ lên ảnh
@@ -196,7 +196,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
             // vẽ lại ảnh đã cắt bởi clipRect
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, paintBackground)
             }
 
             // vẽ thêm các chi tiết cho hình chữ nhật đã cắt
@@ -265,14 +265,8 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         srcImage = getBitmapFromURL(source)
 
-        val bitmapNotScale = srcImage?.copy(Bitmap.Config.ARGB_8888, true)
-
-        bitmapNotScale?.let {
-            wightImage = bitmapNotScale.width.toFloat()
-            heightImage = bitmapNotScale.height.toFloat()
-        }
-
-
+        wightImage = srcImage?.width?.toFloat() ?: 0f
+        heightImage = srcImage?.height?.toFloat() ?: 0f
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {
@@ -293,56 +287,5 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         thread.start()
         thread.join()
         return bitmap
-    }
-
-    private fun getImageDimensions(imagePath: String?): IntArray {
-        // khởi tạo để lấy chiều cao và chiều rộng của ảnh thật thông qua option
-        // với inJustDecodeBounds = true sẽ trả về giá trị gốc và bitmap sẽ bằng null
-        BitmapFactory.decodeFile(imagePath, option)
-        val imageHeight = option.outHeight
-        val imageWidth = option.outWidth
-        return intArrayOf(imageWidth, imageHeight)
-    }
-
-    private fun isMove(): Boolean {
-        return coordinatesFirstDownX > pos1X + paddingEdgeDefault &&
-                coordinatesFirstDownX < pos2X - paddingEdgeDefault &&
-                coordinatesFirstDownY > pos1Y + paddingEdgeDefault &&
-                coordinatesFirstDownY < pos2Y
-    }
-
-    private fun isLimitScreen(): Boolean {
-
-
-        
-        return true
-    }
-
-    private fun isDragTop(): Boolean {
-        return coordinatesFirstDownX > pos1X &&
-                coordinatesFirstDownX < pos2X &&
-                coordinatesFirstDownY > pos1Y - paddingEdgeDefault &&
-                coordinatesFirstDownY < pos1Y + paddingEdgeDefault
-    }
-
-    private fun isDragLeft(): Boolean {
-        return coordinatesFirstDownX > pos1X - paddingEdgeDefault &&
-                coordinatesFirstDownX < pos1X + paddingEdgeDefault &&
-                coordinatesFirstDownY - pos1Y > 0 &&
-                coordinatesFirstDownY - pos1Y < lengthEdgeReal
-    }
-
-    private fun isDragRight(): Boolean {
-        return coordinatesFirstDownX > pos2X - paddingEdgeDefault &&
-                coordinatesFirstDownX < pos2X + paddingEdgeDefault &&
-                coordinatesFirstDownY - pos1Y > 0 &&
-                coordinatesFirstDownY - pos1Y < lengthEdgeReal
-    }
-
-    private fun isDragBottom(): Boolean {
-        return coordinatesFirstDownX - pos1X > 0 &&
-                coordinatesFirstDownX - pos1X < withEdgeReal &&
-                coordinatesFirstDownY > pos2Y - paddingEdgeDefault &&
-                coordinatesFirstDownY < pos2Y + paddingEdgeDefault
     }
 }

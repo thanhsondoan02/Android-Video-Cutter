@@ -26,16 +26,6 @@ class CropVideoActivity : BaseBindingActivity<CropVideoActivityBinding>(R.layout
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
         }
-
-        adapter.listener = object : RatioAdapter.IListener {
-            override fun onUpdateNewData(ratioDisplay: RatioAdapter.RatioDisplay) {
-                viewModel.updateNewRatio(ratioDisplay)
-            }
-
-            override fun onUpdateOldData(ratioDisplay: RatioAdapter.RatioDisplay) {
-                viewModel.updateOldRatio(ratioDisplay)
-            }
-        }
     }
 
     override fun onObserverViewModel() {

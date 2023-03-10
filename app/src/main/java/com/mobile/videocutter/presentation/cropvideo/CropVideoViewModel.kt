@@ -33,44 +33,4 @@ class CropVideoViewModel : BaseViewModel() {
                 }
         }
     }
-
-    fun updateNewRatio(ratioDisplay: RatioAdapter.RatioDisplay) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = _ratioCropVideo.data()?.toMutableList()
-
-            val item = list?.find {
-                it == ratioDisplay
-            }
-
-            val postion = list?.indexOfFirst {
-                it == ratioDisplay
-            }
-
-            if (item != null && postion != null) {
-                val newData = RatioAdapter.RatioDisplay(item.type,true)
-                list[postion] = newData
-                _ratioCropVideo.success(list)
-            }
-        }
-    }
-
-    fun updateOldRatio(ratioDisplay: RatioAdapter.RatioDisplay) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = _ratioCropVideo.data()?.toMutableList()
-
-            val item = list?.find {
-                it == ratioDisplay
-            }
-
-            val postion = list?.indexOfFirst {
-                it == ratioDisplay
-            }
-
-            if (item != null && postion != null) {
-                val newData = RatioAdapter.RatioDisplay(item.type,false)
-                list[postion] = newData
-                _ratioCropVideo.success(list)
-            }
-        }
-    }
 }
