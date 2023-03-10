@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/color_red_50">
+            android:background="@color/color_red">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvConfirmTitle"

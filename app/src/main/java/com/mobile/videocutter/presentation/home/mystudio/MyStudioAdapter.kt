@@ -56,7 +56,7 @@ class MyStudioAdapter: BaseAdapter() {
 
         override fun onBind(data: VideoDisplay) {
             itemBinding.tvMyStudioVideoItmDuration.text = data.video.getFormattedDuration()
-            itemBinding.ivMyStudioVideoItmImage.setImageResource(R.color.color_red_50)
+            itemBinding.ivMyStudioVideoItmImage.setImageResource(R.color.color_red)
             updateSelect(data.isSelected)
         }
 

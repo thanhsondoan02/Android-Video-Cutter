@@ -9,8 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">@android:color/transparent</color>
 
-    <color name="color_edit_start">#FF2D55</color>
-    <color name="color_edit_end">#FF9500</color>
+    <color name="color_pink_gradient_start">#FF2D55</color>
+    <color name="color_yellow_gradient_end">#FF9500</color>
     <color name="color_gray">#E9E9E9</color>
     <color name="color_purple">#6F4FEE</color>
     <color name="color_purple_38">#616F4FEE</color>
@@ -21,6 +21,5 @@
     <color name="color_gray_player">#B9B9B9</color>
     <color name="color_gray_home">#8C8C8C</color>
     <color name="color_black_20">#33000000</color>
-
 
 </resources>
