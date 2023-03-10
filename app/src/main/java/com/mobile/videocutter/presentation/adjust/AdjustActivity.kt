@@ -57,7 +57,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             override fun onClick(localVideo: LocalVideo) {
                 // TODO: chờ các báo thủ
             }
-
         }
     }
 
