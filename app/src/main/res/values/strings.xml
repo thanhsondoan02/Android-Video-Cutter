@@ -1,9 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Video Cutter</string>
-
     <string name="my_studio">My Studio</string>
     <string name="select">Select</string>
     <string name="selected_item">Mục được chọn</string>
     <string name="next">Next</string>
     <string name="adjust_description">Long press to sort the videos</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_delete_description">videos from your studio.</string>
 </resources>

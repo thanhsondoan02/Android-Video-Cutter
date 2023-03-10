@@ -19,6 +19,8 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
     private val myStudioAdapter by lazy { MyStudioAdapter() }
     private val viewModel by viewModels<MyStudioViewModel>()
 
+    override fun getContainerId(): Int = R.id.flMyStudioContainer
+
     override fun onInitView() {
         super.onInitView()
         initRecyclerView()
@@ -51,7 +53,14 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             }
         }
         binding.flMyStudioDelete.setOnSafeClick {
-
+            replaceFragment(
+                ConfirmFragment.Builder()
+                    .setTitle(getString(R.string.delete))
+                    .setDescription(getString(R.string.delete) + " 3 " + getString(R.string.confirm_delete_description))
+                    .setLeftText(getString(R.string.cancel))
+                    .setRightText(getString(R.string.delete))
+                    .getInstance()
+            )
         }
         binding.flMyStudioSave.setOnSafeClick {
 
