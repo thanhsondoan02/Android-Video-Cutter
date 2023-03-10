@@ -12,8 +12,6 @@ import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.Video
 
-
-@Suppress("DEPRECATION")
 class SelectVideoAdapter : BaseAdapter() {
     companion object {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
@@ -45,8 +43,7 @@ class SelectVideoAdapter : BaseAdapter() {
         init {
             itemBinding.root.setOnClickListener {
                 val videoDisplay = (getDataAtPosition(adapterPosition) as? VideoDisplay)
-                (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not()
-                    ?: false
+                (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not() ?: false
                 updateSelect(videoDisplay?.isSelected == true)
                 if (videoDisplay?.isSelected == true) {
                     selectedIndexList.add(adapterPosition)
@@ -71,11 +68,9 @@ class SelectVideoAdapter : BaseAdapter() {
 
         private fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
-                state = STATE.SELECT
                 itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_select_item)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
             } else {
-                state = STATE.NORMAL
                 itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_unselect_item)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = 0
             }

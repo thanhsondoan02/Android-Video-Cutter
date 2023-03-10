@@ -1,8 +1,9 @@
 package com.mobile.videocutter.domain.repo
 
-import android.content.ContentResolver
 import com.mobile.videocutter.domain.model.Album
+import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoAdapter
 
 interface ILocalDataRepo {
-    fun getAlbumList(contentResolver: ContentResolver): List<Album>
+    fun getAlbumList(): List<Album>
+    fun getVideoList(albumId: String): List<SelectVideoAdapter.VideoDisplay>
 }
