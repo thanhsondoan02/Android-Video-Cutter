@@ -35,10 +35,10 @@
             android:layout_height="@dimen/dimen_120"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_40"
-            android:foreground="?selectableItemBackgroundBorderless"
+            android:background="@drawable/shape_orange_gradient_corner_12"
             android:clickable="true"
             android:focusable="true"
-            android:background="@drawable/shape_orange_gradient_corner_12"
+            android:foreground="?selectableItemBackgroundBorderless"
             android:gravity="center"
             app:layout_constraintBottom_toTopOf="@id/tvStartSeeAllMyStudio">
 
@@ -113,9 +113,9 @@
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
             android:id="@+id/crvStartVideoList"
             android:layout_width="match_parent"
-            android:overScrollMode="never"
             android:layout_height="0dp"
-            android:paddingStart="@dimen/dimen_20"
+            android:overScrollMode="never"
+            android:paddingStart="@dimen/dimen_16"
             android:paddingEnd="@dimen/dimen_4"
             android:paddingBottom="@dimen/dimen_20"
             app:layout_constraintBottom_toBottomOf="parent"
