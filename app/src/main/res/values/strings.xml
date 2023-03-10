@@ -10,4 +10,7 @@
     <string name="home_no_data">No video!</string>
     <string name="home_get_started">Get Started</string>
     <string name="home_see_all">See All</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_delete_description">videos from your studio.</string>
 </resources>
