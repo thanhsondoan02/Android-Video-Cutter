@@ -1,9 +1,12 @@
 package com.mobile.videocutter.presentation.cropvideo
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppColor
 import com.mobile.videocutter.base.extension.getAppDrawable
@@ -13,6 +16,16 @@ import com.mobile.videocutter.databinding.RatioItemBinding
 
 class RatioAdapter : BaseAdapter() {
 
+    companion object {
+        private const val CHANGE_STATE_RATIO_TYPE = "CHANGE_STATE_RATIO_TYPE"
+    }
+
+    init {
+        Log.d("CHANGE_STATE_RATIO_TYPE", ": ${dataList.size}")
+    }
+
+
+
     var listener: IListener? = null
 
     override fun getLayoutResource(viewType: Int) = R.layout.ratio_item
@@ -21,23 +34,37 @@ class RatioAdapter : BaseAdapter() {
         return RatioVH(binding)
     }
 
+    override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
+        return DiffCallback(oldList as List<RatioDisplay>, newList as List<RatioDisplay>)
+    }
+
     inner class RatioVH(private val binding: ViewDataBinding) : BaseVH<RatioDisplay>(binding) {
 
-        private val viewBinding = binding as RatioItemBinding
         private var oldData: RatioDisplay? = null
+        private val viewBinding = binding as RatioItemBinding
+        private var oldDataPosition = -1
 
         init {
             oldData = getDataAtPosition(0) as RatioDisplay
+
             viewBinding.root.setOnSafeClick {
+                oldDataPosition = (dataList as? MutableList<RatioDisplay>)?.indexOfFirst {
+                    it == oldData
+                } ?: -1
+                Log.d("tunglv", "oldData: ${oldData.hashCode()}")
                 val item = getDataAtPosition(bindingAdapterPosition) as? RatioDisplay
                 if (item != null) {
+
                     item.isSelect = true
-                    listener?.onUpdateNewData(item)
-                    oldData?.isSelect = false
-                    if (oldData != null) {
-                        listener?.onUpdateOldData(oldData!!)
+                    notifyItemChanged(bindingAdapterPosition, CHANGE_STATE_RATIO_TYPE)
+
+                    if (oldData != null && oldDataPosition != -1) {
+                        oldData?.isSelect = false
+                        notifyItemChanged(oldDataPosition, CHANGE_STATE_RATIO_TYPE)
                     }
                     oldData = item
+                    Log.d("tunglv", ": item ${item}")
+                    Log.d("tunglv", ": oldDataoldData ${oldData.hashCode()}")
                 }
             }
         }
@@ -51,6 +78,51 @@ class RatioAdapter : BaseAdapter() {
                 viewBinding.tvRatioItm.setTextColor(getAppColor(R.color.color_gray_text))
             }
             viewBinding.tvRatioItm.text = data.getTitle()
+        }
+
+        override fun onBind(data: RatioDisplay, payloads: List<Any>) {
+            super.onBind(data, payloads)
+
+            payloads.forEach {
+                when (it) {
+                    CHANGE_STATE_RATIO_TYPE -> {
+                        viewBinding.ivRatioItm.setImageDrawable(data.getIcon())
+                        if (data.isSelect) {
+                            viewBinding.tvRatioItm.setTextColor(getAppColor(R.color.color_purple))
+                        } else {
+                            viewBinding.tvRatioItm.setTextColor(getAppColor(R.color.color_gray_text))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    class DiffCallback(oldData: List<RatioDisplay>, newData: List<RatioDisplay>) :
+        BaseDiffUtilCallback<RatioDisplay>(oldData, newData) {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldData = (getOldItem(oldItemPosition) as? RatioDisplay)
+            val newData = (getNewItem(newItemPosition) as? RatioDisplay)
+
+            return true
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldData = (getOldItem(oldItemPosition) as? RatioDisplay)
+            val newData = (getNewItem(newItemPosition) as? RatioDisplay)
+
+            return oldData?.isSelect == newData?.isSelect
+        }
+
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+            val oldData = (getOldItem(oldItemPosition) as? RatioDisplay)
+            val newData = (getNewItem(newItemPosition) as? RatioDisplay)
+
+            return if (oldData?.isSelect != newData?.isSelect) {
+                CHANGE_STATE_RATIO_TYPE
+            } else {
+                null
+            }
         }
     }
 

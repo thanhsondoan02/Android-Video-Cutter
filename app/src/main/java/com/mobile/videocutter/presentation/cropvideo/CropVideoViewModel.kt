@@ -47,8 +47,8 @@ class CropVideoViewModel : BaseViewModel() {
             }
 
             if (item != null && postion != null) {
-                val newItem = RatioAdapter.RatioDisplay(item.type, true)
-                list[postion] = newItem
+                val newData = RatioAdapter.RatioDisplay(item.type,true)
+                list[postion] = newData
                 _ratioCropVideo.success(list)
             }
         }
@@ -67,8 +67,8 @@ class CropVideoViewModel : BaseViewModel() {
             }
 
             if (item != null && postion != null) {
-                val newItem = RatioAdapter.RatioDisplay(item.type, false)
-                list[postion] = newItem
+                val newData = RatioAdapter.RatioDisplay(item.type,false)
+                list[postion] = newData
                 _ratioCropVideo.success(list)
             }
         }
