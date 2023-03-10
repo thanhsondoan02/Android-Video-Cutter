@@ -2,14 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.home.HomeActivity">
+    tools:context=".presentation.home.start.StartActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvHomeTitle"
+            android:id="@+id/tvStartTitle"
             style="@style/StyleRobotoBoldBlack34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,27 +20,27 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivHomeSetting"
+            android:id="@+id/ivStartSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_32"
             android:src="@drawable/ic_black_setting"
-            app:layout_constraintBottom_toBottomOf="@id/tvHomeTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvStartTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvHomeTitle" />
+            app:layout_constraintTop_toTopOf="@id/tvStartTitle" />
 
         <RelativeLayout
-            android:id="@+id/rlHome"
+            android:id="@+id/rlStart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_120"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_40"
             android:background="@drawable/shape_main_gradient_corner_12"
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@id/tvHomeSeeAllMyStudio">
+            app:layout_constraintBottom_toTopOf="@id/tvStartSeeAllMyStudio">
 
             <ImageView
-                android:id="@+id/ivHomeScissors"
+                android:id="@+id/ivStartScissors"
                 android:layout_width="@dimen/dimen_36"
                 android:layout_height="@dimen/dimen_32"
                 android:layout_centerVertical="true"
@@ -52,43 +52,44 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dimen_28"
-                android:layout_toEndOf="@id/ivHomeScissors"
+                android:layout_toEndOf="@id/ivStartScissors"
                 android:text="@string/home_get_started" />
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvHomeMyStudio"
+            android:id="@+id/tvStartMyStudio"
             style="@style/StyleRobotoBoldBlack22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_studio"
-            app:layout_constraintBottom_toBottomOf="@id/tvHomeSeeAllMyStudio"
-            app:layout_constraintStart_toStartOf="@id/constHomeGone"
-            app:layout_constraintTop_toTopOf="@id/tvHomeSeeAllMyStudio" />
+            app:layout_constraintBottom_toBottomOf="@id/tvStartSeeAllMyStudio"
+            app:layout_constraintStart_toStartOf="@id/constStartGone"
+            app:layout_constraintTop_toTopOf="@id/tvStartSeeAllMyStudio" />
 
         <TextView
-            android:id="@+id/tvHomeSeeAllMyStudio"
+            android:id="@+id/tvStartSeeAllMyStudio"
             style="@style/StyleRobotoLightPurple18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="@dimen/dimen_12"
             android:text="@string/home_see_all"
-            app:layout_constraintBottom_toTopOf="@id/constHomeGone"
-            app:layout_constraintEnd_toEndOf="@id/constHomeGone" />
+            app:layout_constraintBottom_toTopOf="@id/constStartGone"
+            app:layout_constraintEnd_toEndOf="@id/constStartGone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMyStudioVideoList"
-            android:layout_width="0dp"
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/crvMyStudioVideoList"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:paddingStart="@dimen/dimen_20"
+            android:paddingEnd="@dimen/dimen_4"
+            android:paddingBottom="@dimen/dimen_20"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/constHomeGone"
-            app:layout_constraintTop_toTopOf="@id/constHomeGone" />
+            app:layout_constraintTop_toTopOf="@id/constStartGone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constHomeGone"
+            android:id="@+id/constStartGone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_20"
