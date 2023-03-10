@@ -65,6 +65,7 @@
             app:hv_center_tv_text="@string/crop"
             app:hv_right_tv_text_color="@color/black"
             app:hv_right_tv_text="@string/done"
+            app:hv_bottom_v_is_visible="false"
             app:hv_top_v_is_visible="true"
             app:hv_center_tv_text_size="@dimen/dimen_text_size_18"
             app:hv_center_tv_font_family="@font/font_bold"

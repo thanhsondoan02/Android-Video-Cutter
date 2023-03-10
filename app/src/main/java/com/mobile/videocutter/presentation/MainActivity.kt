@@ -33,11 +33,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
             Log.d(TAG, "onInitView: FGHJKLOKJNB BNKL:LKNBNJKL:LMN ")
             viewModel.fakeData()
         }
-        val color = Color.argb(128, 0, 0, 0) // 50% độ trong suốt
-
-        binding.iv.setBackgroundColor(color)
-
-        
     }
 
     override fun onObserverViewModel() {
