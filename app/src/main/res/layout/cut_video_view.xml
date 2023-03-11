@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/dimen_10"
-        android:background="@color/color_edit_start">
+        android:layout_marginHorizontal="@dimen/dimen_10">
 
         <FrameLayout
             android:id="@+id/flCutVideoSecond"
@@ -77,6 +76,18 @@
         android:text="@string/cut_video_time_start"
         android:textColor="@color/black"
         android:textSize="@dimen/dimen_text_size_14" />
+
+    <TextView
+        android:id="@+id/tvCutVideoTimeCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/font_semibold"
+        android:text="@string/cut_video_time_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_text_size_14"
+        android:visibility="gone" />
+
 
     <TextView
         android:id="@+id/tvCutVideoTimeEnd"

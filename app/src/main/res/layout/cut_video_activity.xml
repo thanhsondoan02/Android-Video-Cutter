@@ -5,10 +5,21 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <VideoView
+            android:id="@+id/vvCutVideoRoot"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_300" />
+
+        <com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
+            android:id="@+id/cvvCutVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </layout>

@@ -1,9 +1,10 @@
 package com.mobile.videocutter
 
-import com.mobile.videocutter.base.common.BaseApplication
+
+import android.app.Application
 import com.mobile.videocutter.base.extension.setApplication
 
-class VideoCutterApplication : BaseApplication() {
+class VideoCutterApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         setApplication(this)

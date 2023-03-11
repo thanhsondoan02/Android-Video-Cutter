@@ -1,7 +1,6 @@
 package com.mobile.videocutter.base.common
 
-import ai.ftech.base.common.navigation.FadeAnim
-import ai.ftech.base.common.navigation.IScreenAnim
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         requireActivity() as BaseActivity
     }
     protected lateinit var myInflater: LayoutInflater
-    protected lateinit var viewRoot : View
+    protected lateinit var viewRoot: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         if (!::myInflater.isInitialized) {
             myInflater = LayoutInflater.from(requireActivity())
         }
-        viewRoot= attachView(inflater, container, savedInstanceState)
+        viewRoot = attachView(inflater, container, savedInstanceState)
         onInitBinding()
         return viewRoot
     }
@@ -55,33 +54,33 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         return inflater.inflate(layoutId, container, false)
     }
 
-    fun replaceFragment(
-        fragment: BaseFragment,
-        bundle: Bundle? = null,
-        keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
-    ) {
-        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim)
-    }
+//    fun replaceFragment(
+//        fragment: BaseFragment,
+//        bundle: Bundle? = null,
+//        keepToBackStack: Boolean = true,
+//        screenAnim: IScreenAnim = FadeAnim()
+//    ) {
+//        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim)
+//    }
 
-    fun addFragment(
-        fragment: BaseFragment,
-        bundle: Bundle? = null,
-        keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
-    ) {
-        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim)
-    }
+//    fun addFragment(
+//        fragment: BaseFragment,
+//        bundle: Bundle? = null,
+//        keepToBackStack: Boolean = true,
+//        screenAnim: IScreenAnim = FadeAnim()
+//    ) {
+//        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim)
+//    }
 
     fun backFragment() {
         baseActivity.backFragment()
     }
 
-    fun clearStackFragment() {
-        baseActivity.clearStackFragment()
-    }
-
-    fun getCurrentFragment(): Fragment? {
-        return baseActivity.getCurrentFragment()
-    }
+//    fun clearStackFragment() {
+//        baseActivity.clearStackFragment()
+//    }
+//
+//    fun getCurrentFragment(): Fragment? {
+//        return baseActivity.getCurrentFragment()
+//    }
 }

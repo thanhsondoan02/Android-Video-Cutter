@@ -1,8 +1,7 @@
 package com.mobile.videocutter.presentation.home.mystudio
 
 import android.content.Intent
-import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
+
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -17,9 +16,9 @@ import handleUiState
 
 class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.my_studio_activity) {
     private val myStudioAdapter by lazy { MyStudioAdapter() }
-    private val viewModel by viewModels<MyStudioViewModel>()
+//    private val viewModel by viewModels<MyStudioViewModel>()
 
-    override fun getContainerId(): Int = R.id.flMyStudioContainer
+//    override fun getContainerId(): Int = R.id.flMyStudioContainer
 
     override fun onInitView() {
         super.onInitView()
@@ -52,51 +51,51 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
                 }
             }
         }
-        binding.flMyStudioDelete.setOnSafeClick {
-            replaceFragment(
-                ConfirmFragment.Builder()
-                    .setTitle(getString(R.string.delete))
-                    .setDescription(getString(R.string.delete) + " 3 " + getString(R.string.confirm_delete_description))
-                    .setLeftText(getString(R.string.cancel))
-                    .setRightText(getString(R.string.delete))
-                    .setListener(object : ConfirmFragment.IListener {
-                        override fun onConfirm() {
-                            // TODO
-                        }
-                    })
-                    .getInstance()
-            )
-        }
-        binding.flMyStudioSave.setOnSafeClick {
-            replaceFragment(ShareFragment().apply {
-                listener = object : ShareFragment.IListener {
-                    override fun onShare() {
-                        // TODO
-                    }
+//        binding.flMyStudioDelete.setOnSafeClick {
+//            replaceFragment(
+//                ConfirmFragment.Builder()
+//                    .setTitle(getString(R.string.delete))
+//                    .setDescription(getString(R.string.delete) + " 3 " + getString(R.string.confirm_delete_description))
+//                    .setLeftText(getString(R.string.cancel))
+//                    .setRightText(getString(R.string.delete))
+//                    .setListener(object : ConfirmFragment.IListener {
+//                        override fun onConfirm() {
+//                            // TODO
+//                        }
+//                    })
+//                    .getInstance()
+//            )
+//        }
+//        binding.flMyStudioSave.setOnSafeClick {
+//            replaceFragment(ShareFragment().apply {
+//                listener = object : ShareFragment.IListener {
+//                    override fun onShare() {
+//                        // TODO
+//                    }
+//
+//                    override fun onSave() {
+//                        // TODO
+//                    }
+//                }
+//            })
+//        }
 
-                    override fun onSave() {
-                        // TODO
-                    }
-                }
-            })
-        }
-
-        viewModel.getMyStudioVideos(contentResolver)
+//        viewModel.getMyStudioVideos(contentResolver)
     }
 
-    override fun onObserverViewModel() {
-        super.onObserverViewModel()
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.myStudioVideoState.collect {
-                handleUiState(it, object : IViewListener {
-                    override fun onSuccess() {
-                        myStudioAdapter.submitList(it.data)
-                    }
-                })
-            }
-        }
-    }
+//    override fun onObserverViewModel() {
+//        super.onObserverViewModel()
+//
+//        lifecycleScope.launchWhenCreated {
+//            viewModel.myStudioVideoState.collect {
+//                handleUiState(it, object : IViewListener {
+//                    override fun onSuccess() {
+//                        myStudioAdapter.submitList(it.data)
+//                    }
+//                })
+//            }
+//        }
+//    }
 
     private fun initRecyclerView() {
         myStudioAdapter.listener = object : MyStudioAdapter.IListener {
