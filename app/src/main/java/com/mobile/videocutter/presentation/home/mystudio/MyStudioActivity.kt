@@ -69,18 +69,17 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             )
         }
         binding.flMyStudioSave.setOnSafeClick {
-//            replaceFragment(ShareFragment().apply {
-//                listener = object : ShareFragment.IListener {
-//                    override fun onShare() {
-//                        // TODO
-//                    }
-//
-//                    override fun onSave() {
-//                        // TODO
-//                    }
-//                }
-//            })
-            replaceFragment(LoadingFragment())
+            replaceFragment(ShareFragment().apply {
+                listener = object : ShareFragment.IListener {
+                    override fun onShare() {
+                        // TODO
+                    }
+
+                    override fun onSave() {
+                        // TODO
+                    }
+                }
+            })
         }
 
         viewModel.getMyStudioVideos(contentResolver)

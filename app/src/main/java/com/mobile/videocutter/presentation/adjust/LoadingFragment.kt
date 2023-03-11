@@ -30,8 +30,13 @@ class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loa
             backFragment()
         }
 
-        binding.tvLoadingStop.setOnSafeClick {
-
+        binding.constLoadingMainContainer.setOnSafeClick {
+            // do nothing
         }
+
+        binding.tvLoadingStop.setOnSafeClick {
+            backFragment()
+        }
+
     }
 }
