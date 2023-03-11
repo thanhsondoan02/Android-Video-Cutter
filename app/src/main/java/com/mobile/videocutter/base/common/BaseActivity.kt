@@ -69,6 +69,10 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
 
     open fun getContainerId(): Int = LAYOUT_INVALID
 
+    fun navigateBack() {
+        onBackPressedDispatcher.onBackPressed()
+    }
+
     fun doRequestPermission(permissions: Array<String>, listener: PermissionListener) {
         permissionListener = listener
         launcher.launch(permissions)

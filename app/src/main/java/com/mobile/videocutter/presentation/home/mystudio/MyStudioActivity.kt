@@ -28,7 +28,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             setOnLeftIconClickListener {
                 when (myStudioAdapter.state) {
                     MyStudioAdapter.STATE.NORMAL -> {
-                        onBackPressedDispatcher.onBackPressed()
+                        navigateBack()
                     }
                     MyStudioAdapter.STATE.SELECT -> {
                         showRightText(true)
@@ -59,11 +59,26 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
                     .setDescription(getString(R.string.delete) + " 3 " + getString(R.string.confirm_delete_description))
                     .setLeftText(getString(R.string.cancel))
                     .setRightText(getString(R.string.delete))
+                    .setListener(object : ConfirmFragment.IListener {
+                        override fun onConfirm() {
+                            // TODO
+                        }
+                    })
                     .getInstance()
             )
         }
         binding.flMyStudioSave.setOnSafeClick {
+            replaceFragment(ShareFragment().apply {
+                listener = object : ShareFragment.IListener {
+                    override fun onShare() {
+                        // TODO
+                    }
 
+                    override fun onSave() {
+                        // TODO
+                    }
+                }
+            })
         }
 
         viewModel.getMyStudioVideos(contentResolver)

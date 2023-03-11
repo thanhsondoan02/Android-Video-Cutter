@@ -1,18 +1,26 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Video Cutter</string>
-
     <string name="my_studio">My Studio</string>
     <string name="select">Select</string>
     <string name="selected_item">Mục được chọn</string>
     <string name="next">Next</string>
     <string name="adjust_description">Long press to sort the videos</string>
-
     <string name="home_no_data">No video!</string>
     <string name="home_get_started">Get Started</string>
     <string name="home_see_all">See All</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_delete_description">videos from your studio.</string>
+    <string name="close">Close</string>
+    <string name="save_to_library">Save to Library</string>
+    <string name="share">Share</string>
+    <string name="setting">Setting</string>
+    <string name="video_tutorial">Video Tutorial</string>
+    <string name="video_quality">Video Quality</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
 
     // speed
     <string name="speed">Speed</string>
