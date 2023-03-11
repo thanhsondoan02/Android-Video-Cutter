@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.speedvideo.SpeedVideoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/pvSpeedVideo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_44"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vpcSpeedVideo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+            android:id="@+id/vpcSpeedVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_66"
+            app:vpc_left_icon="@drawable/ic_black_pause_video"
+            app:vpc_left_icon_show="true"
+            app:vpc_left_text="90:00"
+            app:vpc_left_text_show="true"
+            app:vpc_right_text="98:09"
+            app:vpc_right_text_show="true"
+            app:vpc_seekbar_show="true"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/svvSpeedVideo"/>
+
+        <com.mobile.videocutter.presentation.widget.video.speedvideo.SpeedVideoView
+            android:id="@+id/svvSpeedVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_36"
+            app:layout_constraintBottom_toTopOf="@id/footerSpeedVideo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/footerSpeedVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hv_bottom_v_is_visible="false"
+            app:hv_center_tv_font_family="@font/font_bold"
+            app:hv_center_tv_text="@string/speed"
+            app:hv_center_tv_text_color="@color/black"
+            app:hv_center_tv_text_size="@dimen/dimen_text_size_16"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_tv_font_family="@font/font_bold"
+            app:hv_right_tv_text="@string/done"
+            app:hv_right_tv_text_color="@color/white"
+            app:hv_right_tv_text_size="@dimen/dimen_text_size_14"
+            app:hv_top_v_is_visible="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

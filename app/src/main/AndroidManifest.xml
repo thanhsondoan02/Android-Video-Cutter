@@ -54,6 +54,9 @@
             android:name=".presentation.adjust.AdjustActivity"
             android:exported="false"/>
 
+        <activity android:name=".presentation.speedvideo.SpeedVideoActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

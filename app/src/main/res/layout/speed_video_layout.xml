@@ -58,78 +58,78 @@
         android:id="@+id/tvSpeedVideo0.75X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.75x"
-        android:textSize="9sp"
+        android:text="@string/_0.75x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV125"
         app:layout_constraintEnd_toEndOf="@id/guidelineV125"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo0.5X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.5x"
-        android:textSize="9sp"
+        android:text="@string/_0.5x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV25"
         app:layout_constraintEnd_toEndOf="@id/guidelineV25"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo0.25X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.25x"
-        android:textSize="9sp"
+        android:text="@string/_0.25x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV375"
         app:layout_constraintEnd_toEndOf="@id/guidelineV375"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo1X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1x"
-        android:textSize="9sp"
+        android:text="@string/_1x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV5"
         app:layout_constraintEnd_toEndOf="@id/guidelineV5"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo2X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2x"
-        android:textSize="9sp"
+        android:text="@string/_2x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV625"
         app:layout_constraintEnd_toEndOf="@id/guidelineV625"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo3X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3x"
-        android:textSize="9sp"
+        android:text="@string/_3x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV75"
         app:layout_constraintEnd_toEndOf="@id/guidelineV75"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <TextView
         android:id="@+id/tvSpeedVideo4X"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4x"
-        android:textSize="9sp"
+        android:text="@string/_4x"
+        android:textSize="@dimen/dimen_text_size_10"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineV875"
         app:layout_constraintEnd_toEndOf="@id/guidelineV875"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/vSpeedVideo"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineV075"
@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="@drawable/bg_gray_speed_video"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV075"
         app:layout_constraintEnd_toEndOf="@id/guidelineV925">
 
@@ -159,7 +159,7 @@
             android:id="@+id/ivSpeedVideoSelected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_white_un_select_speed"
+            android:src="@drawable/ic_select_speed_video"
             android:layout_gravity="center"/>
 
     </FrameLayout>
@@ -240,8 +240,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV125"
         app:layout_constraintEnd_toEndOf="@id/guidelineV125"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -251,8 +252,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV25"
         app:layout_constraintEnd_toEndOf="@id/guidelineV25"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -262,8 +264,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV375"
         app:layout_constraintEnd_toEndOf="@id/guidelineV375"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -273,8 +276,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV5"
         app:layout_constraintEnd_toEndOf="@id/guidelineV5"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -284,8 +288,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV625"
         app:layout_constraintEnd_toEndOf="@id/guidelineV625"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -295,8 +300,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV75"
         app:layout_constraintEnd_toEndOf="@id/guidelineV75"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
@@ -306,10 +312,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:src="@drawable/ic_white_un_select_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeedVideo1X"
+        tools:visibility="visible"
+        android:src="@drawable/ic_purple_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/vSpeedVideo"
         app:layout_constraintStart_toStartOf="@id/guidelineV875"
         app:layout_constraintEnd_toEndOf="@id/guidelineV875"
         app:layout_constraintBottom_toTopOf="@+id/imSpeedVideoBackground"/>
+
+    <View
+        android:id="@+id/vSpeedVideo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_2"
+        android:layout_marginTop="@dimen/dimen_16"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
