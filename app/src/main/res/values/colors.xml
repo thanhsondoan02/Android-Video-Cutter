@@ -28,5 +28,6 @@
     <color name="color_red_loading">#F42323</color>
     <color name="color_white_loading">#F8F8F8</color>
     <color name="color_black_80">#CC000000</color>
+    <color name="color_gray_setting_text">#8F8E94</color>
 
 </resources>

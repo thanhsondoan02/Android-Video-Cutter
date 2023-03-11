@@ -29,7 +29,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             setOnLeftIconClickListener {
                 when (myStudioAdapter.state) {
                     MyStudioAdapter.STATE.NORMAL -> {
-                        onBackPressedDispatcher.onBackPressed()
+                        navigateBack()
                     }
                     MyStudioAdapter.STATE.SELECT -> {
                         showRightText(true)
