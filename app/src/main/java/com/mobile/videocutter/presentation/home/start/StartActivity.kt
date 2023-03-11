@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation.home.start
 
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.gone
