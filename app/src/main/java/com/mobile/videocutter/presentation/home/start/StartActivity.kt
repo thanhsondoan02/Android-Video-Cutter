@@ -13,7 +13,6 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
-import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_activity) {
@@ -25,10 +24,6 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
     override fun onInitView() {
         super.onInitView()
-
-        binding.ivStartSetting.setOnSafeClick {
-            startActivity(Intent(this@StartActivity,SpeedVideoActivity::class.java))
-        }
 
         initRecyclerView()
         binding.tvStartSeeAllMyStudio.setOnSafeClick {
