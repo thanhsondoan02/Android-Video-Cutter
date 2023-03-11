@@ -14,4 +14,11 @@
     <string name="close">Close</string>
     <string name="save_to_library">Save to Library</string>
     <string name="share">Share</string>
+    <string name="setting">Setting</string>
+    <string name="video_tutorial">Video Tutorial</string>
+    <string name="video_quality">Video Quality</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
 </resources>

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 
 abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment(), BaseView {
     protected val TAG = this::class.java.simpleName
-    private val baseActivity by lazy {
+    protected val baseActivity by lazy {
         requireActivity() as BaseActivity
     }
     protected lateinit var myInflater: LayoutInflater

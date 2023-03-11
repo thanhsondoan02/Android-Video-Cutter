@@ -12,6 +12,7 @@ import com.mobile.videocutter.domain.model.mockLocalVideoList
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
+import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_activity) {
@@ -26,6 +27,9 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         initRecyclerView()
         binding.tvStartSeeAllMyStudio.setOnSafeClick {
             startActivity(Intent(this, MyStudioActivity::class.java))
+        }
+        binding.ivStartSetting.setOnSafeClick {
+            startActivity(Intent(this, SettingActivity::class.java))
         }
     }
 
