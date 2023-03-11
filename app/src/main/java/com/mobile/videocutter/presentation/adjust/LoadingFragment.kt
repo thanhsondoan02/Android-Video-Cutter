@@ -37,6 +37,5 @@ class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loa
         binding.tvLoadingStop.setOnSafeClick {
             backFragment()
         }
-
     }
 }
