@@ -24,5 +24,6 @@
     <color name="color_gray_50">#80979797</color>
     <color name="color_transparent_purple">#666F4FEE</color>
     <color name="color_black_text">#000000</color>
+    <color name="color_gray_setting_text">#8F8E94</color>
 
 </resources>
