@@ -16,7 +16,6 @@ class CutVideoAdapter : BaseAdapter() {
     }
 
     inner class EditVideoVH(private val binding: CutVideoItemBinding) : BaseVH<Bitmap>(binding) {
-
         override fun onBind(data: Bitmap) {
             super.onBind(data)
             binding.ivCutVideoItmRoot.setImageBitmap(data)

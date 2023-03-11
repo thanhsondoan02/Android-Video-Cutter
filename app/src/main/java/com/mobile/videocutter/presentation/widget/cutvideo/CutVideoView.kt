@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation.widget.cutvideo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +17,15 @@ import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
-import com.mobile.videocutter.base.extension.getAppString
 import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs) {
+
+    var listener: IListener? = null
 
     private lateinit var flRoot: FrameLayout
     private lateinit var flFirst: FrameLayout
@@ -37,7 +41,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private lateinit var tvTimeStart: TextView
     private lateinit var tvTimeCenter: TextView
     private lateinit var tvTimeEnd: TextView
-    private lateinit var rvImageVideo: RecyclerView
+    private lateinit var rvImageVideo: CustomRecyclerView
 
     private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
     private lateinit var paramsTrimVideo: LayoutParams
@@ -62,10 +66,17 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private var marginRightTimeDefault = 0f
 
     private var widthLayout: Int = 0
+    private var widthRecyclerView: Int = 0
+    private var heightRecyclerView: Int = 0
+
     private var totalTime: Long = 60000L
     private var timeStartTrim: Long = 0L
     private var timeCenterTrim: Long = 0L
-    private var timeEndTrim: Long = totalTime
+    var timeEndTrim: Long = 0L
+
+    private val adapter by lazy {
+        CutVideoAdapter()
+    }
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.cut_video_view, this, true)
@@ -79,6 +90,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         widthLayout = flFirst.width
+        widthRecyclerView = rvImageVideo.width
+        heightRecyclerView = rvImageVideo.layoutParams.height
     }
 
     private fun initView(attrs: AttributeSet?) {
@@ -94,13 +107,10 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         vBottom = findViewById(R.id.vCutVideoBottom)
         vSelectTime = findViewById(R.id.vCutViewSelectTime)
 
-        llSeekBarTime = findViewById(R.id.llCutViewTime)
         tvTimeStart = findViewById(R.id.tvCutVideoTimeStart)
         tvTimeCenter = findViewById(R.id.tvCutVideoTimeCenter)
         tvTimeEnd = findViewById(R.id.tvCutVideoTimeEnd)
         rvImageVideo = findViewById(R.id.rvCutViewRoot)
-
-        Log.d("ACC", "initView: ${getTotalTimeVideo()}")
 
         ta.recycle()
     }
@@ -120,26 +130,29 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 MotionEvent.ACTION_MOVE -> {
                     coordinatesX = event.rawX
 
-                    var lengthLeft = coordinatesX - coordinatesBegin + marginLeftStart
+                    var timeStart = getTimeTrimConvertFromVideo(coordinatesX)
+
+                    var lengthStart = coordinatesX - coordinatesBegin + marginLeftStart
 
                     if (inverseNumber(coordinatesX - coordinatesBegin) > touchSlop) {
 
-                        if (lengthLeft < marginLeftTrimStartDefault) {
-                            lengthLeft = marginLeftTrimStartDefault
+                        if (lengthStart < marginLeftTrimStartDefault) {
+                            lengthStart = marginLeftTrimStartDefault
+                            timeStart = 500L
                         }
 
-                        if (lengthLeft > (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin)) {
-                            lengthLeft = (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
+                        if (lengthStart > (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin)) {
+                            lengthStart = (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
+                            timeStart = getTimeEnd()
                         }
 
-                        paramsTrimVideo.leftMargin = lengthLeft.toInt()
-                        paramsSelectTime.leftMargin = (lengthLeft + marginLeftSelectTimeDefault).toInt()
+                        paramsTrimVideo.leftMargin = lengthStart.toInt()
+                        paramsSelectTime.leftMargin = (lengthStart + marginLeftSelectTimeDefault).toInt()
 
                         flSecond.layoutParams = paramsTrimVideo
 
-                        val timeStart = getTimeTrimConvertFromVideo(coordinatesX)
-
                         setTimeStart(timeStart)
+                        listener?.onTimeStart(timeStart.toInt())
                         showCountTime(false)
                         setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
                         invalidate()
@@ -168,27 +181,30 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 MotionEvent.ACTION_MOVE -> {
                     coordinatesX = event.rawX
 
+                    var timeEnd = getTimeTrimConvertFromVideo(coordinatesX)
+
                     var lengthEnd = coordinatesEnd - coordinatesX + marginRightEnd
 
                     if (inverseNumber(coordinatesX - coordinatesEnd) > touchSlop) {
 
                         if (lengthEnd < marginRightTrimEndDefault) {
                             lengthEnd = marginRightTrimEndDefault
+                            timeEnd = getTotalTimeVideo()
                         }
 
                         if (lengthEnd > (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.leftMargin)) {
                             lengthEnd = (widthLayout - 2 * vEnd.width - vSelectTime.width - paramsTrimVideo.leftMargin).toFloat()
+                            timeEnd = getTimeStart()
                         }
 
                         paramsTrimVideo.rightMargin = lengthEnd.toInt()
 
-                        paramsSelectTime.leftMargin = (marginLeftSelectTimeDefault + paramsTrimVideo.leftMargin).toInt()
+                        paramsSelectTime.leftMargin = (widthLayout - 2 * vEnd.width - vSelectTime.width + marginLeftSelectTimeDefault - lengthEnd).toInt()
 
                         flSecond.layoutParams = paramsTrimVideo
 
-                        val timeEnd = getTimeTrimConvertFromVideo(coordinatesX)
-
                         setTimeEnd(timeEnd)
+                        listener?.onTimeEnd(timeEnd.toInt())
                         showCountTime(false)
                         setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
                         invalidate()
@@ -216,23 +232,26 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 MotionEvent.ACTION_MOVE -> {
                     coordinatesX = event.rawX
 
+                    var timeCenter = getTimeTrimConvertFromVideo(coordinatesX)
+
                     var lengthLeft = coordinatesX - coordinatesBegin + marginLeftStart
 
                     if (inverseNumber(coordinatesX - coordinatesBegin) > touchSlop) {
 
                         if (lengthLeft < (paramsTrimVideo.leftMargin + vStart.width + vSelectTime.width)) {
                             lengthLeft = (paramsTrimVideo.leftMargin + vStart.width + vSelectTime.width).toFloat()
+                            timeCenter = getTimeStart()
                         }
 
                         if (lengthLeft >= (widthLayout - vEnd.width + vSelectTime.width - paramsTrimVideo.rightMargin)) {
                             lengthLeft = (widthLayout - vEnd.width + vSelectTime.width - paramsTrimVideo.rightMargin).toFloat()
+                            timeCenter = getTimeEnd()
                         }
 
                         paramsSelectTime.leftMargin = lengthLeft.toInt()
 
-                        val timeCenter = getTimeTrimConvertFromVideo(lengthLeft)
-
                         setTimeCenter(timeCenter)
+                        listener?.onTimeCenter(timeCenter.toInt())
                         flSecond.layoutParams = paramsTrimVideo
                         invalidate()
 
@@ -307,8 +326,20 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
-    fun setTotalTimeVideo(totalTime: Long) {
+    fun setBitmapListDisplay(bitmapList: List<Bitmap>) {
+        Log.d("HEHE", "setBitmapListDisplay: ${bitmapList}")
+        rvImageVideo.apply {
+            submitList(bitmapList)
+            setAdapter(adapter)
+            setDragRecyclerView()
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+        }
+    }
+
+    fun setConfigVideoBegin(totalTime: Long) {
         this.totalTime = totalTime
+        this.timeEndTrim = totalTime
+        tvTimeEnd.text = getTextTimeVideo(null, totalTime)
     }
 
     private fun getTotalTimeVideo(): Long {
@@ -339,14 +370,35 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         return timeEndTrim
     }
 
-    private fun getTextTimeVideo(type: TIME_VIDEO_TYPE): String {
+    fun getHeightListImage(): Int {
+        return heightRecyclerView
+    }
+
+    fun getWidthListImage(): Int {
+        return widthRecyclerView
+    }
+
+    private fun getTextTimeVideo(type: TIME_VIDEO_TYPE?, anyDuration: Long = 0L): String {
         val localVideo = LocalVideo().apply {
             duration = when (type) {
                 TIME_VIDEO_TYPE.TIME_START -> getTimeStart()
-                TIME_VIDEO_TYPE.TIME_PERIOD -> getTimeEnd() - getTimeStart()
+                TIME_VIDEO_TYPE.TIME_PERIOD -> {
+                    if (getTimeEnd() >= getTimeStart()) {
+                        getTimeEnd() - getTimeStart()
+                    } else {
+                        0L
+                    }
+                }
                 TIME_VIDEO_TYPE.TIME_END -> getTimeEnd()
+                else -> anyDuration
             }
         }
         return localVideo.getFormattedDuration()
+    }
+
+    interface IListener {
+        fun onTimeStart(timeStart: Int)
+        fun onTimeCenter(timeCenter: Int)
+        fun onTimeEnd(timeEnd: Int)
     }
 }

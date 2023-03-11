@@ -20,6 +20,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnComfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom" />
+
+        <ImageView
+            android:id="@+id/ivA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
     </FrameLayout>
 
 </layout>
