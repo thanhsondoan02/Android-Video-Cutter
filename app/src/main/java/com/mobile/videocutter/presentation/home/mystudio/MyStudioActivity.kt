@@ -19,6 +19,8 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
     private val myStudioAdapter by lazy { MyStudioAdapter() }
     private val viewModel by viewModels<MyStudioViewModel>()
 
+    override fun getContainerId(): Int = R.id.flMyStudioContainer
+
     override fun onInitView() {
         super.onInitView()
         initRecyclerView()
@@ -26,7 +28,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             setOnLeftIconClickListener {
                 when (myStudioAdapter.state) {
                     MyStudioAdapter.STATE.NORMAL -> {
-                        onBackPressedDispatcher.onBackPressed()
+                        navigateBack()
                     }
                     MyStudioAdapter.STATE.SELECT -> {
                         showRightText(true)
@@ -51,10 +53,32 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             }
         }
         binding.flMyStudioDelete.setOnSafeClick {
-
+            replaceFragment(
+                ConfirmFragment.Builder()
+                    .setTitle(getString(R.string.delete))
+                    .setDescription(getString(R.string.delete) + " 3 " + getString(R.string.confirm_delete_description))
+                    .setLeftText(getString(R.string.cancel))
+                    .setRightText(getString(R.string.delete))
+                    .setListener(object : ConfirmFragment.IListener {
+                        override fun onConfirm() {
+                            // TODO
+                        }
+                    })
+                    .getInstance()
+            )
         }
         binding.flMyStudioSave.setOnSafeClick {
+            replaceFragment(ShareFragment().apply {
+                listener = object : ShareFragment.IListener {
+                    override fun onShare() {
+                        // TODO
+                    }
 
+                    override fun onSave() {
+                        // TODO
+                    }
+                }
+            })
         }
 
         viewModel.getMyStudioVideos(contentResolver)

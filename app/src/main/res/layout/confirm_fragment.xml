@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:id="@+id/flConfirmContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_black_20">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constConfirmMainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/color_red">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvConfirmTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_38"
+                android:layout_marginBottom="@dimen/dimen_4"
+                android:fontFamily="@font/font_bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_20"
+                app:layout_constraintBottom_toTopOf="@id/tvConfirmDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/delete" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvConfirmDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_20"
+                android:layout_marginBottom="@dimen/dimen_40"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_16"
+                app:layout_constraintBottom_toTopOf="@id/tvConfirmCancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/confirm_delete_description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvConfirmCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_12"
+                android:background="@drawable/shape_white_stroke_1_corner_2"
+                android:fontFamily="@font/font_bold"
+                android:gravity="center"
+                android:minWidth="@dimen/dimen_136"
+                android:minHeight="@dimen/dimen_40"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tvConfirmTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/cancel" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvConfirmOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_12"
+                android:background="@drawable/shape_white_stroke_1_corner_2"
+                android:fontFamily="@font/font_bold"
+                android:gravity="center"
+                android:minWidth="@dimen/dimen_136"
+                android:minHeight="@dimen/dimen_40"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvConfirmTitle"
+                tools:text="@string/delete" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
