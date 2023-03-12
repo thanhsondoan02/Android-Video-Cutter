@@ -27,6 +27,7 @@ class VideoControllerFragment: BaseBindingFragment<VideoControllerFragmentBindin
     }
 
     private fun initOnClick() {
+        updatePlayPauseButton()
         binding.llVideoControllerBack.setOnSafeClick {
             clearStackFragment()
         }

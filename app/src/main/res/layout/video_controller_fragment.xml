@@ -40,7 +40,7 @@
             android:layout_width="@dimen/dimen_90"
             android:layout_height="@dimen/dimen_90"
             android:layout_gravity="center"
-            android:src="@drawable/ic_white_circle_pause" />
+            tools:src="@drawable/ic_white_circle_pause" />
 
         <View
             android:layout_width="match_parent"
