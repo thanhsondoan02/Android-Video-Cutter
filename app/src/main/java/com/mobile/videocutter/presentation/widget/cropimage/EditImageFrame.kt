@@ -1,10 +1,8 @@
 package com.mobile.videocutter.presentation.widget.cropimage
 
+import android.R.attr.bitmap
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -14,6 +12,7 @@ import com.mobile.videocutter.util.UtilPaint
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+
 
 class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, attr) {
 
@@ -130,7 +129,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         widthParent = MeasureSpec.getSize(widthMeasureSpec).toFloat()
         heightParent = MeasureSpec.getSize(heightMeasureSpec).toFloat()
 
-        wightImage = widthParent
+
 
         coordinateDrawBitmap = heightParent / 2 - heightImage / 2
     }
@@ -139,7 +138,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         super.onLayout(changed, left, top, right, bottom)
 
         if (wightImage < widthParent) {
-            // startXDrawBitmap = widthParent / 2 - wightImage / 2
+             startXDrawBitmap = widthParent / 2 - wightImage / 2
         }
 
         if (heightImage < heightParent) {
@@ -159,13 +158,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         super.onSizeChanged(w, h, oldw, oldh)
 
         if (srcImage != null) {
-            if (srcImage!!.width > srcImage!!.height) {
-                Log.d(TAG, "onSizeChanged: dasdasd")
-                destImage = Bitmap.createBitmap(srcImage!!, srcImage!!.width/2 - srcImage!!.height / 2,0,srcImage!!.height, srcImage!!.height)
-            } else {
-                Log.d(TAG, "onSizeChanged: 123456789")
-                destImage = Bitmap.createBitmap(srcImage!!, 0,srcImage!!.height/2 - srcImage!!.height / 2,srcImage!!.width, srcImage!!.width)
-            }
+            destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightParent.toInt(), true)
         }
         rectFBackground = RectF(0f, 0f, widthParent, heightParent)
     }
@@ -183,7 +176,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         canvas?.apply {
             // vẽ ảnh
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, paintBackground)
+                drawBitmap(destImage!!, startXDrawBitmap, 0f, paintBackground)
             }
 
             // vẽ lớp phủ lên ảnh
@@ -196,7 +189,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
             // vẽ lại ảnh đã cắt bởi clipRect
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, paintBackground)
+                drawBitmap(destImage!!, startXDrawBitmap, 0f, paintBackground)
             }
 
             // vẽ thêm các chi tiết cho hình chữ nhật đã cắt
@@ -265,8 +258,15 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         srcImage = getBitmapFromURL(source)
 
+
+        srcImage
+        Log.d(TAG, "setResource: ${srcImage.toString()}")
+
+
         wightImage = srcImage?.width?.toFloat() ?: 0f
         heightImage = srcImage?.height?.toFloat() ?: 0f
+        
+
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {
