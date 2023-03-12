@@ -1,10 +1,8 @@
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
-import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.common.loader.LoaderFactory
-import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.DataPage
 import com.mobile.videocutter.thread.FlowResult
@@ -55,20 +53,20 @@ fun ImageView.loadImage(
 }
 
 fun ImageView.loadImage(
-    uri: String?,
+    videoPath: String?,
     ignoreCache: Boolean = false,
     placeHolder: Drawable? = getPlaceHolderDefault()
 ) {
     LoaderFactory.glide().loadImage(
         view = this,
-        uri = uri,
+        videoPath = videoPath,
         placeHolder = placeHolder,
         ignoreCache = ignoreCache
     )
 }
 
 private fun getPlaceHolderDefault(): Drawable? {
-    return getAppDrawable(R.drawable.ic_placeholder)
+    return null
 }
 
 fun <T> BaseBindingActivity<*>.handleUiState(

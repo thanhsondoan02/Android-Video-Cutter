@@ -81,7 +81,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             })
         }
 
-        viewModel.getMyStudioVideos(contentResolver)
+        viewModel.getMyStudioVideos()
     }
 
     override fun onObserverViewModel() {
@@ -91,7 +91,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             viewModel.myStudioVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        myStudioAdapter.submitList(it.data)
+                        myStudioAdapter.submitList(it.data?.map { video -> MyStudioAdapter.VideoDisplay(video) })
                     }
                 })
             }

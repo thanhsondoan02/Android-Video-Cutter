@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/dimen_54"
-            android:background="@drawable/shape_white_bg_corner_14"
+            android:background="@drawable/shape_white_loading_bg_corner_14"
             app:layout_constraintBottom_toTopOf="@+id/ivLoadingSpinner"
             app:layout_constraintTop_toTopOf="@+id/ivLoadingSpinner">
 
