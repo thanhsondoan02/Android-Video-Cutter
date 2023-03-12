@@ -74,9 +74,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private var timeCenterTrim: Long = 0L
     var timeEndTrim: Long = 0L
 
-    private val adapter by lazy {
-        CutVideoAdapter()
-    }
+    private val adapter = CutVideoAdapter()
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.cut_video_view, this, true)
@@ -219,6 +217,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     private fun moveSelectTime() {
         vSelectTime.setOnTouchListener { _, event ->
@@ -329,10 +328,9 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     fun setBitmapListDisplay(bitmapList: List<Bitmap>) {
         Log.d("HEHE", "setBitmapListDisplay: ${bitmapList}")
         rvImageVideo.apply {
-            submitList(bitmapList)
             setAdapter(adapter)
-            setDragRecyclerView()
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+            submitList(bitmapList)
         }
     }
 

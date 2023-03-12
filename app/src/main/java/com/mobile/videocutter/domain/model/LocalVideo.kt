@@ -82,8 +82,8 @@ class LocalVideo {
         val heightBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
         if (heightBitmap != null && widthBitmap != null) {
 
-            val widthBitmapScaled = (3 * heightBitmapScaled) / 4
-            val countBitmapFullSize = maxWidth / widthBitmapScaled
+            val countBitmapFullSize = 9
+            val widthBitmapScaled = maxWidth / countBitmapFullSize
             val interval: Long = ((totalTime - startPosition) / countBitmapFullSize)
             for (i in 0 until countBitmapFullSize) {
                 val frameTime: Long = startPosition + interval * i
@@ -92,12 +92,10 @@ class LocalVideo {
                 bitmapFullSize?.let { bitmapList.add(it) }
             }
 
-//            if (maxWidth % widthBitmapScaled > 0) {
-//                val widthLack = (maxWidth % widthBitmapScaled) * widthBitmapScaled
-//                val bitmapLack: Bitmap? = mediaMetadataRetriever.getFrameAtTime(((totalTime - interval * (countBitmapFullSize-1)) * 1000), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-//                bitmapLack?.let { Bitmap.createScaledBitmap(it, widthLack, heightBitmapScaled, false) }
-//                bitmapLack?.let { bitmapList.add(it) }
-//            }
+            val widthLack = (maxWidth % countBitmapFullSize) * widthBitmapScaled
+            var bitmapLack: Bitmap? = mediaMetadataRetriever.getFrameAtTime((interval * countBitmapFullSize * 1000), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            bitmapLack = bitmapLack?.let { Bitmap.createScaledBitmap(it, widthLack, heightBitmapScaled, false) }
+            bitmapLack?.let { bitmapList.add(it) }
         }
 
         return bitmapList

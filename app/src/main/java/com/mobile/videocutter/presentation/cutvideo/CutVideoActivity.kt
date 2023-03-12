@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 
 class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.cut_video_activity) {
 
-    var time: Long = 0L
-
     override fun onInitView() {
         super.onInitView()
 
@@ -57,7 +55,6 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
                             it.toLong())
                     }
                 bitmapList?.let { binding.cvvCutVideo.setBitmapListDisplay(it) }
-//                binding.ivA.setImageBitmap(bitmapList?.get(bitmapList.size-1))
             }
         }
 
