@@ -98,3 +98,20 @@ fun <T> Flow<T>.onException(onCatch: suspend (Throwable) -> Unit): Flow<T> {
         onCatch(e)
     }
 }
+
+/**
+ * time in format of 00:00 or 00:00:00
+ */
+fun getFormattedTime(time: Long): String {
+    val seconds = time / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val secondsLeft = seconds % 60
+    val minutesLeft = minutes % 60
+    val hoursLeft = hours % 60
+    return if (hoursLeft > 0) {
+        String.format("%02d:%02d:%02d", hoursLeft, minutesLeft, secondsLeft)
+    } else {
+        String.format("%02d:%02d", minutesLeft, secondsLeft)
+    }
+}

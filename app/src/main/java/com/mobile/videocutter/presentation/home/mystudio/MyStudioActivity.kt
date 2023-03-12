@@ -1,7 +1,7 @@
 package com.mobile.videocutter.presentation.home.mystudio
 
-import android.content.Intent
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
@@ -11,7 +11,7 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.presentation.home.preview.PreviewVideoActivity
+import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import handleUiState
 
@@ -98,12 +98,26 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
         }
     }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            clearStackFragment()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun initRecyclerView() {
         myStudioAdapter.listener = object : MyStudioAdapter.IListener {
             override fun onVideoClick(video: LocalVideo?, state: MyStudioAdapter.STATE, size: Int) {
                 when (state) {
                     MyStudioAdapter.STATE.NORMAL -> {
-                        startActivity(Intent(this@MyStudioActivity, PreviewVideoActivity::class.java))
+                        replaceFragment(
+                            PreviewVideoFragment(),
+                            bundleOf(
+                                PreviewVideoFragment.VIDEO_PATH to video?.videoPath,
+                                PreviewVideoFragment.VIDEO_DURATION to video?.duration
+                            )
+                        )
                     }
                     MyStudioAdapter.STATE.SELECT -> {
                         setSelectedSize(size)

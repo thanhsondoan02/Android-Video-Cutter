@@ -10,7 +10,7 @@
     <string name="home_see_all">See All</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="confirm_delete_description">videos from your studio.</string>
+    <string name="confirm_delete_description">video(s) from your studio.</string>
     <string name="close">Close</string>
     <string name="save_to_library">Save to Library</string>
     <string name="share">Share</string>
@@ -23,4 +23,5 @@
     <string name="low">Low</string>
     <string name="medium">Medium</string>
     <string name="high">High</string>
+    <string name="home">Home</string>
 </resources>
