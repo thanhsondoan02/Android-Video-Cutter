@@ -98,7 +98,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressedDispatcher() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             clearStackFragment()
         } else {
