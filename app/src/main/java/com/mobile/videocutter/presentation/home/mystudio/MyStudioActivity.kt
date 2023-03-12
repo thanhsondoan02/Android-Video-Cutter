@@ -11,7 +11,6 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.presentation.adjust.LoadingFragment
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoActivity
 import com.mobile.videocutter.presentation.model.IViewListener
 import handleUiState

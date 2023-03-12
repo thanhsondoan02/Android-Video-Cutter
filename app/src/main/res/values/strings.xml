@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">Video Cutter</string>
     <string name="my_studio">My Studio</string>
     <string name="select">Select</string>
@@ -17,7 +16,6 @@
     <string name="share">Share</string>
     <string name="loading">Loading</string>
     <string name="stop">stop</string>
-
     <string name="setting">Setting</string>
     <string name="video_tutorial">Video Tutorial</string>
     <string name="video_quality">Video Quality</string>
