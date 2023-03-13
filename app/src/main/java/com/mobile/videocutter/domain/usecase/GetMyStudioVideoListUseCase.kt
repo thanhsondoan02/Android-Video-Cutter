@@ -1,17 +1,12 @@
 package com.mobile.videocutter.domain.usecase
 
-import android.content.ContentResolver
 import com.mobile.videocutter.base.common.BaseUseCase
 import com.mobile.videocutter.di.RepositoryFactory
-import com.mobile.videocutter.domain.model.mockLocalVideoList
-import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
+import com.mobile.videocutter.domain.model.LocalVideo
 
-class GetMyStudioVideoListUseCase : BaseUseCase<GetMyStudioVideoListUseCase.GetMyStudioVideoListRV, List<MyStudioAdapter.VideoDisplay>>() {
-    override suspend fun execute(rv: GetMyStudioVideoListRV): List<MyStudioAdapter.VideoDisplay> {
+class GetMyStudioVideoListUseCase : BaseUseCase<BaseUseCase.VoidRequest, List<LocalVideo>>() {
+    override suspend fun execute(rv: VoidRequest): List<LocalVideo> {
         val repo = RepositoryFactory.getLocalDataRepo()
-//        return repo.getAlbumList(rv.contentResolver)
-        return mockLocalVideoList(100).map { MyStudioAdapter.VideoDisplay(it) }
+        return repo.getMyStudioVideoList()
     }
-
-    class GetMyStudioVideoListRV(val contentResolver: ContentResolver) : RequestValue
 }

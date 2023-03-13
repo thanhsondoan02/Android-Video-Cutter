@@ -9,6 +9,7 @@ import com.mobile.videocutter.base.extension.hide
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
+import loadImage
 
 class MyStudioAdapter: BaseAdapter() {
     companion object {
@@ -56,7 +57,7 @@ class MyStudioAdapter: BaseAdapter() {
 
         override fun onBind(data: VideoDisplay) {
             itemBinding.tvMyStudioVideoItmDuration.text = data.video.getFormattedDuration()
-            itemBinding.ivMyStudioVideoItmImage.setImageResource(R.color.color_red)
+            itemBinding.ivMyStudioVideoItmImage.loadImage(data.video.videoPath)
             updateSelect(data.isSelected)
         }
 
