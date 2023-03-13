@@ -1,8 +1,9 @@
 package com.mobile.videocutter.presentation.home.mystudio
 
-import android.content.ContentResolver
 import androidx.lifecycle.viewModelScope
+import com.mobile.videocutter.base.common.BaseUseCase
 import com.mobile.videocutter.base.common.BaseViewModel
+import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.usecase.GetMyStudioVideoListUseCase
 import com.mobile.videocutter.thread.FlowResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,12 +14,12 @@ import loading
 import success
 
 class MyStudioViewModel: BaseViewModel() {
-    private val _myStudioVideoState = MutableStateFlow(FlowResult.newInstance<List<MyStudioAdapter.VideoDisplay>>())
+    private val _myStudioVideoState = MutableStateFlow(FlowResult.newInstance<List<LocalVideo>>())
     val myStudioVideoState = _myStudioVideoState.asStateFlow()
 
-    fun getMyStudioVideos(contentResolver: ContentResolver) {
+    fun getMyStudioVideos() {
         viewModelScope.launch {
-            GetMyStudioVideoListUseCase().invoke(GetMyStudioVideoListUseCase.GetMyStudioVideoListRV(contentResolver))
+            GetMyStudioVideoListUseCase().invoke(BaseUseCase.VoidRequest())
                 .onStart {
                     _myStudioVideoState.loading()
                 }.collect {

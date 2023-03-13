@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.home.start.StartActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_80"
+            android:background="@drawable/shape_black_gradient_angle_240" />
+
+        <LinearLayout
+            android:id="@+id/llVideoControllerBack"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_46"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_8"
+                android:src="@drawable/ic_white_back" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_18" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivVideoControllerPlayPause"
+            android:layout_width="@dimen/dimen_90"
+            android:layout_height="@dimen/dimen_90"
+            android:layout_gravity="center"
+            tools:src="@drawable/ic_white_circle_pause" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_158"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_black_gradient_angle_90_corner_4" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvVideoControllerCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_marginBottom="@dimen/dimen_40"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_14"
+                app:layout_constraintBottom_toTopOf="@id/ivVideoControllerShare"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="0:36" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvVideoControllerRemainTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_text_size_14"
+                app:layout_constraintBottom_toBottomOf="@id/tvVideoControllerCurrentTime"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvVideoControllerCurrentTime"
+                tools:text="2:59" />
+
+            <SeekBar
+                android:id="@+id/sbVideoController"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:progressBackgroundTint="@color/color_gray_setting_text"
+                android:progressTint="@color/color_purple"
+                android:thumbTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/tvVideoControllerCurrentTime"
+                app:layout_constraintEnd_toStartOf="@id/tvVideoControllerRemainTime"
+                app:layout_constraintStart_toEndOf="@id/tvVideoControllerCurrentTime"
+                app:layout_constraintTop_toTopOf="@id/tvVideoControllerCurrentTime" />
+
+            <View
+                android:id="@+id/vVideoControllerCenterPoint"
+                android:layout_width="@dimen/dimen_1"
+                android:layout_height="@dimen/dimen_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivVideoControllerShare"
+                android:layout_width="@dimen/dimen_46"
+                android:layout_height="@dimen/dimen_46"
+                android:layout_marginBottom="@dimen/dimen_26"
+                android:padding="@dimen/dimen_12"
+                android:src="@drawable/ic_white_save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vVideoControllerCenterPoint"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivVideoControllerDelete"
+                android:layout_width="@dimen/dimen_46"
+                android:layout_height="@dimen/dimen_46"
+                android:padding="@dimen/dimen_12"
+                android:src="@drawable/ic_white_delete"
+                app:layout_constraintBottom_toBottomOf="@id/ivVideoControllerShare"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vVideoControllerCenterPoint"
+                app:layout_constraintTop_toTopOf="@id/ivVideoControllerShare" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
