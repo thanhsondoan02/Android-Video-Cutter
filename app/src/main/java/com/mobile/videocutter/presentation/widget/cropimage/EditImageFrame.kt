@@ -1,10 +1,13 @@
 package com.mobile.videocutter.presentation.widget.cropimage
 
-import android.R.attr.bitmap
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
@@ -23,17 +26,17 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     }
 
     private val paintShape = UtilPaint().getPaintStroke().apply {
-        this.color = getAppColor(R.color.white)
+        this.color = getAppColor(R.color.color_purple)
         this.strokeWidth = 2f
     }
 
     private val paintCorner = UtilPaint().getPainStrokeCapRound().apply {
-        this.color = getAppColor(R.color.white)
+        this.color = getAppColor(R.color.color_purple)
         this.strokeWidth = 8f
     }
 
     private val paintLine = UtilPaint().getPainStrokeCapRound().apply {
-        this.color = getAppColor(R.color.white)
+        this.color = getAppColor(R.color.color_purple)
         this.strokeWidth = 1f
     }
 
@@ -78,29 +81,15 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private var ratioCol = 0f
 
     // tịnh tiến theo cử chỉ ngón tay
-    private var offset1X = 0f
-    private var offset1Y = 0f
-    private var offset2X = 0f
-    private var offset2Y = 0f
+    private var offsetX = 0f
+    private var offsetY = 0f
 
     // tọa độ điểm chạm đầu tiên
     private var coordinatesFirstDownX = 0f
     private var coordinatesFirstDownY = 0f
 
-    // kích thước mặc định của hình chữ nhật ko đc thu nhỏ nữa
-    private var sizeDefault = 300f
-
-    // khoảng giới hạn tối thiểu có thể di chuyển
-    private var moveLimit = 2f
-
     // vẽ thêm chiều của 4 góc
     private var cornerDefault = 50f
-
-    // kích thước để dễ thao tác kéo ở các cạnh
-    private var paddingEdgeDefault = 50f
-
-    // hiển thị các đường kẻ bên trong
-    private var isShowLines = false
 
     // mảng đường thẳng
     private var linesTopLeft = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
@@ -111,8 +100,8 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
     private var startXDrawBitmap = 0f
     private var startYDrawBitmap = 0f
 
-    private var ratioWidth = 0
-    private var ratioHeight = 0
+    private var ratioWidth = 4
+    private var ratioHeight = 5
 
     init {
         setResource(null)
@@ -129,8 +118,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         widthParent = MeasureSpec.getSize(widthMeasureSpec).toFloat()
         heightParent = MeasureSpec.getSize(heightMeasureSpec).toFloat()
 
-
-
         coordinateDrawBitmap = heightParent / 2 - heightImage / 2
     }
 
@@ -138,27 +125,34 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         super.onLayout(changed, left, top, right, bottom)
 
         if (wightImage < widthParent) {
-             startXDrawBitmap = widthParent / 2 - wightImage / 2
+            startXDrawBitmap = widthParent / 2 - wightImage / 2
         }
 
         if (heightImage < heightParent) {
             startYDrawBitmap = heightParent / 2 - heightImage / 2
-        } else {
-            startYDrawBitmap = 0f
         }
 
-        pos1X = 0f
-        pos1Y = startYDrawBitmap
+        if (wightImage > widthParent) {
+            wightImage = widthParent
+        }
 
-        pos2X = widthParent
-        pos2Y = startYDrawBitmap + heightImage
+        if (heightImage > heightParent) {
+            heightImage = heightParent
+        }
+
+
+        pos1X =( startXDrawBitmap + 100)* ratioWidth/ratioHeight
+        pos1Y = (startYDrawBitmap + 100)* ratioWidth/ratioHeight
+
+        pos2X = (startXDrawBitmap + wightImage - 100) * ratioWidth/ratioHeight
+        pos2Y = (startYDrawBitmap + heightImage - 100)* ratioWidth/ratioHeight
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
         if (srcImage != null) {
-            destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightParent.toInt(), true)
+            destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightImage.toInt(), true)
         }
         rectFBackground = RectF(0f, 0f, widthParent, heightParent)
     }
@@ -176,7 +170,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         canvas?.apply {
             // vẽ ảnh
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, 0f, paintBackground)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
             }
 
             // vẽ lớp phủ lên ảnh
@@ -189,7 +183,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
             // vẽ lại ảnh đã cắt bởi clipRect
             if (destImage != null) {
-                drawBitmap(destImage!!, startXDrawBitmap, 0f, paintBackground)
+                drawBitmap(destImage!!, startXDrawBitmap, startYDrawBitmap, null)
             }
 
             // vẽ thêm các chi tiết cho hình chữ nhật đã cắt
@@ -237,17 +231,58 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             drawLines(linesBottomLeft, paintCorner)
             // kết thúc 4 góc
 
-            if (isShowLines) {
-                // vẽ các hàng
-                for (i in 1 until sizeRow) {
-                    drawLine(pos1X, ratioRow * i + pos1Y, pos2X, ratioRow * i + pos1Y, paintLine)
-                }
 
-                // vẽ các cột
-                for (i in 1 until sizeCol) {
-                    drawLine(ratioCol * i + pos1X, pos1Y, ratioCol * i + pos1X, pos2Y, paintLine)
-                }
+            // vẽ các hàng
+            for (i in 1 until sizeRow) {
+                drawLine(pos1X, ratioRow * i + pos1Y, pos2X, ratioRow * i + pos1Y, paintLine)
             }
+
+            // vẽ các cột
+            for (i in 1 until sizeCol) {
+                drawLine(ratioCol * i + pos1X, pos1Y, ratioCol * i + pos1X, pos2Y, paintLine)
+            }
+
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                coordinatesFirstDownX = event.rawX
+                coordinatesFirstDownY = event.rawY
+                true
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                offsetX = event.rawX - coordinatesFirstDownX
+                offsetY = event.rawY - coordinatesFirstDownY
+
+
+                Log.d(TAG, "onTouchEvent: offset1X: ${offsetX + pos1X}")
+                Log.d(TAG, "onTouchEvent: startXDrawBitmap $startXDrawBitmap")
+
+                if (
+                    offsetX + pos1X >= startXDrawBitmap &&
+                    offsetX + pos2X <= startXDrawBitmap + wightImage &&
+                    offsetY + pos1Y >= startYDrawBitmap &&
+                    offsetY + pos2Y <= startYDrawBitmap + heightImage
+                ) {
+                    pos1X += offsetX
+                    pos1Y += offsetY
+
+                    pos2X += offsetX
+                    pos2Y += offsetY
+                }
+                coordinatesFirstDownX = event.rawX
+                coordinatesFirstDownY = event.rawY
+                invalidate()
+                true
+            }
+
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+            else -> false
         }
     }
 
@@ -265,7 +300,7 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
         wightImage = srcImage?.width?.toFloat() ?: 0f
         heightImage = srcImage?.height?.toFloat() ?: 0f
-        
+
 
     }
 
