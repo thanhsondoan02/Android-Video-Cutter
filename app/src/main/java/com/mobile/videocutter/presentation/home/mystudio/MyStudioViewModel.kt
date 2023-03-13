@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import loading
 import success
 
-class MyStudioViewModel: BaseViewModel() {
+class MyStudioViewModel : BaseViewModel() {
     private val _myStudioVideoState = MutableStateFlow(FlowResult.newInstance<List<LocalVideo>>())
     val myStudioVideoState = _myStudioVideoState.asStateFlow()
 
