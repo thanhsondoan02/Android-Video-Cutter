@@ -40,6 +40,11 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         binding.ivStartSetting.setOnSafeClick {
             startActivity(Intent(this, SettingActivity::class.java))
         }
+
+        binding.rlStart.setOnSafeClick {
+            startActivity(Intent(this,AdjustActivity::class.java))
+        }
+
         viewModel.getMyStudioVideos()
     }
 
@@ -62,9 +67,6 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
             clearStackFragment()
         } else {
             super.onBackPressed()
-        }
-        binding.rlStart.setOnSafeClick {
-            startActivity(Intent(this,AdjustActivity::class.java))
         }
     }
 

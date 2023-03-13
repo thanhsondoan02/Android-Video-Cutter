@@ -1,7 +1,10 @@
 package com.mobile.videocutter.presentation.adjust
 
+import android.net.Uri
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.getAppDimension
@@ -18,8 +21,21 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
 
+    private var player: ExoPlayer? = null
+
+    override fun onPrepareInitView() {
+        super.onPrepareInitView()
+
+        if (player == null) {
+            player = ExoPlayer.Builder(this).build()
+        }
+    }
+
     override fun onInitView() {
         super.onInitView()
+
+        binding.pvAdjust.player = this.player
+
         binding.hvAdjust.apply {
             setTextViewRightPadding(
                 getAppDimension(R.dimen.dimen_14),
@@ -49,6 +65,16 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             }
         }
 
+        binding.vpcAdjust.setOnLeftIconClickListener {
+            val videoPath = "android.resource://" + packageName + "/" + com.mobile.videocutter.R.raw.fake_viddeo
+            val mediaItem = MediaItem.Builder()
+                .setUri(videoPath)
+                .build()// Set the media item to be played.
+            player?.setMediaItem(mediaItem)
+            player?.prepare()
+            player?.play()
+        }
+
         adapter.listener = object : AdjustAdapter.IListener {
             override fun onDelete(localVideo: LocalVideo) {
                 viewModel.deleteLocalVideo(localVideo)
@@ -72,5 +98,21 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
                 })
             }
         }
+    }
+
+    override fun onCleaned() {
+        super.onCleaned()
+        player?.stop()
+        player?.release()
+        player = null
+    }
+
+    private fun playVideo(uri: Uri) {
+        val mediaItem = MediaItem.Builder()
+            .setUri(uri)
+            .build()// Set the media item to be played.
+        player!!.setMediaItem(mediaItem)
+        player!!.prepare()
+        player!!.play()
     }
 }
