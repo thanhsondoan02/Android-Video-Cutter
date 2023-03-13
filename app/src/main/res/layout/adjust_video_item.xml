@@ -50,7 +50,7 @@
                     android:id="@+id/vAdjustVideoItmBlackBlur"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/shape_black_blur"
+                    android:background="@drawable/shape_black_gradient_angle_90_corner_4"
                     app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
                     app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
                     app:layout_constraintStart_toStartOf="parent"
