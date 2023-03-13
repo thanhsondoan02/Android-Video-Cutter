@@ -54,6 +54,9 @@
             android:name=".presentation.home.setting.SettingActivity"
             android:exported="false"/>
 
+        <activity android:name=".presentation.filter.FilterActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
