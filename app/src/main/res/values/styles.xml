@@ -48,4 +48,18 @@
         <item name="fontFamily">@font/font_semibold</item>
     </style>
 
+    <style name="StyleRobotoMediumBlack18">
+        <item name="android:textSize">@dimen/dimen_text_size_18</item>
+        <item name="android:textColor">@color/color_black_87</item>
+        <item name="android:fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_medium</item>
+    </style>
+
+    <style name="StyleRobotoBoldRed18">
+        <item name="android:textSize">@dimen/dimen_text_size_18</item>
+        <item name="android:textColor">@color/color_red_loading</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="fontFamily">@font/font_bold</item>
+    </style>
+
 </resources>

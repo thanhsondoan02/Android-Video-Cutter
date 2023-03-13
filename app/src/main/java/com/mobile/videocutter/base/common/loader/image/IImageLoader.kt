@@ -14,7 +14,7 @@ interface IImageLoader {
 
     fun loadImage(
         view: ImageView,
-        uri: String?,
+        videoPath: String?,
         placeHolder: Drawable? = null,
         ignoreCache: Boolean = false
     )
