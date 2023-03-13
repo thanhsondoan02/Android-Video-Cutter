@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.InflateException
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -50,7 +49,6 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
             onInitBinding()
             onInitView()
             onObserverViewModel()
-            initOnBackPressedDispatcher()
         } catch (e: InflateException) {
             e.printStackTrace()
             Log.e(TAG, "${e.message}")
@@ -70,8 +68,6 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
     }
 
     open fun getContainerId(): Int = LAYOUT_INVALID
-
-    open fun onBackPressedDispatcher() {}
 
     fun navigateBack() {
         onBackPressedDispatcher.onBackPressed()
@@ -169,14 +165,6 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun initOnBackPressedDispatcher() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressedDispatcher()
-            }
-        })
     }
 
     interface PermissionListener {
