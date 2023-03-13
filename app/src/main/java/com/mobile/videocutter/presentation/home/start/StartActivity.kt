@@ -56,7 +56,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         }
     }
 
-    override fun onBackPressedDispatcher() {
+    override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             clearStackFragment()
         } else {
