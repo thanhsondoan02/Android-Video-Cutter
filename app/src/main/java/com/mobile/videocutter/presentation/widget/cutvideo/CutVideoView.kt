@@ -3,20 +3,20 @@ package com.mobile.videocutter.presentation.widget.cutvideo
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
-import androidx.recyclerview.widget.RecyclerView
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
+import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.domain.model.LocalVideo
@@ -37,7 +37,6 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private lateinit var vBottom: View
     private lateinit var vSelectTime: View
 
-    private lateinit var llSeekBarTime: LinearLayout
     private lateinit var tvTimeStart: TextView
     private lateinit var tvTimeCenter: TextView
     private lateinit var tvTimeEnd: TextView
@@ -74,7 +73,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private var timeCenterTrim: Long = 0L
     var timeEndTrim: Long = 0L
 
-    private val adapter = CutVideoAdapter()
+    private val adapter = CutVideoViewAdapter()
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.cut_video_view, this, true)
@@ -113,10 +112,10 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         ta.recycle()
     }
 
+    // kéo view trim begin
     @SuppressLint("ClickableViewAccessibility")
     fun moveTrimVideoStart() {
 
-        // kéo view trim begin
         vStart.setOnTouchListener { _, event ->
             when (event.action) {
 
@@ -126,6 +125,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+
                     coordinatesX = event.rawX
 
                     var timeStart = getTimeTrimConvertFromVideo(coordinatesX)
@@ -146,15 +146,20 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
                         paramsTrimVideo.leftMargin = lengthStart.toInt()
                         paramsSelectTime.leftMargin = (lengthStart + marginLeftSelectTimeDefault).toInt()
-
                         flSecond.layoutParams = paramsTrimVideo
 
                         setTimeStart(timeStart)
-                        listener?.onTimeStart(timeStart.toInt())
-                        showCountTime(false)
-                        setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
-                        invalidate()
 
+                        listener?.onTimeStart(timeStart.toInt())
+
+                        showCountTime(false)
+
+                        setBackGroundOutline(
+                            paramsTrimVideo.leftMargin.toFloat(),
+                            paramsTrimVideo.rightMargin.toFloat()
+                        )
+
+                        invalidate()
                     }
                 }
 
@@ -166,6 +171,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
+    // kéo view trim end
     @SuppressLint("ClickableViewAccessibility")
     fun moveTrimVideoEnd() {
         vEnd.setOnTouchListener { _, event ->
@@ -177,6 +183,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+
                     coordinatesX = event.rawX
 
                     var timeEnd = getTimeTrimConvertFromVideo(coordinatesX)
@@ -196,15 +203,17 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                         }
 
                         paramsTrimVideo.rightMargin = lengthEnd.toInt()
-
                         paramsSelectTime.leftMargin = (widthLayout - 2 * vEnd.width - vSelectTime.width + marginLeftSelectTimeDefault - lengthEnd).toInt()
-
                         flSecond.layoutParams = paramsTrimVideo
 
                         setTimeEnd(timeEnd)
+
                         listener?.onTimeEnd(timeEnd.toInt())
+
                         showCountTime(false)
+
                         setBackGroundOutline(paramsTrimVideo.leftMargin.toFloat(), paramsTrimVideo.rightMargin.toFloat())
+
                         invalidate()
                     }
                 }
@@ -217,7 +226,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
-
+    // kéo view select time
     @SuppressLint("ClickableViewAccessibility")
     private fun moveSelectTime() {
         vSelectTime.setOnTouchListener { _, event ->
@@ -229,6 +238,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+
                     coordinatesX = event.rawX
 
                     var timeCenter = getTimeTrimConvertFromVideo(coordinatesX)
@@ -250,10 +260,12 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
                         paramsSelectTime.leftMargin = lengthLeft.toInt()
 
                         setTimeCenter(timeCenter)
-                        listener?.onTimeCenter(timeCenter.toInt())
-                        flSecond.layoutParams = paramsTrimVideo
-                        invalidate()
 
+                        listener?.onTimeCenter(timeCenter.toInt())
+
+                        flSecond.layoutParams = paramsTrimVideo
+
+                        invalidate()
                     }
                 }
             }
@@ -261,9 +273,12 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
+    // hàm đổi tạo độ lúc chạm sang thời gian
     private fun getTimeTrimConvertFromVideo(coordinatePosition: Float): Long {
         val totalLength = widthLayout - vStart.width - vEnd.width
+
         val timeTrim = ((coordinatePosition - vStart.width - vEnd.width) / totalLength) * getTotalTimeVideo()
+
         return if (timeTrim < 0) {
             0L
         } else {
@@ -292,15 +307,15 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
     private fun setBackGroundOutline(marginLeft: Float, marginRight: Float) {
         if (marginLeft == marginLeftTrimStartDefault && marginRight == marginRightTrimEndDefault) {
-            vStart.setBackgroundResource(R.drawable.ic_black_start)
-            vEnd.setBackgroundResource(R.drawable.ic_black_end_point)
-            vTop.setBackgroundColor(getAppColor(R.color.black, context))
-            vBottom.setBackgroundColor(getAppColor(R.color.black, context))
+            vStart.background = getAppDrawable(R.drawable.ic_black_start)
+            vEnd.background = getAppDrawable(R.drawable.ic_black_end_point)
+            vTop.background = getAppDrawable(R.color.black)
+            vBottom.background = getAppDrawable(R.color.black)
         } else {
-            vStart.setBackgroundResource(R.drawable.ic_yellow_start)
-            vEnd.setBackgroundResource(R.drawable.ic_yellow_end)
-            vTop.setBackgroundColor(getAppColor(R.color.color_yellow_gradient_end, context))
-            vBottom.setBackgroundColor(getAppColor(R.color.color_yellow_gradient_end, context))
+            vStart.background = getAppDrawable(R.drawable.ic_yellow_start)
+            vEnd.background = getAppDrawable(R.drawable.ic_yellow_end)
+            vTop.background = getAppDrawable(R.color.color_yellow_gradient_end)
+            vBottom.background = getAppDrawable(R.color.color_yellow_gradient_end)
         }
     }
 
@@ -325,21 +340,6 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
-    fun setBitmapListDisplay(bitmapList: List<Bitmap>) {
-        Log.d("HEHE", "setBitmapListDisplay: ${bitmapList}")
-        rvImageVideo.apply {
-            setAdapter(adapter)
-            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-            submitList(bitmapList)
-        }
-    }
-
-    fun setConfigVideoBegin(totalTime: Long) {
-        this.totalTime = totalTime
-        this.timeEndTrim = totalTime
-        tvTimeEnd.text = getTextTimeVideo(null, totalTime)
-    }
-
     private fun getTotalTimeVideo(): Long {
         return totalTime
     }
@@ -356,24 +356,12 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         this.timeCenterTrim = time
     }
 
-    fun getTimeCenter(): Long {
-        return timeCenterTrim
-    }
-
     private fun setTimeEnd(time: Long) {
         this.timeEndTrim = time
     }
 
     private fun getTimeEnd(): Long {
         return timeEndTrim
-    }
-
-    fun getHeightListImage(): Int {
-        return heightRecyclerView
-    }
-
-    fun getWidthListImage(): Int {
-        return widthRecyclerView
     }
 
     private fun getTextTimeVideo(type: TIME_VIDEO_TYPE?, anyDuration: Long = 0L): String {
@@ -392,6 +380,28 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
             }
         }
         return localVideo.getFormattedDuration()
+    }
+
+    fun setBitmapListDisplay(bitmapList: List<Bitmap>) {
+        rvImageVideo.apply {
+            setAdapter(adapter)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+            submitList(bitmapList)
+        }
+    }
+
+    fun setConfigVideoBegin(totalTime: Long) {
+        this.totalTime = totalTime
+        this.timeEndTrim = totalTime
+        tvTimeEnd.text = getTextTimeVideo(null, totalTime)
+    }
+
+    fun getHeightListImage(): Int {
+        return heightRecyclerView
+    }
+
+    fun getWidthListImage(): Int {
+        return widthRecyclerView
     }
 
     interface IListener {

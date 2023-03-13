@@ -1,32 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <VideoView
             android:id="@+id/vvCutVideoRoot"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_300" />
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_40"
+            app:layout_constraintBottom_toTopOf="@+id/vpcCutVideoTime"
+            app:layout_constraintTop_toTopOf="parent"
+            app:use_controller="false" />
+
+        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+            android:id="@+id/vpcCutVideoTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/sbvCutVideoSelect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:vpc_left_icon="@drawable/ic_black_pause_video"
+            app:vpc_left_icon_show="true"
+            app:vpc_left_text_show="false"
+            app:vpc_right_text_show="false"
+            app:vpc_seekbar_show="false" />
+
+        <com.mobile.videocutter.presentation.widget.cutvideo.SelectButtonView
+            android:id="@+id/sbvCutVideoSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_40"
+            app:layout_constraintBottom_toTopOf="@id/cvvCutVideo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:sbv_left_tv_text="@string/cut_video_trim"
+            app:sbv_right_tv_text="@string/cut_video_cut_out" />
 
         <com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
             android:id="@+id/cvvCutVideo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/hvCutVideoBottom"
+            app:layout_constraintStart_toStartOf="parent" />
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnComfirm"
-            android:layout_width="wrap_content"
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/hvCutVideoBottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom" />
+            app:hv_center_tv_text="@string/cut_video_center"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_tv_text="Done"
+            app:hv_right_tv_text_color="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

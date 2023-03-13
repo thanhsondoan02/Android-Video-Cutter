@@ -13,6 +13,7 @@
     <color name="color_pink_gradient_start">#FF2D55</color>
     <color name="color_yellow_gradient_end">#FF9500</color>
     <color name="color_gray">#E9E9E9</color>
+    <color name="color_gray_60">#80848F</color>
     <color name="color_purple">#6F4FEE</color>
     <color name="color_purple_38">#616F4FEE</color>
     <color name="color_red">#FF4545</color>

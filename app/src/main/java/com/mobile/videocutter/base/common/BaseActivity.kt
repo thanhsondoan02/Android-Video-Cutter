@@ -172,7 +172,7 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
     }
 
     private fun initOnBackPressedDispatcher() {
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressedDispatcher()
             }

@@ -7,7 +7,7 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.databinding.CutVideoItemBinding
 
-class CutVideoAdapter : BaseAdapter() {
+class CutVideoViewAdapter : BaseAdapter() {
 
     override fun getLayoutResource(viewType: Int) = R.layout.cut_video_item
 

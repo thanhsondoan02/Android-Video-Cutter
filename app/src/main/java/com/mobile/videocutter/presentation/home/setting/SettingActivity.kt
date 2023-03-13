@@ -12,7 +12,7 @@ class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.set
         const val VIDEO_QUALITY_KEY = "VIDEO_QUALITY_KEY"
     }
 
-    override fun getContainerId(): Int = R.id.flSettingContainer
+//    override fun getContainerId(): Int = R.id.flSettingContainer
 
     override fun onInitView() {
         super.onInitView()
@@ -30,14 +30,14 @@ class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.set
             navigateBack()
         }
         binding.constSettingVideoQuality.setOnSafeClick {
-            replaceFragment(VideoQualityFragment().apply {
-                listener = object : VideoQualityFragment.IListener {
-                    override fun onVideoQualityChanged(videoQuality: VideoQuality) {
-                        saveVideoQualityKey(videoQuality)
-                        updateVideoQualityText()
-                    }
-                }
-            })
+//            replaceFragment(VideoQualityFragment().apply {
+//                listener = object : VideoQualityFragment.IListener {
+//                    override fun onVideoQualityChanged(videoQuality: VideoQuality) {
+//                        saveVideoQualityKey(videoQuality)
+//                        updateVideoQualityText()
+//                    }
+//                }
+//            })
         }
     }
 
