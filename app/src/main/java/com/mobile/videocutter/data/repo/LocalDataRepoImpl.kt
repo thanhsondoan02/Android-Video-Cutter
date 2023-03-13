@@ -4,11 +4,15 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.net.Uri
 import android.provider.MediaStore
+import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
+import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
 
 class LocalDataRepoImpl: ILocalDataRepo {
-    override fun getAlbumList(contentResolver: ContentResolver): List<Album> {
+    private val contentResolver = getApplication().contentResolver
+
+    override fun getAlbumList(): List<Album> {
         val projection = arrayOf(
             MediaStore.Video.Media._ID,
             MediaStore.Video.Media.BUCKET_ID,
@@ -49,6 +53,32 @@ class LocalDataRepoImpl: ILocalDataRepo {
             cursor.close()
         }
         return albumList
+    }
+
+    override fun getMyStudioVideoList(): List<LocalVideo> {
+        // get all video in device
+        val videoList = mutableListOf<LocalVideo>()
+        val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Video.VideoColumns.DATA,
+            MediaStore.Video.VideoColumns.DISPLAY_NAME,
+            MediaStore.Video.VideoColumns.DURATION
+        )
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.let {
+            while (it.moveToNext()) {
+                val path = it.getString(it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))
+                val name = it.getString(it.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME))
+                val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION))
+                videoList.add(LocalVideo().apply {
+                    this.videoPath = path
+                    this.videoName = name
+                    this.duration = duration
+                })
+            }
+            it.close()
+        }
+        return videoList
     }
 
     private fun getVideoCount(contentResolver: ContentResolver, albumId: Long): Int {

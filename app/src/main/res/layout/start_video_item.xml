@@ -6,36 +6,25 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcvStartVideoItmRoot"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_4"
         app:cardCornerRadius="@dimen/dimen_corner_4"
         tools:layout_height="@dimen/dimen_250">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/ivStartVideoItmImage"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tvStartVideoItmDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen_6"
-                android:layout_marginBottom="@dimen/dimen_6"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/ivStartVideoItmImage"
-                app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
-                tools:text="00:22" />
 
             <View
                 android:id="@+id/vStartVideoItmInvisibleLine"
@@ -50,11 +39,22 @@
                 android:id="@+id/vStartVideoItmBlackBlur"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/shape_black_blur"
+                android:background="@drawable/shape_black_gradient_angle_90_corner_4"
                 app:layout_constraintBottom_toBottomOf="@id/ivStartVideoItmImage"
                 app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
                 app:layout_constraintStart_toStartOf="@id/ivStartVideoItmImage"
                 app:layout_constraintTop_toBottomOf="@id/vStartVideoItmInvisibleLine" />
+
+            <TextView
+                android:id="@+id/tvStartVideoItmDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_6"
+                android:layout_marginBottom="@dimen/dimen_6"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/ivStartVideoItmImage"
+                app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
+                tools:text="00:22" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

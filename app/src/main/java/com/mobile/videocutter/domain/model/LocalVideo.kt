@@ -6,6 +6,7 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
+import getFormattedTime
 import java.io.File
 
 class LocalVideo {
@@ -60,17 +61,7 @@ class LocalVideo {
      * duration to format 00:00 or 00:00:00
      */
     fun getFormattedDuration(): String {
-        val seconds = duration / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val secondsLeft = seconds % 60
-        val minutesLeft = minutes % 60
-        val hoursLeft = hours % 60
-        return if (hoursLeft > 0) {
-            String.format("%02d:%02d:%02d", hoursLeft, minutesLeft, secondsLeft)
-        } else {
-            String.format("%02d:%02d", minutesLeft, secondsLeft)
-        }
+        return getFormattedTime(duration)
     }
 
     fun getBitmapListFromVideo(context: Context?, uri: Uri, heightBitmapScaled: Int, maxWidth: Int, totalTime: Long): List<Bitmap> {

@@ -20,10 +20,10 @@ class GlideImageLoaderImpl: IImageLoader {
         }
     }
 
-    override fun loadImage(view: ImageView, uri: String?, placeHolder: Drawable?, ignoreCache: Boolean) {
+    override fun loadImage(view: ImageView, videoPath: String?, placeHolder: Drawable?, ignoreCache: Boolean) {
         try {
             Glide.with(view)
-                .load(uri)
+                .load(videoPath)
                 .placeholder(placeHolder)
                 .skipMemoryCache(ignoreCache)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

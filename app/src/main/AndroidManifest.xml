@@ -39,10 +39,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.home.preview.PreviewVideoActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".presentation.select.selectvideo.SelectVideoActivity"
             android:exported="false" />
 
