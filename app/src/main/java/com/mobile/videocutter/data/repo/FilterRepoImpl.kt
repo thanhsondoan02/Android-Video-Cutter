@@ -1,5 +1,6 @@
 package com.mobile.videocutter.data.repo
 
+import com.mobile.videocutter.domain.model.FILTER_TYPE
 import com.mobile.videocutter.domain.repo.IFilterRepo
 import com.mobile.videocutter.presentation.filter.FilterAdapter
 
@@ -9,35 +10,35 @@ class FilterRepoImpl : IFilterRepo {
 
         list.add(
             FilterAdapter.FilterDisplay(
-                type = FilterAdapter.FILTER_TYPE.ORIGINAL,
+                type = FILTER_TYPE.ORIGINAL,
                 true
             )
         )
 
         list.add(
             FilterAdapter.FilterDisplay(
-                type = FilterAdapter.FILTER_TYPE.SPRING,
+                type = FILTER_TYPE.SPRING,
                 false
             )
         )
 
         list.add(
             FilterAdapter.FilterDisplay(
-                type = FilterAdapter.FILTER_TYPE.SUMMER,
+                type = FILTER_TYPE.SUMMER,
                 false
             )
         )
 
         list.add(
             FilterAdapter.FilterDisplay(
-                type = FilterAdapter.FILTER_TYPE.FALL,
+                type = FILTER_TYPE.FALL,
                 false
             )
         )
 
         list.add(
             FilterAdapter.FilterDisplay(
-                type = FilterAdapter.FILTER_TYPE.WINTER,
+                type = FILTER_TYPE.WINTER,
                 false
             )
         )
