@@ -1,12 +1,11 @@
 package com.mobile.videocutter.presentation.adjust
 
-import android.net.Uri
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
@@ -14,27 +13,17 @@ import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
+import com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
 import handleUiState
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
 
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
-
-    private var player: ExoPlayer? = null
-
-    override fun onPrepareInitView() {
-        super.onPrepareInitView()
-
-        if (player == null) {
-            player = ExoPlayer.Builder(this).build()
-        }
-    }
+    private var isPlay = false
 
     override fun onInitView() {
         super.onInitView()
-
-        binding.pvAdjust.player = this.player
 
         binding.hvAdjust.apply {
             setTextViewRightPadding(
@@ -52,6 +41,10 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             )
 
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
+
+            setOnLeftIconClickListener {
+                onBackPressedDispatcher()
+            }
         }
 
         binding.crvAdjust.apply {
@@ -65,23 +58,45 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             }
         }
 
-        binding.vpcAdjust.setOnLeftIconClickListener {
-            val videoPath = "android.resource://" + packageName + "/" + com.mobile.videocutter.R.raw.fake_viddeo
-            val mediaItem = MediaItem.Builder()
-                .setUri(videoPath)
-                .build()// Set the media item to be played.
-            player?.setMediaItem(mediaItem)
-            player?.prepare()
-            player?.play()
+        binding.vpcAdjust.apply {
+
+            listener = object : VideoPlayerControl.IListener {
+                override fun onPlayerReady(player: ExoPlayer) {
+                    binding.pvAdjust.player = player
+                }
+
+                override fun onPlayerEnd(isPlay: Boolean) {
+                    this@AdjustActivity.isPlay = isPlay
+                }
+            }
+
+            setOnLeftIconClickListener {
+                isPlay = !isPlay
+                if (isPlay) {
+                    resumePlayer()
+                } else {
+                    pausePlayer()
+                }
+            }
         }
 
         adapter.listener = object : AdjustAdapter.IListener {
+
+            override fun onLoadLocalVideoDefault(localVideo: LocalVideo) {
+                // load video đầu tiên
+//                binding.vpcAdjust.setUrl(STRING_DEFAULT)
+            }
+
             override fun onDelete(localVideo: LocalVideo) {
                 viewModel.deleteLocalVideo(localVideo)
             }
 
             override fun onClick(localVideo: LocalVideo) {
-                // TODO: chờ các báo thủ
+                isPlay = false
+                binding.vpcAdjust.apply {
+                    setUrl("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+                    pausePlayer()
+                }
             }
         }
     }
@@ -100,19 +115,19 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
         }
     }
 
-    override fun onCleaned() {
-        super.onCleaned()
-        player?.stop()
-        player?.release()
-        player = null
+    override fun onBackPressedDispatcher() {
+        super.onBackPressedDispatcher()
+        finish()
     }
 
-    private fun playVideo(uri: Uri) {
-        val mediaItem = MediaItem.Builder()
-            .setUri(uri)
-            .build()// Set the media item to be played.
-        player!!.setMediaItem(mediaItem)
-        player!!.prepare()
-        player!!.play()
+    override fun onStop() {
+        super.onStop()
+        isPlay = false
+        binding.vpcAdjust.pausePlayer()
+    }
+
+    override fun onCleaned() {
+        super.onCleaned()
+        binding.vpcAdjust.stopPlayer()
     }
 }
