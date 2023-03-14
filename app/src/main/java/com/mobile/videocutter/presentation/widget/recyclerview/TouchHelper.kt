@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class TouchHelper : ItemTouchHelper.Callback() {
-
     private val TAG = "ItemTouchHelperCustom"
     /**
      * nếu không phải là phần tử mới đc move còn ko thì không được phép

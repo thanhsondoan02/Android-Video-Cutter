@@ -12,7 +12,6 @@ import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MO
 import handleUiState
 
 class CropVideoActivity : BaseBindingActivity<CropVideoActivityBinding>(R.layout.crop_video_activity) {
-
     private val adapter = RatioAdapter()
 
     private val viewModel by viewModels<CropVideoViewModel>()

@@ -12,7 +12,6 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.RatioItemBinding
 
 class RatioAdapter : BaseAdapter() {
-
     companion object {
         private const val CHANGE_STATE_RATIO_TYPE = "CHANGE_STATE_RATIO_TYPE"
     }
@@ -37,7 +36,6 @@ class RatioAdapter : BaseAdapter() {
     }
 
     inner class RatioVH(private val binding: ViewDataBinding) : BaseVH<RatioDisplay>(binding) {
-
         private val viewBinding = binding as RatioItemBinding
 
         init {
@@ -82,7 +80,6 @@ class RatioAdapter : BaseAdapter() {
     }
 
     class RatioDisplay(var type: RATIO_TYPE, var isSelect: Boolean) {
-
         fun getTitle(): String {
             return when (this.type) {
                 RATIO_TYPE.CUSTOM -> getAppString(R.string.custom)

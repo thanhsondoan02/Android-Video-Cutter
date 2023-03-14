@@ -15,7 +15,6 @@ import onException
 import success
 
 class CropVideoViewModel : BaseViewModel() {
-
     private val _ratioCropVideo = MutableStateFlow(FlowResult.newInstance<MutableList<RatioAdapter.RatioDisplay>>())
     val ratioCropVideo = _ratioCropVideo.asStateFlow()
 

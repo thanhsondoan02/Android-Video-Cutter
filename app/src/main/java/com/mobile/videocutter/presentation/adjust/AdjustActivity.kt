@@ -42,7 +42,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             setDragRecyclerView()
-            setDragLastItem(true)
             listener = object : CustomRecyclerView.IListener {
                 override fun onScroll(position: Int) {
                     binding.crvAdjust.smoothiePosition(position)

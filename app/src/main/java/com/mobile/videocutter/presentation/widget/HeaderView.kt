@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -26,7 +25,6 @@ class HeaderView constructor(
     ctx: Context,
     attributeSet: AttributeSet?
 ) : ConstraintLayout(ctx, attributeSet) {
-
     // left
     private var ivLeft: ImageView? = null
     private var leftIc: Drawable? = null
@@ -76,7 +74,7 @@ class HeaderView constructor(
     private var vTop: View? = null
     private var isShowViewTop = false
 
-    private var newParams: android.view.ViewGroup.MarginLayoutParams? = null
+    private var newParams: MarginLayoutParams? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.header_view_layout, this, true)
@@ -343,10 +341,10 @@ class HeaderView constructor(
     }
 
     fun setTextViewRightMargin(
-        @DimenRes left: Float,
-        @DimenRes top: Float,
-        @DimenRes right: Float,
-        @DimenRes bottom: Float
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float
     ) {
         newParams = tvRight?.layoutParams as MarginLayoutParams
         newParams?.setMargins(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
@@ -354,10 +352,10 @@ class HeaderView constructor(
     }
 
     fun setTextViewRightPadding(
-        @DimenRes left: Float,
-        @DimenRes top: Float,
-        @DimenRes right: Float,
-        @DimenRes bottom: Float
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float
     ) {
         tvRight?.setPadding(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
     }

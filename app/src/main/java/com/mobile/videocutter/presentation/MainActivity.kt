@@ -1,9 +1,6 @@
 package com.mobile.videocutter.presentation
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.util.Log
-import android.view.ViewOverlay
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
@@ -13,9 +10,7 @@ import com.mobile.videocutter.presentation.exampleloadmore.TestAdapter
 import com.mobile.videocutter.presentation.exampleloadmore.TestViewModel
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
-
 class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_main) {
-
     private var test = TestAdapter()
     private val viewModel by viewModels<TestViewModel>()
 
@@ -53,5 +48,4 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
             }
         }
     }
-
 }

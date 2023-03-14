@@ -16,9 +16,7 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-
 class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, attr) {
-
     private val TAG = "EditImageFrame"
 
     companion object {
@@ -114,7 +112,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
         widthParent = MeasureSpec.getSize(widthMeasureSpec).toFloat()
         heightParent = MeasureSpec.getSize(heightMeasureSpec).toFloat()
 
@@ -123,7 +120,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-
         if (wightImage < widthParent) {
             startXDrawBitmap = widthParent / 2 - wightImage / 2
         }
@@ -140,7 +136,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             heightImage = heightParent
         }
 
-
         pos1X =( startXDrawBitmap + 100)* ratioWidth/ratioHeight
         pos1Y = (startYDrawBitmap + 100)* ratioWidth/ratioHeight
 
@@ -150,7 +145,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-
         if (srcImage != null) {
             destImage = Bitmap.createScaledBitmap(srcImage!!, wightImage.toInt(), heightImage.toInt(), true)
         }
@@ -160,7 +154,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
         lengthEdgeReal = pos2Y - pos1Y
         withEdgeReal = pos2X - pos1X
 
@@ -231,7 +224,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             drawLines(linesBottomLeft, paintCorner)
             // kết thúc 4 góc
 
-
             // vẽ các hàng
             for (i in 1 until sizeRow) {
                 drawLine(pos1X, ratioRow * i + pos1Y, pos2X, ratioRow * i + pos1Y, paintLine)
@@ -241,7 +233,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             for (i in 1 until sizeCol) {
                 drawLine(ratioCol * i + pos1X, pos1Y, ratioCol * i + pos1X, pos2Y, paintLine)
             }
-
         }
     }
 
@@ -256,10 +247,6 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
             MotionEvent.ACTION_MOVE -> {
                 offsetX = event.rawX - coordinatesFirstDownX
                 offsetY = event.rawY - coordinatesFirstDownY
-
-
-                Log.d(TAG, "onTouchEvent: offset1X: ${offsetX + pos1X}")
-                Log.d(TAG, "onTouchEvent: startXDrawBitmap $startXDrawBitmap")
 
                 if (
                     offsetX + pos1X >= startXDrawBitmap &&
@@ -290,18 +277,9 @@ class EditImageFrame constructor(ctx: Context, attr: AttributeSet?) : View(ctx, 
         if (url != null) {
             source = url
         }
-
         srcImage = getBitmapFromURL(source)
-
-
-        srcImage
-        Log.d(TAG, "setResource: ${srcImage.toString()}")
-
-
         wightImage = srcImage?.width?.toFloat() ?: 0f
         heightImage = srcImage?.height?.toFloat() ?: 0f
-
-
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {

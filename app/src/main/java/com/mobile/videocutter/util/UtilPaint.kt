@@ -6,7 +6,6 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppColor
 
 class UtilPaint {
-
     private val myPaint = Paint()
 
     val strokeWidth = 50f
