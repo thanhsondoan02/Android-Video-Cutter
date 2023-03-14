@@ -1,13 +1,17 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.extension.gone
+import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
 import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
@@ -36,7 +40,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             viewModel.selectVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        selectVideoAdapter.submitList(it.data?.map { video ->  SelectVideoAdapter.VideoDisplay(video) })
+                        selectVideoAdapter.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
                     }
                 })
             }
@@ -52,18 +56,34 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     private fun initRecycleView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
-            override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay, state: SelectVideoAdapter.STATE) {
+            override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay) {
                 when (videoDisplay.isSelected) {
                     true -> {
                         viewModel.listVideoAdd.add(videoDisplay)
+                        updateAddView()
                         updateSelectInAddAdapter()
                     }
                     false -> {
                         viewModel.listVideoAdd.remove(videoDisplay)
+                        updateAddView()
                         updateSelectInAddAdapter()
                     }
                 }
             }
+
+            override fun onVideoLongClick(path: String) {
+                val intent = Intent(this@SelectVideoActivity, PreviewImageFragment::class.java)
+                intent.putExtra("path", path)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun updateAddView() {
+        if (viewModel.listVideoAdd.size > 0) {
+            binding.llSelectVideoAdd.show()
+        } else {
+            binding.llSelectVideoAdd.gone()
         }
     }
 
@@ -72,6 +92,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
                 viewModel.listVideoAdd.remove(item)
                 updateSelectInAddAdapter()
+                updateAddView()
                 item.video.videoPath?.let {
                     selectVideoAdapter.updateSelect(it, false)
                 }

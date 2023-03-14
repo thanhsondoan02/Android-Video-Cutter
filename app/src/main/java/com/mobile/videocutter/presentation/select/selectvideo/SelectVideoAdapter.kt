@@ -16,18 +16,6 @@ class SelectVideoAdapter : BaseAdapter() {
     }
 
     var listener: IListener? = null
-    var state = STATE.NORMAL
-        set(value) {
-            field = value
-            if (value == STATE.NORMAL) {
-                selectedIndexList.forEach {
-                    (getDataAtPosition(it) as? VideoDisplay)?.isSelected = false
-                    notifyItemChanged(it, SELECT_PAYLOAD)
-                }
-                selectedIndexList.clear()
-            }
-        }
-
     private var selectedIndexList = mutableListOf<Int>()
 
     override fun getLayoutResource(viewType: Int) = R.layout.my_studio_video_item
@@ -52,8 +40,17 @@ class SelectVideoAdapter : BaseAdapter() {
                 if (item != null) {
                     item.isSelected = !item.isSelected
                     updateSelect(item.isSelected)
-                    listener?.onVideoClick(item, state)
+                    listener?.onVideoClick(item)
                 }
+            }
+            itemBinding.root.setOnLongClickListener {
+                val item = getDataAtPosition(adapterPosition) as? VideoDisplay
+                if (item!=null){
+                    item.isSelected = !item.isSelected
+                    updateSelect(item.isSelected)
+                    item.video.videoPath?.let { it1 -> listener?.onVideoLongClick(it1) }
+                }
+                true
             }
         }
 
@@ -69,7 +66,7 @@ class SelectVideoAdapter : BaseAdapter() {
             }
         }
 
-        fun updateSelect(isSelected: Boolean) {
+        private fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
                 itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_select_item)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
@@ -82,11 +79,8 @@ class SelectVideoAdapter : BaseAdapter() {
 
     class VideoDisplay(var video: LocalVideo, var isSelected: Boolean = false)
 
-    enum class STATE {
-        NORMAL, SELECT
-    }
-
     interface IListener {
-        fun onVideoClick(videoDisplay: VideoDisplay, state: STATE)
+        fun onVideoClick(videoDisplay: VideoDisplay)
+        fun onVideoLongClick(path: String)
     }
 }

@@ -34,6 +34,9 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
         binding.rvSelectLibraryFolder.layoutManager = LinearLayoutManager(baseContext)
         binding.rvSelectLibraryFolder.adapter = selectLibFolderAdapter
         binding.hvSelectLibraryFolder.setVisibleViewUnderLine(false)
+        binding.hvSelectLibraryFolder.setOnLeftIconClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED
         ) {
