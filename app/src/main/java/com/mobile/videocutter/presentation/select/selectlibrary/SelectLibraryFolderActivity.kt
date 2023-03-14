@@ -1,27 +1,18 @@
 package com.mobile.videocutter.presentation.select.selectlibrary
 
 import android.Manifest
-import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.provider.MediaStore
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
-import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.databinding.SelectLibraryFolderActivityBinding
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
 import handleUiState
-import kotlinx.coroutines.flow.collect
 
 class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActivityBinding>(R.layout.select_library_folder_activity) {
     private val viewModel by viewModels<SelectLibraryFolderViewModel>()
@@ -34,6 +25,9 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
         binding.rvSelectLibraryFolder.layoutManager = LinearLayoutManager(baseContext)
         binding.rvSelectLibraryFolder.adapter = selectLibFolderAdapter
         binding.hvSelectLibraryFolder.setVisibleViewUnderLine(false)
+        binding.hvSelectLibraryFolder.setOnLeftIconClickListener {
+            navigateBack()
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -71,8 +65,8 @@ class SelectLibraryFolderActivity : BaseBindingActivity<SelectLibraryFolderActiv
         selectLibFolderAdapter.albumListener = object : SelectLibraryFolderAdapter.IAlbumListener {
             override fun onClickAlbum(idAlbum: Long, nameAlbum: String) {
                 val intent = Intent(this@SelectLibraryFolderActivity, SelectVideoActivity::class.java)
-                intent.putExtra("idAlbum", idAlbum.toString())
-                intent.putExtra("nameAlbum", nameAlbum)
+                intent.putExtra(SelectVideoActivity.ALBUM_ID, idAlbum.toString())
+                intent.putExtra(SelectVideoActivity.ALBUM_NAME, nameAlbum)
                 startActivity(intent)
             }
         }

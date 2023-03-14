@@ -16,7 +16,6 @@ import onException
 import success
 
 class SelectLibraryFolderViewModel : BaseViewModel() {
-
     private val _selectLibraryFolderState = MutableStateFlow(FlowResult.newInstance<List<Album>>())
     val selectLibraryFolderState = _selectLibraryFolderState.asStateFlow()
 

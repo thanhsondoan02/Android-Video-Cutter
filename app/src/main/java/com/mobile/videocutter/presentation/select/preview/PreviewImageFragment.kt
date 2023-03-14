@@ -16,7 +16,7 @@ import java.io.IOException
 
 class PreviewImageFragment: BaseBindingFragment<PreviewImageFragmentBinding>(R.layout.preview_image_fragment) {
     companion object {
-        const val VIDEO_PATH = "video_path"
+        const val VIDEO_PATH = "VIDEO_PATH"
     }
 
     override fun onInitView() {

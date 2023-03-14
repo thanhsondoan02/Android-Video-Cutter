@@ -118,11 +118,12 @@
             android:id="@+id/crvStartVideoList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:overScrollMode="never"
-            android:paddingStart="@dimen/dimen_16"
-            android:paddingEnd="@dimen/dimen_4"
-            android:paddingBottom="@dimen/dimen_20"
+            app:crv_padding_bottom="@dimen/dimen_20"
+            app:crv_padding_end="@dimen/dimen_4"
+            app:crv_padding_start="@dimen/dimen_16"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/constStartGone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

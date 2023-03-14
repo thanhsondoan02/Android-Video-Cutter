@@ -21,7 +21,6 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.model.IViewListener
-import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
@@ -43,6 +42,9 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         }
         binding.ivStartSetting.setOnSafeClick {
             startActivity(Intent(this, SettingActivity::class.java))
+        }
+        binding.rlStart.setOnSafeClick {
+            startActivity(Intent(this, SelectLibraryFolderActivity::class.java))
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
@@ -84,7 +86,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     }
 
     private fun initRecyclerView() {
-        startAdapter.listener = object: StartAdapter.IListener {
+        startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
                 replaceFragment(
                     PreviewVideoFragment(),

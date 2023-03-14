@@ -5,7 +5,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SettingActivityBinding
-import com.mobile.videocutter.domain.model.VideoQuality
+import com.mobile.videocutter.domain.model.VIDEO_QUALITY
 
 class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.setting_activity) {
     companion object {
@@ -20,7 +20,7 @@ class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.set
         updateVideoQualityText()
     }
 
-    fun getVideoQualityFromSharePref(): VideoQuality {
+    fun getVideoQualityFromSharePref(): VIDEO_QUALITY {
         val sharedPref = getSharedPreferences(VIDEO_QUALITY_KEY, Context.MODE_PRIVATE)
         return ordinalToVideoQuality(sharedPref.getInt(VIDEO_QUALITY_KEY, 2))
     }
@@ -32,7 +32,7 @@ class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.set
         binding.constSettingVideoQuality.setOnSafeClick {
             replaceFragment(VideoQualityFragment().apply {
                 listener = object : VideoQualityFragment.IListener {
-                    override fun onVideoQualityChanged(videoQuality: VideoQuality) {
+                    override fun onVideoQualityChanged(videoQuality: VIDEO_QUALITY) {
                         saveVideoQualityKey(videoQuality)
                         updateVideoQualityText()
                     }
@@ -48,23 +48,23 @@ class SettingActivity : BaseBindingActivity<SettingActivityBinding>(R.layout.set
     /**
      * Default video quality is high
      */
-    private fun getVideoQualityText(videoQuality: VideoQuality): String {
+    private fun getVideoQualityText(videoQuality: VIDEO_QUALITY): String {
         return when (videoQuality) {
-            VideoQuality.LOW -> getString(R.string.low)
-            VideoQuality.MEDIUM -> getString(R.string.medium)
+            VIDEO_QUALITY.LOW -> getString(R.string.low)
+            VIDEO_QUALITY.MEDIUM -> getString(R.string.medium)
             else -> getString(R.string.high)
         }
     }
 
-    private fun ordinalToVideoQuality(ordinal: Int): VideoQuality {
+    private fun ordinalToVideoQuality(ordinal: Int): VIDEO_QUALITY {
         return when (ordinal) {
-            0 -> VideoQuality.LOW
-            1 -> VideoQuality.MEDIUM
-            else -> VideoQuality.HIGH
+            0 -> VIDEO_QUALITY.LOW
+            1 -> VIDEO_QUALITY.MEDIUM
+            else -> VIDEO_QUALITY.HIGH
         }
     }
 
-    private fun saveVideoQualityKey(videoQuality: VideoQuality) {
+    private fun saveVideoQualityKey(videoQuality: VIDEO_QUALITY) {
         val sharedPref = getSharedPreferences(VIDEO_QUALITY_KEY, Context.MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putInt(VIDEO_QUALITY_KEY, videoQuality.ordinal)

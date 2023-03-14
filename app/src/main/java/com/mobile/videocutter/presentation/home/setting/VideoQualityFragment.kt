@@ -6,7 +6,7 @@ import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.VideoQualityFragmentBinding
-import com.mobile.videocutter.domain.model.VideoQuality
+import com.mobile.videocutter.domain.model.VIDEO_QUALITY
 
 class VideoQualityFragment : BaseBindingFragment<VideoQualityFragmentBinding>(R.layout.video_quality_fragment) {
     var listener: IListener? = null
@@ -23,26 +23,26 @@ class VideoQualityFragment : BaseBindingFragment<VideoQualityFragmentBinding>(R.
         }
         binding.constVideoQualityLow.setOnSafeClick {
             backFragment()
-            listener?.onVideoQualityChanged(VideoQuality.LOW)
+            listener?.onVideoQualityChanged(VIDEO_QUALITY.LOW)
         }
         binding.constVideoQualityMedium.setOnSafeClick {
             backFragment()
-            listener?.onVideoQualityChanged(VideoQuality.MEDIUM)
+            listener?.onVideoQualityChanged(VIDEO_QUALITY.MEDIUM)
         }
         binding.constVideoQualityHigh.setOnSafeClick {
             backFragment()
-            listener?.onVideoQualityChanged(VideoQuality.HIGH)
+            listener?.onVideoQualityChanged(VIDEO_QUALITY.HIGH)
         }
     }
 
-    private fun updateCheckedVideoQuality(videoQuality: VideoQuality?) {
+    private fun updateCheckedVideoQuality(videoQuality: VIDEO_QUALITY?) {
         when (videoQuality) {
-            VideoQuality.LOW -> {
+            VIDEO_QUALITY.LOW -> {
                 binding.ivVideoQualityLowCheck.show()
                 binding.ivVideoQualityMediumCheck.gone()
                 binding.ivVideoQualityHighCheck.gone()
             }
-            VideoQuality.MEDIUM -> {
+            VIDEO_QUALITY.MEDIUM -> {
                 binding.ivVideoQualityLowCheck.gone()
                 binding.ivVideoQualityMediumCheck.show()
                 binding.ivVideoQualityHighCheck.gone()
@@ -56,6 +56,6 @@ class VideoQualityFragment : BaseBindingFragment<VideoQualityFragmentBinding>(R.
     }
 
     interface IListener {
-        fun onVideoQualityChanged(videoQuality: VideoQuality)
+        fun onVideoQualityChanged(videoQuality: VIDEO_QUALITY)
     }
 }
