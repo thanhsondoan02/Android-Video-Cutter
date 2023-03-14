@@ -1,7 +1,10 @@
 package com.mobile.videocutter.presentation.home.start
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
@@ -41,11 +44,27 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
             startActivity(Intent(this, SettingActivity::class.java))
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
+            doRequestPermission(
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                object : PermissionListener {
+                    override fun onAllow() {
+                        viewModel.getMyStudioVideos()
+                    }
+
         binding.rlStart.setOnSafeClick {
             startActivity(Intent(this,AdjustActivity::class.java))
         }
 
         viewModel.getMyStudioVideos()
+    }
+
+                    override fun onDenied(neverAskAgainPermissionList: List<String>) {}
+                }
+            )
+        } else {
+            viewModel.getMyStudioVideos()
+        }
     }
 
     override fun onObserverViewModel() {
@@ -62,7 +81,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         }
     }
 
-    override fun onBackPressedDispatcher() {
+    override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             clearStackFragment()
         } else {
