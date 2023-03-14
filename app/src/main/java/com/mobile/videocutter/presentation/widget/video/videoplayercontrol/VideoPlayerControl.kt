@@ -63,6 +63,7 @@ class VideoPlayerControl constructor(
 
     // source player
     private var url: String = STRING_DEFAULT
+    private var mediaItemList: MutableList<MediaItem> = arrayListOf()
 
     // callback
     var listener: IListener? = null
@@ -76,7 +77,6 @@ class VideoPlayerControl constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        initPlayer()
     }
 
     override fun onFinishInflate() {
@@ -171,23 +171,15 @@ class VideoPlayerControl constructor(
     }
 
 //    fun set
-
     private fun initPlayer() {
-
         if (player == null) {
             player = ExoPlayer.Builder(this.context).build()
         }
 
-        val mediaItem: MediaItem = if (url == STRING_DEFAULT) {
-            val uriDefault = "android.resource://" + this.context.packageName + "/" + com.mobile.videocutter.R.raw.fake_viddeo
-            MediaItem.Builder()
-                .setUri(uriDefault)
-                .build()
-        } else {
-            MediaItem.fromUri(url)
+        mediaItemList.forEach {
+            player?.addMediaItem(it)
         }
 
-        player?.setMediaItem(mediaItem)
         player?.addListener(playerListener())
         player?.prepare()
 
@@ -237,9 +229,12 @@ class VideoPlayerControl constructor(
         listener?.onPlayerReady(player!!)
     }
 
-    fun setUrl(url: String) {
-        this.url = url
-        replacePlayer(url)
+    fun setUrl(listUrl: List<String>) {
+        listUrl.forEach {
+            mediaItemList.add(MediaItem.fromUri(it))
+        }
+        Log.d(TAG, "setUrl: ${mediaItemList.size}")
+        initPlayer()
     }
 
     fun stopPlayer() {

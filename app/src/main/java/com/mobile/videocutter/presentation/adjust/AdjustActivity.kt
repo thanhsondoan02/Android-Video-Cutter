@@ -5,7 +5,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
-import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
@@ -60,6 +59,13 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
         binding.vpcAdjust.apply {
 
+            setUrl(
+                listOf(
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                )
+            )
+
             listener = object : VideoPlayerControl.IListener {
                 override fun onPlayerReady(player: ExoPlayer) {
                     binding.pvAdjust.player = player
@@ -93,10 +99,10 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
             override fun onClick(localVideo: LocalVideo) {
                 isPlay = false
-                binding.vpcAdjust.apply {
-                    setUrl("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-                    pausePlayer()
-                }
+//                binding.vpcAdjust.apply {
+//                    setUrl("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+//                    pausePlayer()
+//                }
             }
         }
     }
