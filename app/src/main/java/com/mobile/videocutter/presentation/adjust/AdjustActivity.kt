@@ -43,7 +43,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
 
             setOnLeftIconClickListener {
-                onBackPressedDispatcher()
+                onBackPressed()
             }
         }
 
@@ -115,8 +115,8 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
         }
     }
 
-    override fun onBackPressedDispatcher() {
-        super.onBackPressedDispatcher()
+    override fun onBackPressed() {
+        super.onBackPressed()
         finish()
     }
 

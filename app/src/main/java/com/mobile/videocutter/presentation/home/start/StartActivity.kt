@@ -22,6 +22,7 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
@@ -45,25 +46,19 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
-            doRequestPermission(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                object : PermissionListener {
-                    override fun onAllow() {
-                        viewModel.getMyStudioVideos()
-                    }
-
-        binding.rlStart.setOnSafeClick {
-            startActivity(Intent(this,AdjustActivity::class.java))
-        }
-
-        viewModel.getMyStudioVideos()
-    }
-
-                    override fun onDenied(neverAskAgainPermissionList: List<String>) {}
+            doRequestPermission(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), object : PermissionListener {
+                override fun onAllow() {
+                    viewModel.getMyStudioVideos()
                 }
-            )
+
+                override fun onDenied(neverAskAgainPermissionList: List<String>) {}
+            })
         } else {
             viewModel.getMyStudioVideos()
+        }
+
+        binding.rlStart.setOnSafeClick {
+            startActivity(Intent(this, AdjustActivity::class.java))
         }
     }
 
@@ -90,15 +85,9 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     }
 
     private fun initRecyclerView() {
-        startAdapter.listener = object: StartAdapter.IListener {
+        startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
-                replaceFragment(
-                    PreviewVideoFragment(),
-                    bundleOf(
-                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
-                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
-                    )
-                )
+                replaceFragment(PreviewVideoFragment(), bundleOf(PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath, PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration))
             }
         }
         binding.crvStartVideoList.setAdapter(startAdapter)
