@@ -1,5 +1,6 @@
 package com.mobile.videocutter.presentation.filter
 
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
@@ -12,7 +13,6 @@ import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MO
 import handleUiState
 
 class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filter_activity) {
-
     private val viewModel by viewModels<FilterVideoModel>()
 
     private val adapter = FilterAdapter()
@@ -25,7 +25,7 @@ class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filte
     override fun onInitView() {
         super.onInitView()
 
-        binding.footerFilter.apply {
+        binding.hvFilterFooter.apply {
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
             setTextViewRightPadding(
                 getAppDimension(R.dimen.dimen_14),

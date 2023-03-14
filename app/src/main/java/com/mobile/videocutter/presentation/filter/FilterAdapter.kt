@@ -64,25 +64,24 @@ class FilterAdapter : BaseAdapter() {
             }
         }
 
-        private fun setStateData(data: FilterDisplay){
+        private fun setStateData(data: FilterDisplay) {
             if (data.isSelect) {
-                if (data.type == FILTER_TYPE.ORIGINAL){
-                    viewBinding.icFilterItmNope.show()
+                if (data.type == FILTER_TYPE.ORIGINAL) {
+                    viewBinding.ivFilterItmNope.show()
                 }
                 viewBinding.ivFilterItmTransparent.show()
                 viewBinding.tvFilterItm.setTextColor(getAppColor(R.color.white))
                 viewBinding.tvFilterItm.background = getAppDrawable(R.drawable.shape_purple_bg_corner_bottom_4)
             } else {
                 viewBinding.tvFilterItm.background = null
-                viewBinding.icFilterItmNope.gone()
-                viewBinding.tvFilterItm.setTextColor(getAppColor(R.color.color_black_text))
+                viewBinding.ivFilterItmNope.gone()
+                viewBinding.tvFilterItm.setTextColor(getAppColor(R.color.color_black_54))
                 viewBinding.ivFilterItmTransparent.gone()
             }
         }
     }
 
     class FilterDisplay(var type: FILTER_TYPE, var isSelect: Boolean) {
-
         fun getImage(): Drawable? {
             return when (type) {
                 FILTER_TYPE.ORIGINAL -> getAppDrawable(R.drawable.img_filter_original)
