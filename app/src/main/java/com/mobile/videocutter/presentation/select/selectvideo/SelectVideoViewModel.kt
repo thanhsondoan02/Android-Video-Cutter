@@ -21,6 +21,7 @@ import success
 class SelectVideoViewModel : BaseViewModel(){
     var idAlbum = ""
     var nameAlbum = ""
+    var listVideoAdd = mutableListOf<SelectVideoAdapter.VideoDisplay>()
 
     private val _selectVideoState = MutableStateFlow(FlowResult.newInstance<List<SelectVideoAdapter.VideoDisplay>>())
     val selectVideoState = _selectVideoState.asStateFlow()

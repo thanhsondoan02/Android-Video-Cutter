@@ -1,7 +1,5 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
-import android.content.Intent
-import android.provider.MediaStore
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,16 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
-import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.domain.model.Video
-import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
-import com.mobile.videocutter.presentation.home.preview.PreviewVideoActivity
 import com.mobile.videocutter.presentation.model.IViewListener
 import handleUiState
-import java.util.concurrent.TimeUnit
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
-    private var listVideoAdd = mutableListOf<Video>()
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val selectVideoAddAdapter by lazy { SelectVideoAddAdapter() }
 
@@ -26,6 +18,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     override fun onInitView() {
         super.onInitView()
+        binding.rvSelectVideoAdd.adapter = selectVideoAddAdapter
+        binding.rvSelectVideoAdd.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
         viewModel.idAlbum = intent.getStringExtra("idAlbum").toString()
         viewModel.nameAlbum = intent.getStringExtra("nameAlbum").toString()
         binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
@@ -33,6 +27,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             onBackPressedDispatcher.onBackPressed()
         }
         loadVideo()
+        initAddRecycleView()
     }
 
     override fun onObserverViewModel() {
@@ -55,27 +50,37 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         viewModel.getVideoList(viewModel.idAlbum)
     }
 
-    private fun initRecycleView(){
+    private fun initRecycleView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
-            override fun onVideoClick(video: Video, state: SelectVideoAdapter.STATE, size: Int) {
-                when (state) {
-                    SelectVideoAdapter.STATE.NORMAL -> {
-
+            override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay, state: SelectVideoAdapter.STATE) {
+                when (videoDisplay.isSelected) {
+                    true -> {
+                        viewModel.listVideoAdd.add(videoDisplay)
+                        updateSelectInAddAdapter()
                     }
-                    SelectVideoAdapter.STATE.SELECT -> {
-                        updateSelected(size, video)
+                    false -> {
+                        viewModel.listVideoAdd.remove(videoDisplay)
+                        updateSelectInAddAdapter()
                     }
                 }
             }
         }
     }
 
-    private fun updateSelected(size: Int, video: Video){
-        binding.rvSelectVideoAdd.adapter = selectVideoAddAdapter
-        binding.rvSelectVideoAdd.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
-        binding.btnSelectVideoAdd.text = "Add($size)"
-        listVideoAdd.add(video)
-        selectVideoAddAdapter.submitList(listVideoAdd)
+    private fun initAddRecycleView() {
+        selectVideoAddAdapter.listener = object : SelectVideoAddAdapter.IListener {
+            override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
+                viewModel.listVideoAdd.remove(item)
+                updateSelectInAddAdapter()
+                item.video.idVideo?.let {
+                    selectVideoAdapter.updateSelect(it, false)
+                }
+            }
+        }
+    }
 
+    private fun updateSelectInAddAdapter() {
+        binding.btnSelectVideoAdd.text = getString(R.string.select_add).replaceFirst("0", viewModel.listVideoAdd.size.toString())
+        selectVideoAddAdapter.submitList(viewModel.listVideoAdd)
     }
 }

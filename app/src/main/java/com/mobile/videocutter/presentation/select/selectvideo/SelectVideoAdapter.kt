@@ -38,19 +38,24 @@ class SelectVideoAdapter : BaseAdapter() {
         return VideoVH(binding as MyStudioVideoItemBinding)
     }
 
+    fun updateSelect(id: Long, isSelected: Boolean) {
+        val index = dataList.indexOfFirst { (it as? VideoDisplay)?.video?.idVideo == id }
+        if (index != -1) {
+            (dataList[index] as? VideoDisplay)?.isSelected = isSelected
+            notifyItemChanged(index, SELECT_PAYLOAD)
+        }
+    }
+
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
 
         init {
             itemBinding.root.setOnClickListener {
-                val videoDisplay = (getDataAtPosition(adapterPosition) as? VideoDisplay)
-                (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not() ?: false
-                updateSelect(videoDisplay?.isSelected == true)
-                if (videoDisplay?.isSelected == true) {
-                    selectedIndexList.add(adapterPosition)
-                } else {
-                    selectedIndexList.remove(adapterPosition)
+                val item = getDataAtPosition(adapterPosition) as? VideoDisplay
+                if (item != null) {
+                    item.isSelected = !item.isSelected
+                    updateSelect(item.isSelected)
+                    listener?.onVideoClick(item, state)
                 }
-                videoDisplay?.video?.let { it1 -> listener?.onVideoClick(it1, state, selectedIndexList.size) }
             }
         }
 
@@ -66,7 +71,7 @@ class SelectVideoAdapter : BaseAdapter() {
             }
         }
 
-        private fun updateSelect(isSelected: Boolean) {
+        fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
                 itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_select_item)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
@@ -84,6 +89,6 @@ class SelectVideoAdapter : BaseAdapter() {
     }
 
     interface IListener {
-        fun onVideoClick(video: Video, state: STATE, size: Int)
+        fun onVideoClick(videoDisplay: VideoDisplay, state: STATE)
     }
 }

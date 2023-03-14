@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/color_purple"
-                        android:text="Add(3)"
+                        android:text="@string/select_add"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_text_size_14" />
