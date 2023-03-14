@@ -35,4 +35,5 @@
     <string name="_2x">2x</string>
     <string name="_3x">3x</string>
     <string name="_4x">4x</string>
+    <string name="permission_not_granted">Permissions are not granted</string>
 </resources>

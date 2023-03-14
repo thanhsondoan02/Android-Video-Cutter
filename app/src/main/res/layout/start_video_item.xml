@@ -15,14 +15,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <View
+                android:id="@+id/vStartVideoItmInvisible"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintDimensionRatio="H, 1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteX="163dp"
+                tools:layout_editor_absoluteY="186dp" />
+
             <ImageView
                 android:id="@+id/ivStartVideoItmImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintEnd_toEndOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintStart_toStartOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintTop_toTopOf="@id/vStartVideoItmInvisible"
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/avatars" />
 
