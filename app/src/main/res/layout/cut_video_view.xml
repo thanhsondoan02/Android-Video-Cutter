@@ -91,7 +91,7 @@
         android:textSize="@dimen/dimen_text_size_14" />
 
     <View
-        android:id="@+id/vCutViewSelectTime"
+        android:id="@+id/vCutVideoSelectTime"
         android:layout_width="@dimen/dimen_6"
         android:layout_height="@dimen/dimen_76"
         android:layout_gravity="center_vertical"

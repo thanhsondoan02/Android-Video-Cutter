@@ -45,7 +45,8 @@ class LocalVideo {
         val mediaMetadataRetriever = MediaMetadataRetriever()
         try {
             mediaMetadataRetriever.setDataSource(videoPath)
-            val time = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val time = mediaMetadataRetriever
+                .extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             duration = time!!.toLong()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -74,8 +75,11 @@ class LocalVideo {
 
         val bitmapList: MutableList<Bitmap> = arrayListOf()
 
-        val widthBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-        val heightBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+        val widthBitmap = mediaMetadataRetriever
+            .extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+
+        val heightBitmap = mediaMetadataRetriever
+            .extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
 
         if (heightBitmap != null && widthBitmap != null) {
 
@@ -87,9 +91,10 @@ class LocalVideo {
 
                 val frameTime: Long = interval * i
 
-                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(
-                    frameTime * 1000,
-                    MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                var bitmapFullSize: Bitmap? = mediaMetadataRetriever
+                    .getFrameAtTime(
+                        frameTime * 1000,
+                        MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
                 bitmapFullSize = bitmapFullSize?.let {
                     Bitmap.createScaledBitmap(

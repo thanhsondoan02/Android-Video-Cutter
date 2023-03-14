@@ -102,7 +102,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         vEnd = findViewById(R.id.vCutVideoEnd)
         vTop = findViewById(R.id.vCutVideoTop)
         vBottom = findViewById(R.id.vCutVideoBottom)
-        vSelectTime = findViewById(R.id.vCutViewSelectTime)
+        vSelectTime = findViewById(R.id.vCutVideoSelectTime)
 
         tvTimeStart = findViewById(R.id.tvCutVideoTimeStart)
         tvTimeCenter = findViewById(R.id.tvCutVideoTimeCenter)

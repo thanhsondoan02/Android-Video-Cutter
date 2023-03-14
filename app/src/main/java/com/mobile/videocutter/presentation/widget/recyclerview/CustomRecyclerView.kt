@@ -125,7 +125,6 @@ class CustomRecyclerView constructor(
         }
     }
 
-
     fun showLoading() {
         hideLoading()
         baseAdapter?.makeLoading()
