@@ -16,7 +16,7 @@ import java.io.IOException
 
 class PreviewImageFragment: BaseBindingFragment<PreviewImageFragmentBinding>(R.layout.preview_image_fragment) {
     companion object {
-        const val IMAGE_PATH = "image_path"
+        const val VIDEO_PATH = "VIDEO_PATH"
     }
 
     override fun onInitView() {
@@ -27,7 +27,7 @@ class PreviewImageFragment: BaseBindingFragment<PreviewImageFragmentBinding>(R.l
         binding.ivPreviewThumbnail.setOnSafeClick {
             // do nothing
         }
-        calculateWidthHeightAndLoadVideoThumbnail(requireArguments().getString(IMAGE_PATH))
+        calculateWidthHeightAndLoadVideoThumbnail(requireArguments().getString(VIDEO_PATH))
     }
 
     private fun calculateWidthHeightAndLoadVideoThumbnail(path: String?) {

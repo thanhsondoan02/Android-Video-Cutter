@@ -1,14 +1,9 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
-import android.content.ContentResolver
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
-import com.mobile.videocutter.base.extension.getApplication
-import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.domain.model.Video
-import com.mobile.videocutter.domain.usecase.GetAlbumListUseCase
-import com.mobile.videocutter.domain.usecase.GetVideoListUseCase
+import com.mobile.videocutter.domain.usecase.GetVideoListInAlbumUseCase
 import com.mobile.videocutter.thread.FlowResult
 import failure
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,8 +24,8 @@ class SelectVideoViewModel : BaseViewModel() {
 
     fun getVideoList(idAlbum: String) {
         viewModelScope.launch {
-            val rv = GetVideoListUseCase.GetVideoListRV(idAlbum)
-            GetVideoListUseCase().invoke(rv)
+            val rv = GetVideoListInAlbumUseCase.GetVideoListRV(idAlbum)
+            GetVideoListInAlbumUseCase().invoke(rv)
                 .onStart {
                     _selectVideoState.loading()
                 }

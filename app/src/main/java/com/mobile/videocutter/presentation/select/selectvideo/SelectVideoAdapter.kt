@@ -5,7 +5,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppDimension
-import com.mobile.videocutter.base.extension.getAppDrawable
+import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import loadImage
@@ -33,7 +33,6 @@ class SelectVideoAdapter : BaseAdapter() {
     }
 
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
-
         init {
             itemBinding.root.setOnClickListener {
                 val item = getDataAtPosition(adapterPosition) as? VideoDisplay
@@ -57,6 +56,8 @@ class SelectVideoAdapter : BaseAdapter() {
         override fun onBind(data: VideoDisplay) {
             itemBinding.tvMyStudioVideoItmDuration.text = data.video.getFormattedDuration()
             itemBinding.ivMyStudioVideoItmImage.loadImage(data.video.videoPath)
+            itemBinding.ivMyStudioVideoItmSelected.show()
+            itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_unselect)
             updateSelect(data.isSelected)
         }
 
@@ -68,10 +69,10 @@ class SelectVideoAdapter : BaseAdapter() {
 
         private fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
-                itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_select_item)
+                itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_select)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
             } else {
-                itemBinding.ivMyStudioVideoItmSelected.background = getAppDrawable(R.drawable.ic_unselect_item)
+                itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_unselect)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = 0
             }
         }

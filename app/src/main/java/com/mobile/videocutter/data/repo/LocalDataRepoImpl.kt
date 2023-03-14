@@ -6,11 +6,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
-import com.mobile.videocutter.domain.model.Video
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
-import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoAdapter
-import java.util.concurrent.TimeUnit
 
 class LocalDataRepoImpl: ILocalDataRepo {
     private val contentResolver = getApplication().contentResolver
@@ -56,12 +53,6 @@ class LocalDataRepoImpl: ILocalDataRepo {
             cursor.close()
         }
         return albumList
-    }
-
-    private fun formatDuration(duration: Long): String {
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(duration)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(minutes)
-        return String.format("%02d:%02d", minutes, seconds)
     }
 
     override fun getMyStudioVideoList(albumId: String?): List<LocalVideo> {

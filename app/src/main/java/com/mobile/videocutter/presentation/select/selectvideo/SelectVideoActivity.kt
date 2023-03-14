@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.gone
@@ -13,7 +12,6 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 import com.mobile.videocutter.presentation.adjust.AdjustActivity
-import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
@@ -21,6 +19,11 @@ import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MO
 import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
+    companion object {
+        const val ALBUM_ID = "ALBUM_ID"
+        const val ALBUM_NAME = "ALBUM_NAME"
+    }
+
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val selectVideoAddAdapter by lazy { SelectVideoAddAdapter() }
 
@@ -40,11 +43,11 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 }
             }
         }
-        viewModel.idAlbum = intent.getStringExtra("idAlbum").toString()
-        viewModel.nameAlbum = intent.getStringExtra("nameAlbum").toString()
+        viewModel.idAlbum = intent.getStringExtra(ALBUM_ID).toString()
+        viewModel.nameAlbum = intent.getStringExtra(ALBUM_NAME).toString()
         binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
         binding.hvSelectVideo.setOnLeftIconClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            navigateBack()
         }
         binding.btnSelectVideoAdd.setOnSafeClick {
             var intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
@@ -95,9 +98,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             override fun onVideoLongClick(path: String) {
                 replaceFragment(
                     PreviewImageFragment(),
-                    bundleOf(
-                        PreviewImageFragment.IMAGE_PATH to path
-                    )
+                    bundleOf(PreviewImageFragment.VIDEO_PATH to path)
                 )
             }
         }
