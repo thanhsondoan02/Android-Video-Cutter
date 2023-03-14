@@ -16,6 +16,9 @@ import com.mobile.videocutter.presentation.widget.video.videoplayercontrol.Video
 import handleUiState
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
+    companion object {
+        const val LIST_VIDEO = "list_video"
+    }
 
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()

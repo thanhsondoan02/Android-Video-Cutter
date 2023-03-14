@@ -37,12 +37,16 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
     override fun onInitView() {
         super.onInitView()
+
         initRecyclerView()
         binding.tvStartSeeAllMyStudio.setOnSafeClick {
             startActivity(Intent(this, MyStudioActivity::class.java))
         }
         binding.ivStartSetting.setOnSafeClick {
             startActivity(Intent(this, SettingActivity::class.java))
+        }
+        binding.rlStart.setOnSafeClick {
+            startActivity(Intent(this, SelectLibraryFolderActivity::class.java))
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {

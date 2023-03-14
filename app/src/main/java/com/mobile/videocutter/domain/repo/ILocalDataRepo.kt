@@ -5,5 +5,5 @@ import com.mobile.videocutter.domain.model.LocalVideo
 
 interface ILocalDataRepo {
     fun getAlbumList(): List<Album>
-    fun getMyStudioVideoList(): List<LocalVideo>
+    fun getMyStudioVideoList(albumId: String? = null): List<LocalVideo>
 }
