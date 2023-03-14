@@ -12,9 +12,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.mobile.videocutter.R
-import com.mobile.videocutter.base.extension.getAppColor
-import com.mobile.videocutter.base.extension.getAppDimension
-import com.mobile.videocutter.base.extension.hide
+import com.mobile.videocutter.base.extension.*
 
 class SpeedVideoView constructor(
     ctx: Context,
@@ -224,31 +222,31 @@ class SpeedVideoView constructor(
     }
 
     private fun selectSpeed() {
-        tvUnSelect0At75X?.setOnClickListener {
+        tvUnSelect0At75X?.setOnSafeClick {
             selectSpeed0At75X()
         }
 
-        tvUnSelect0At5X?.setOnClickListener {
+        tvUnSelect0At5X?.setOnSafeClick {
             selectSpeed0At5X()
         }
 
-        tvUnSelect0At25X?.setOnClickListener {
+        tvUnSelect0At25X?.setOnSafeClick {
             selectSpeed0At25X()
         }
 
-        tvUnSelect1X?.setOnClickListener {
+        tvUnSelect1X?.setOnSafeClick {
             selectSpeed1X()
         }
 
-        tvUnSelect2X?.setOnClickListener {
+        tvUnSelect2X?.setOnSafeClick {
             selectSpeed2X()
         }
 
-        tvUnSelect3X?.setOnClickListener {
+        tvUnSelect3X?.setOnSafeClick {
             selectSpeed3X()
         }
 
-        tvUnSelect4X?.setOnClickListener {
+        tvUnSelect4X?.setOnSafeClick {
             selectSpeed4X()
         }
     }
@@ -350,12 +348,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent4X() {
         resetViewOld()
-        vUnSelect4X?.isVisible = false
+        vUnSelect4X?.gone()
         tvUnSelect4X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose4X?.isVisible = true
+        ivChose4X?.show()
         viewOld = vUnSelect4X
         textViewOld = tvUnSelect4X
         ivOld = ivChose4X
@@ -363,12 +361,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent3X() {
         resetViewOld()
-        vUnSelect3X?.isVisible = false
+        vUnSelect3X?.gone()
         tvUnSelect3X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose3X?.isVisible = true
+        ivChose3X?.show()
         viewOld = vUnSelect3X
         textViewOld = tvUnSelect3X
         ivOld = ivChose3X
@@ -376,12 +374,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent2X() {
         resetViewOld()
-        vUnSelect2X?.isVisible = false
+        vUnSelect2X?.gone()
         tvUnSelect2X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose2X?.isVisible = true
+        ivChose2X?.show()
         viewOld = vUnSelect2X
         textViewOld = tvUnSelect2X
         ivOld = ivChose2X
@@ -389,12 +387,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent1X() {
         resetViewOld()
-        vUnSelect1X?.isVisible = false
+        vUnSelect1X?.gone()
         tvUnSelect1X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose1X?.isVisible = true
+        ivChose1X?.show()
         viewOld = vUnSelect1X
         textViewOld = tvUnSelect1X
         ivOld = ivChose1X
@@ -402,12 +400,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At25X() {
         resetViewOld()
-        vUnSelect0At25X?.isVisible = false
+        vUnSelect0At25X?.gone()
         tvUnSelect0At25X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot25X?.isVisible = true
+        ivChose0Dot25X?.show()
         viewOld = vUnSelect0At25X
         textViewOld = tvUnSelect0At25X
         ivOld = ivChose0Dot25X
@@ -415,12 +413,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At5X() {
         resetViewOld()
-        vUnSelect0At5X?.isVisible = false
+        vUnSelect0At5X?.gone()
         tvUnSelect0At5X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot5X?.isVisible = true
+        ivChose0Dot5X?.show()
         viewOld = vUnSelect0At5X
         textViewOld = tvUnSelect0At5X
         ivOld = ivChose0Dot5X
@@ -428,19 +426,19 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At75X() {
         resetViewOld()
-        vUnSelect0At75X?.isVisible = false
+        vUnSelect0At75X?.gone()
         tvUnSelect0At75X?.apply {
             setTextColor(getAppColor(R.color.color_purple))
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot75X?.isVisible = true
+        ivChose0Dot75X?.show()
         viewOld = vUnSelect0At75X
         textViewOld = tvUnSelect0At75X
         ivOld = ivChose0Dot75X
     }
 
     private fun resetViewOld() {
-        viewOld?.isVisible = true
+        viewOld?.show()
         textViewOld?.apply {
             setTextColor(Color.BLACK)
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_10))

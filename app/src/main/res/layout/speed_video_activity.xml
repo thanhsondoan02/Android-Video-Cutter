@@ -25,9 +25,9 @@
             android:layout_marginBottom="@dimen/dimen_66"
             app:vpc_left_icon="@drawable/ic_black_pause_video"
             app:vpc_left_icon_show="true"
-            app:vpc_left_text="90:00"
+            app:vpc_left_text="00:00"
             app:vpc_left_text_show="true"
-            app:vpc_right_text="98:09"
+            app:vpc_right_text="00:00"
             app:vpc_right_text_show="true"
             app:vpc_seekbar_show="true"
             app:layout_constraintEnd_toStartOf="parent"
@@ -39,12 +39,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_36"
-            app:layout_constraintBottom_toTopOf="@id/footerSpeedVideo"
+            app:layout_constraintBottom_toTopOf="@id/hvSpeedVideoFooter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.mobile.videocutter.presentation.widget.HeaderView
-            android:id="@+id/footerSpeedVideo"
+            android:id="@+id/hvSpeedVideoFooter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hv_bottom_v_is_visible="false"

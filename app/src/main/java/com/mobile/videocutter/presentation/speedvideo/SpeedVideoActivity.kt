@@ -7,11 +7,10 @@ import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.SpeedVideoActivityBinding
 
 class SpeedVideoActivity : BaseBindingActivity<SpeedVideoActivityBinding>(R.layout.speed_video_activity){
-
     override fun onInitView() {
         super.onInitView()
 
-        binding.footerSpeedVideo.apply {
+        binding.hvSpeedVideoFooter.apply {
             setTextViewRightPadding(
                 getAppDimension(R.dimen.dimen_14),
                 getAppDimension(R.dimen.dimen_4),
