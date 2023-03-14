@@ -7,9 +7,9 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.*
 import com.mobile.videocutter.databinding.FilterItemBinding
+import com.mobile.videocutter.domain.model.FILTER_TYPE
 
 class FilterAdapter : BaseAdapter() {
-
     companion object {
         private const val CHANGE_STATE_FILTER_PAYLOAD = "CHANGE_STATE_FILTER_PAYLOAD"
     }
@@ -101,13 +101,5 @@ class FilterAdapter : BaseAdapter() {
                 FILTER_TYPE.WINTER -> getAppString(R.string.winter)
             }
         }
-    }
-
-    enum class FILTER_TYPE {
-        ORIGINAL,
-        SPRING,
-        SUMMER,
-        FALL,
-        WINTER
     }
 }
