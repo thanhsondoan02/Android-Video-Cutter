@@ -5,11 +5,6 @@
 
     </declare-styleable>
 
-    <declare-styleable name="SelectButtonView">
-        <attr name="sbv_left_tv_text" format="string" />
-        <attr name="sbv_right_tv_text" format="string" />
-    </declare-styleable>
-
     <!--HeaderView-->
     <declare-styleable name="HeaderView">
         <!--left-->

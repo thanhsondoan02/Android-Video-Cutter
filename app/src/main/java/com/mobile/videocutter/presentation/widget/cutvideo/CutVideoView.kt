@@ -150,7 +150,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
                         setTimeStart(timeStart)
 
-                        listener?.onTimeStart(timeStart.toInt())
+                        listener?.onTimeStart(timeStart)
 
                         showCountTime(false)
 
@@ -208,7 +208,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
                         setTimeEnd(timeEnd)
 
-                        listener?.onTimeEnd(timeEnd.toInt())
+                        listener?.onTimeEnd(timeEnd)
 
                         showCountTime(false)
 
@@ -261,7 +261,7 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
                         setTimeCenter(timeCenter)
 
-                        listener?.onTimeCenter(timeCenter.toInt())
+                        listener?.onTimeCenter(timeCenter)
 
                         flSecond.layoutParams = paramsTrimVideo
 
@@ -405,8 +405,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     }
 
     interface IListener {
-        fun onTimeStart(timeStart: Int)
-        fun onTimeCenter(timeCenter: Int)
-        fun onTimeEnd(timeEnd: Int)
+        fun onTimeStart(timeStart: Long)
+        fun onTimeCenter(timeCenter: Long)
+        fun onTimeEnd(timeEnd: Long)
     }
 }

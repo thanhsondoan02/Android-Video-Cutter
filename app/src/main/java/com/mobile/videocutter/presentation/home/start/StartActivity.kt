@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -15,10 +14,10 @@ import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.StartActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.mockLocalVideoList
+import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
-import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
@@ -82,15 +81,18 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     }
 
     private fun initRecyclerView() {
-        startAdapter.listener = object: StartAdapter.IListener {
+        startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
-                replaceFragment(
-                    PreviewVideoFragment(),
-                    bundleOf(
-                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
-                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
-                    )
-                )
+//                replaceFragment(
+//                    PreviewVideoFragment(),
+//                    bundleOf(
+//                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
+//                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
+//                    )
+//                )
+                val intent = Intent(this@StartActivity, CutVideoActivity::class.java)
+                intent.putExtra(CutVideoActivity.VIDEO_PATH, localVideo?.videoPath)
+                startActivity(intent)
             }
         }
         binding.crvStartVideoList.setAdapter(startAdapter)

@@ -5,7 +5,7 @@
         android:id="@+id/ivCutVideoItmRoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="center"
+        android:scaleType="fitCenter"
         android:layout_gravity="center" />
 
 </layout>
