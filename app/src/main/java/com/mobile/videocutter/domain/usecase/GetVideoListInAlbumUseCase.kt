@@ -7,8 +7,8 @@ import com.mobile.videocutter.domain.model.LocalVideo
 class GetVideoListInAlbumUseCase : BaseUseCase<GetVideoListInAlbumUseCase.GetVideoListRV, List<LocalVideo>>() {
     override suspend fun execute(rv: GetVideoListRV): List<LocalVideo> {
         val repo = RepositoryFactory.getLocalDataRepo()
-        return repo.getMyStudioVideoList(rv.id)
+        return repo.getMyStudioVideoList(rv.albumId)
     }
 
-    class GetVideoListRV(val id: String) : RequestValue
+    class GetVideoListRV(val albumId: String) : RequestValue
 }
