@@ -14,12 +14,7 @@ import handleUiState
 class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filter_activity) {
     private val viewModel by viewModels<FilterVideoModel>()
 
-    private val adapter = FilterAdapter()
-
-    override fun onPrepareInitView() {
-        super.onPrepareInitView()
-        viewModel.getFilter()
-    }
+    private val adapter by lazy { FilterAdapter() }
 
     override fun onInitView() {
         super.onInitView()
@@ -45,6 +40,8 @@ class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filte
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
         }
+
+        viewModel.getFilter()
     }
 
     override fun onObserverViewModel() {
