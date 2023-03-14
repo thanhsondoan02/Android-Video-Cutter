@@ -38,7 +38,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
             startActivity(Intent(this, MyStudioActivity::class.java))
         }
         binding.ivStartSetting.setOnSafeClick {
-            startActivity(Intent(this, FilterActivity::class.java))
+            startActivity(Intent(this, SettingActivity::class.java))
         }
         viewModel.getMyStudioVideos()
     }

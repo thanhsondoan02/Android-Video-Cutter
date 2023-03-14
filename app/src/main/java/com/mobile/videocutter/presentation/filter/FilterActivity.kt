@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.filter
 
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
