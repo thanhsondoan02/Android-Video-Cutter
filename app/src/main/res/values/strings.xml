@@ -24,6 +24,15 @@
     <string name="medium">Medium</string>
     <string name="high">High</string>
     <string name="home">Home</string>
+
+    // filter
+    <string name="filter">Filter</string>
+    <string name="done">Done</string>
+    <string name="original">Original</string>
+    <string name="spring">Spring</string>
+    <string name="summer">Summer</string>
+    <string name="fall">Fall</string>
+    <string name="winter">Winter</string>
     <string name="permission_not_granted">Permissions are not granted</string>
     <string name="select_add">Add(0)</string>
 </resources>

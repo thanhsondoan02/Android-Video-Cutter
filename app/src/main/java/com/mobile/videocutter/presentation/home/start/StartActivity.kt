@@ -15,6 +15,7 @@ import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.StartActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.mockLocalVideoList
+import com.mobile.videocutter.presentation.filter.FilterActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
@@ -86,7 +87,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     }
 
     private fun initRecyclerView() {
-        startAdapter.listener = object: StartAdapter.IListener {
+        startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
                 replaceFragment(
                     PreviewVideoFragment(),
