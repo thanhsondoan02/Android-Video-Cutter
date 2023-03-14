@@ -10,21 +10,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.125" />
+        app:layout_constraintGuide_percent="0.1147" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.2427" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV375"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.375" />
+        app:layout_constraintGuide_percent="0.3707" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV5"
@@ -38,21 +38,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.625" />
+        app:layout_constraintGuide_percent="0.6267" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV75"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.7547" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV875"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.875" />
+        app:layout_constraintGuide_percent="0.8827" />
 
     <TextView
         android:id="@+id/tvSpeedVideo0.75X"
@@ -136,14 +136,84 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.075" />
+        app:layout_constraintGuide_percent="0.0747" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSpeedVideoV925"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.925" />
+        app:layout_constraintGuide_percent="0.9253" />
+
+    <View
+        android:id="@+id/vSpeedVideoClick0.75X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo0.75X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo0.75X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo0.75X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo0.75X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick0.5X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo0.5X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo0.5X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo0.5X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo0.5X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick0.25X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo0.25X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo0.25X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo0.25X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo0.25X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick1X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo1X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo1X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo1X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo1X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick2X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo2X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo2X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo2X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo2X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick3X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo3X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo3X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo3X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo3X"/>
+
+    <View
+        android:id="@+id/vSpeedVideoClick4X"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        app:layout_constraintStart_toStartOf="@id/vSpeedVideo4X"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vSpeedVideo4X"
+        app:layout_constraintTop_toTopOf="@id/vSpeedVideo4X"
+        app:layout_constraintBottom_toBottomOf="@id/vSpeedVideo4X"/>
 
     <FrameLayout
         android:id="@+id/imSpeedVideoBackground"

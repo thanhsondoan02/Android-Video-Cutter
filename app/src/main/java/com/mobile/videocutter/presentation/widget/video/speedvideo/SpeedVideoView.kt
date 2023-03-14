@@ -64,6 +64,15 @@ class SpeedVideoView constructor(
     private var vUnSelect3CoordinateX = 0
     private var vUnSelect4CoordinateX = 0
 
+    // view click
+    private var vClickSpeedVideo0_75X: View? = null
+    private var vClickSpeedVideo0_5X: View? = null
+    private var vClickSpeedVideo0_25X: View? = null
+    private var vClickSpeedVideo1X: View? = null
+    private var vClickSpeedVideo2X: View? = null
+    private var vClickSpeedVideo3X: View? = null
+    private var vClickSpeedVideo4X: View? = null
+
     // tọa độ điểm chạm đầu tiên
     private var coordinateXFirst = 0f
 
@@ -159,6 +168,15 @@ class SpeedVideoView constructor(
         tvUnSelect3X = findViewById(R.id.tvSpeedVideo3X)
         tvUnSelect4X = findViewById(R.id.tvSpeedVideo4X)
 
+        // view click
+        vClickSpeedVideo0_75X = findViewById(R.id.vSpeedVideoClick0_75X)
+        vClickSpeedVideo0_5X = findViewById(R.id.vSpeedVideoClick0_5X)
+        vClickSpeedVideo0_25X = findViewById(R.id.vSpeedVideoClick0_25X)
+        vClickSpeedVideo1X = findViewById(R.id.vSpeedVideoClick1X)
+        vClickSpeedVideo2X = findViewById(R.id.vSpeedVideoClick2X)
+        vClickSpeedVideo3X = findViewById(R.id.vSpeedVideoClick3X)
+        vClickSpeedVideo4X = findViewById(R.id.vSpeedVideoClick4X)
+
         newParamsIVSelect = ivSelect?.layoutParams as MarginLayoutParams
     }
 
@@ -222,31 +240,31 @@ class SpeedVideoView constructor(
     }
 
     private fun selectSpeed() {
-        tvUnSelect0At75X?.setOnSafeClick {
+        vClickSpeedVideo0_75X?.setOnSafeClick {
             selectSpeed0At75X()
         }
 
-        tvUnSelect0At5X?.setOnSafeClick {
+        vClickSpeedVideo0_5X?.setOnSafeClick {
             selectSpeed0At5X()
         }
 
-        tvUnSelect0At25X?.setOnSafeClick {
+        vClickSpeedVideo0_25X?.setOnSafeClick {
             selectSpeed0At25X()
         }
 
-        tvUnSelect1X?.setOnSafeClick {
+        vClickSpeedVideo1X?.setOnSafeClick {
             selectSpeed1X()
         }
 
-        tvUnSelect2X?.setOnSafeClick {
+        vClickSpeedVideo2X?.setOnSafeClick {
             selectSpeed2X()
         }
 
-        tvUnSelect3X?.setOnSafeClick {
+        vClickSpeedVideo3X?.setOnSafeClick {
             selectSpeed3X()
         }
 
-        tvUnSelect4X?.setOnSafeClick {
+        vClickSpeedVideo4X?.setOnSafeClick {
             selectSpeed4X()
         }
     }
