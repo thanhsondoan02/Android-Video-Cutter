@@ -16,12 +16,14 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VideoCutter"
         tools:targetApi="31">
+
         <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
+            android:name=".presentation.home.start.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +36,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.select.selectvideo.SelectVideoActivity"
+            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
             android:exported="false" />
 
         <activity
@@ -42,16 +44,16 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.home.preview.PreviewVideoActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.select.selectvideo.SelectVideoActivity"
             android:exported="false" />
 
         <activity
             android:name=".presentation.adjust.AdjustActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.home.setting.SettingActivity"
+            android:exported="false" />
 
     </application>
 

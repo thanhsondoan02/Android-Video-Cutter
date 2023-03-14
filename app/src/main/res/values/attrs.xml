@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--HeaderView-->
+    <declare-styleable name="HeaderView">
+        <!--left-->
+        <attr name="hv_left_ic" format="reference" />
+        <attr name="hv_left_tv_text" format="string" />
+        <attr name="hv_left_tv_text_size" format="dimension" />
+        <attr name="hv_left_tv_text_color" format="reference" />
+        <attr name="hv_left_tv_margin" format="dimension" />
+        <attr name="hv_left_tv_font_family" format="reference" />
+
+        <!--center-->
+        <attr name="hv_center_ic" format="reference" />
+        <attr name="hv_center_tv_text" format="string" />
+        <attr name="hv_center_tv_text_size" format="dimension" />
+        <attr name="hv_center_tv_text_color" format="reference" />
+        <attr name="hv_center_tv_font_family" format="reference" />
+
+        <!--right-->
+        <attr name="hv_right_ic" format="reference" />
+        <attr name="hv_right_tv_text" format="string" />
+        <attr name="hv_right_tv_text_size" format="dimension" />
+        <attr name="hv_right_tv_text_color" format="reference" />
+        <attr name="hv_right_tv_margin" format="dimension" />
+        <attr name="hv_right_tv_font_family" format="reference" />
+
+        <!--view bottom-->
+        <attr name="hv_bottom_v_is_visible" format="boolean" />
+
+        <!--view top-->
+        <attr name="hv_top_v_is_visible" format="boolean" />
+    </declare-styleable>
+
+    <!--Custom RecyclerView-->
+    <declare-styleable name="CustomRecyclerView">
+
+    </declare-styleable>
+
+    <!--VideoPlayerControl-->
+    <declare-styleable name="VideoPlayerControl">
+        <attr name="vpc_left_icon" format="reference" />
+        <attr name="vpc_left_icon_show" format="boolean" />
+        <attr name="vpc_left_text_show" format="boolean" />
+        <attr name="vpc_left_text" format="string" />
+        <attr name="vpc_seekbar" format="reference" />
+        <attr name="vpc_seekbar_show" format="boolean" />
+        <attr name="vpc_right_text_show" format="boolean" />
+        <attr name="vpc_right_text" format="string" />
+    </declare-styleable>
+
+</resources>

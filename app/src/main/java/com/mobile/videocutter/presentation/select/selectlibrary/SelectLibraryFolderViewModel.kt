@@ -3,7 +3,6 @@ package com.mobile.videocutter.presentation.select.selectlibrary
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseUseCase
 import com.mobile.videocutter.base.common.BaseViewModel
-import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.usecase.GetAlbumListUseCase
 import com.mobile.videocutter.thread.FlowResult

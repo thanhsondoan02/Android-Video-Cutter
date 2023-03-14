@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
+        android:id="@+id/flMyStudioContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.home.mystudio.MainActivity">
@@ -41,7 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_48"
             android:layout_gravity="bottom"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <FrameLayout
                 android:id="@+id/flMyStudioSave"

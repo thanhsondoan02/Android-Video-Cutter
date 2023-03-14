@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvStartVideoItmRoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_4"
+        app:cardCornerRadius="@dimen/dimen_corner_4"
+        tools:layout_height="@dimen/dimen_250">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vStartVideoItmInvisible"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintDimensionRatio="H, 1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteX="163dp"
+                tools:layout_editor_absoluteY="186dp" />
+
+            <ImageView
+                android:id="@+id/ivStartVideoItmImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintEnd_toEndOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintStart_toStartOf="@id/vStartVideoItmInvisible"
+                app:layout_constraintTop_toTopOf="@id/vStartVideoItmInvisible"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
+
+            <View
+                android:id="@+id/vStartVideoItmInvisibleLine"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/dimen_6"
+                app:layout_constraintBottom_toTopOf="@id/tvStartVideoItmDuration"
+                app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
+                app:layout_constraintStart_toStartOf="@id/ivStartVideoItmImage" />
+
+            <View
+                android:id="@+id/vStartVideoItmBlackBlur"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_black_gradient_angle_90_corner_4"
+                app:layout_constraintBottom_toBottomOf="@id/ivStartVideoItmImage"
+                app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
+                app:layout_constraintStart_toStartOf="@id/ivStartVideoItmImage"
+                app:layout_constraintTop_toBottomOf="@id/vStartVideoItmInvisibleLine" />
+
+            <TextView
+                android:id="@+id/tvStartVideoItmDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_6"
+                android:layout_marginBottom="@dimen/dimen_6"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/ivStartVideoItmImage"
+                app:layout_constraintEnd_toEndOf="@id/ivStartVideoItmImage"
+                tools:text="00:22" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
