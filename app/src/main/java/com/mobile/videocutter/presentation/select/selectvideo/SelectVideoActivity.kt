@@ -112,12 +112,6 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
     }
 
     private fun initAddRecycleView() {
-//        binding.rvSelectVideoAdd.setDragRecyclerView()
-//        listener = object : CustomRecyclerView.IListener {
-//            override fun onScroll(position: Int) {
-//                binding.crvAdjust.smoothiePosition(position)
-//            }
-//        }
         selectVideoAddAdapter.listener = object : SelectVideoAddAdapter.IListener {
             override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
                 viewModel.listVideoAdd.remove(item)
