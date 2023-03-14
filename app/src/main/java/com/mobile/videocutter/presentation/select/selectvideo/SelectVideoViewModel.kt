@@ -19,7 +19,7 @@ import loading
 import onException
 import success
 
-class SelectVideoViewModel : BaseViewModel(){
+class SelectVideoViewModel : BaseViewModel() {
     var idAlbum = ""
     var nameAlbum = ""
     var listVideoAdd = mutableListOf<SelectVideoAdapter.VideoDisplay>()
@@ -41,5 +41,15 @@ class SelectVideoViewModel : BaseViewModel(){
                     _selectVideoState.success(it)
                 }
         }
+    }
+
+    fun getListPath(): ArrayList<String> {
+        val arrayList = arrayListOf<String>()
+        listVideoAdd.forEach {
+            if (it.video.videoPath != null) {
+                arrayList.add(it.video.videoPath!!)
+            }
+        }
+        return arrayList
     }
 }

@@ -26,16 +26,10 @@ class SelectVideoAddAdapter : BaseAdapter() {
         return SelectVideoAddVH(binding as AdjustVideoItemBinding)
     }
 
-    override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
-        return DiffCallback(oldList as List<SelectVideoAdapter.VideoDisplay>, newList as List<SelectVideoAdapter.VideoDisplay>)
-    }
-
-    @Suppress("DEPRECATION")
     inner class SelectVideoAddVH(private val binding: AdjustVideoItemBinding) : BaseVH<SelectVideoAdapter.VideoDisplay>(binding) {
         init {
             binding.ivAdjustDeleteItm.setOnSafeClick {
                 var item = getDataAtPosition(bindingAdapterPosition) as SelectVideoAdapter.VideoDisplay
-
                 if (item != null) {
                     listener?.onDelete(item)
                 }
@@ -46,23 +40,6 @@ class SelectVideoAddAdapter : BaseAdapter() {
             super.onBind(data)
             binding.tvAdjustVideoItmDuration.text = data.video.getFormattedDuration()
             binding.ivAdjustVideoItmImage.loadImage(data.video.videoPath)
-        }
-    }
-
-    class DiffCallback(oldData: List<SelectVideoAdapter.VideoDisplay>, newData: List<SelectVideoAdapter.VideoDisplay>) :
-        BaseDiffUtilCallback<SelectVideoAdapter.VideoDisplay>(oldData, newData) {
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? SelectVideoAdapter.VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? SelectVideoAdapter.VideoDisplay)
-
-            return oldUser?.hashCode() == newUser?.hashCode()
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? SelectVideoAdapter.VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? SelectVideoAdapter.VideoDisplay)
-
-            return oldUser?.isSelected == newUser?.isSelected
         }
     }
 

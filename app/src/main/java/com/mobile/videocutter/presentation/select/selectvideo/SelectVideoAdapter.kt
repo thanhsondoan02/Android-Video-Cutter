@@ -45,10 +45,10 @@ class SelectVideoAdapter : BaseAdapter() {
             }
             itemBinding.root.setOnLongClickListener {
                 val item = getDataAtPosition(adapterPosition) as? VideoDisplay
-                if (item!=null){
-                    item.isSelected = !item.isSelected
-                    updateSelect(item.isSelected)
-                    item.video.videoPath?.let { it1 -> listener?.onVideoLongClick(it1) }
+                if (item != null) {
+                    item.video.videoPath?.let { path ->
+                        listener?.onVideoLongClick(path)
+                    }
                 }
                 true
             }

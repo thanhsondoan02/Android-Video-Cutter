@@ -2,83 +2,90 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/flSelectVideoContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.mobile.videocutter.presentation.widget.HeaderView
-            android:id="@+id/hvSelectVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hv_center_ic="@drawable/ic_black_down"
-            app:hv_center_tv_font_family="@font/font_bold"
-            app:hv_center_tv_text="Library"
-            app:hv_center_tv_text_color="@color/color_black_87"
-            app:hv_left_ic="@drawable/ic_black_close"
-            app:hv_right_ic="@drawable/ic_black_camera" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSelectVideoToAdd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/llSelectVideoAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_weight="4"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.mobile.videocutter.presentation.widget.HeaderView
+                android:id="@+id/hvSelectVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hv_center_ic="@drawable/ic_black_down"
+                app:hv_center_tv_font_family="@font/font_bold"
+                app:hv_center_tv_text="Library"
+                app:hv_center_tv_text_color="@color/color_black_87"
+                app:hv_left_ic="@drawable/ic_black_close"
+                app:hv_right_ic="@drawable/ic_black_camera" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectVideoToAdd"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:paddingHorizontal="@dimen/dimen_16">
+                android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/tvSelectVideoTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/adjust_description"
-                    android:textColor="@color/color_black_87"
-                    android:textSize="@dimen/dimen_text_size_14"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:id="@+id/llSelectVideoAdd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/color_purple"
-                    app:cardCornerRadius="@dimen/dimen_4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:paddingHorizontal="@dimen/dimen_16">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnSelectVideoAdd"
+                    <TextView
+                        android:id="@+id/tvSelectVideoTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/adjust_description"
+                        android:textColor="@color/color_black_87"
+                        android:textSize="@dimen/dimen_text_size_14"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/color_purple"
-                        android:text="@string/select_add"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimen_text_size_14" />
+                        app:cardCornerRadius="@dimen/dimen_4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                </androidx.cardview.widget.CardView>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnSelectVideoAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/color_purple"
+                            android:text="@string/select_add"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen_text_size_14" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSelectVideoAdd"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_300"
-                android:layout_weight="1.5" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+                    android:id="@+id/crvSelectVideoAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_300"
+                    android:layout_weight="1.5" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

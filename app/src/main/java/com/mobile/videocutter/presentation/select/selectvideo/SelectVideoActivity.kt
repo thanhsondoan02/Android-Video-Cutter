@@ -2,16 +2,22 @@ package com.mobile.videocutter.presentation.select.selectvideo
 
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.gone
+import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
+import com.mobile.videocutter.presentation.adjust.AdjustActivity
+import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
+import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
@@ -20,15 +26,30 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     private val viewModel by viewModels<SelectVideoViewModel>()
 
+    override fun getContainerId(): Int = R.id.flSelectVideoContainer
+
     override fun onInitView() {
         super.onInitView()
-        binding.rvSelectVideoAdd.adapter = selectVideoAddAdapter
-        binding.rvSelectVideoAdd.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
+        binding.crvSelectVideoAdd.apply {
+            setAdapter(selectVideoAddAdapter)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+            setDragRecyclerView()
+            listener = object : CustomRecyclerView.IListener {
+                override fun onScroll(position: Int) {
+                    binding.crvSelectVideoAdd.smoothiePosition(position)
+                }
+            }
+        }
         viewModel.idAlbum = intent.getStringExtra("idAlbum").toString()
         viewModel.nameAlbum = intent.getStringExtra("nameAlbum").toString()
         binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
         binding.hvSelectVideo.setOnLeftIconClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnSelectVideoAdd.setOnSafeClick {
+            var intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
+            intent.putStringArrayListExtra(AdjustActivity.LIST_VIDEO, viewModel.getListPath())
+            startActivity(intent)
         }
         loadVideo()
         initAddRecycleView()
@@ -72,9 +93,12 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             }
 
             override fun onVideoLongClick(path: String) {
-                val intent = Intent(this@SelectVideoActivity, PreviewImageFragment::class.java)
-                intent.putExtra("path", path)
-                startActivity(intent)
+                replaceFragment(
+                    PreviewImageFragment(),
+                    bundleOf(
+                        PreviewImageFragment.IMAGE_PATH to path
+                    )
+                )
             }
         }
     }
@@ -88,6 +112,12 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
     }
 
     private fun initAddRecycleView() {
+//        binding.rvSelectVideoAdd.setDragRecyclerView()
+//        listener = object : CustomRecyclerView.IListener {
+//            override fun onScroll(position: Int) {
+//                binding.crvAdjust.smoothiePosition(position)
+//            }
+//        }
         selectVideoAddAdapter.listener = object : SelectVideoAddAdapter.IListener {
             override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
                 viewModel.listVideoAdd.remove(item)
