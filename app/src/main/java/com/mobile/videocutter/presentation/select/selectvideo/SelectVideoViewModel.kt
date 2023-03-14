@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
 import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
+import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.Video
 import com.mobile.videocutter.domain.usecase.GetAlbumListUseCase
 import com.mobile.videocutter.domain.usecase.GetVideoListUseCase
@@ -23,7 +24,7 @@ class SelectVideoViewModel : BaseViewModel(){
     var nameAlbum = ""
     var listVideoAdd = mutableListOf<SelectVideoAdapter.VideoDisplay>()
 
-    private val _selectVideoState = MutableStateFlow(FlowResult.newInstance<List<SelectVideoAdapter.VideoDisplay>>())
+    private val _selectVideoState = MutableStateFlow(FlowResult.newInstance<List<LocalVideo>>())
     val selectVideoState = _selectVideoState.asStateFlow()
 
     fun getVideoList(idAlbum: String) {

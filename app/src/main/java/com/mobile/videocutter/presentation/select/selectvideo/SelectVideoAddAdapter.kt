@@ -16,6 +16,7 @@ import com.mobile.videocutter.databinding.SelectLibraryFolderItemBinding
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.Video
 import com.mobile.videocutter.presentation.exampleloadmore.TestAdapter
+import loadImage
 
 class SelectVideoAddAdapter : BaseAdapter() {
     var listener: IListener? = null
@@ -43,8 +44,8 @@ class SelectVideoAddAdapter : BaseAdapter() {
 
         override fun onBind(data: SelectVideoAdapter.VideoDisplay) {
             super.onBind(data)
-            binding.tvAdjustVideoItmDuration.text = data.video.durationVideo
-            binding.ivAdjustVideoItmImage.setImageBitmap(data.video.thumbnail)
+            binding.tvAdjustVideoItmDuration.text = data.video.getFormattedDuration()
+            binding.ivAdjustVideoItmImage.loadImage(data.video.videoPath)
         }
     }
 

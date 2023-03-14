@@ -36,7 +36,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             viewModel.selectVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        selectVideoAdapter.submitList(it.data)
+                        selectVideoAdapter.submitList(it.data?.map { video ->  SelectVideoAdapter.VideoDisplay(video) })
                     }
                 })
             }
@@ -72,7 +72,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
                 viewModel.listVideoAdd.remove(item)
                 updateSelectInAddAdapter()
-                item.video.idVideo?.let {
+                item.video.videoPath?.let {
                     selectVideoAdapter.updateSelect(it, false)
                 }
             }

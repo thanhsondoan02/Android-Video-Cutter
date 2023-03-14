@@ -6,6 +6,6 @@ import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoAdapter
 
 interface ILocalDataRepo {
     fun getAlbumList(): List<Album>
-    fun getVideoList(albumId: String): List<SelectVideoAdapter.VideoDisplay>
-    fun getMyStudioVideoList(): List<LocalVideo>
+//    fun getVideoList(albumId: String): List<SelectVideoAdapter.VideoDisplay>
+    fun getMyStudioVideoList(albumId: String? = null): List<LocalVideo>
 }
