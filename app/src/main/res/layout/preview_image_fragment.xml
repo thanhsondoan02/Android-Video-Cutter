@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.home.start.StartActivity">
+
+    <FrameLayout
+        android:id="@+id/flPreviewImageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_black_80">
+
+        <ImageView
+            android:id="@+id/ivPreviewThumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/ic_default_null_image_album" />
+
+    </FrameLayout>
+
+</layout>
