@@ -12,15 +12,17 @@
             android:layout_height="wrap_content"
             app:hv_left_ic="@drawable/ic_black_close"
             app:hv_right_tv_text="@string/save"
+            app:hv_right_tv_text_color="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <FrameLayout
             android:id="@+id/flTasselsVideoFirst"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@id/flTasselsVideoSecond"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hvTasselsVideoRoot">
 
@@ -47,10 +49,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center"
-                android:src="@drawable/ic_black_pause_video" />
+                android:background="@drawable/ic_black_play_video" />
 
             <TextView
-                android:id="@+id/pvTasselsVideoTime"
+                android:id="@+id/tvTasselsVideoTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

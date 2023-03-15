@@ -35,6 +35,10 @@
             android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
 
+     <activity
+            android:name=".presentation.tasselsvideo.TasselsVideoActivity"
+            android:exported="false" />
+
         <activity
             android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
             android:exported="false" />
