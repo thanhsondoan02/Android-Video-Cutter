@@ -18,6 +18,8 @@ class CropRatioAdapter: BaseAdapter() {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
     }
 
+    var listener: IListener? =  null
+
     override fun getLayoutResource(viewType: Int): Int = R.layout.crop_ratio_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*> {
@@ -37,6 +39,7 @@ class CropRatioAdapter: BaseAdapter() {
                 (getDataAtPosition(adapterPosition) as? CropRatioDisplay)?.let {
                     it.isSelected = true
                     updateSelect(it)
+                    listener?.onCropRatioSelected(it.cropRatio)
                 }
             }
         }
@@ -89,4 +92,8 @@ class CropRatioAdapter: BaseAdapter() {
     }
 
     class CropRatioDisplay(val cropRatio: CropRatio, var isSelected: Boolean = false)
+
+    interface IListener {
+        fun onCropRatioSelected(cropRatio: CropRatio)
+    }
 }

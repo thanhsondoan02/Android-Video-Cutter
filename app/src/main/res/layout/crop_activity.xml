@@ -28,12 +28,64 @@
             android:layout_height="0dp"
             android:background="@color/color_white_crop_image_bg"
             app:layout_constraintDimensionRatio="H, 1:1"
-            app:layout_constraintTop_toBottomOf="@id/tvCropResolution" />
+            app:layout_constraintTop_toBottomOf="@id/tvCropResolution"
+            app:use_controller="false" />
 
-        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <com.mobile.videocutter.presentation.widget.CropView
+            android:id="@+id/cvCrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/pvCropVideo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pvCropVideo"
+            tools:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCropPlayPause"
+            android:layout_width="@dimen/dimen_46"
+            android:layout_height="@dimen/dimen_46"
+            android:padding="@dimen/dimen_10"
+            android:src="@drawable/ic_black_pause_video"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pvCropVideo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCropCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_text_size_14"
+            app:layout_constraintBottom_toBottomOf="@id/ivCropPlayPause"
+            app:layout_constraintStart_toEndOf="@id/ivCropPlayPause"
+            app:layout_constraintTop_toTopOf="@id/ivCropPlayPause"
+            tools:text="00:32" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCropTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_text_size_14"
+            app:layout_constraintBottom_toBottomOf="@id/ivCropPlayPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivCropPlayPause"
+            tools:text="01:39" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sbCropVideoController"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_2"
+            android:progressBackgroundTint="@color/color_gray_setting_text"
+            android:progressTint="@color/black"
+            android:thumbTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ivCropPlayPause"
+            app:layout_constraintEnd_toStartOf="@id/tvCropTotalTime"
+            app:layout_constraintStart_toEndOf="@id/tvCropCurrentTime"
+            app:layout_constraintTop_toTopOf="@id/ivCropPlayPause" />
+
 
         <FrameLayout
             android:id="@+id/flCropFooter"

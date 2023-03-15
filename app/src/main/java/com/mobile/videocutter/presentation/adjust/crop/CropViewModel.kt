@@ -5,6 +5,8 @@ import com.mobile.videocutter.domain.model.CROP_RATIO
 import com.mobile.videocutter.domain.model.CropRatio
 
 class CropViewModel: BaseViewModel(){
+    var path: String? = null
+
     fun getRatioList(): List<CropRatioAdapter.CropRatioDisplay> {
         val list = mutableListOf<CROP_RATIO>()
         list.add(CROP_RATIO.CUSTOM)
