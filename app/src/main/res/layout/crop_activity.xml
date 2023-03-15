@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.home.start.StartActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCropResolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_bold"
+            android:gravity="center"
+            android:minHeight="@dimen/dimen_44"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_text_size_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1040 x 1040" />
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/pvCropVideo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/color_white_crop_image_bg"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintTop_toBottomOf="@id/tvCropResolution" />
+
+        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/pvCropVideo" />
+
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/hvCropFooter"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/hvCropFooter"
+            android:layout_height="wrap_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

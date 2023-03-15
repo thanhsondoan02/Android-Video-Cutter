@@ -31,5 +31,6 @@
     <color name="color_black_80">#CC000000</color>
     <color name="color_transparent_purple_40">#666F4FEE</color>
     <color name="color_gray_setting_text">#8F8E94</color>
+    <color name="color_white_crop_image_bg">#EEEEEE</color>
 
 </resources>
