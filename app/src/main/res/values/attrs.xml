@@ -50,7 +50,7 @@
         <attr name="vpc_right_text" format="string" />
     </declare-styleable>
 
-    <!--VideoPlayerControl-->
+    <!--CropView-->
     <declare-styleable name="CropView">
         <attr name="cropStrokeWidth" format="dimension" />
         <attr name="cropStrokeColor" format="color" />

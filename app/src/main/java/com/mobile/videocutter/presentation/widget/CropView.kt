@@ -865,15 +865,23 @@ class CropView constructor(
         val ta = context.theme.obtainStyledAttributes(attributeSet, R.styleable.CropView, 0, 0)
         if (ta.hasValue(R.styleable.CropView_cropStrokeColor)) {
             cropStrokeColor = ta.getColor(R.styleable.CropView_cropStrokeColor, getAppColor(R.color.color_purple))
+            paint.color = cropStrokeColor
         }
         if (ta.hasValue(R.styleable.CropView_cropStrokeWidth)) {
             cropStrokeWidth = ta.getDimension(R.styleable.CropView_cropStrokeWidth, getAppDimension(R.dimen.dimen_2))
+            paint.strokeWidth = cropStrokeWidth
         }
         if (ta.hasValue(R.styleable.CropView_cropMinWidth)) {
-            cropStrokeWidth = ta.getDimension(R.styleable.CropView_cropMinWidth, getAppDimension(R.dimen.dimen_100))
+            minCropWidth = max(
+                ta.getDimension(R.styleable.CropView_cropMinWidth, getAppDimension(R.dimen.dimen_100)),
+                getAppDimension(R.dimen.dimen_100)
+            )
         }
         if (ta.hasValue(R.styleable.CropView_cropMinHeight)) {
-            minCropHeight = ta.getDimension(R.styleable.CropView_cropMinHeight, getAppDimension(R.dimen.dimen_100))
+            minCropHeight = max(
+                ta.getDimension(R.styleable.CropView_cropMinHeight, getAppDimension(R.dimen.dimen_100)),
+                getAppDimension(R.dimen.dimen_100)
+            )
         }
         if (ta.hasValue(R.styleable.CropView_cropNearDistance)) {
             near = ta.getDimension(R.styleable.CropView_cropNearDistance, getAppDimension(R.dimen.dimen_10))
