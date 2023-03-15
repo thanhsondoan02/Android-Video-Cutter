@@ -30,5 +30,25 @@
     <string name="medium">Medium</string>
     <string name="high">High</string>
     <string name="home">Home</string>
+    <string name="select_add">Add(0)</string>
+
+    // filter
+    <string name="filter">Filter</string>
+    <string name="done">Done</string>
+    <string name="original">Original</string>
+    <string name="spring">Spring</string>
+    <string name="summer">Summer</string>
+    <string name="fall">Fall</string>
+    <string name="winter">Winter</string>
+
+    // speed
+    <string name="speed">Speed</string>
+    <string name="_0.75x">0.75x</string>
+    <string name="_0.5x">0.5x</string>
+    <string name="_0.25x">0.25x</string>
+    <string name="_1x">1x</string>
+    <string name="_2x">2x</string>
+    <string name="_3x">3x</string>
+    <string name="_4x">4x</string>
     <string name="permission_not_granted">Permissions are not granted</string>
 </resources>

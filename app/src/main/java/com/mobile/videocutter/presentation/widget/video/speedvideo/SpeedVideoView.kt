@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.mobile.videocutter.R
+import com.mobile.videocutter.base.extension.*
 
 class SpeedVideoView constructor(
     ctx: Context,
@@ -62,6 +64,15 @@ class SpeedVideoView constructor(
     private var vUnSelect3CoordinateX = 0
     private var vUnSelect4CoordinateX = 0
 
+    // view click
+    private var vClickSpeedVideo0_75X: View? = null
+    private var vClickSpeedVideo0_5X: View? = null
+    private var vClickSpeedVideo0_25X: View? = null
+    private var vClickSpeedVideo1X: View? = null
+    private var vClickSpeedVideo2X: View? = null
+    private var vClickSpeedVideo3X: View? = null
+    private var vClickSpeedVideo4X: View? = null
+
     // tọa độ điểm chạm đầu tiên
     private var coordinateXFirst = 0f
 
@@ -92,7 +103,6 @@ class SpeedVideoView constructor(
         widthParent = MeasureSpec.getSize(widthMeasureSpec)
     }
 
-
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
 
@@ -119,11 +129,12 @@ class SpeedVideoView constructor(
     }
 
     private fun initViewOrigin() {
-        vUnSelect1X!!.isVisible = false
-        tvUnSelect1X!!.apply {
-            setTextColor(Color.RED)
+        vUnSelect1X?.isVisible = false
+        tvUnSelect1X?.apply {
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose1X!!.isVisible = true
+        ivChose1X?.isVisible = true
         viewOld = vUnSelect1X
         textViewOld = tvUnSelect1X
         ivOld = ivChose1X
@@ -157,7 +168,16 @@ class SpeedVideoView constructor(
         tvUnSelect3X = findViewById(R.id.tvSpeedVideo3X)
         tvUnSelect4X = findViewById(R.id.tvSpeedVideo4X)
 
-        newParamsIVSelect = ivSelect!!.layoutParams as MarginLayoutParams
+        // view click
+        vClickSpeedVideo0_75X = findViewById(R.id.vSpeedVideoClick0_75X)
+        vClickSpeedVideo0_5X = findViewById(R.id.vSpeedVideoClick0_5X)
+        vClickSpeedVideo0_25X = findViewById(R.id.vSpeedVideoClick0_25X)
+        vClickSpeedVideo1X = findViewById(R.id.vSpeedVideoClick1X)
+        vClickSpeedVideo2X = findViewById(R.id.vSpeedVideoClick2X)
+        vClickSpeedVideo3X = findViewById(R.id.vSpeedVideoClick3X)
+        vClickSpeedVideo4X = findViewById(R.id.vSpeedVideoClick4X)
+
+        newParamsIVSelect = ivSelect?.layoutParams as MarginLayoutParams
     }
 
     private fun getCoordinateXView(view: View): Int {
@@ -168,79 +188,83 @@ class SpeedVideoView constructor(
 
     private fun selectSpeed0At75X() {
         setEvent0At75X()
-        newParamsIVSelect!!.leftMargin = vUnSelect0At75CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect0At75CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo0Dot75X()
     }
 
     private fun selectSpeed0At5X() {
         setEvent0At5X()
-        newParamsIVSelect!!.leftMargin = vUnSelect0At5CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect0At5CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo0Dot5X()
     }
 
     private fun selectSpeed0At25X() {
         setEvent0At25X()
-        newParamsIVSelect!!.leftMargin = vUnSelect0At25CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect0At25CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo0Dot25X()
     }
 
     private fun selectSpeed1X() {
         setEvent1X()
-        newParamsIVSelect!!.leftMargin = vUnSelect1CoordinateX - widthParent / 2
+        if (vUnSelect1CoordinateX != 0) {
+            newParamsIVSelect?.leftMargin = vUnSelect1CoordinateX - widthParent / 2
+        } else {
+            newParamsIVSelect?.leftMargin = 0
+        }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo1X()
     }
 
     private fun selectSpeed2X() {
         setEvent2X()
-        newParamsIVSelect!!.leftMargin = vUnSelect2CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect2CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo2X()
     }
 
     private fun selectSpeed3X() {
         setEvent3X()
-        newParamsIVSelect!!.leftMargin = vUnSelect3CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect3CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo3X()
     }
 
     private fun selectSpeed4X() {
         setEvent4X()
-        newParamsIVSelect!!.leftMargin = vUnSelect4CoordinateX - widthParent / 2
+        newParamsIVSelect?.leftMargin = vUnSelect4CoordinateX - widthParent / 2
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.setSpeedVideo4X()
     }
 
     private fun selectSpeed() {
-        tvUnSelect0At75X?.setOnClickListener {
+        vClickSpeedVideo0_75X?.setOnSafeClick {
             selectSpeed0At75X()
         }
 
-        tvUnSelect0At5X!!.setOnClickListener {
+        vClickSpeedVideo0_5X?.setOnSafeClick {
             selectSpeed0At5X()
         }
 
-        tvUnSelect0At25X!!.setOnClickListener {
+        vClickSpeedVideo0_25X?.setOnSafeClick {
             selectSpeed0At25X()
         }
 
-        tvUnSelect1X!!.setOnClickListener {
+        vClickSpeedVideo1X?.setOnSafeClick {
             selectSpeed1X()
         }
 
-        tvUnSelect2X!!.setOnClickListener {
+        vClickSpeedVideo2X?.setOnSafeClick {
             selectSpeed2X()
         }
 
-        tvUnSelect3X!!.setOnClickListener {
+        vClickSpeedVideo3X?.setOnSafeClick {
             selectSpeed3X()
         }
 
-        tvUnSelect4X!!.setOnClickListener {
+        vClickSpeedVideo4X?.setOnSafeClick {
             selectSpeed4X()
         }
     }
@@ -267,35 +291,31 @@ class SpeedVideoView constructor(
                         expectedMarginLeft = (vUnSelect4CoordinateX - widthParent / 2).toFloat()
                     }
 
-                    newParamsIVSelect!!.leftMargin = expectedMarginLeft.toInt()
+                    newParamsIVSelect?.leftMargin = expectedMarginLeft.toInt()
                     iv?.layoutParams = newParamsIVSelect
+
                     when {
                         event.rawX <= vUnSelect0At75CoordinateX.toFloat() + distanceSpeed / 2 -> {
                             setEvent0At75X()
                         }
 
-                        event.rawX <= vUnSelect0At5CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect0At5CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect0At5CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect0At5CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             setEvent0At5X()
                         }
 
-                        event.rawX <= vUnSelect0At25CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect0At25CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect0At25CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect0At25CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             setEvent0At25X()
                         }
 
-                        event.rawX <= vUnSelect1CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect1CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect1CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect1CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             setEvent1X()
                         }
 
-                        event.rawX <= vUnSelect2CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect2CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect2CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect2CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             setEvent2X()
                         }
 
-                        event.rawX <= vUnSelect3CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect3CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect3CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect3CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             setEvent3X()
                         }
 
@@ -312,34 +332,30 @@ class SpeedVideoView constructor(
                             selectSpeed0At75X()
                         }
 
-                        event.rawX <= vUnSelect0At5CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect0At5CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect0At5CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect0At5CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed0At5X()
                         }
 
-                        event.rawX <= vUnSelect0At25CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect0At25CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect0At25CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect0At25CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed0At25X()
                         }
 
-                        event.rawX <= vUnSelect1CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect1CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect1CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect1CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed1X()
                         }
 
-                        event.rawX <= vUnSelect2CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect2CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect2CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect2CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed2X()
                         }
 
-                        event.rawX <= vUnSelect3CoordinateX.toFloat() + distanceSpeed / 2 &&
-                                event.rawX > vUnSelect3CoordinateX.toFloat() - distanceSpeed / 2 -> {
+                        event.rawX <= vUnSelect3CoordinateX.toFloat() + distanceSpeed / 2 && event.rawX > vUnSelect3CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed3X()
                         }
 
                         event.rawX >= vUnSelect4CoordinateX.toFloat() - distanceSpeed / 2 -> {
                             selectSpeed4X()
                         }
+                        else -> selectSpeed1X()
                     }
                     invalidate()
                 }
@@ -350,11 +366,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent4X() {
         resetViewOld()
-        vUnSelect4X?.isVisible = false
+        vUnSelect4X?.gone()
         tvUnSelect4X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose4X!!.isVisible = true
+        ivChose4X?.show()
         viewOld = vUnSelect4X
         textViewOld = tvUnSelect4X
         ivOld = ivChose4X
@@ -362,11 +379,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent3X() {
         resetViewOld()
-        vUnSelect3X?.isVisible = false
+        vUnSelect3X?.gone()
         tvUnSelect3X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose3X!!.isVisible = true
+        ivChose3X?.show()
         viewOld = vUnSelect3X
         textViewOld = tvUnSelect3X
         ivOld = ivChose3X
@@ -374,11 +392,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent2X() {
         resetViewOld()
-        vUnSelect2X?.isVisible = false
+        vUnSelect2X?.gone()
         tvUnSelect2X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose2X!!.isVisible = true
+        ivChose2X?.show()
         viewOld = vUnSelect2X
         textViewOld = tvUnSelect2X
         ivOld = ivChose2X
@@ -386,11 +405,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent1X() {
         resetViewOld()
-        vUnSelect1X?.isVisible = false
+        vUnSelect1X?.gone()
         tvUnSelect1X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose1X!!.isVisible = true
+        ivChose1X?.show()
         viewOld = vUnSelect1X
         textViewOld = tvUnSelect1X
         ivOld = ivChose1X
@@ -398,11 +418,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At25X() {
         resetViewOld()
-        vUnSelect0At25X?.isVisible = false
+        vUnSelect0At25X?.gone()
         tvUnSelect0At25X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot25X!!.isVisible = true
+        ivChose0Dot25X?.show()
         viewOld = vUnSelect0At25X
         textViewOld = tvUnSelect0At25X
         ivOld = ivChose0Dot25X
@@ -410,11 +431,12 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At5X() {
         resetViewOld()
-        vUnSelect0At5X?.isVisible = false
+        vUnSelect0At5X?.gone()
         tvUnSelect0At5X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot5X!!.isVisible = true
+        ivChose0Dot5X?.show()
         viewOld = vUnSelect0At5X
         textViewOld = tvUnSelect0At5X
         ivOld = ivChose0Dot5X
@@ -422,22 +444,24 @@ class SpeedVideoView constructor(
 
     private fun setEvent0At75X() {
         resetViewOld()
-        vUnSelect0At75X?.isVisible = false
+        vUnSelect0At75X?.gone()
         tvUnSelect0At75X?.apply {
-            setTextColor(Color.RED)
+            setTextColor(getAppColor(R.color.color_purple))
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_14))
         }
-        ivChose0Dot75X!!.isVisible = true
+        ivChose0Dot75X?.show()
         viewOld = vUnSelect0At75X
         textViewOld = tvUnSelect0At75X
         ivOld = ivChose0Dot75X
     }
 
     private fun resetViewOld() {
-        viewOld!!.isVisible = true
-        textViewOld!!.apply {
+        viewOld?.show()
+        textViewOld?.apply {
             setTextColor(Color.BLACK)
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getAppDimension(R.dimen.dimen_10))
         }
-        ivOld!!.isVisible = false
+        ivOld?.hide()
     }
 
     interface IListener {
