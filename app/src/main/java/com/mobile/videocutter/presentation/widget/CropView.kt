@@ -25,6 +25,7 @@ class CropView constructor(
     private var minCropWidth = getAppDimension(R.dimen.dimen_100)
     private var minCropHeight = getAppDimension(R.dimen.dimen_100)
     private var near = getAppDimension(R.dimen.dimen_10)
+    private var cropOutsideColor = getAppColor(R.color.color_black_40)
     private val paint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
@@ -782,11 +783,14 @@ class CropView constructor(
                 getAppDimension(R.dimen.dimen_30)
             )
         }
+        if (ta.hasValue(R.styleable.CropView_cropOutsideColor)) {
+            cropOutsideColor = ta.getColor(R.styleable.CropView_cropOutsideColor, getAppColor(R.color.color_black_40))
+        }
     }
 
     private fun drawOutside(canvas: Canvas?) {
         paint.style = Paint.Style.FILL_AND_STROKE
-        paint.color = getAppColor(R.color.color_black_40)
+        paint.color = cropOutsideColor
 
         canvas?.drawRect(0f, 0f, cropLeft, height.toFloat(), paint)
         canvas?.drawRect(cropRight, 0f, width.toFloat(), height.toFloat(), paint)
