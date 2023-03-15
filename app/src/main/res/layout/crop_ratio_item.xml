@@ -5,29 +5,20 @@
     tools:context=".presentation.home.start.StartActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/dimen_60"
+        android:layout_width="@dimen/dimen_66"
         android:layout_height="@dimen/dimen_50"
         android:gravity="center"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/tvCropRatioPreview"
+            android:id="@+id/ivCropRatioPreview"
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
             app:layout_constraintBottom_toTopOf="@id/tvCropRatioTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            tools:src="@drawable/ic_crop_ratio_2x3" />
-
-        <com.mobile.videocutter.presentation.widget.RatioView
-            android:layout_width="@dimen/dimen_24"
-            android:layout_height="@dimen/dimen_24"
-            app:layout_constraintBottom_toTopOf="@id/tvCropRatioTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:src="@drawable/ic_crop_ratio_custom" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCropRatioTitle"
