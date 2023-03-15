@@ -77,7 +77,6 @@
             android:id="@+id/sbCropVideoController"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen_2"
             android:progressBackgroundTint="@color/color_gray_setting_text"
             android:progressTint="@color/black"
             android:thumbTint="@color/black"

@@ -17,12 +17,13 @@ import com.mobile.videocutter.domain.model.CropRatio
 import getFormattedTime
 import getVideoWidthOrHeight
 
+
 class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activity) {
     companion object {
         const val VIDEO_PATH = "VIDEO_PATH"
     }
 
-    private var player: Player? = null
+    private var isInitMax = false
     private var mHandler: Handler? = null
     private val cropAdapter by lazy { CropRatioAdapter() }
 
@@ -35,9 +36,9 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
 
     override fun onInitView() {
         super.onInitView()
+        initPlayer()
         initRecyclerView()
         initOnClick()
-        initPlayer()
         calculateCropViewWidthAndHeight()
         initSeekBar()
     }
@@ -74,13 +75,14 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
             navigateBack()
         }
         binding.ivCropPlayPause.setOnSafeClick {
-            player?.playWhenReady = !(player?.playWhenReady ?: false)
+            binding.pvCropVideo.player?.playWhenReady = !(binding.pvCropVideo.player?.playWhenReady ?: false)
             updatePlayPauseButton()
         }
     }
 
     private fun initPlayer() {
-        player = ExoPlayer.Builder(this).build().apply {
+        isInitMax = false
+        binding.pvCropVideo.player = ExoPlayer.Builder(this).build().apply {
             intent.getStringExtra(VIDEO_PATH)?.let {
                 setMediaItem(MediaItem.fromUri(it))
             }
@@ -91,6 +93,10 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
                 override fun onEvents(player: Player, events: Player.Events) {
                     super.onEvents(player, events)
                     if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
+                        if (!isInitMax && player.playbackState == Player.STATE_READY) {
+                            binding.sbCropVideoController.max = player.duration.toInt()
+                            isInitMax = true
+                        }
                         if (player.playbackState == Player.STATE_ENDED) {
                             binding.pvCropVideo.player?.seekTo(0)
                             binding.pvCropVideo.player?.playWhenReady = true
@@ -98,8 +104,8 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
                     }
                 }
             })
+
         }
-        binding.pvCropVideo.player = player
     }
 
     @SuppressLint("SetTextI18n")
@@ -109,10 +115,10 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
         runOnUiThread(object : Runnable {
             @SuppressLint("SetTextI18n")
             override fun run() {
-                if (player != null) {
-                    binding.sbCropVideoController.progress = player!!.currentPosition.toInt()
-                    binding.tvCropCurrentTime.text = getFormattedTime(player!!.currentPosition)
-                    binding.tvCropTotalTime.text = "-"+ getFormattedTime(player!!.duration - player!!.currentPosition)
+                if (binding.pvCropVideo.player != null) {
+                    binding.sbCropVideoController.progress = binding.pvCropVideo.player!!.currentPosition.toInt()
+                    binding.tvCropCurrentTime.text = getFormattedTime(binding.pvCropVideo.player!!.currentPosition)
+                    binding.tvCropTotalTime.text = getFormattedTime(binding.pvCropVideo.player!!.duration)
                 }
                 mHandler?.postDelayed(this, 10)
             }
@@ -120,11 +126,10 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
 
         // update video when seekbar is changed
         binding.sbCropVideoController.apply {
-            max = player?.duration?.toInt() ?: 0
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
-                        player?.seekTo(progress.toLong())
+                        binding.pvCropVideo.player?.seekTo(progress.toLong())
                     }
                 }
 
@@ -156,7 +161,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
     }
 
     private fun updatePlayPauseButton() {
-        if (player?.playWhenReady == true) {
+        if (binding.pvCropVideo.player?.playWhenReady == true) {
             binding.ivCropPlayPause.setImageResource(R.drawable.ic_black_play_video)
         } else {
             binding.ivCropPlayPause.setImageResource(R.drawable.ic_black_pause_video)
