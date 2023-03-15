@@ -14,46 +14,54 @@ class CropView constructor(
     ctx: Context,
     attributeSet: AttributeSet?
 ) : View(ctx, attributeSet) {
-    var ratio: Float? = 3 / 4f
-//        set(value) {
-//            field = value
-//            requestLayout()
-//        }
-    var cropStroke = getAppDimension(R.dimen.dimen_2)
-    private val minCropWidth = getAppDimension(R.dimen.dimen_100)
-    private val minCropHeight = getAppDimension(R.dimen.dimen_100)
-    private val near = getAppDimension(R.dimen.dimen_10)
+    var ratio: Float? = null
+        set(value) {
+            field = value
+            requestLayout()
+        }
 
+    private var cropStrokeWidth = getAppDimension(R.dimen.dimen_2)
+    private var cropStrokeColor = getAppColor(R.color.color_purple)
+    private var minCropWidth = getAppDimension(R.dimen.dimen_100)
+    private var minCropHeight = getAppDimension(R.dimen.dimen_100)
+    private var near = getAppDimension(R.dimen.dimen_10)
     private val paint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
-        color = getAppColor(R.color.color_purple)
-        strokeWidth = cropStroke
+        color = cropStrokeColor
+        strokeWidth = cropStrokeWidth
     }
 
     private var cropTop: Float = 0f
     private var cropLeft: Float = 0f
     private var cropBottom: Float = 0f
     private var cropRight: Float = 0f
+    private var oldX = 0f
+    private var oldY = 0f
+    private var rectChangeType: RectChangeType = RectChangeType.STAY
+
+    init {
+        initView(attributeSet)
+    }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         if (ratio == null) {
-            cropLeft= cropStroke * 3 / 2
-            cropTop = cropStroke * 3 / 2
-            cropRight = width.toFloat() - cropStroke * 3 / 2
-            cropBottom = height.toFloat() - cropStroke * 3 / 2
+            cropLeft= cropStrokeWidth * 3 / 2
+            cropTop = cropStrokeWidth * 3 / 2
+            cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+            cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
         } else {
             val screenRatio = width / height.toFloat()
             if (ratio!! > screenRatio) {
-                cropLeft = cropStroke * 3 / 2
-                cropRight = width.toFloat() - cropStroke * 3 / 2
-                cropTop = cropStroke * 3 / 2
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+                cropTop = cropStrokeWidth * 3 / 2
                 cropBottom = cropTop + (width / ratio!!)
             } else {
-                cropTop = cropStroke * 3 / 2
-                cropBottom = height.toFloat() - cropStroke * 3 / 2
-                cropLeft = cropStroke * 3 / 2
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+                cropLeft = cropStrokeWidth * 3 / 2
                 cropRight = cropLeft + (height * ratio!!)
             }
         }
@@ -76,31 +84,31 @@ class CropView constructor(
 
         // Vẽ các góc giữa
         canvas?.drawLine(
-            cropLeft - cropStroke,
+            cropLeft - cropStrokeWidth,
             cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
-            cropLeft - cropStroke,
+            cropLeft - cropStrokeWidth,
             cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
             paint
         )
         canvas?.drawLine(
-             cropLeft + cropWidth + cropStroke,
+             cropLeft + cropWidth + cropStrokeWidth,
             cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
-            cropLeft + cropWidth + cropStroke,
+            cropLeft + cropWidth + cropStrokeWidth,
             cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
             paint
         )
         canvas?.drawLine(
             cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop - cropStroke,
+            cropTop - cropStrokeWidth,
             cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop - cropStroke,
+            cropTop - cropStrokeWidth,
             paint
         )
         canvas?.drawLine(
             cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop + cropHeight + cropStroke,
+            cropTop + cropHeight + cropStrokeWidth,
             cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop + cropHeight + cropStroke,
+            cropTop + cropHeight + cropStrokeWidth,
             paint
         )
 
@@ -108,73 +116,69 @@ class CropView constructor(
 
         // Top left
         canvas?.drawLine(
-            cropLeft - cropStroke,
-            cropTop - cropStroke * 3 / 2,
-            cropLeft - cropStroke,
-            cropTop - cropStroke * 3 / 2 + getAppDimension(R.dimen.dimen_16),
+            cropLeft - cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2,
+            cropLeft - cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
             paint
         )
         canvas?.drawLine(
-            cropLeft - cropStroke / 2,
-            cropTop - cropStroke,
-            cropLeft - cropStroke / 2 + getAppDimension(R.dimen.dimen_28),
-            cropTop - cropStroke,
+            cropLeft - cropStrokeWidth / 2,
+            cropTop - cropStrokeWidth,
+            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
+            cropTop - cropStrokeWidth,
             paint
         )
 
         // Bot left
         canvas?.drawLine(
-            cropLeft - cropStroke,
-            cropTop + cropHeight + cropStroke * 3 / 2 - getAppDimension(R.dimen.dimen_16),
-            cropLeft - cropStroke,
-            cropTop + cropHeight + cropStroke * 3 / 2,
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
             paint
         )
         canvas?.drawLine(
-            cropLeft - cropStroke / 2,
-            cropTop + cropHeight + cropStroke,
-            cropLeft - cropStroke / 2 + getAppDimension(R.dimen.dimen_28),
-            cropTop + cropHeight + cropStroke,
+            cropLeft - cropStrokeWidth / 2,
+            cropTop + cropHeight + cropStrokeWidth,
+            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
+            cropTop + cropHeight + cropStrokeWidth,
             paint
         )
 
         // Top right
         canvas?.drawLine(
-            cropLeft + cropWidth + cropStroke,
-            cropTop - cropStroke * 3 / 2,
-            cropLeft + cropWidth + cropStroke,
-            cropTop - cropStroke * 3 / 2 + getAppDimension(R.dimen.dimen_16),
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2,
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
             paint
         )
         canvas?.drawLine(
-            cropLeft + cropWidth + cropStroke / 2 - getAppDimension(R.dimen.dimen_28),
-            cropTop - cropStroke,
-            cropLeft + cropWidth + cropStroke / 2,
-            cropTop - cropStroke,
+            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
+            cropTop - cropStrokeWidth,
+            cropLeft + cropWidth + cropStrokeWidth / 2,
+            cropTop - cropStrokeWidth,
             paint
         )
 
 
         // Bot right
         canvas?.drawLine(
-            cropLeft + cropWidth + cropStroke,
-            cropTop + cropHeight + cropStroke * 3 / 2 - getAppDimension(R.dimen.dimen_16),
-            cropLeft + cropWidth + cropStroke,
-            cropTop + cropHeight + cropStroke * 3 / 2,
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
             paint
         )
         canvas?.drawLine(
-            cropLeft + cropWidth + cropStroke / 2 - getAppDimension(R.dimen.dimen_28),
-            cropTop + cropHeight + cropStroke,
-            cropLeft + cropWidth + cropStroke / 2,
-            cropTop + cropHeight + cropStroke,
+            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
+            cropTop + cropHeight + cropStrokeWidth,
+            cropLeft + cropWidth + cropStrokeWidth / 2,
+            cropTop + cropHeight + cropStrokeWidth,
             paint
         )
     }
-
-    private var oldX = 0f
-    private var oldY = 0f
-    private var rectChangeType: RectChangeType = RectChangeType.STAY
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val touchX = event.x
@@ -203,79 +207,79 @@ class CropView constructor(
         val cropWidth = cropRight - cropLeft
         val cropHeight = cropBottom - cropTop
         return if (
-            touchY > cropTop - cropStroke - near
-            && touchY < cropTop - cropStroke + near
+            touchY > cropTop - cropStrokeWidth - near
+            && touchY < cropTop - cropStrokeWidth + near
             && touchX > cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2 - near
             && touchX < cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2 + near
         ) {
             RectChangeType.EXPAND_UP
         } else if (
-            touchY > cropTop + cropHeight + cropStroke - near
-            && touchY < cropTop + cropHeight + cropStroke + near
+            touchY > cropTop + cropHeight + cropStrokeWidth - near
+            && touchY < cropTop + cropHeight + cropStrokeWidth + near
             && touchX > cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2 - near
             && touchX < cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2 + near
         ) {
             RectChangeType.EXPAND_DOWN
         } else if (
-            touchX > cropLeft - cropStroke - near
-            && touchX < cropLeft - cropStroke + near
+            touchX > cropLeft - cropStrokeWidth - near
+            && touchX < cropLeft - cropStrokeWidth + near
             && touchY > cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2 - near
             && touchY < cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2 + near
         ) {
             RectChangeType.EXPAND_LEFT
         } else if (
-            touchX > cropLeft + cropWidth + cropStroke - near
-            && touchX < cropLeft + cropWidth + cropStroke + near
+            touchX > cropLeft + cropWidth + cropStrokeWidth - near
+            && touchX < cropLeft + cropWidth + cropStrokeWidth + near
             && touchY > cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2 - near
             && touchY < cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2 + near
         ) {
             RectChangeType.EXPAND_RIGHT
-        } else if (touchX > cropLeft - cropStroke - near
-            && touchX < cropLeft - cropStroke + near
-            && touchY > cropTop - cropStroke * 3 / 2 - near
-            && touchY < cropTop - cropStroke * 3 / 2 + getAppDimension(R.dimen.dimen_16) + near
+        } else if (touchX > cropLeft - cropStrokeWidth - near
+            && touchX < cropLeft - cropStrokeWidth + near
+            && touchY > cropTop - cropStrokeWidth * 3 / 2 - near
+            && touchY < cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16) + near
         ) {
             RectChangeType.EXPAND_UP_LEFT
-        } else if (touchX > cropLeft - cropStroke / 2 - near
-            && touchX < cropLeft - cropStroke / 2 + getAppDimension(R.dimen.dimen_28) + near
-            && touchY > cropTop - cropStroke - near
-            && touchY < cropTop - cropStroke + near
+        } else if (touchX > cropLeft - cropStrokeWidth / 2 - near
+            && touchX < cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28) + near
+            && touchY > cropTop - cropStrokeWidth - near
+            && touchY < cropTop - cropStrokeWidth + near
         ) {
             RectChangeType.EXPAND_UP_LEFT
-        } else if (touchX > cropLeft - cropStroke - near
-            && touchX < cropLeft - cropStroke + near
-            && touchY > cropTop + cropHeight + cropStroke * 3 / 2 - getAppDimension(R.dimen.dimen_16) - near
-            && touchY < cropTop + cropHeight + cropStroke * 3 / 2 + near
+        } else if (touchX > cropLeft - cropStrokeWidth - near
+            && touchX < cropLeft - cropStrokeWidth + near
+            && touchY > cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16) - near
+            && touchY < cropTop + cropHeight + cropStrokeWidth * 3 / 2 + near
         ) {
             RectChangeType.EXPAND_DOWN_LEFT
-        } else if (touchX > cropLeft - cropStroke / 2 - near
-            && touchX < cropLeft - cropStroke / 2 + getAppDimension(R.dimen.dimen_28) + near
-            && touchY > cropTop + cropHeight + cropStroke - near
-            && touchY < cropTop + cropHeight + cropStroke + near
+        } else if (touchX > cropLeft - cropStrokeWidth / 2 - near
+            && touchX < cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28) + near
+            && touchY > cropTop + cropHeight + cropStrokeWidth - near
+            && touchY < cropTop + cropHeight + cropStrokeWidth + near
         ) {
             RectChangeType.EXPAND_DOWN_LEFT
-        } else if (touchX > cropLeft + cropWidth + cropStroke - near
-            && touchX < cropLeft + cropWidth + cropStroke + near
-            && touchY > cropTop - cropStroke * 3 / 2 - near
-            && touchY < cropTop - cropStroke * 3 / 2 + getAppDimension(R.dimen.dimen_16) + near
+        } else if (touchX > cropLeft + cropWidth + cropStrokeWidth - near
+            && touchX < cropLeft + cropWidth + cropStrokeWidth + near
+            && touchY > cropTop - cropStrokeWidth * 3 / 2 - near
+            && touchY < cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16) + near
         ) {
             RectChangeType.EXPAND_UP_RIGHT
-        } else if (touchX > cropLeft + cropWidth + cropStroke / 2 - getAppDimension(R.dimen.dimen_28) - near
-            && touchX < cropLeft + cropWidth + cropStroke / 2 + near
-            && touchY > cropTop - cropStroke - near
-            && touchY < cropTop - cropStroke + near
+        } else if (touchX > cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28) - near
+            && touchX < cropLeft + cropWidth + cropStrokeWidth / 2 + near
+            && touchY > cropTop - cropStrokeWidth - near
+            && touchY < cropTop - cropStrokeWidth + near
         ) {
             RectChangeType.EXPAND_UP_RIGHT
-        } else if (touchX > cropLeft + cropWidth + cropStroke - near
-            && touchX < cropLeft + cropWidth + cropStroke + near
-            && touchY > cropTop + cropHeight + cropStroke * 3 / 2 - getAppDimension(R.dimen.dimen_16) - near
-            && touchY < cropTop + cropHeight + cropStroke * 3 / 2 + near
+        } else if (touchX > cropLeft + cropWidth + cropStrokeWidth - near
+            && touchX < cropLeft + cropWidth + cropStrokeWidth + near
+            && touchY > cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16) - near
+            && touchY < cropTop + cropHeight + cropStrokeWidth * 3 / 2 + near
         ) {
             RectChangeType.EXPAND_DOWN_RIGHT
-        } else if (touchX > cropLeft + cropWidth + cropStroke / 2 - getAppDimension(R.dimen.dimen_28) - near
-            && touchX < cropLeft + cropWidth + cropStroke / 2 + near
-            && touchY > cropTop + cropHeight + cropStroke - near
-            && touchY < cropTop + cropHeight + cropStroke + near
+        } else if (touchX > cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28) - near
+            && touchX < cropLeft + cropWidth + cropStrokeWidth / 2 + near
+            && touchY > cropTop + cropHeight + cropStrokeWidth - near
+            && touchY < cropTop + cropHeight + cropStrokeWidth + near
         ) {
             RectChangeType.EXPAND_DOWN_RIGHT
         } else if (touchX > cropLeft - near
@@ -364,8 +368,8 @@ class CropView constructor(
 
     private fun expandUp(touchY: Float) {
         val newCropTop = cropTop + touchY - oldY
-        cropTop = if (newCropTop <= cropStroke * 3 / 2) {
-            cropStroke * 3 / 2
+        cropTop = if (newCropTop <= cropStrokeWidth * 3 / 2) {
+            cropStrokeWidth * 3 / 2
         } else if (cropBottom - newCropTop < minCropHeight) {
             cropBottom - minCropHeight
         } else {
@@ -375,8 +379,8 @@ class CropView constructor(
 
     private fun expandDown(touchY: Float) {
         val newCropBottom = cropBottom + touchY - oldY
-        cropBottom = if (newCropBottom >= height.toFloat() - cropStroke * 3 / 2) {
-            height.toFloat() - cropStroke * 3 / 2
+        cropBottom = if (newCropBottom >= height.toFloat() - cropStrokeWidth * 3 / 2) {
+            height.toFloat() - cropStrokeWidth * 3 / 2
         } else if (newCropBottom - cropTop < minCropHeight) {
             cropTop + minCropHeight
         } else {
@@ -386,8 +390,8 @@ class CropView constructor(
 
     private fun expandLeft(touchX: Float) {
         val newCropLeft = cropLeft + touchX - oldX
-        cropLeft = if (newCropLeft <= cropStroke * 3 / 2) {
-            cropStroke * 3 / 2
+        cropLeft = if (newCropLeft <= cropStrokeWidth * 3 / 2) {
+            cropStrokeWidth * 3 / 2
         } else if (cropRight - newCropLeft < minCropWidth) {
             cropRight - minCropWidth
         } else {
@@ -397,8 +401,8 @@ class CropView constructor(
 
     private fun expandRight(touchX: Float) {
         val newCropRight = cropRight + touchX - oldX
-        cropRight = if (newCropRight >= width.toFloat() - cropStroke * 3 / 2) {
-            width.toFloat() - cropStroke * 3 / 2
+        cropRight = if (newCropRight >= width.toFloat() - cropStrokeWidth * 3 / 2) {
+            width.toFloat() - cropStrokeWidth * 3 / 2
         } else if (newCropRight - cropLeft < minCropWidth) {
             cropLeft + minCropWidth
         } else {
@@ -414,20 +418,20 @@ class CropView constructor(
         val deltaY = touchY - oldY
         if (deltaX > 0 && deltaY > 0) {
             if (abs(deltaX) > abs(deltaY)) {
-                val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStroke * 3 / 2)
+                val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStrokeWidth * 3 / 2)
                 val newCropBottom = cropTop + (newCropRight - cropLeft) / ratio!!
-                if (newCropBottom > height.toFloat() - cropStroke * 3 / 2) {
-                    cropBottom = height.toFloat() - cropStroke * 3 / 2
+                if (newCropBottom > height.toFloat() - cropStrokeWidth * 3 / 2) {
+                    cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
                     cropRight = cropLeft + (cropBottom - cropTop) * ratio!!
                 } else {
                     cropRight = newCropRight
                     cropBottom = newCropBottom
                 }
             } else {
-                val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStroke * 3 / 2)
+                val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStrokeWidth * 3 / 2)
                 val newCropRight = cropLeft + (newCropBottom - cropTop) * ratio!!
-                if (newCropRight > width.toFloat() - cropStroke * 3 / 2) {
-                    cropRight = width.toFloat() - cropStroke * 3 / 2
+                if (newCropRight > width.toFloat() - cropStrokeWidth * 3 / 2) {
+                    cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
                     cropBottom = cropTop + (cropRight - cropLeft) / ratio!!
                 } else {
                     cropRight = newCropRight
@@ -475,20 +479,20 @@ class CropView constructor(
         val deltaY = touchY - oldY
         if (deltaX < 0 && deltaY > 0) {
             if (abs(deltaX) > abs(deltaY)) {
-                val newCropLeft = max(cropLeft - abs(deltaX), cropStroke * 3 / 2)
+                val newCropLeft = max(cropLeft - abs(deltaX), cropStrokeWidth * 3 / 2)
                 val newCropBottom = cropTop + (cropRight - newCropLeft) / ratio!!
-                if (newCropBottom > height.toFloat() - cropStroke * 3 / 2) {
-                    cropBottom = height.toFloat() - cropStroke * 3 / 2
+                if (newCropBottom > height.toFloat() - cropStrokeWidth * 3 / 2) {
+                    cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
                     cropLeft = cropRight - (cropBottom - cropTop) * ratio!!
                 } else {
                     cropLeft = newCropLeft
                     cropBottom = newCropBottom
                 }
             } else {
-                val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStroke * 3 / 2)
+                val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStrokeWidth * 3 / 2)
                 val newCropLeft = cropRight - (newCropBottom - cropTop) * ratio!!
-                if (newCropLeft < cropStroke * 3 / 2) {
-                    cropLeft = cropStroke * 3 / 2
+                if (newCropLeft < cropStrokeWidth * 3 / 2) {
+                    cropLeft = cropStrokeWidth * 3 / 2
                     cropBottom = cropTop + (cropRight - cropLeft) / ratio!!
                 } else {
                     cropLeft = newCropLeft
@@ -536,20 +540,20 @@ class CropView constructor(
         val deltaY = touchY - oldY
         if (deltaX < 0 && deltaY < 0) {
             if (abs(deltaX) > abs(deltaY)) {
-                val newCropLeft = max(cropLeft - abs(deltaX), cropStroke * 3 / 2)
+                val newCropLeft = max(cropLeft - abs(deltaX), cropStrokeWidth * 3 / 2)
                 val newCropTop = cropBottom - (cropRight - newCropLeft) / ratio!!
-                if (newCropTop < cropStroke * 3 / 2) {
-                    cropTop = cropStroke * 3 / 2
+                if (newCropTop < cropStrokeWidth * 3 / 2) {
+                    cropTop = cropStrokeWidth * 3 / 2
                     cropLeft = cropRight - (cropBottom - cropTop) * ratio!!
                 } else {
                     cropLeft = newCropLeft
                     cropTop = newCropTop
                 }
             } else {
-                val newCropTop = max(cropTop - abs(deltaY), cropStroke * 3 / 2)
+                val newCropTop = max(cropTop - abs(deltaY), cropStrokeWidth * 3 / 2)
                 val newCropLeft = cropRight - (cropBottom - newCropTop) * ratio!!
-                if (newCropLeft < cropStroke * 3 / 2) {
-                    cropLeft = cropStroke * 3 / 2
+                if (newCropLeft < cropStrokeWidth * 3 / 2) {
+                    cropLeft = cropStrokeWidth * 3 / 2
                     cropTop = cropBottom - (cropRight - cropLeft) / ratio!!
                 } else {
                     cropLeft = newCropLeft
@@ -597,20 +601,20 @@ class CropView constructor(
         val deltaY = touchY - oldY
         if (deltaX > 0 && deltaY < 0) {
             if (abs(deltaX) > abs(deltaY)) {
-                val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStroke * 3 / 2)
+                val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStrokeWidth * 3 / 2)
                 val newCropTop = cropBottom - (newCropRight - cropLeft) / ratio!!
-                if (newCropTop < cropStroke * 3 / 2) {
-                    cropTop = cropStroke * 3 / 2
+                if (newCropTop < cropStrokeWidth * 3 / 2) {
+                    cropTop = cropStrokeWidth * 3 / 2
                     cropRight = cropLeft + (cropBottom - cropTop) * ratio!!
                 } else {
                     cropRight = newCropRight
                     cropTop = newCropTop
                 }
             } else {
-                val newCropTop = max(cropTop - abs(deltaY), cropStroke * 3 / 2)
+                val newCropTop = max(cropTop - abs(deltaY), cropStrokeWidth * 3 / 2)
                 val newCropRight = cropLeft + (cropBottom - newCropTop) * ratio!!
-                if (newCropRight > width.toFloat() - cropStroke * 3 / 2) {
-                    cropRight = width.toFloat() - cropStroke * 3 / 2
+                if (newCropRight > width.toFloat() - cropStrokeWidth * 3 / 2) {
+                    cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
                     cropTop = cropBottom - (cropRight - cropLeft) / ratio!!
                 } else {
                     cropRight = newCropRight
@@ -654,22 +658,22 @@ class CropView constructor(
         if (ratio == null) return
         val deltaY = touchY - oldY
         if (deltaY > 0) {
-            val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStroke * 3 / 2)
+            val newCropBottom = min(cropBottom + abs(deltaY), height.toFloat() - cropStrokeWidth * 3 / 2)
             val newCropLeft = cropLeft - abs(newCropBottom - cropBottom) * ratio!! / 2
             val newCropRight = cropRight + abs(newCropBottom - cropBottom) * ratio!! / 2
-            if (newCropLeft >= cropStroke * 3 / 2 && newCropRight <= width.toFloat() - cropStroke * 3 / 2) {
+            if (newCropLeft >= cropStrokeWidth * 3 / 2 && newCropRight <= width.toFloat() - cropStrokeWidth * 3 / 2) {
                 cropBottom = newCropBottom
                 cropLeft = newCropLeft
                 cropRight = newCropRight
-            } else if (newCropLeft >= cropStroke * 3 / 2 && newCropRight > width.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropLeft >= cropStrokeWidth * 3 / 2 && newCropRight > width.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropWidth = newCropRight - newCropLeft
-                cropRight = width.toFloat() - cropStroke * 3 / 2
-                cropLeft = max(cropRight - cropWidth, cropStroke * 3 / 2)
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+                cropLeft = max(cropRight - cropWidth, cropStrokeWidth * 3 / 2)
                 cropBottom = cropTop + (newCropRight - newCropLeft) / ratio!!
-            } else if (newCropLeft < cropStroke * 3 / 2 && newCropRight <= width.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropLeft < cropStrokeWidth * 3 / 2 && newCropRight <= width.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropWidth = newCropRight - newCropLeft
-                cropLeft = cropStroke * 3 / 2
-                cropRight = min(cropLeft + cropWidth, width.toFloat() - cropStroke * 3 / 2)
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = min(cropLeft + cropWidth, width.toFloat() - cropStrokeWidth * 3 / 2)
                 cropBottom = cropTop + (newCropRight - newCropLeft) / ratio!!
             } else {
                 // do nothing
@@ -692,22 +696,22 @@ class CropView constructor(
         if (ratio == null) return
         val deltaY = touchY - oldY
         if (deltaY < 0) {
-            val newCropTop = max(cropTop - abs(deltaY), cropStroke * 3 / 2)
+            val newCropTop = max(cropTop - abs(deltaY), cropStrokeWidth * 3 / 2)
             val newCropLeft = cropLeft - abs(newCropTop - cropTop) * ratio!! / 2
             val newCropRight = cropRight + abs(newCropTop - cropTop) * ratio!! / 2
-            if (newCropLeft >= cropStroke * 3 / 2 && newCropRight <= width.toFloat() - cropStroke * 3 / 2) {
+            if (newCropLeft >= cropStrokeWidth * 3 / 2 && newCropRight <= width.toFloat() - cropStrokeWidth * 3 / 2) {
                 cropTop = newCropTop
                 cropLeft = newCropLeft
                 cropRight = newCropRight
-            } else if (newCropLeft >= cropStroke * 3 / 2 && newCropRight > width.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropLeft >= cropStrokeWidth * 3 / 2 && newCropRight > width.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropWidth = newCropRight - newCropLeft
-                cropRight = width.toFloat() - cropStroke * 3 / 2
-                cropLeft = max(cropRight - cropWidth, cropStroke * 3 / 2)
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+                cropLeft = max(cropRight - cropWidth, cropStrokeWidth * 3 / 2)
                 cropTop = cropBottom - (newCropRight - newCropLeft) / ratio!!
-            } else if (newCropLeft < cropStroke * 3 / 2 && newCropRight <= width.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropLeft < cropStrokeWidth * 3 / 2 && newCropRight <= width.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropWidth = newCropRight - newCropLeft
-                cropLeft = cropStroke * 3 / 2
-                cropRight = min(cropLeft + cropWidth, width.toFloat() - cropStroke * 3 / 2)
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = min(cropLeft + cropWidth, width.toFloat() - cropStrokeWidth * 3 / 2)
                 cropTop = cropBottom - (newCropRight - newCropLeft) / ratio!!
             } else {
                 // do nothing
@@ -730,22 +734,22 @@ class CropView constructor(
         if (ratio == null) return
         val deltaX = touchX - oldX
         if (deltaX < 0) {
-            val newCropLeft = max(cropLeft - abs(deltaX), cropStroke * 3 / 2)
+            val newCropLeft = max(cropLeft - abs(deltaX), cropStrokeWidth * 3 / 2)
             val newCropTop = cropTop - abs(newCropLeft - cropLeft) / ratio!! / 2
             val newCropBottom = cropBottom + abs(newCropLeft - cropLeft) / ratio!! / 2
-            if (newCropTop >= cropStroke * 3 / 2 && newCropBottom <= height.toFloat() - cropStroke * 3 / 2) {
+            if (newCropTop >= cropStrokeWidth * 3 / 2 && newCropBottom <= height.toFloat() - cropStrokeWidth * 3 / 2) {
                 cropLeft = newCropLeft
                 cropTop = newCropTop
                 cropBottom = newCropBottom
-            } else if (newCropTop >= cropStroke * 3 / 2 && newCropBottom > height.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropTop >= cropStrokeWidth * 3 / 2 && newCropBottom > height.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropHeight = newCropBottom - newCropTop
-                cropBottom = height.toFloat() - cropStroke * 3 / 2
-                cropTop = max(cropBottom - cropHeight, cropStroke * 3 / 2)
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+                cropTop = max(cropBottom - cropHeight, cropStrokeWidth * 3 / 2)
                 cropLeft = cropRight - (cropBottom - cropTop) * ratio!!
-            } else if (newCropTop < cropStroke * 3 / 2 && newCropBottom <= height.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropTop < cropStrokeWidth * 3 / 2 && newCropBottom <= height.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropHeight = newCropBottom - newCropTop
-                cropTop = cropStroke * 3 / 2
-                cropBottom = min(cropTop + cropHeight, height.toFloat() - cropStroke * 3 / 2)
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = min(cropTop + cropHeight, height.toFloat() - cropStrokeWidth * 3 / 2)
                 cropLeft = cropRight - (cropBottom - cropTop) * ratio!!
             } else {
                 // do nothing
@@ -768,22 +772,22 @@ class CropView constructor(
         if (ratio == null) return
         val deltaX = touchX - oldX
         if (deltaX > 0) {
-            val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStroke * 3 / 2)
+            val newCropRight = min(cropRight + abs(deltaX), width.toFloat() - cropStrokeWidth * 3 / 2)
             val newCropTop = cropTop - abs(newCropRight - cropRight) / ratio!! / 2
             val newCropBottom = cropBottom + abs(newCropRight - cropRight) / ratio!! / 2
-            if (newCropTop >= cropStroke * 3 / 2 && newCropBottom <= height.toFloat() - cropStroke * 3 / 2) {
+            if (newCropTop >= cropStrokeWidth * 3 / 2 && newCropBottom <= height.toFloat() - cropStrokeWidth * 3 / 2) {
                 cropRight = newCropRight
                 cropTop = newCropTop
                 cropBottom = newCropBottom
-            } else if (newCropTop >= cropStroke * 3 / 2 && newCropBottom > height.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropTop >= cropStrokeWidth * 3 / 2 && newCropBottom > height.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropHeight = newCropBottom - newCropTop
-                cropBottom = height.toFloat() - cropStroke * 3 / 2
-                cropTop = max(cropBottom - cropHeight, cropStroke * 3 / 2)
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+                cropTop = max(cropBottom - cropHeight, cropStrokeWidth * 3 / 2)
                 cropRight = cropLeft + (cropBottom - cropTop) * ratio!!
-            } else if (newCropTop < cropStroke * 3 / 2 && newCropBottom <= height.toFloat() - cropStroke * 3 / 2) {
+            } else if (newCropTop < cropStrokeWidth * 3 / 2 && newCropBottom <= height.toFloat() - cropStrokeWidth * 3 / 2) {
                 val cropHeight = newCropBottom - newCropTop
-                cropTop = cropStroke * 3 / 2
-                cropBottom = min(cropTop + cropHeight, height.toFloat() - cropStroke * 3 / 2)
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = min(cropTop + cropHeight, height.toFloat() - cropStrokeWidth * 3 / 2)
                 cropRight = cropLeft + (cropBottom - cropTop) * ratio!!
             } else {
                 // do nothing
@@ -810,16 +814,16 @@ class CropView constructor(
         val cropWidth = cropRight - cropLeft
         val cropHeight = cropBottom - cropTop
         if (touchX - oldX < 0) {
-            if (newCropLeft < cropStroke * 3 / 2) {
-                cropLeft = cropStroke * 3 / 2
+            if (newCropLeft < cropStrokeWidth * 3 / 2) {
+                cropLeft = cropStrokeWidth * 3 / 2
                 cropRight = cropLeft + cropWidth
             } else {
                 cropLeft = newCropLeft
                 cropRight = newCropRight
             }
         } else {
-            if (newCropRight > width.toFloat() - cropStroke * 3 / 2) {
-                cropRight = width.toFloat() - cropStroke * 3 / 2
+            if (newCropRight > width.toFloat() - cropStrokeWidth * 3 / 2) {
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
                 cropLeft = cropRight - cropWidth
             } else {
                 cropRight = newCropRight
@@ -827,16 +831,16 @@ class CropView constructor(
             }
         }
         if (touchY - oldY < 0) {
-            if (newCropTop < cropStroke * 3 / 2) {
-                cropTop = cropStroke * 3 / 2
+            if (newCropTop < cropStrokeWidth * 3 / 2) {
+                cropTop = cropStrokeWidth * 3 / 2
                 cropBottom = cropTop + cropHeight
             } else {
                 cropTop = newCropTop
                 cropBottom = newCropBottom
             }
         } else {
-            if (newCropBottom > height.toFloat() - cropStroke * 3 / 2) {
-                cropBottom = height.toFloat() - cropStroke * 3 / 2
+            if (newCropBottom > height.toFloat() - cropStrokeWidth * 3 / 2) {
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
                 cropTop = cropBottom - cropHeight
             } else {
                 cropBottom = newCropBottom
@@ -857,7 +861,28 @@ class CropView constructor(
         return if (a > 0) a else -a
     }
 
+    private fun initView(attributeSet: AttributeSet?) {
+        val ta = context.theme.obtainStyledAttributes(attributeSet, R.styleable.CropView, 0, 0)
+        if (ta.hasValue(R.styleable.CropView_cropStrokeColor)) {
+            cropStrokeColor = ta.getColor(R.styleable.CropView_cropStrokeColor, getAppColor(R.color.color_purple))
+        }
+        if (ta.hasValue(R.styleable.CropView_cropStrokeWidth)) {
+            cropStrokeWidth = ta.getDimension(R.styleable.CropView_cropStrokeWidth, getAppDimension(R.dimen.dimen_2))
+        }
+        if (ta.hasValue(R.styleable.CropView_cropMinWidth)) {
+            cropStrokeWidth = ta.getDimension(R.styleable.CropView_cropMinWidth, getAppDimension(R.dimen.dimen_100))
+        }
+        if (ta.hasValue(R.styleable.CropView_cropMinHeight)) {
+            minCropHeight = ta.getDimension(R.styleable.CropView_cropMinHeight, getAppDimension(R.dimen.dimen_100))
+        }
+        if (ta.hasValue(R.styleable.CropView_cropNearDistance)) {
+            near = ta.getDimension(R.styleable.CropView_cropNearDistance, getAppDimension(R.dimen.dimen_10))
+        }
+    }
+
     enum class RectChangeType {
-        MOVE, EXPAND_RIGHT, EXPAND_LEFT, EXPAND_UP, EXPAND_DOWN, EXPAND_UP_RIGHT, EXPAND_UP_LEFT, EXPAND_DOWN_RIGHT, EXPAND_DOWN_LEFT, STAY
+        EXPAND_RIGHT, EXPAND_LEFT, EXPAND_UP, EXPAND_DOWN,
+        EXPAND_UP_RIGHT, EXPAND_UP_LEFT, EXPAND_DOWN_RIGHT, EXPAND_DOWN_LEFT,
+        STAY, MOVE
     }
 }
