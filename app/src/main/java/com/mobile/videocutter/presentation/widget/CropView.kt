@@ -69,115 +69,8 @@ class CropView constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-        val cropWidth = cropRight - cropLeft
-        val cropHeight = cropBottom - cropTop
-
-        // Vẽ hình chữ nhật rìa ngoài
-        canvas?.drawRect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight, paint)
-
-        // Vẽ các đường chia 3x3
-        canvas?.drawLine(cropLeft + cropWidth / 3, cropTop, cropLeft + cropWidth / 3, cropTop + cropHeight, paint)
-        canvas?.drawLine(cropLeft + cropWidth * 2 / 3, cropTop, cropLeft + cropWidth * 2 / 3, cropTop + cropHeight, paint)
-        canvas?.drawLine(cropLeft, cropTop + cropHeight / 3, cropLeft + cropWidth, cropTop + cropHeight / 3, paint)
-        canvas?.drawLine(cropLeft, cropTop + cropHeight * 2 / 3, cropLeft + cropWidth, cropTop + cropHeight * 2 / 3, paint)
-
-        // Vẽ các góc giữa
-        canvas?.drawLine(
-            cropLeft - cropStrokeWidth,
-            cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
-            cropLeft - cropStrokeWidth,
-            cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
-            paint
-        )
-        canvas?.drawLine(
-             cropLeft + cropWidth + cropStrokeWidth,
-            cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
-            cropLeft + cropWidth + cropStrokeWidth,
-            cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop - cropStrokeWidth,
-            cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop - cropStrokeWidth,
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop + cropHeight + cropStrokeWidth,
-            cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
-            cropTop + cropHeight + cropStrokeWidth,
-            paint
-        )
-
-        // Vẽ các góc vuông
-
-        // Top left
-        canvas?.drawLine(
-            cropLeft - cropStrokeWidth,
-            cropTop - cropStrokeWidth * 3 / 2,
-            cropLeft - cropStrokeWidth,
-            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft - cropStrokeWidth / 2,
-            cropTop - cropStrokeWidth,
-            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
-            cropTop - cropStrokeWidth,
-            paint
-        )
-
-        // Bot left
-        canvas?.drawLine(
-            cropLeft - cropStrokeWidth,
-            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
-            cropLeft - cropStrokeWidth,
-            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft - cropStrokeWidth / 2,
-            cropTop + cropHeight + cropStrokeWidth,
-            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
-            cropTop + cropHeight + cropStrokeWidth,
-            paint
-        )
-
-        // Top right
-        canvas?.drawLine(
-            cropLeft + cropWidth + cropStrokeWidth,
-            cropTop - cropStrokeWidth * 3 / 2,
-            cropLeft + cropWidth + cropStrokeWidth,
-            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
-            cropTop - cropStrokeWidth,
-            cropLeft + cropWidth + cropStrokeWidth / 2,
-            cropTop - cropStrokeWidth,
-            paint
-        )
-
-
-        // Bot right
-        canvas?.drawLine(
-            cropLeft + cropWidth + cropStrokeWidth,
-            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
-            cropLeft + cropWidth + cropStrokeWidth,
-            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
-            paint
-        )
-        canvas?.drawLine(
-            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
-            cropTop + cropHeight + cropStrokeWidth,
-            cropLeft + cropWidth + cropStrokeWidth / 2,
-            cropTop + cropHeight + cropStrokeWidth,
-            paint
-        )
+        drawOutside(canvas)
+        drawMain(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -889,6 +782,130 @@ class CropView constructor(
                 getAppDimension(R.dimen.dimen_30)
             )
         }
+    }
+
+    private fun drawOutside(canvas: Canvas?) {
+        paint.style = Paint.Style.FILL_AND_STROKE
+        paint.color = getAppColor(R.color.color_black_40)
+
+        canvas?.drawRect(0f, 0f, cropLeft, height.toFloat(), paint)
+        canvas?.drawRect(cropRight, 0f, width.toFloat(), height.toFloat(), paint)
+        canvas?.drawRect(cropLeft + cropStrokeWidth, 0f, cropRight - cropStrokeWidth, cropTop, paint)
+        canvas?.drawRect(cropLeft + cropStrokeWidth, cropBottom, cropRight - cropStrokeWidth, height.toFloat(), paint)
+
+        paint.style = Paint.Style.STROKE
+        paint.color = cropStrokeColor
+    }
+
+    private fun drawMain(canvas: Canvas?) {
+        val cropWidth = cropRight - cropLeft
+        val cropHeight = cropBottom - cropTop
+
+        // Vẽ hình chữ nhật rìa ngoài
+        canvas?.drawRect(cropLeft, cropTop, cropLeft + cropWidth, cropTop + cropHeight, paint)
+
+        // Vẽ các đường chia 3x3
+        canvas?.drawLine(cropLeft + cropWidth / 3, cropTop, cropLeft + cropWidth / 3, cropTop + cropHeight, paint)
+        canvas?.drawLine(cropLeft + cropWidth * 2 / 3, cropTop, cropLeft + cropWidth * 2 / 3, cropTop + cropHeight, paint)
+        canvas?.drawLine(cropLeft, cropTop + cropHeight / 3, cropLeft + cropWidth, cropTop + cropHeight / 3, paint)
+        canvas?.drawLine(cropLeft, cropTop + cropHeight * 2 / 3, cropLeft + cropWidth, cropTop + cropHeight * 2 / 3, paint)
+
+        // Vẽ các góc giữa
+        canvas?.drawLine(
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight / 2 - getAppDimension(R.dimen.dimen_16) / 2,
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight / 2 + getAppDimension(R.dimen.dimen_16) / 2,
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
+            cropTop - cropStrokeWidth,
+            cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
+            cropTop - cropStrokeWidth,
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft + cropWidth / 2 - getAppDimension(R.dimen.dimen_28) / 2,
+            cropTop + cropHeight + cropStrokeWidth,
+            cropLeft + cropWidth / 2 + getAppDimension(R.dimen.dimen_28) / 2,
+            cropTop + cropHeight + cropStrokeWidth,
+            paint
+        )
+
+        // Vẽ các góc vuông
+
+        // Top left
+        canvas?.drawLine(
+            cropLeft - cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2,
+            cropLeft - cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft - cropStrokeWidth / 2,
+            cropTop - cropStrokeWidth,
+            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
+            cropTop - cropStrokeWidth,
+            paint
+        )
+
+        // Bot left
+        canvas?.drawLine(
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
+            cropLeft - cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft - cropStrokeWidth / 2,
+            cropTop + cropHeight + cropStrokeWidth,
+            cropLeft - cropStrokeWidth / 2 + getAppDimension(R.dimen.dimen_28),
+            cropTop + cropHeight + cropStrokeWidth,
+            paint
+        )
+
+        // Top right
+        canvas?.drawLine(
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2,
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop - cropStrokeWidth * 3 / 2 + getAppDimension(R.dimen.dimen_16),
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
+            cropTop - cropStrokeWidth,
+            cropLeft + cropWidth + cropStrokeWidth / 2,
+            cropTop - cropStrokeWidth,
+            paint
+        )
+
+
+        // Bot right
+        canvas?.drawLine(
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2 - getAppDimension(R.dimen.dimen_16),
+            cropLeft + cropWidth + cropStrokeWidth,
+            cropTop + cropHeight + cropStrokeWidth * 3 / 2,
+            paint
+        )
+        canvas?.drawLine(
+            cropLeft + cropWidth + cropStrokeWidth / 2 - getAppDimension(R.dimen.dimen_28),
+            cropTop + cropHeight + cropStrokeWidth,
+            cropLeft + cropWidth + cropStrokeWidth / 2,
+            cropTop + cropHeight + cropStrokeWidth,
+            paint
+        )
     }
 
     enum class RectChangeType {
