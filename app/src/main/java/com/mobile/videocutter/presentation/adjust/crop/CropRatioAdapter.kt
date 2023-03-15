@@ -64,6 +64,7 @@ class CropRatioAdapter: BaseAdapter() {
             return if (data.cropRatio.getRatio() == null) {
                 getAppDrawable(getCustomImage(data.isSelected))
             } else {
+                setPreviewImageSizeBaseOnRatio(data)
                 val drawable = GradientDrawable()
                 drawable.shape = GradientDrawable.RECTANGLE
                 drawable.setStroke(
@@ -71,6 +72,17 @@ class CropRatioAdapter: BaseAdapter() {
                     getAppColor(getSelectColor(data.isSelected))
                 )
                 drawable
+            }
+        }
+
+        private fun setPreviewImageSizeBaseOnRatio(data: CropRatioDisplay) {
+            val layoutParams = itemBinding.ivCropRatioPreview.layoutParams
+            data.cropRatio.getRatio()?.let { ratio ->
+                if (ratio > 1) {
+                    layoutParams.height = (layoutParams.width / ratio).toInt()
+                } else {
+                    layoutParams.width = (layoutParams.height * ratio).toInt()
+                }
             }
         }
 

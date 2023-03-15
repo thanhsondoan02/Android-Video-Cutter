@@ -4,7 +4,6 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.getAppString
 
 class CropRatio(var type: CROP_RATIO = CROP_RATIO.CUSTOM) {
-
     fun getRatio(): Float? {
         return when (type) {
             CROP_RATIO.CUSTOM -> null
