@@ -27,6 +27,8 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
     private var isInitMax = false
     private var mHandler: Handler? = null
     private val cropAdapter by lazy { CropRatioAdapter() }
+    private var resolutionHeight: Int? = null
+    private var resolutionWidth: Int? = null
 
     private val viewModel by viewModels<CropViewModel>()
 
@@ -62,6 +64,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
         cropAdapter.listener = object : CropRatioAdapter.IListener{
             override fun onCropRatioSelected(cropRatio: CropRatio) {
                 binding.cvCrop.ratio = cropRatio.getRatio()
+                updateResolution(binding.cvCrop.getWidthRatio(), binding.cvCrop.getHeightRatio())
             }
         }
         binding.rvCropRatioList.adapter = cropAdapter
@@ -170,29 +173,26 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
         }
     }
 
-    var resolutionHeight: Int? = null
-    var resolutionWidth: Int? = null
-
     private fun initResolution() {
         val metaRetriever = MediaMetadataRetriever()
         metaRetriever.setDataSource(viewModel.path)
         resolutionHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toInt()
         resolutionWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toInt()
-        updateResolution(resolutionWidth, resolutionHeight)
+        updateResolution(1f, 1f)
 
         // Cập nhật resolution khi crop size change
         binding.cvCrop.setOnCropSizeChangeListener { widthRatio, heightRatio ->
             if (resolutionWidth != null || resolutionHeight != null) {
-                updateResolution(
-                    width = (widthRatio * resolutionWidth!!).toInt(),
-                    height = (heightRatio * resolutionHeight!!).toInt()
-                )
+                updateResolution(widthRatio, heightRatio)
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateResolution(width: Int?, height: Int?) {
-        binding.tvCropResolution.text = "$width x $height"
+    private fun updateResolution(widthRatio: Float, heightRatio: Float) {
+        if (resolutionWidth != null && resolutionHeight != null) {
+            binding.tvCropResolution.text =
+                "${(widthRatio * resolutionWidth!!).toInt()} x ${(heightRatio * resolutionHeight!!).toInt()}"
+        }
     }
 }

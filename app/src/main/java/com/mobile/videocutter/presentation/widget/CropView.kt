@@ -17,7 +17,8 @@ class CropView constructor(
     var ratio: Float? = null
         set(value) {
             field = value
-            requestLayout()
+            initSize()
+            invalidate()
         }
 
     private var listener: IListener? = null
@@ -48,25 +49,7 @@ class CropView constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (ratio == null) {
-            cropLeft= cropStrokeWidth * 3 / 2
-            cropTop = cropStrokeWidth * 3 / 2
-            cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
-            cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
-        } else {
-            val screenRatio = width / height.toFloat()
-            if (ratio!! > screenRatio) {
-                cropLeft = cropStrokeWidth * 3 / 2
-                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
-                cropTop = cropStrokeWidth * 3 / 2
-                cropBottom = cropTop + (width / ratio!!)
-            } else {
-                cropTop = cropStrokeWidth * 3 / 2
-                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
-                cropLeft = cropStrokeWidth * 3 / 2
-                cropRight = cropLeft + (height * ratio!!)
-            }
-        }
+        initSize()
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -89,10 +72,7 @@ class CropView constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (rectChangeType != RectChangeType.STAY) {
                     moveRect(touchX, touchY, rectChangeType)
-                    listener?.onCropSizeChange(
-                        (cropRight - cropLeft + cropStrokeWidth * 3) / width
-                        , (cropBottom - cropTop + cropStrokeWidth * 3) / height
-                    )
+                    listener?.onCropSizeChange(getWidthRatio(), getHeightRatio())
                 }
             }
             MotionEvent.ACTION_UP -> {}
@@ -106,6 +86,14 @@ class CropView constructor(
         setOnCropSizeChangeListener(object : IListener {
             override fun onCropSizeChange(widthRatio: Float, heightRatio: Float) = action.invoke(widthRatio, heightRatio)
         })
+    }
+
+    fun getWidthRatio(): Float {
+        return (cropRight - cropLeft + cropStrokeWidth * 3) / width
+    }
+
+    fun getHeightRatio(): Float {
+        return (cropBottom - cropTop + cropStrokeWidth * 3) / height
     }
 
     private fun setOnCropSizeChangeListener(listener: IListener) {
@@ -925,6 +913,28 @@ class CropView constructor(
             cropTop + cropHeight + cropStrokeWidth,
             paint
         )
+    }
+
+    private fun initSize() {
+        if (ratio == null) {
+            cropLeft= cropStrokeWidth * 3 / 2
+            cropTop = cropStrokeWidth * 3 / 2
+            cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+            cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+        } else {
+            val screenRatio = width / height.toFloat()
+            if (ratio!! > screenRatio) {
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = min(cropTop + (width.toFloat() - cropStrokeWidth * 3) / ratio!!, height.toFloat() - cropStrokeWidth * 3 / 2)
+            } else {
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = min(cropLeft + (height.toFloat() - cropStrokeWidth * 3) * ratio!!, width.toFloat() - cropStrokeWidth * 3 / 2)
+            }
+        }
     }
 
     enum class RectChangeType {
