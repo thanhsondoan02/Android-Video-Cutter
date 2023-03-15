@@ -86,11 +86,13 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                         viewModel.listVideoAdd.add(videoDisplay)
                         updateAddView()
                         updateSelectInAddAdapter()
+                        autoScrollLog()
                     }
                     false -> {
                         viewModel.listVideoAdd.remove(videoDisplay)
                         updateAddView()
                         updateSelectInAddAdapter()
+                        autoScrollLog()
                     }
                 }
             }
@@ -102,6 +104,11 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 )
             }
         }
+    }
+
+    private fun autoScrollLog(){
+        binding.crvSelectVideoAdd.smoothiePosition(viewModel.listVideoAdd.size - 1)
+        binding.crvSelectVideoAdd.invalidate()
     }
 
     private fun updateAddView() {
