@@ -20,6 +20,7 @@ class CropView constructor(
             requestLayout()
         }
 
+    private var listener: IListener? = null
     private var cropStrokeWidth = getAppDimension(R.dimen.dimen_2)
     private var cropStrokeColor = getAppColor(R.color.color_purple)
     private var minCropWidth = getAppDimension(R.dimen.dimen_100)
@@ -88,6 +89,10 @@ class CropView constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (rectChangeType != RectChangeType.STAY) {
                     moveRect(touchX, touchY, rectChangeType)
+                    listener?.onCropSizeChange(
+                        (cropRight - cropLeft + cropStrokeWidth * 3) / width
+                        , (cropBottom - cropTop + cropStrokeWidth * 3) / height
+                    )
                 }
             }
             MotionEvent.ACTION_UP -> {}
@@ -95,6 +100,16 @@ class CropView constructor(
         }
         invalidate()
         return true
+    }
+
+    fun setOnCropSizeChangeListener(action: (widthRatio: Float, heightRatio: Float) -> Unit) {
+        setOnCropSizeChangeListener(object : IListener {
+            override fun onCropSizeChange(widthRatio: Float, heightRatio: Float) = action.invoke(widthRatio, heightRatio)
+        })
+    }
+
+    private fun setOnCropSizeChangeListener(listener: IListener) {
+        this.listener = listener
     }
 
     private fun rectChangeType(touchX: Float, touchY: Float): RectChangeType {
@@ -916,5 +931,9 @@ class CropView constructor(
         EXPAND_RIGHT, EXPAND_LEFT, EXPAND_UP, EXPAND_DOWN,
         EXPAND_UP_RIGHT, EXPAND_UP_LEFT, EXPAND_DOWN_RIGHT, EXPAND_DOWN_LEFT,
         STAY, MOVE
+    }
+
+    interface IListener {
+        fun onCropSizeChange(widthRatio: Float, heightRatio: Float)
     }
 }

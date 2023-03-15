@@ -1,6 +1,7 @@
 package com.mobile.videocutter.presentation.adjust.crop
 
 import android.annotation.SuppressLint
+import android.media.MediaMetadataRetriever
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.widget.SeekBar
@@ -41,6 +42,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
         initOnClick()
         calculateCropViewWidthAndHeight()
         initSeekBar()
+        initResolution()
     }
 
     override fun onDestroy() {
@@ -166,5 +168,31 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
         } else {
             binding.ivCropPlayPause.setImageResource(R.drawable.ic_black_pause_video)
         }
+    }
+
+    var resolutionHeight: Int? = null
+    var resolutionWidth: Int? = null
+
+    private fun initResolution() {
+        val metaRetriever = MediaMetadataRetriever()
+        metaRetriever.setDataSource(viewModel.path)
+        resolutionHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toInt()
+        resolutionWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toInt()
+        updateResolution(resolutionWidth, resolutionHeight)
+
+        // Cập nhật resolution khi crop size change
+        binding.cvCrop.setOnCropSizeChangeListener { widthRatio, heightRatio ->
+            if (resolutionWidth != null || resolutionHeight != null) {
+                updateResolution(
+                    width = (widthRatio * resolutionWidth!!).toInt(),
+                    height = (heightRatio * resolutionHeight!!).toInt()
+                )
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateResolution(width: Int?, height: Int?) {
+        binding.tvCropResolution.text = "$width x $height"
     }
 }
