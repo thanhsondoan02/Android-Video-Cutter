@@ -884,7 +884,10 @@ class CropView constructor(
             )
         }
         if (ta.hasValue(R.styleable.CropView_cropNearDistance)) {
-            near = ta.getDimension(R.styleable.CropView_cropNearDistance, getAppDimension(R.dimen.dimen_10))
+            near = min(
+                ta.getDimension(R.styleable.CropView_cropNearDistance, getAppDimension(R.dimen.dimen_10)),
+                getAppDimension(R.dimen.dimen_30)
+            )
         }
     }
 
