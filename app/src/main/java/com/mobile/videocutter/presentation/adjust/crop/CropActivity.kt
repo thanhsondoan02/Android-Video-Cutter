@@ -18,18 +18,12 @@ import com.mobile.videocutter.domain.model.CropRatio
 import getFormattedTime
 import getVideoWidthOrHeight
 
-
 class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activity) {
     companion object {
         const val VIDEO_PATH = "VIDEO_PATH"
     }
 
-    private var isInitMax = false
-    private var mHandler: Handler? = null
     private val cropAdapter by lazy { CropRatioAdapter() }
-    private var resolutionHeight: Int? = null
-    private var resolutionWidth: Int? = null
-
     private val viewModel by viewModels<CropViewModel>()
 
     override fun onPrepareInitView() {
@@ -49,7 +43,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
 
     override fun onDestroy() {
         binding.pvCropVideo.player?.release()
-        mHandler?.removeCallbacksAndMessages(null)
+        viewModel.mHandler?.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 
@@ -86,7 +80,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
     }
 
     private fun initPlayer() {
-        isInitMax = false
+        viewModel.isInitMax = false
         binding.pvCropVideo.player = ExoPlayer.Builder(this).build().apply {
             intent.getStringExtra(VIDEO_PATH)?.let {
                 setMediaItem(MediaItem.fromUri(it))
@@ -98,9 +92,9 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
                 override fun onEvents(player: Player, events: Player.Events) {
                     super.onEvents(player, events)
                     if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
-                        if (!isInitMax && player.playbackState == Player.STATE_READY) {
+                        if (!viewModel.isInitMax && player.playbackState == Player.STATE_READY) {
                             binding.sbCropVideoController.max = player.duration.toInt()
-                            isInitMax = true
+                            viewModel.isInitMax = true
                         }
                         if (player.playbackState == Player.STATE_ENDED) {
                             binding.pvCropVideo.player?.seekTo(0)
@@ -116,7 +110,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
     @SuppressLint("SetTextI18n")
     private fun initSeekBar() {
         // auto update seekbar when video is playing
-        mHandler = Handler()
+        viewModel.mHandler = Handler()
         runOnUiThread(object : Runnable {
             @SuppressLint("SetTextI18n")
             override fun run() {
@@ -125,7 +119,7 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
                     binding.tvCropCurrentTime.text = getFormattedTime(binding.pvCropVideo.player!!.currentPosition)
                     binding.tvCropTotalTime.text = getFormattedTime(binding.pvCropVideo.player!!.duration)
                 }
-                mHandler?.postDelayed(this, 10)
+                viewModel.mHandler?.postDelayed(this, 10)
             }
         })
 
@@ -176,13 +170,13 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
     private fun initResolution() {
         val metaRetriever = MediaMetadataRetriever()
         metaRetriever.setDataSource(viewModel.path)
-        resolutionHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toInt()
-        resolutionWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toInt()
+        viewModel.resolutionHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toInt()
+        viewModel.resolutionWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toInt()
         updateResolution(1f, 1f)
 
         // Cập nhật resolution khi crop size change
         binding.cvCrop.setOnCropSizeChangeListener { widthRatio, heightRatio ->
-            if (resolutionWidth != null || resolutionHeight != null) {
+            if (viewModel.resolutionWidth != null || viewModel.resolutionHeight != null) {
                 updateResolution(widthRatio, heightRatio)
             }
         }
@@ -190,9 +184,9 @@ class CropActivity: BaseBindingActivity<CropActivityBinding>(R.layout.crop_activ
 
     @SuppressLint("SetTextI18n")
     private fun updateResolution(widthRatio: Float, heightRatio: Float) {
-        if (resolutionWidth != null && resolutionHeight != null) {
+        if (viewModel.resolutionWidth != null && viewModel.resolutionHeight != null) {
             binding.tvCropResolution.text =
-                "${(widthRatio * resolutionWidth!!).toInt()} x ${(heightRatio * resolutionHeight!!).toInt()}"
+                "${(widthRatio * viewModel.resolutionWidth!!).toInt()} x ${(heightRatio * viewModel.resolutionHeight!!).toInt()}"
         }
     }
 }
