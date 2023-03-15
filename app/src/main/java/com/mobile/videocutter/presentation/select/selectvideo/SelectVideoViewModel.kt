@@ -7,7 +7,6 @@ import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.usecase.GetAlbumListUseCase
-import com.mobile.videocutter.domain.usecase.GetMyStudioVideoListUseCase
 import com.mobile.videocutter.domain.usecase.GetVideoListInAlbumUseCase
 import com.mobile.videocutter.thread.FlowResult
 import failure
@@ -26,9 +25,6 @@ class SelectVideoViewModel : BaseViewModel() {
 
     private val _selectVideoState = MutableStateFlow(FlowResult.newInstance<List<LocalVideo>>())
     val selectVideoState = _selectVideoState.asStateFlow()
-
-    private val _selectVideoAllState = MutableStateFlow(FlowResult.newInstance<List<LocalVideo>>())
-    val selectVideoAllState = _selectVideoAllState.asStateFlow()
 
     fun getVideoList(idAlbum: String? = null) {
         viewModelScope.launch {

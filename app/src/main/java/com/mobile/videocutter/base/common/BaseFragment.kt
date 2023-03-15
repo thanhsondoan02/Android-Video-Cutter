@@ -55,6 +55,8 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         return inflater.inflate(layoutId, container, false)
     }
 
+    open fun onBackFragment() {}
+
     fun replaceFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,

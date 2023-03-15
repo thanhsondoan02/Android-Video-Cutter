@@ -25,6 +25,7 @@
     <string name="high">High</string>
     <string name="home">Home</string>
     <string name="select_add">Add(0)</string>
+    <string name="video">Video</string>
 
     // filter
     <string name="filter">Filter</string>

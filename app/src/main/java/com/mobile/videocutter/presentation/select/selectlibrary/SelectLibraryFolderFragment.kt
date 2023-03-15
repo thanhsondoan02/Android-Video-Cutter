@@ -52,6 +52,7 @@ class SelectLibraryFolderFragment : BaseBindingFragment<SelectLibraryFolderActiv
                 viewModelSelectVideo.nameAlbum = album.nameAlbum
                 (baseActivity as SelectVideoActivity).apply {
                     updateAlbumName()
+                    updateHeader()
                 }
             }
         }

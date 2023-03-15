@@ -31,13 +31,11 @@ class LocalDataRepoImpl: ILocalDataRepo {
 
         if (cursor != null) {
             val albumMap = mutableMapOf<String, Album>()
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
             val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_ID)
             val albumNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
 
             while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
-                val albumId = cursor.getLong(albumIdColumn).toString()
+                val albumId = cursor.getString(albumIdColumn)
                 val albumName = cursor.getString(albumNameColumn)
 
                 val videoCount = getVideoCount(contentResolver, albumId)

@@ -1,10 +1,7 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,7 +12,6 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 import com.mobile.videocutter.presentation.adjust.AdjustActivity
-import com.mobile.videocutter.presentation.home.mystudio.ShareFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
 import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderFragment
@@ -24,7 +20,6 @@ import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MO
 import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
-
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val selectVideoAddAdapter by lazy { SelectVideoAddAdapter() }
     private val viewModel by viewModels<SelectVideoViewModel>()
@@ -47,14 +42,22 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
 
         binding.hvSelectVideo.setOnCenterClickListener {
-            replaceFragment(SelectLibraryFolderFragment())
+            if (getCurrentFragment() == null) {
+                replaceFragment(SelectLibraryFolderFragment())
+                updateHeader()
+            }
         }
 
         binding.hvSelectVideo.setOnLeftIconClickListener {
-            navigateBack()
+            if (getCurrentFragment() == null) {
+                navigateBack()
+            } else {
+                backFragment()
+                updateHeader()
+            }
         }
         binding.btnSelectVideoAdd.setOnSafeClick {
-            var intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
+            val intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
             intent.putStringArrayListExtra(AdjustActivity.LIST_VIDEO, viewModel.getListPath())
             startActivity(intent)
         }
@@ -73,24 +76,27 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 })
             }
         }
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.selectVideoAllState.collect {
-                handleUiState(it, object : IViewListener {
-                    override fun onSuccess() {
-                        selectVideoAdapter.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
-                    }
-                })
-            }
-        }
     }
 
     fun updateAlbumName() {
         if (viewModel.nameAlbum.isNullOrEmpty()) {
-            binding.hvSelectVideo.setTextCenter("Video")
+            binding.hvSelectVideo.setTextCenter(getString(R.string.video))
         } else {
             binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
         }
+    }
+
+    fun updateHeader() {
+        binding.hvSelectVideo.apply {
+            if (getCurrentFragment() != null) {
+                setLeftIcon(R.drawable.ic_black_back)
+                setCenterIcon(R.drawable.ic_black_down)
+            } else {
+                setLeftIcon(R.drawable.ic_black_close)
+                setCenterIcon(R.drawable.ic_black_up)
+            }
+        }
+
     }
 
     private fun loadVideo() {
@@ -102,20 +108,14 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
     private fun initRecycleView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
             override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay) {
-                when (videoDisplay.isSelected) {
-                    true -> {
-                        viewModel.listVideoAdd.add(videoDisplay)
-                        updateAddView()
-                        updateSelectInAddAdapter()
-                        autoScrollLog()
-                    }
-                    false -> {
-                        viewModel.listVideoAdd.remove(videoDisplay)
-                        updateAddView()
-                        updateSelectInAddAdapter()
-                        autoScrollLog()
-                    }
+                if (videoDisplay.isSelected) {
+                    viewModel.listVideoAdd.add(videoDisplay)
+                } else {
+                    viewModel.listVideoAdd.remove(videoDisplay)
                 }
+                updateAddView()
+                updateSelectInAddAdapter()
+                autoScrollLog()
             }
 
             override fun onVideoLongClick(path: String) {
