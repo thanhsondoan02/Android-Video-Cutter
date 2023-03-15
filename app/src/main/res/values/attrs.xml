@@ -53,4 +53,14 @@
         <attr name="vpc_right_text" format="string" />
     </declare-styleable>
 
+    <!--CropView-->
+    <declare-styleable name="CropView">
+        <attr name="cropStrokeWidth" format="dimension" />
+        <attr name="cropStrokeColor" format="color" />
+        <attr name="cropOutsideColor" format="color" />
+        <attr name="cropMinWidth" format="dimension" />
+        <attr name="cropMinHeight" format="dimension" />
+        <attr name="cropNearDistance" format="dimension" />
+    </declare-styleable>
+
 </resources>
