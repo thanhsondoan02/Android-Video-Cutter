@@ -23,7 +23,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".presentation.home.start.StartActivity"
+            android:name=".presentation.widget.video.TestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

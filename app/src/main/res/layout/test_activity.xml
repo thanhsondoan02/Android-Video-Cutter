@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.home.start.StartActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <com.mobile.videocutter.presentation.widget.CropView
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            app:cropStrokeWidth="@dimen/dimen_4"
+            app:cropStrokeColor="@color/color_red"
+            app:cropMinWidth="@dimen/dimen_150"
+            app:cropOutsideColor="#4D6F4FEE"
+            app:cropMinHeight="@dimen/dimen_200"
+            app:cropNearDistance="@dimen/dimen_20"
+            android:layout_margin="@dimen/dimen_40"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</layout>
