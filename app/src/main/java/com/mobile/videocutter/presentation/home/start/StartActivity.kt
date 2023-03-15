@@ -3,7 +3,6 @@ package com.mobile.videocutter.presentation.home.start
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -22,7 +21,7 @@ import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.model.IViewListener
-import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
+import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
@@ -37,12 +36,16 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
     override fun onInitView() {
         super.onInitView()
+
         initRecyclerView()
         binding.tvStartSeeAllMyStudio.setOnSafeClick {
             startActivity(Intent(this, MyStudioActivity::class.java))
         }
         binding.ivStartSetting.setOnSafeClick {
             startActivity(Intent(this, SettingActivity::class.java))
+        }
+        binding.rlStart.setOnSafeClick {
+            startActivity(Intent(this, SelectLibraryFolderActivity::class.java))
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
@@ -86,19 +89,13 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     private fun initRecyclerView() {
         startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
-//                replaceFragment(
-//                    PreviewVideoFragment(),
-//                    bundleOf(
-//                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
-//                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
-//                    )
-//                )
-
-                val bundle = Bundle().apply {
-                    putString(TasselsVideoActivity.VIDEO_PATH, localVideo?.videoPath)
-                }
-
-                navigationTo(this@StartActivity, TasselsVideoActivity::class.java, bundle)
+                replaceFragment(
+                    PreviewVideoFragment(),
+                    bundleOf(
+                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
+                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
+                    )
+                )
             }
         }
         binding.crvStartVideoList.setAdapter(startAdapter)

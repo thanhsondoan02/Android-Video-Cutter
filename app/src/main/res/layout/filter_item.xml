@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFilterItm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_8">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivFilterItm"
+            style="@style/roundedCorner"
+            android:layout_width="@dimen/dimen_72"
+            android:layout_height="@dimen/dimen_72"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/StyleShapeableImageViewCornerTop4"
+            tools:ignore="ContentDescription"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/ivFilterItmTransparent"
+            android:layout_width="@dimen/dimen_72"
+            android:layout_height="@dimen/dimen_72"
+            android:background="@drawable/shape_transparent_purple_40_bg_corner_top_4"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/ivFilterItm"
+            app:layout_constraintEnd_toEndOf="@+id/ivFilterItm"
+            app:layout_constraintStart_toStartOf="@+id/ivFilterItm"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/ivFilterItmNope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_white_nope"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/ivFilterItm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvFilterItm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_medium"
+            android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/ivFilterItm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivFilterItm"
+            tools:background="@drawable/shape_purple_bg_corner_bottom_4"
+            tools:text="Original" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

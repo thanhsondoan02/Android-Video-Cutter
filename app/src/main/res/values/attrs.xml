@@ -35,7 +35,10 @@
 
     <!--Custom RecyclerView-->
     <declare-styleable name="CustomRecyclerView">
-
+        <attr name="crv_padding_start" format="dimension"/>
+        <attr name="crv_padding_end" format="dimension"/>
+        <attr name="crv_padding_top" format="dimension"/>
+        <attr name="crv_padding_bottom" format="dimension"/>
     </declare-styleable>
 
     <!--VideoPlayerControl-->
@@ -48,6 +51,16 @@
         <attr name="vpc_seekbar_show" format="boolean" />
         <attr name="vpc_right_text_show" format="boolean" />
         <attr name="vpc_right_text" format="string" />
+    </declare-styleable>
+
+    <!--CropView-->
+    <declare-styleable name="CropView">
+        <attr name="cropStrokeWidth" format="dimension" />
+        <attr name="cropStrokeColor" format="color" />
+        <attr name="cropOutsideColor" format="color" />
+        <attr name="cropMinWidth" format="dimension" />
+        <attr name="cropMinHeight" format="dimension" />
+        <attr name="cropNearDistance" format="dimension" />
     </declare-styleable>
 
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +16,7 @@ import com.mobile.videocutter.presentation.widget.recyclerview.scroll.BaseLoadMo
 import java.util.*
 
 
-class CustomRecyclerView constructor(
-    ctx: Context,
-    attr: AttributeSet?
-) : ConstraintLayout(ctx, attr) {
+class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : ConstraintLayout(ctx, attr) {
 
     private var rvList: RecyclerView? = null
     private var baseAdapter: BaseAdapter? = null
@@ -32,22 +30,51 @@ class CustomRecyclerView constructor(
     private var itemTouchHelper: TouchHelper? = null
     private var hasLoadMore: Boolean = false
 
+    private var _paddingTop = 0
+    private var _paddingStart = 0
+    private var _paddingEnd = 0
+    private var _paddingBottom = 0
+
     var listener: IListener? = null
+
+    private val TAG = "CustomRecyclerView"
 
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_recycler_view_layout, this, true)
         initView(attr)
     }
 
-    private fun addLayoutManager() {
+    override fun onFinishInflate() {
+        super.onFinishInflate()
 
+        rvList = findViewById(R.id.rvCustom)
+        setLayoutManagerMode()
+
+        rvList?.updatePadding(_paddingStart, _paddingTop, _paddingEnd, _paddingBottom)
     }
 
     private fun initView(attr: AttributeSet?) {
         // ánh xạ view
-        rvList = findViewById(R.id.rvCustom)
-        setLayoutManagerMode()
-        addLayoutManager()
+
+        val ta = context.theme.obtainStyledAttributes(attr, R.styleable.CustomRecyclerView, 0, 0)
+
+        if (ta.hasValue(R.styleable.CustomRecyclerView_crv_padding_top)) {
+            _paddingTop = ta.getDimensionPixelOffset(R.styleable.CustomRecyclerView_crv_padding_top, 0).toInt()
+        }
+
+        if (ta.hasValue(R.styleable.CustomRecyclerView_crv_padding_start)) {
+            _paddingStart = ta.getDimensionPixelOffset(R.styleable.CustomRecyclerView_crv_padding_start, 0).toInt()
+        }
+
+        if (ta.hasValue(R.styleable.CustomRecyclerView_crv_padding_end)) {
+            _paddingEnd = ta.getDimensionPixelOffset(R.styleable.CustomRecyclerView_crv_padding_end, 0).toInt()
+        }
+
+        if (ta.hasValue(R.styleable.CustomRecyclerView_crv_padding_bottom)) {
+            _paddingBottom = ta.getDimensionPixelOffset(R.styleable.CustomRecyclerView_crv_padding_bottom, 0).toInt()
+        }
+
+        ta.recycle()
     }
 
     private fun getLinearLayoutManagerVertical(): RecyclerView.LayoutManager {
