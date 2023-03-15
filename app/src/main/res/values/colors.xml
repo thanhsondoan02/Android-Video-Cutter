@@ -29,5 +29,8 @@
     <color name="color_white_loading">#F8F8F8</color>
     <color name="color_black_80">#CC000000</color>
     <color name="color_gray_setting_text">#8F8E94</color>
+    <color name="color_white_tab_view">#E5E5E5</color>
+    <color name="color_purple_tab_view">#8C6FFE</color>
+    <color name="color_gray_line_music_track">#BCBBC1</color>
 
 </resources>

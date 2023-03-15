@@ -24,4 +24,9 @@
     <string name="medium">Medium</string>
     <string name="high">High</string>
     <string name="home">Home</string>
+    <string name="itunes">ITunes</string>
+    <string name="music_track">Music Track</string>
+    <string name="music">Music</string>
+    <string name="music_track_no_data">No data!</string>
+    <string name="music_track_none">None</string>
 </resources>

@@ -50,4 +50,15 @@
         <attr name="vpc_right_text" format="string" />
     </declare-styleable>
 
+    <!--TabView-->
+    <declare-styleable name="TabView">
+        <attr name="tbv_left_text" format="string" />
+        <attr name="tbv_right_text" format="string" />
+    </declare-styleable>
+
+    <!--Custom ViewPager-->
+    <declare-styleable name="CustomViewPager">
+
+    </declare-styleable>
+
 </resources>
