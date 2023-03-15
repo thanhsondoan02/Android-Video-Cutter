@@ -26,7 +26,7 @@ class SelectLibraryFolderAdapter : BaseAdapter() {
             binding.constSelectLibFolderItm.setOnSafeClick {
                 var item = getDataAtPosition(adapterPosition)
                 (item as? Album)?.let {
-                    it.idAlbum?.let { it1 -> it.nameAlbum?.let { it2 -> albumListener?.onClickAlbum(it1, it2) } }
+                    albumListener?.onClickAlbum(it)
                 }
             }
         }
@@ -43,6 +43,6 @@ class SelectLibraryFolderAdapter : BaseAdapter() {
     }
 
     interface IAlbumListener {
-        fun onClickAlbum(idAlbum: Long, nameAlbum: String)
+        fun onClickAlbum(album: Album)
     }
 }
