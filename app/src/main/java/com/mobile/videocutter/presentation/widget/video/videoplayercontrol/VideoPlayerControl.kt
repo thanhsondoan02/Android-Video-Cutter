@@ -2,11 +2,11 @@ package com.mobile.videocutter.presentation.widget.video.videoplayercontrol
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -14,15 +14,21 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Player.STATE_ENDED
 import com.google.android.exoplayer2.Player.STATE_READY
+import com.google.android.exoplayer2.source.*
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.upstream.DefaultDataSource
+import com.google.android.exoplayer2.util.Util
 import com.mobile.videocutter.AppConfig
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.*
 import getFormattedTime
+
 
 class VideoPlayerControl constructor(
     ctx: Context,
@@ -77,6 +83,7 @@ class VideoPlayerControl constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        initPlayer()
     }
 
     override fun onFinishInflate() {
@@ -170,22 +177,21 @@ class VideoPlayerControl constructor(
         })
     }
 
-//    fun set
+    //    fun set
     private fun initPlayer() {
         if (player == null) {
             player = ExoPlayer.Builder(this.context).build()
         }
 
-        mediaItemList.forEach {
-            player?.addMediaItem(it)
-        }
+//        mediaItemList.forEach {
+//            player?.addMediaItem(it)
+//        }
+//
+//        player?.addListener(playerListener())
+//        player?.prepare()
 
-        player?.addListener(playerListener())
-        player?.prepare()
 
-        if (player != null) {
-            listener?.onPlayerReady(player!!)
-        }
+        listener?.onPlayerReady(player!!)
     }
 
     private fun playerListener(): Player.Listener {
@@ -215,8 +221,8 @@ class VideoPlayerControl constructor(
         }
     }
 
-    private fun replacePlayer(url: String){
-        if (player == null){
+    private fun replacePlayer(url: String) {
+        if (player == null) {
             throw Exception("chưa khởi tạo player")
         }
         sbSeekBar?.progress = INT_DEFAULT
@@ -230,11 +236,51 @@ class VideoPlayerControl constructor(
     }
 
     fun setUrl(listUrl: List<String>) {
-        listUrl.forEach {
-            mediaItemList.add(MediaItem.fromUri(it))
-        }
-        Log.d(TAG, "setUrl: ${mediaItemList.size}")
         initPlayer()
+        val listUri = listUrl.map {
+            Uri.parse(it)
+        }
+        // Khởi tạo ConcatenatingMediaSource
+        val concatenatingMediaSource = ConcatenatingMediaSource()
+
+        // Thêm các MediaSource vào ConcatenatingMediaSource
+        // Thêm các MediaSource vào ConcatenatingMediaSource
+
+        val dataSourceFactory = DefaultDataSource.Factory(this.context)
+
+        val progressiveMediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+        val videoUri = Uri.parse("android.resource://" + this.context.packageName + "/" + com.mobile.videocutter.R.raw.fake_viddeo)
+        val mediaSource1: MediaSource = progressiveMediaSource.createMediaSource(MediaItem.Builder().setUri(videoUri).build())
+        val mediaSource2: MediaSource = progressiveMediaSource.createMediaSource(MediaItem.fromUri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"))
+        concatenatingMediaSource.addMediaSource(mediaSource1)
+        concatenatingMediaSource.addMediaSource(mediaSource2)
+
+        val compositeSequenceableLoaderFactory: CompositeSequenceableLoaderFactory = DefaultCompositeSequenceableLoaderFactory()
+
+        player?.setMediaSource(concatenatingMediaSource)
+        player?.addListener(playerListener())
+        player?.prepare()
+        player?.play()
+
+    }
+
+    private fun buildMediaSource(uris: ArrayList<Uri>): ConcatenatingMediaSource {
+        val userAgent = Util.getUserAgent(this.context, "MusicPlayer")
+        val bandwidthMeter = DefaultBandwidthMeter.Builder(context).build()
+
+        val dataSourceFactory = DefaultDataSource.Factory(this.context)
+
+        val progressiveMediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+        val mediaSources = ArrayList<MediaSource>()
+
+        for (uri in uris) {
+            mediaSources.add(progressiveMediaSource.createMediaSource(MediaItem.fromUri(uri)))
+        }
+
+        val concatenatingMediaSource = ConcatenatingMediaSource()
+        concatenatingMediaSource.addMediaSources(mediaSources)
+
+        return concatenatingMediaSource
     }
 
     fun stopPlayer() {
