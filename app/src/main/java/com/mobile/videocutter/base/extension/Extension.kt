@@ -2,6 +2,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.common.loader.LoaderFactory
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.DataPage
@@ -70,6 +71,29 @@ private fun getPlaceHolderDefault(): Drawable? {
 }
 
 fun <T> BaseBindingActivity<*>.handleUiState(
+    flowResult: FlowResult<T>,
+    listener: IViewListener? = null,
+    canShowLoading: Boolean = false,
+    canHideLoading: Boolean = false,
+    canShowError: Boolean = true
+) {
+    when (flowResult.getUiState()) {
+        UI_STATE.INITIAL -> {
+            listener?.onInitial()
+        }
+        UI_STATE.LOADING -> {
+            listener?.onLoading()
+        }
+        UI_STATE.FAILURE -> {
+            listener?.onFailure()
+        }
+        UI_STATE.SUCCESS -> {
+            listener?.onSuccess()
+        }
+    }
+}
+
+fun <T> BaseBindingFragment<*>.handleUiState(
     flowResult: FlowResult<T>,
     listener: IViewListener? = null,
     canShowLoading: Boolean = false,

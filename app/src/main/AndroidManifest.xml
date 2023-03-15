@@ -36,7 +36,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
+            android:name=".presentation.select.selectlibrary.SelectLibraryFolderFragment"
             android:exported="false" />
 
         <activity

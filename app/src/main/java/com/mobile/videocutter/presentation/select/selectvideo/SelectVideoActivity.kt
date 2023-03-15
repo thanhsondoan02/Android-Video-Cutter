@@ -1,7 +1,10 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,27 +15,26 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 import com.mobile.videocutter.presentation.adjust.AdjustActivity
+import com.mobile.videocutter.presentation.home.mystudio.ShareFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
+import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderFragment
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
-    companion object {
-        const val ALBUM_ID = "ALBUM_ID"
-        const val ALBUM_NAME = "ALBUM_NAME"
-    }
 
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val selectVideoAddAdapter by lazy { SelectVideoAddAdapter() }
-
     private val viewModel by viewModels<SelectVideoViewModel>()
 
     override fun getContainerId(): Int = R.id.flSelectVideoContainer
 
     override fun onInitView() {
         super.onInitView()
+        loadVideo()
+        initAddRecycleView()
         binding.crvSelectVideoAdd.apply {
             setAdapter(selectVideoAddAdapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
@@ -43,9 +45,11 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 }
             }
         }
-        viewModel.idAlbum = intent.getStringExtra(ALBUM_ID).toString()
-        viewModel.nameAlbum = intent.getStringExtra(ALBUM_NAME).toString()
-        binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
+
+        binding.hvSelectVideo.setOnCenterClickListener {
+            replaceFragment(SelectLibraryFolderFragment())
+        }
+
         binding.hvSelectVideo.setOnLeftIconClickListener {
             navigateBack()
         }
@@ -54,8 +58,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             intent.putStringArrayListExtra(AdjustActivity.LIST_VIDEO, viewModel.getListPath())
             startActivity(intent)
         }
-        loadVideo()
-        initAddRecycleView()
+
+        viewModel.getVideoList()
     }
 
     override fun onObserverViewModel() {
@@ -69,13 +73,30 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 })
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.selectVideoAllState.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        selectVideoAdapter.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
+                    }
+                })
+            }
+        }
+    }
+
+    fun updateAlbumName() {
+        if (viewModel.nameAlbum.isNullOrEmpty()) {
+            binding.hvSelectVideo.setTextCenter("Video")
+        } else {
+            binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
+        }
     }
 
     private fun loadVideo() {
         binding.rvSelectVideoToAdd.adapter = selectVideoAdapter
         binding.rvSelectVideoToAdd.layoutManager = GridLayoutManager(this, 4)
         initRecycleView()
-        viewModel.getVideoList(viewModel.idAlbum)
     }
 
     private fun initRecycleView() {
@@ -106,7 +127,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
     }
 
-    private fun autoScrollLog(){
+    private fun autoScrollLog() {
         binding.crvSelectVideoAdd.smoothiePosition(viewModel.listVideoAdd.size - 1)
         binding.crvSelectVideoAdd.invalidate()
     }
