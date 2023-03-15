@@ -55,8 +55,7 @@ class LocalDataRepoImpl: ILocalDataRepo {
         return albumList
     }
 
-    override fun getMyStudioVideoList(): List<LocalVideo> {
-        // get all video in device
+    override fun getMyStudioVideoList(albumId: String?): List<LocalVideo> {
         val videoList = mutableListOf<LocalVideo>()
         val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -64,7 +63,16 @@ class LocalDataRepoImpl: ILocalDataRepo {
             MediaStore.Video.VideoColumns.DISPLAY_NAME,
             MediaStore.Video.VideoColumns.DURATION
         )
-        val cursor = contentResolver.query(uri, projection, null, null, null)
+        var selection: String? = null
+        var selectionArgs: Array<String>? = null
+        var sortOrder: String? = null
+        if (albumId != null) {
+            selection = "${MediaStore.Video.Media.BUCKET_ID} = ?"
+            selectionArgs = arrayOf(albumId)
+            sortOrder = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
+        }
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+
         cursor?.let {
             while (it.moveToNext()) {
                 val path = it.getString(it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))

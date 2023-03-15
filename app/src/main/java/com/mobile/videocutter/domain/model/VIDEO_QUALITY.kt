@@ -1,6 +1,6 @@
 package com.mobile.videocutter.domain.model
 
-enum class VideoQuality {
+enum class VIDEO_QUALITY {
     LOW,
     MEDIUM,
     HIGH

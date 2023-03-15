@@ -1,31 +1,9 @@
 package com.mobile.videocutter.domain.model
 
-import android.content.Context
-import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
-import android.net.Uri
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import getFormattedTime
-import java.io.File
 
 class LocalVideo {
-    companion object {
-        fun buildVideo(context: Context?, videoPath: String?): LocalVideo {
-            val info = LocalVideo()
-            info.videoPath = videoPath
-            try {
-                val mp = MediaPlayer.create(context, Uri.fromFile(File(videoPath)))
-                if (mp != null) {
-                    info.duration = mp.duration.toLong()
-                    mp.release()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return info
-        }
-    }
-
     var videoId: Long = 0
     var videoName = ""
     var authorName = ""
@@ -39,19 +17,6 @@ class LocalVideo {
 
     private val lat: String? = null
     private val lon: String? = null
-
-    fun calcDuration(): LocalVideo {
-        val mediaMetadataRetriever = MediaMetadataRetriever()
-        try {
-            mediaMetadataRetriever.setDataSource(videoPath)
-            val time = mediaMetadataRetriever
-                .extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-            duration = time!!.toLong()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return this
-    }
 
     fun getImageThumbPath(): String {
         return thumbPath ?: STRING_DEFAULT
