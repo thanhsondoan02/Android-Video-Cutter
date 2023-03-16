@@ -50,7 +50,7 @@
                 android:id="@+id/vSelectVideoItmBlackBlur"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/shape_black_gradient_angle_90_corner_4"
+                android:background="@drawable/shape_black_gradient_angle_90"
                 app:layout_constraintBottom_toBottomOf="@id/ivSelectVideoItmImage"
                 app:layout_constraintEnd_toEndOf="@id/ivSelectVideoItmImage"
                 app:layout_constraintStart_toStartOf="@id/ivSelectVideoItmImage"
