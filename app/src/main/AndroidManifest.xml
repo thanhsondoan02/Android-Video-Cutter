@@ -36,8 +36,8 @@
             android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
+     <activity
+            android:name=".presentation.tasselsvideo.TasselsVideoActivity"
             android:exported="false" />
 
         <activity
@@ -56,11 +56,21 @@
             android:name=".presentation.home.setting.SettingActivity"
             android:exported="false" />
 
-        <activity android:name=".presentation.filter.FilterActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.filter.FilterActivity"
+            android:exported="false" />
 
-        <activity android:name=".presentation.speedvideo.SpeedVideoActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.speedvideo.SpeedVideoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.adjust.crop.CropActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.addmusic.AddMusicActivity"
+            android:exported="false" />
 
     </application>
 

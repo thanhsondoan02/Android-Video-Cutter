@@ -316,6 +316,11 @@ class HeaderView constructor(
         this.ivLeft?.setImageDrawable(leftIc)
     }
 
+    fun setCenterIcon(@DrawableRes res: Int) {
+        centerIc = ContextCompat.getDrawable(context, res)
+        this.ivCenter?.setImageDrawable(centerIc)
+    }
+
     fun showRightText(isShown: Boolean) {
         if (isShown) {
             this.tvRight?.visibility = VISIBLE
