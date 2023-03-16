@@ -22,10 +22,7 @@ class SelectLibraryFolderFragment : BaseBindingFragment<SelectLibraryFolderActiv
         super.onInitView()
         binding.rvSelectLibraryFolder.layoutManager = LinearLayoutManager(context)
         binding.rvSelectLibraryFolder.adapter = selectLibFolderAdapter
-        binding.hvSelectLibraryFolder.setVisibleViewUnderLine(false)
-        binding.hvSelectLibraryFolder.setOnLeftIconClickListener {
-            backFragment()
-        }
+
         viewModelSelectVideo.getAlbumList()
         initListener()
     }
