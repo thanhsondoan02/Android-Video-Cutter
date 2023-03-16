@@ -3,8 +3,6 @@ package com.mobile.videocutter.presentation.widget.cutvideo
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +13,6 @@ import android.widget.TextView
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import com.mobile.videocutter.R
-import com.mobile.videocutter.base.extension.getAppColor
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.show
@@ -293,7 +290,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
     private fun getLengthTrimConvertFromVideo(time: Long): Int {
         val totalLength = widthLayout - vStart.width - vEnd.width
 
-        val length = time * totalLength / getTotalTimeVideo()
+        val length =
+            time.toFloat() / getTotalTimeVideo().toFloat() * totalLength + marginLeftSelectTimeDefault
 
         return length.toInt()
     }
@@ -352,23 +350,23 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         return totalTime
     }
 
-    private fun setTimeStart(time: Long) {
+    fun setTimeStart(time: Long) {
         this.timeStartTrim = time
     }
 
-    private fun getTimeStart(): Long {
+    fun getTimeStart(): Long {
         return timeStartTrim
     }
 
-    private fun setTimeCenter(time: Long) {
+    fun setTimeCenter(time: Long) {
         this.timeCenterTrim = time
     }
 
-    private fun setTimeEnd(time: Long) {
+    fun setTimeEnd(time: Long) {
         this.timeEndTrim = time
     }
 
-    private fun getTimeEnd(): Long {
+    fun getTimeEnd(): Long {
         return timeEndTrim
     }
 
@@ -414,8 +412,8 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
     fun setAction(time: Long) {
         val leftSelectTime = getLengthTrimConvertFromVideo(time)
-
         paramsSelectTime.leftMargin = leftSelectTime
+        vSelectTime.requestLayout()
     }
 
     interface IListener {

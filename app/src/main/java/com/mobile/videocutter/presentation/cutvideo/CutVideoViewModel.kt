@@ -8,4 +8,5 @@ class CutVideoViewModel : BaseViewModel() {
     var videoPathType: String? = null
     var bitmapList: List<Bitmap> = arrayListOf()
     var isCheck = true
+    var isCheckReplace = false
 }

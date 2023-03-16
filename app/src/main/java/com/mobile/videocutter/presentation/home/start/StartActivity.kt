@@ -101,6 +101,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 
                 val bundle = Bundle().apply {
                     putString(CutVideoActivity.VIDEO_PATH, localVideo?.videoPath)
+                    localVideo?.duration?.let { putLong(CutVideoActivity.VIDEO_DURATION, it) }
                 }
 
                 navigationTo(this@StartActivity, CutVideoActivity::class.java, bundle)

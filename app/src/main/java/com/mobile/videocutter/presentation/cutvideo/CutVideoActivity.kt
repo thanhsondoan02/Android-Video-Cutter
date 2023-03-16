@@ -22,6 +22,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
     companion object {
         const val VIDEO_PATH: String = "VIDEO_PATH"
+        const val VIDEO_DURATION: String = "VIDEO_DURATION"
     }
 
     private val viewModel by viewModels<CutVideoViewModel>()
@@ -32,9 +33,10 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
         super.onInitView()
 
         viewModel.videoPathType = intent.getStringExtra(VIDEO_PATH)
+        viewModel.totalTime = intent.getLongExtra(VIDEO_DURATION, 0L)
 
         initView()
-        setSelectTimeAction()
+        initializePlayer()
 
         binding.hvCutVideoBottom.setOnLeftIconClickListener {
             finish()
@@ -42,7 +44,11 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
         binding.vpcCutVideoTime.setOnLeftIconClickListener {
             if (viewModel.isCheck) {
-                startVideo()
+                if (viewModel.isCheckReplace) {
+                    replaceVideo()
+                } else {
+                    startVideo()
+                }
             } else {
                 pauseVideo()
             }
@@ -50,6 +56,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
     }
 
     private fun initView() {
+
         binding.hvCutVideoBottom.apply {
             setTextViewRightPadding(
                 getAppDimension(R.dimen.dimen_14),
@@ -69,19 +76,16 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
         lifecycleScope.launch(Dispatchers.Main) {
 
+            setSelectTimeAction()
+
             // lấy tổng time video và list ảnh bitmap
             val localVideo = LocalVideo().apply {
                 videoPath = viewModel.videoPathType
-                calcDuration()
-                viewModel.totalTime = getTotalTime()
             }
 
             viewModel.bitmapList = localVideo.getBitmapListFromVideo(
                 binding.cvvCutVideo.getHeightListImage(),
                 binding.cvvCutVideo.getWidthListImage())
-
-            // setting hiển thị video
-            initializePlayer()
 
             // hiển thị thanh cutVideo
             binding.cvvCutVideo.apply {
@@ -90,14 +94,20 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
                 listener = object : CutVideoView.IListener {
                     override fun onTimeStart(timeStart: Long) {
                         binding.pvCutVideoRoot.player?.seekTo(timeStart)
+                        setTimeStart(timeStart)
+                        pauseVideo()
                     }
 
                     override fun onTimeCenter(timeCenter: Long) {
                         binding.pvCutVideoRoot.player?.seekTo(timeCenter)
+                        setTimeCenter(timeCenter)
+                        pauseVideo()
                     }
 
                     override fun onTimeEnd(timeEnd: Long) {
                         binding.pvCutVideoRoot.player?.seekTo(timeEnd)
+                        setTimeEnd(timeEnd)
+                        pauseVideo()
                     }
                 }
             }
@@ -121,6 +131,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
     }
 
     private fun initializePlayer() {
+        pauseVideo()
         binding.pvCutVideoRoot.player = ExoPlayer.Builder(this).build().apply {
             viewModel.videoPathType?.let { MediaItem.fromUri(it) }?.let { setMediaItem(it) }
             prepare()
@@ -133,7 +144,6 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
                         if (player.playbackState == Player.STATE_ENDED) {
                             binding.pvCutVideoRoot.player?.seekTo(0)
                             binding.pvCutVideoRoot.player?.playWhenReady = true
-
                         }
                     }
                 }
@@ -143,20 +153,38 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
     private fun setSelectTimeAction() {
         mHandler = Handler(Looper.getMainLooper())
-//        this.runOnUiThread(object : Runnable {
-//            @SuppressLint("SetTextI18n")
-//            override fun run() {
-//                val time = binding.pvCutVideoRoot.player?.currentPosition
-//                time?.let { binding.cvvCutVideo.setAction(it) }
-//                mHandler?.postDelayed(this, 10)
-//            }
-//        })
+        this.runOnUiThread(object : Runnable {
+            @SuppressLint("SetTextI18n")
+            override fun run() {
+                val time = binding.pvCutVideoRoot.player?.currentPosition
+                time?.let {
+                    if (it >= binding.cvvCutVideo.getTimeStart() && it < binding.cvvCutVideo.getTimeEnd()) {
+                        if (binding.pvCutVideoRoot.player?.playWhenReady == true) {
+                            binding.cvvCutVideo.setAction(it)
+                        }
+                        viewModel.isCheckReplace = false
+                    } else {
+                        pauseVideo()
+                        viewModel.isCheckReplace = true
+                    }
+                }
+                mHandler?.postDelayed(this, 50)
+            }
+        })
     }
 
     private fun startVideo() {
         binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_play_video)
         binding.pvCutVideoRoot.player?.playWhenReady = true
         viewModel.isCheck = false
+    }
+
+    private fun replaceVideo() {
+        binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_play_video)
+        binding.pvCutVideoRoot.player?.playWhenReady = true
+        binding.pvCutVideoRoot.player?.seekTo(binding.cvvCutVideo.getTimeStart())
+        binding.cvvCutVideo.setAction(binding.cvvCutVideo.getTimeStart())
+        viewModel.isCheckReplace = false
     }
 
     private fun pauseVideo() {
