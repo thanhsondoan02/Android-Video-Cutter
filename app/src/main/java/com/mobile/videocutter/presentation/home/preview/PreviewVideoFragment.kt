@@ -33,7 +33,6 @@ class PreviewVideoFragment : BaseBindingFragment<PreviewVideoFragmentBinding>(R.
 
     override fun onResume() {
         super.onResume()
-        binding.pvPreviewVideo.player?.playWhenReady = true
     }
 
     private fun initOnClick() {
