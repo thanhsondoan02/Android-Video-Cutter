@@ -1,6 +1,11 @@
 package com.mobile.videocutter.presentation.adjust
 
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
+import android.os.Parcelable
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.mobile.videocutter.R
@@ -8,12 +13,14 @@ import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
-import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.domain.model.VideoDisplay
 import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
 import handleUiState
+import kotlinx.coroutines.delay
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
     companion object {
@@ -23,6 +30,20 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
     private var isPlay = false
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun onPrepareInitView() {
+        super.onPrepareInitView()
+        viewModel.apply {
+            listVideo.addAll(intent?.extras?.getParcelableArrayList(LIST_VIDEO) ?: arrayListOf())
+
+            getListVideo()
+
+            getListPath()
+        }
+    }
+
+    override fun getContainerId() = R.id.clAdjust
 
     override fun onInitView() {
         super.onInitView()
@@ -54,24 +75,14 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             setDragRecyclerView()
             listener = object : CustomRecyclerView.IListener {
-                override fun onScroll(position: Int) {
-                    binding.crvAdjust.smoothiePosition(position)
+                override fun onScroll(newPosition: Int, oldPosition: Int) {
+                    binding.crvAdjust.smoothiePosition(newPosition)
+                    viewModel.dragVideo(oldPosition, newPosition)
                 }
             }
         }
 
         binding.vpcAdjust.apply {
-
-            setUrl(
-                listOf(
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                )
-            )
-
             listener = object : VideoPlayerControl.IListener {
                 override fun onPlayerReady(player: ExoPlayer) {
                     binding.pvAdjust.player = player
@@ -94,27 +105,32 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
         adapter.listener = object : AdjustAdapter.IListener {
 
-            override fun onLoadLocalVideoDefault(localVideo: LocalVideo) {
-                // load video đầu tiên
-//                binding.vpcAdjust.setUrl(STRING_DEFAULT)
+            override fun onDelete(localVideo: VideoDisplay) {
+                viewModel.deleteVideo(localVideo)
             }
 
-            override fun onDelete(localVideo: LocalVideo) {
-                viewModel.deleteLocalVideo(localVideo)
+            override fun onClick(localVideo: VideoDisplay) {
             }
 
-            override fun onClick(localVideo: LocalVideo) {
-                isPlay = false
-//                binding.vpcAdjust.apply {
-//                    setUrl("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-//                    pausePlayer()
-//                }
+            override fun onLoadLocalVideoDefault(localVideo: VideoDisplay) {
+            }
+
+            override fun onAddMore() {
+                sendResultData()
+                finish()
             }
         }
     }
 
     override fun onObserverViewModel() {
         super.onObserverViewModel()
+
+        lifecycleScope.launchWhenCreated {
+            val loadingFragment = LoadingFragment()
+            replaceFragment(loadingFragment)
+            delay(3000)
+            backFragment()
+        }
 
         lifecycleScope.launchWhenResumed {
             viewModel.localVideoAdjust.collect {
@@ -125,11 +141,21 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
                 })
             }
         }
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.listPath.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        binding.vpcAdjust.setUrl(it.data ?: listOf())
+                    }
+                })
+            }
+        }
     }
 
     override fun onBackPressed() {
+        sendResultData()
         super.onBackPressed()
-        finish()
     }
 
     override fun onStop() {
@@ -141,5 +167,11 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     override fun onCleaned() {
         super.onCleaned()
         binding.vpcAdjust.stopPlayer()
+    }
+
+    private fun sendResultData() {
+        val intent = Intent()
+        intent.putParcelableArrayListExtra(SelectVideoActivity.RESULT_LIST_VIDEO, viewModel.listVideoDelete as ArrayList<out Parcelable>)
+        setResult(Activity.RESULT_OK, intent)
     }
 }

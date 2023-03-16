@@ -1,25 +1,29 @@
 package com.mobile.videocutter.domain.model
 
+import android.os.Parcelable
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import getFormattedTime
+import kotlinx.parcelize.Parcelize
 
-class LocalVideo {
-    var videoId: Long = 0
-    var videoName = ""
-    var authorName = ""
-    var description = ""
-    var videoPath: String? = null
-    var videoFolderPath: String? = null
-    var createTime: String? = null
-    var duration: Long = 0
-    var thumbPath: String? = null
-    var rotate = 0
+@Parcelize
+class LocalVideo(
+    var videoId: Long = 0,
+    var videoName: String = "",
+    var authorName: String = "",
+    var description: String = "",
+    var videoPath: String? = null,
+    var videoFolderPath: String? = null,
+    var createTime: String? = null,
+    var duration: Long = 0,
+    var thumbPath: String? = null,
+    var rotate: Int = 0,
+    private val lat: String? = null,
+    private val lon: String? = null,
+) : Parcelable {
 
-    private val lat: String? = null
-    private val lon: String? = null
 
     fun getImageThumbPath(): String {
-        return thumbPath ?: STRING_DEFAULT
+        return videoPath ?: STRING_DEFAULT
     }
 
     /**
@@ -27,6 +31,14 @@ class LocalVideo {
      */
     fun getFormattedDuration(): String {
         return getFormattedTime(duration)
+    }
+
+    fun getPathVideo(): String {
+        return videoPath ?: STRING_DEFAULT
+    }
+
+    fun getNameVideo(): String{
+        return videoName?: STRING_DEFAULT;
     }
 }
 

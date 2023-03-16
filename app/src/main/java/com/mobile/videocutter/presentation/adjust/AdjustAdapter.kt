@@ -1,12 +1,18 @@
 package com.mobile.videocutter.presentation.adjust
 
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.setOnSafeClick
+import com.mobile.videocutter.databinding.AddVideoItemBinding
 import com.mobile.videocutter.databinding.AdjustVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.domain.model.VideoDisplay
+import com.mobile.videocutter.presentation.exampleloadmore.TestAdapter
+import getFormattedTime
 import loadImage
 
 class AdjustAdapter : BaseAdapter() {
@@ -36,49 +42,78 @@ class AdjustAdapter : BaseAdapter() {
 
     override fun getItemViewTypeCustom(position: Int): Int {
         return when (dataList[position]) {
-            is LocalVideo -> DATA_ADJUST_VIDEO_ITEM
+            is VideoDisplay -> DATA_ADJUST_VIDEO_ITEM
             else -> ADD_DATA_ADJUST_VIDEO_ITEM
         }
     }
 
-    inner class AddAdjustVH(private val binding: ViewDataBinding) : BaseVH<Any>(binding)
+    override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
+        return DiffCallback(oldList as List<VideoDisplay>, newList as List<VideoDisplay>)
+    }
 
-    inner class AdjustVH(private val binding: ViewDataBinding) : BaseVH<LocalVideo>(binding) {
-
-        val viewBinding = binding as AdjustVideoItemBinding
+    inner class AddAdjustVH(private val binding: ViewDataBinding) : BaseVH<Any>(binding){
+        private val viewBinding =  binding as AddVideoItemBinding
 
         init {
-            if (dataList.size > 1) {
-                val item = getDataAtPosition(0) as? LocalVideo
+            viewBinding.root.setOnSafeClick {
+                listener?.onAddMore()
+            }
+        }
+    }
+
+    inner class AdjustVH(private val binding: ViewDataBinding) : BaseVH<VideoDisplay>(binding) {
+        private val viewBinding = binding as AdjustVideoItemBinding
+
+        init {
+            if (dataList.size > 0) {
+                val item = getDataAtPosition(0) as? VideoDisplay
                 if (item != null) {
                     listener?.onLoadLocalVideoDefault(item)
                 }
             }
             viewBinding.ivAdjustDeleteItm.setOnSafeClick {
-                val item = getDataAtPosition(bindingAdapterPosition) as? LocalVideo
+                val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
                 if (item != null) {
                     listener?.onDelete(item)
                 }
             }
 
             viewBinding.root.setOnSafeClick {
-                val item = getDataAtPosition(bindingAdapterPosition) as? LocalVideo
+                val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
                 if (item != null) {
                     listener?.onClick(item)
                 }
             }
         }
 
-        override fun onBind(data: LocalVideo) {
+        override fun onBind(data: VideoDisplay) {
             super.onBind(data)
+            viewBinding.ivAdjustVideoItmImage.loadImage(data.video.getImageThumbPath())
+            viewBinding.tvAdjustVideoItmDuration.text = getFormattedTime(data.video.duration)
+        }
+    }
 
-            viewBinding.ivAdjustVideoItmImage.loadImage(data.getImageThumbPath())
+    class DiffCallback(oldData: List<VideoDisplay>, newData: List<VideoDisplay>) :
+        BaseDiffUtilCallback<VideoDisplay>(oldData, newData) {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldUser = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newUser = (getNewItem(newItemPosition) as? VideoDisplay)
+
+            return oldUser?.hashCode() == newUser?.hashCode()
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldUser = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newUser = (getNewItem(newItemPosition) as? VideoDisplay)
+
+            return oldUser == newUser
         }
     }
 
     interface IListener {
-        fun onDelete(localVideo: LocalVideo)
-        fun onClick(localVideo: LocalVideo)
-        fun onLoadLocalVideoDefault(localVideo: LocalVideo)
+        fun onDelete(localVideo: VideoDisplay)
+        fun onClick(localVideo: VideoDisplay)
+        fun onLoadLocalVideoDefault(localVideo: VideoDisplay)
+        fun onAddMore()
     }
 }

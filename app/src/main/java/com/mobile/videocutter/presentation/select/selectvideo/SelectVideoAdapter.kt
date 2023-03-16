@@ -7,7 +7,7 @@ import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
-import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.domain.model.VideoDisplay
 import loadImage
 
 class SelectVideoAdapter : BaseAdapter() {
@@ -77,8 +77,6 @@ class SelectVideoAdapter : BaseAdapter() {
             }
         }
     }
-
-    class VideoDisplay(var video: LocalVideo, var isSelected: Boolean = false)
 
     interface IListener {
         fun onVideoClick(videoDisplay: VideoDisplay)

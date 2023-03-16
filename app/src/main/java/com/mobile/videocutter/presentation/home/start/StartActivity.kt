@@ -60,10 +60,6 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         } else {
             viewModel.getMyStudioVideos()
         }
-
-        binding.rlStart.setOnSafeClick {
-            startActivity(Intent(this, AdjustActivity::class.java))
-        }
     }
 
     override fun onObserverViewModel() {

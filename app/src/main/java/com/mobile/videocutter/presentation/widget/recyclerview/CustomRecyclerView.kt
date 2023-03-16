@@ -208,7 +208,7 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
                 if (dataList != null) {
                     Collections.swap(dataList!!, oldIndex, newIndex)
                     baseAdapter?.notifyItemMoved(oldIndex, newIndex)
-                    listener?.onScroll(newIndex)
+                    listener?.onScroll(newIndex,oldIndex)
                 }
             }
 
@@ -224,6 +224,6 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
     }
 
     interface IListener {
-        fun onScroll(position: Int)
+        fun onScroll(newPosition: Int, oldPosition: Int = 0)
     }
 }

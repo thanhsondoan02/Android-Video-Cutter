@@ -186,89 +186,85 @@ class VideoPlayerControl constructor(
         if (player == null) {
             player = ExoPlayer.Builder(this.context).build()
         }
-
-//        mediaItemList.forEach {
-//            player?.addMediaItem(it)
-//        }
-//
-//        player?.addListener(playerListener())
-//        player?.prepare()
         listener?.onPlayerReady(player!!)
-
     }
 
     var currentVideo = 0
     fun setUrl(listUrl: List<String>) {
         initPlayer()
-        val listUri = listUrl.map {
-            Uri.parse(it)
-        }
-
-        concatenatingMediaSource = buildMediaSource(listUri as ArrayList<Uri>)
-        player?.setMediaSource(concatenatingMediaSource!!)
-
-        player?.addListener(object : Player.Listener {
-
-            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                super.onTimelineChanged(timeline, reason)
-                Log.d(TAG, "onTimelineChanged: ${timeline.windowCount}")
-
-                for (i in 0 until timeline.windowCount) {
-                    if (i == 0) {
-                        total = 0
-                    }
-                    val durations = timeline.getWindow(i, window).durationMs
-                    Log.d(TAG, "onTimelineChanged $i: ${durations}")
-                    if (durations != C.TIME_UNSET) {
-                        total += durations
-                    }
-                }
-                tvRight?.text = getFormattedTime(total)
-                sbSeekBar?.max = total.toInt()
+        currentVideo = 0
+        if (listUrl.isEmpty()) {
+            tvRight?.text = getAppString(R.string.time_start)
+            sbSeekBar?.progress = INT_DEFAULT
+            if (player?.isPlaying == true) {
+                player?.seekToDefaultPosition()
+            }
+            player?.pause()
+        } else {
+            val listUri = listUrl.map {
+                Uri.parse(it)
             }
 
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                super.onPlaybackStateChanged(playbackState)
-                Log.d(TAG, "onPlaybackStateChanged: $playbackState")
-                Log.d(TAG, "onPlayback: ${currentVideo}")
-                when (playbackState) {
-                    STATE_READY -> {
-                        _runnable = object : Runnable {
-                            override fun run() {
-                                if (currentVideo == 0) {
-                                    tvLeft?.text = getFormattedTime(player!!.currentPosition)
-                                    sbSeekBar?.progress = player!!.currentPosition.toInt()
-                                } else {
-                                    val duration = concatenatingMediaSource!!.initialTimeline.getWindow(currentVideo - 1, window).durationMs
-                                    if (duration != C.TIME_UNSET) {
-                                        tvLeft?.text = getFormattedTime(player!!.currentPosition + duration)
-                                        sbSeekBar?.progress = (player!!.currentPosition.toInt() + duration).toInt()
-                                    }
-                                }
-                                _handler?.postDelayed(this, AppConfig.TIME_CONFIG)
-                            }
+            concatenatingMediaSource = buildMediaSource(listUri as ArrayList<Uri>)
+            player?.setMediaSource(concatenatingMediaSource!!)
+
+            player?.addListener(object : Player.Listener {
+
+                override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                    super.onTimelineChanged(timeline, reason)
+                    Log.d(TAG, "onTimelineChanged: ${timeline.windowCount}")
+
+                    for (i in 0 until timeline.windowCount) {
+                        if (i == 0) {
+                            total = 0
+                        }
+                        val durations = timeline.getWindow(i, window).durationMs
+                        Log.d(TAG, "onTimelineChanged $i: ${durations}")
+                        if (durations != C.TIME_UNSET) {
+                            total += durations
                         }
                     }
+                    tvRight?.text = getFormattedTime(total)
+                    sbSeekBar?.max = total.toInt()
+                }
 
-                    STATE_ENDED -> {
-                        currentVideo = 0
-                        pausePlayer(STATE_ENDED)
-                        listener?.onPlayerEnd(false)
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    super.onPlaybackStateChanged(playbackState)
+
+                    when (playbackState) {
+                        STATE_READY -> {
+                            _runnable = object : Runnable {
+                                override fun run() {
+                                    Log.d(TAG, "run: $currentVideo")
+                                  //  if (currentVideo == 0) {
+                                        tvLeft?.text = getFormattedTime(player!!.currentPosition)
+                                        sbSeekBar?.progress = player!!.currentPosition.toInt()
+//                                    } else {
+//                                        val duration = concatenatingMediaSource!!.initialTimeline.getWindow(currentVideo, window).durationMs
+//                                        if (duration != C.TIME_UNSET) {
+//                                            tvLeft?.text = getFormattedTime(player!!.currentPosition + duration)
+//                                            sbSeekBar?.progress = (player!!.currentPosition.toInt() + duration).toInt()
+//                                        }
+//                                    }
+                                    _handler?.postDelayed(this, AppConfig.TIME_CONFIG)
+                                }
+                            }
+                        }
+
+                        STATE_ENDED -> {
+                            pausePlayer(STATE_ENDED)
+                            listener?.onPlayerEnd(false)
+                        }
                     }
                 }
-            }
 
-            override fun onPositionDiscontinuity(oldPosition: PositionInfo, newPosition: PositionInfo, reason: Int) {
-                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
-                if (newPosition.windowIndex > oldPosition.windowIndex) {
+                override fun onPositionDiscontinuity(oldPosition: PositionInfo, newPosition: PositionInfo, reason: Int) {
+                    super.onPositionDiscontinuity(oldPosition, newPosition, reason)
                     currentVideo++
-                } else {
-                    currentVideo = 0
                 }
-            }
-        })
-        player?.prepare()
-        // player?.play()
+            })
+            player?.prepare()
+        }
     }
 
     private fun buildMediaSource(uris: ArrayList<Uri>): ConcatenatingMediaSource {
