@@ -91,22 +91,16 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     private fun initRecyclerView() {
         startAdapter.listener = object : StartAdapter.IListener {
             override fun onVideoClick(localVideo: LocalVideo?) {
-//                replaceFragment(
-//                    PreviewVideoFragment(),
-//                    bundleOf(
-//                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
-//                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
-//                    )
-//                )
-
-                val bundle = Bundle().apply {
-                    putString(CutVideoActivity.VIDEO_PATH, localVideo?.videoPath)
-                    localVideo?.duration?.let { putLong(CutVideoActivity.VIDEO_DURATION, it) }
-                }
-
-                navigationTo(this@StartActivity, CutVideoActivity::class.java, bundle)
+                replaceFragment(
+                    PreviewVideoFragment(),
+                    bundleOf(
+                        PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath,
+                        PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration
+                    )
+                )
             }
         }
+
         binding.crvStartVideoList.setAdapter(startAdapter)
         binding.crvStartVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
 

@@ -32,21 +32,15 @@
         </activity>
 
         <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
-        <activity
             android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
 
-     <activity
+        <activity
             android:name=".presentation.tasselsvideo.TasselsVideoActivity"
             android:exported="false" />
 
         <activity
             android:name=".presentation.home.mystudio.MyStudioActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
 
         <activity
