@@ -97,7 +97,10 @@ class LocalDataRepoImpl: ILocalDataRepo {
             MediaStore.Audio.Media.DURATION
         )
 
-        val cursor = contentResolver.query(uri, projection, null, null, null)
+        val selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0"
+        val sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC"
+
+        val cursor = contentResolver.query(uri, projection, selection, null, sortOrder)
         if (cursor != null) {
             val filePath = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
             val name = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
@@ -108,6 +111,7 @@ class LocalDataRepoImpl: ILocalDataRepo {
                     this.musicTrackPath = cursor.getString(filePath)
                     this.musicTrackName = cursor.getString(name)
                     this.duration = cursor.getLong(duration)
+                    this.musicTrackName = this.musicTrackName?.substringBeforeLast(".")
                 })
             }
             cursor.close()

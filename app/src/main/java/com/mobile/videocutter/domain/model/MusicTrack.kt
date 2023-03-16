@@ -1,5 +1,7 @@
 package com.mobile.videocutter.domain.model
 
+import android.provider.MediaStore
+import com.mobile.videocutter.base.extension.getApplication
 import getFormattedTime
 
 class MusicTrack {
@@ -34,4 +36,3 @@ fun mockMusicTrackList(size: Int = 6): List<MusicTrack> {
     }
     return listMusicTrack
 }
-

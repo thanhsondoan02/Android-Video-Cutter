@@ -83,6 +83,20 @@
         <item name="fontFamily">@font/font_light</item>
     </style>
 
+    <style name="StyleRobotoRegularGray12">
+        <item name="android:textSize">@dimen/dimen_text_size_12</item>
+        <item name="android:textColor">@color/color_gray_home</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="StyleRobotoRegularBlack18">
+        <item name="android:textSize">@dimen/dimen_text_size_18</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="fontFamily">@font/font_regular</item>
+    </style>
+
     <style name="StyleShapeableImageViewCornerTop4" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">@dimen/dimen_4</item>

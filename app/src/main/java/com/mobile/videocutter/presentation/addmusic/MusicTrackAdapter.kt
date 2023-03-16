@@ -4,6 +4,7 @@ import androidx.databinding.ViewDataBinding
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
+import com.mobile.videocutter.base.extension.*
 import com.mobile.videocutter.databinding.MusicTrackItemBinding
 import com.mobile.videocutter.domain.model.MusicTrack
 
@@ -12,19 +13,7 @@ class MusicTrackAdapter : BaseAdapter() {
         const val SELECT_MUSIC_PAYLOAD = "SELECT_MUSIC_PAYLOAD"
     }
 
-    var listener: IListener? = null
-//    var selectIndexList = mutableListOf<Int>()
-//    var state = STATE_MUSIC_TRACK.NORMAL
-//        set(value) {
-//            field = value
-//            if (value == STATE_MUSIC_TRACK.NORMAL) {
-//                selectIndexList.forEach {
-//                    (getDataAtPosition(it) as? MusicTrackDisplay)?.isSelected = false
-//                    notifyItemChanged(it, SELECT_MUSIC_PAYLOAD)
-//                }
-//                selectIndexList.clear()
-//            }
-//        }
+    var listener: OnClickItem? = null
 
     override fun getLayoutResource(viewType: Int) = R.layout.music_track_item
 
@@ -33,40 +22,58 @@ class MusicTrackAdapter : BaseAdapter() {
     }
 
     inner class MusicTrackVH(private val binding: MusicTrackItemBinding) : BaseVH<MusicTrackDisplay>(binding) {
-//        init {
-//            binding.root.setOnClickListener {
-////                val musicTrackDisplay = (getDataAtPosition(adapterPosition) as? MusicTrackDisplay)
-////                if (state == STATE_MUSIC_TRACK.SELECT) {
-////                    (getDataAtPosition(adapterPosition) as? MusicTrackDisplay)?.isSelected = musicTrackDisplay?.isSelected?.not()
-////                        ?: false
-//////                    updateSelect(musicTrackDisplay?.isSelected == true)
-////                    if (musicTrackDisplay?.isSelected == true) {
-////                        selectIndexList.add(adapterPosition)
-////                    } else {
-////                        selectIndexList.remove(absoluteAdapterPosition)
-////                    }
-////                }
-////                listener?.onMusicTrackClick(musicTrackDisplay?.musicTrack, state, selectIndexList.size)
-////            }
-//        }
-
-        override fun onBind(data: MusicTrackDisplay) {
-            binding.tvMusicTrackItmLeftText.text = data.musicTrack.getFormatTime()
-            binding.tvMusicTrackItmCenterText.text = data.musicTrack.musicTrackName
-//            updateSelect(data.isSelected)
+        init {
+            binding.root.setOnClickListener {
+                for (i in dataList.indices) {
+                    val musicTrackDisplay = dataList[i] as MusicTrackDisplay
+                    if (musicTrackDisplay.isSelected) {
+                        musicTrackDisplay.isSelected = false
+                        notifyItemChanged(i, SELECT_MUSIC_PAYLOAD)
+                    }
+                }
+                (dataList[adapterPosition] as MusicTrackDisplay).let {
+                    it.isSelected = true
+                    notifyItemChanged(adapterPosition, SELECT_MUSIC_PAYLOAD)
+                    listener?.onMusicTrackClick(it)
+                }
+            }
         }
 
-//        override fun onBind(data: MusicTrackDisplay, payloads: List<Any>) {
-//            if(payloads.contains(SELECT_MUSIC_PAYLOAD)){
-//                u
-//            }
-//        }
+        override fun onBind(data: MusicTrackDisplay) {
+            if (adapterPosition == 0) {
+                with(binding) {
+                    ivMusicTrackItmIconNone.show()
+                    ivMusicTrackItmIconNone.setImageDrawable(getAppDrawable(R.drawable.ic_gray_none))
+                    tvMusicTrackItmDuration.gone()
+                    tvMusicTrackItmName.text = getAppString(R.string.music_track_none)
+                }
+            } else {
+                with(binding) {
+                    ivMusicTrackItmIconNone.gone()
+                    tvMusicTrackItmName.show()
+                    tvMusicTrackItmDuration.show()
+                    tvMusicTrackItmDuration.text = data.musicTrack.getFormatTime()
+                    tvMusicTrackItmName.text = data.musicTrack.musicTrackName
+                }
+            }
+            updateSelected(data.isSelected)
+        }
 
-//        fun updateSelect(isSelected: Boolean){
-//            if(state == STATE_MUSIC_TRACK.SELECT && isSelected){
-//                binding.
-//            }
-//        }
+        override fun onBind(data: MusicTrackDisplay, payloads: List<Any>) {
+            if (payloads.contains(SELECT_MUSIC_PAYLOAD)) {
+                updateSelected(data.isSelected)
+            }
+        }
+
+        private fun updateSelected(isSelected: Boolean) {
+            with(binding) {
+                if (isSelected) {
+                    ivMusicTrackItmSelected.show()
+                } else {
+                    ivMusicTrackItmSelected.hide()
+                }
+            }
+        }
     }
 
     class MusicTrackDisplay(
@@ -74,13 +81,7 @@ class MusicTrackAdapter : BaseAdapter() {
         var isSelected: Boolean = false
     )
 
-    enum class STATE_MUSIC_TRACK {
-        SELECT,
-        NORMAL,
-    }
-
-    interface IListener {
-        fun onMusicTrackClick(musicTrack: MusicTrack?, state: STATE_MUSIC_TRACK, size: Int)
+    interface OnClickItem {
+        fun onMusicTrackClick(musicTrackDisplay: MusicTrackDisplay)
     }
 }
-
