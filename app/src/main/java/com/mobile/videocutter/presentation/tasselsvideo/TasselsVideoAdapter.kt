@@ -19,7 +19,7 @@ class TasselsVideoAdapter : BaseAdapter() {
     class TasselsVideoVH(val binding: ToolItemBinding) : BaseVH<ToolVideo>(binding) {
         override fun onBind(data: ToolVideo) {
             super.onBind(data)
-            binding.ivToolItmAvatar.background = getAppDrawable(data.image)
+            binding.ivToolItmAvatar.setImageResource(data.image)
             binding.tvToolItmName.text = data.name
         }
     }

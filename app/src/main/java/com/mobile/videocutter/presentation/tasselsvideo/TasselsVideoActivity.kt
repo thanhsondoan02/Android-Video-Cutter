@@ -14,9 +14,7 @@ import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.TasselsVideoActivityBinding
-import com.mobile.videocutter.domain.model.VIDEO_ACTIVE_TYPE
 import com.mobile.videocutter.domain.model.mockToolVideo
-import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import getFormattedTime
 import kotlinx.coroutines.Dispatchers
@@ -54,13 +52,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         }
 
         binding.ivTasselsVideoStart.setOnSafeClick {
-            when (viewModel.isCheck) {
-                VIDEO_ACTIVE_TYPE.START_VIDEO -> {
-                    startPlayer()
-                }
-                VIDEO_ACTIVE_TYPE.PAUSE_VIDEO -> {
-                    releasePlayer()
-                }
+            if (viewModel.isCheck) {
+                startPlayer()
+            } else {
+                releasePlayer()
             }
         }
 
@@ -123,14 +118,16 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     }
 
     private fun startPlayer() {
-        binding.ivTasselsVideoStart.background = getAppDrawable(R.drawable.ic_black_play_video)
+        binding.ivTasselsVideoStart.setImageResource(R.drawable.ic_black_play_video)
+        binding.ivTasselsVideoEnd.setImageResource(R.drawable.ic_mute_on)
         binding.pvTasselsVideoPlay.player?.playWhenReady = true
-        viewModel.isCheck = VIDEO_ACTIVE_TYPE.PAUSE_VIDEO
+        viewModel.isCheck = false
     }
 
     private fun releasePlayer() {
         binding.ivTasselsVideoStart.background = getAppDrawable(R.drawable.ic_black_pause_video)
-        viewModel.isCheck = VIDEO_ACTIVE_TYPE.START_VIDEO
+        binding.ivTasselsVideoEnd.setImageResource(R.drawable.ic_mute_off)
+        viewModel.isCheck = true
         binding.pvTasselsVideoPlay.player?.playWhenReady = false
     }
 
