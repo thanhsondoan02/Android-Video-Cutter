@@ -240,34 +240,54 @@ class VideoPlayerControl constructor(
         val listUri = listUrl.map {
             Uri.parse(it)
         }
-        // Khởi tạo ConcatenatingMediaSource
-        val concatenatingMediaSource = ConcatenatingMediaSource()
-
-        // Thêm các MediaSource vào ConcatenatingMediaSource
-        // Thêm các MediaSource vào ConcatenatingMediaSource
-
-        val dataSourceFactory = DefaultDataSource.Factory(this.context)
-
-        val progressiveMediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-        val videoUri = Uri.parse("android.resource://" + this.context.packageName + "/" + com.mobile.videocutter.R.raw.fake_viddeo)
-        val mediaSource1: MediaSource = progressiveMediaSource.createMediaSource(MediaItem.Builder().setUri(videoUri).build())
-        val mediaSource2: MediaSource = progressiveMediaSource.createMediaSource(MediaItem.fromUri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"))
-        concatenatingMediaSource.addMediaSource(mediaSource1)
-        concatenatingMediaSource.addMediaSource(mediaSource2)
-
-        val compositeSequenceableLoaderFactory: CompositeSequenceableLoaderFactory = DefaultCompositeSequenceableLoaderFactory()
-
+        val concatenatingMediaSource = buildMediaSource(listUri as ArrayList<Uri>)
         player?.setMediaSource(concatenatingMediaSource)
-        player?.addListener(playerListener())
+        // Lấy tổng thời gian của video
+        // Lấy tổng thời gian của video
+
+
+        val old = 0
+
+
+
+        player?.addListener(object: Player.Listener{
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                when(playbackState){
+                    STATE_READY->{
+                        val totalDurationMs = player!!.duration
+                        Log.d(TAG, "onPlaybackStateChanged: $totalDurationMs")
+                    }
+                }
+            }
+
+            override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
+                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+                Log.d(TAG, "onPositionDiscontinuity: ${oldPosition}")
+                Log.d(TAG, "onPositionDiscontinuity: ${newPosition}")
+            }
+            
+        })
         player?.prepare()
         player?.play()
 
+        val timeline: Timeline = player?.currentTimeline!!
+        val currentWindowIndex: Int? = player?.getCurrentWindowIndex()
+        var currentPosition: Long? = player?.getCurrentPosition()
+        var totalTime: Long = 0
+        val tmpWindow = Timeline.Window()
+        if (timeline != null) {
+            for (i in 0 until timeline.windowCount) {
+                val windowDuration = timeline.getWindow(i, tmpWindow).durationMs
+                totalTime += windowDuration
+                if (i < currentWindowIndex!!) {
+                    currentPosition = currentPosition?.plus(windowDuration)
+                }
+            }
+        }
     }
 
     private fun buildMediaSource(uris: ArrayList<Uri>): ConcatenatingMediaSource {
-        val userAgent = Util.getUserAgent(this.context, "MusicPlayer")
-        val bandwidthMeter = DefaultBandwidthMeter.Builder(context).build()
-
         val dataSourceFactory = DefaultDataSource.Factory(this.context)
 
         val progressiveMediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
