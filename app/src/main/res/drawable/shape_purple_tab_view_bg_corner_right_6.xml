@@ -4,7 +4,7 @@
     <solid android:color="@color/color_purple_tab_view" />
 
     <corners
-        android:bottomLeftRadius="@dimen/dimen_corner_4"
-        android:topLeftRadius="@dimen/dimen_corner_4" />
+        android:bottomRightRadius="@dimen/dimen_corner_6"
+        android:topRightRadius="@dimen/dimen_corner_6" />
 
 </shape>
