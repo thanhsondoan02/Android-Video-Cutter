@@ -4,13 +4,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/color_white_tab_view">
 
         <ImageView
             android:id="@+id/ivAddMusicBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_10"
             android:layout_marginTop="@dimen/dimen_16"
             android:src="@drawable/ic_black_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +19,7 @@
 
         <TextView
             android:id="@+id/tvAddMusicMusic"
-            style="@style/StyleRobotoBoldBlack34"
+            style="@style/StyleRobotoBoldBlack38"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_20"
@@ -38,7 +39,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/cvpAddMusic"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="562dp"
             android:layout_marginTop="@dimen/dimen_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabViewAddMusic" />

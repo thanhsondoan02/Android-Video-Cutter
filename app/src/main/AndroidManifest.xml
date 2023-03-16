@@ -31,36 +31,31 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".presentation.cutvideo.CutVideoActivity"
+        <activity android:name=".presentation.cutvideo.CutVideoActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.home.mystudio.MyStudioActivity"
+        <activity android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.select.selectvideo.SelectVideoActivity"
+        <activity android:name=".presentation.home.mystudio.MyStudioActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.adjust.AdjustActivity"
+        <activity android:name=".presentation.select.selectvideo.SelectVideoActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.home.setting.SettingActivity"
+        <activity android:name=".presentation.adjust.AdjustActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.filter.FilterActivity"
+        <activity android:name=".presentation.home.setting.SettingActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.speedvideo.SpeedVideoActivity"
+        <activity android:name=".presentation.filter.FilterActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".presentation.addmusic.AddMusicActivity"
+        <activity android:name=".presentation.speedvideo.SpeedVideoActivity"
+            android:exported="false" />
+
+        <activity android:name=".presentation.addmusic.AddMusicActivity"
             android:exported="false" />
 
         <activity android:name=".presentation.adjust.crop.CropActivity"

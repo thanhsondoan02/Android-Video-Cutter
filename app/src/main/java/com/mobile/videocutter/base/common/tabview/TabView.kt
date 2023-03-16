@@ -84,25 +84,25 @@ class TabView constructor(
     }
 
     private fun TextView.selectedLeft() {
-        this.setTextAppearance(R.style.StyleRobotoLightWhite14)
+        this.setTextAppearance(R.style.StyleRobotoMediumWhite16)
         this.setTextColor(ContextCompat.getColor(context, R.color.color_white_tab_view))
         this.background = ContextCompat.getDrawable(context, R.drawable.shape_purple_tab_view_bg_corner_left_4)
     }
 
     private fun TextView.unselectedLeft() {
-        this.setTextAppearance(R.style.StyleRobotoLightPurple14)
+        this.setTextAppearance(R.style.StyleRobotoLightPurple16)
         this.setTextColor(ContextCompat.getColor(context, R.color.color_purple_tab_view))
         this.background = ContextCompat.getDrawable(context, R.drawable.shape_white_tab_view_bg_purple_tab_view_stroke_corner_left_4)
     }
 
     private fun TextView.selectedRight() {
-        this.setTextAppearance(R.style.StyleRobotoLightWhite14)
+        this.setTextAppearance(R.style.StyleRobotoMediumWhite16)
         this.setTextColor(ContextCompat.getColor(context, R.color.color_white_tab_view))
         this.background = ContextCompat.getDrawable(context, R.drawable.shape_purple_tab_view_bg_corner_right_4)
     }
 
     private fun TextView.unselectedRight() {
-        this.setTextAppearance(R.style.StyleRobotoLightPurple14)
+        this.setTextAppearance(R.style.StyleRobotoLightPurple16)
         this.setTextColor(ContextCompat.getColor(context, R.color.color_purple_tab_view))
         this.background = ContextCompat.getDrawable(context, R.drawable.shape_white_tab_view_bg_purple_tab_view_stroke_corner_right_4)
     }
