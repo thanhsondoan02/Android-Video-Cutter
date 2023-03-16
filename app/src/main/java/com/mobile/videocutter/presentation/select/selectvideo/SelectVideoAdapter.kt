@@ -6,7 +6,7 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.show
-import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
+import com.mobile.videocutter.databinding.SelectVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import loadImage
 
@@ -18,10 +18,10 @@ class SelectVideoAdapter : BaseAdapter() {
     var listener: IListener? = null
     private var selectedIndexList = mutableListOf<Int>()
 
-    override fun getLayoutResource(viewType: Int) = R.layout.my_studio_video_item
+    override fun getLayoutResource(viewType: Int) = R.layout.select_video_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*> {
-        return VideoVH(binding as MyStudioVideoItemBinding)
+        return VideoVH(binding as SelectVideoItemBinding)
     }
 
     fun updateSelect(path: String, isSelected: Boolean) {
@@ -32,7 +32,7 @@ class SelectVideoAdapter : BaseAdapter() {
         }
     }
 
-    inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
+    inner class VideoVH(private val itemBinding: SelectVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
         init {
             itemBinding.root.setOnClickListener {
                 val item = getDataAtPosition(adapterPosition) as? VideoDisplay
@@ -54,10 +54,10 @@ class SelectVideoAdapter : BaseAdapter() {
         }
 
         override fun onBind(data: VideoDisplay) {
-            itemBinding.tvMyStudioVideoItmDuration.text = data.video.getFormattedDuration()
-            itemBinding.ivMyStudioVideoItmImage.loadImage(data.video.videoPath)
-            itemBinding.ivMyStudioVideoItmSelected.show()
-            itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_unselect)
+            itemBinding.tvSelectVideoItmDuration.text = data.video.getFormattedDuration()
+            itemBinding.ivSelectVideoItmImage.loadImage(data.video.videoPath)
+            itemBinding.ivSelectVideoItmSelected.show()
+            itemBinding.ivSelectVideoItmSelected.setImageResource(R.drawable.ic_unselect)
             updateSelect(data.isSelected)
         }
 
@@ -69,11 +69,11 @@ class SelectVideoAdapter : BaseAdapter() {
 
         private fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
-                itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_select)
-                itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
+                itemBinding.ivSelectVideoItmSelected.setImageResource(R.drawable.ic_select)
+                itemBinding.mcvSelectVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
             } else {
-                itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_unselect)
-                itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = 0
+                itemBinding.ivSelectVideoItmSelected.setImageResource(R.drawable.ic_unselect)
+                itemBinding.mcvSelectVideoItmRoot.strokeWidth = 0
             }
         }
     }
