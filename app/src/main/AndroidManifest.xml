@@ -55,13 +55,20 @@
             android:name=".presentation.home.setting.SettingActivity"
             android:exported="false" />
 
-        <activity android:name=".presentation.filter.FilterActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.filter.FilterActivity"
+            android:exported="false" />
 
-        <activity android:name=".presentation.speedvideo.SpeedVideoActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.speedvideo.SpeedVideoActivity"
+            android:exported="false" />
 
-        <activity android:name=".presentation.adjust.crop.CropActivity"
+        <activity
+            android:name=".presentation.adjust.crop.CropActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.addmusic.AddMusicActivity"
             android:exported="false" />
 
     </application>
