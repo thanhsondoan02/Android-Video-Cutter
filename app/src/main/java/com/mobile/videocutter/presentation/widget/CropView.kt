@@ -17,9 +17,11 @@ class CropView constructor(
     var ratio: Float? = null
         set(value) {
             field = value
-            requestLayout()
+            initSize()
+            invalidate()
         }
 
+    private var listener: IListener? = null
     private var cropStrokeWidth = getAppDimension(R.dimen.dimen_2)
     private var cropStrokeColor = getAppColor(R.color.color_purple)
     private var minCropWidth = getAppDimension(R.dimen.dimen_100)
@@ -47,25 +49,7 @@ class CropView constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (ratio == null) {
-            cropLeft= cropStrokeWidth * 3 / 2
-            cropTop = cropStrokeWidth * 3 / 2
-            cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
-            cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
-        } else {
-            val screenRatio = width / height.toFloat()
-            if (ratio!! > screenRatio) {
-                cropLeft = cropStrokeWidth * 3 / 2
-                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
-                cropTop = cropStrokeWidth * 3 / 2
-                cropBottom = cropTop + (width / ratio!!)
-            } else {
-                cropTop = cropStrokeWidth * 3 / 2
-                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
-                cropLeft = cropStrokeWidth * 3 / 2
-                cropRight = cropLeft + (height * ratio!!)
-            }
-        }
+        initSize()
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -88,6 +72,7 @@ class CropView constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (rectChangeType != RectChangeType.STAY) {
                     moveRect(touchX, touchY, rectChangeType)
+                    listener?.onCropSizeChange(getWidthRatio(), getHeightRatio())
                 }
             }
             MotionEvent.ACTION_UP -> {}
@@ -95,6 +80,24 @@ class CropView constructor(
         }
         invalidate()
         return true
+    }
+
+    fun setOnCropSizeChangeListener(action: (widthRatio: Float, heightRatio: Float) -> Unit) {
+        setOnCropSizeChangeListener(object : IListener {
+            override fun onCropSizeChange(widthRatio: Float, heightRatio: Float) = action.invoke(widthRatio, heightRatio)
+        })
+    }
+
+    fun getWidthRatio(): Float {
+        return (cropRight - cropLeft + cropStrokeWidth * 3) / width
+    }
+
+    fun getHeightRatio(): Float {
+        return (cropBottom - cropTop + cropStrokeWidth * 3) / height
+    }
+
+    private fun setOnCropSizeChangeListener(listener: IListener) {
+        this.listener = listener
     }
 
     private fun rectChangeType(touchX: Float, touchY: Float): RectChangeType {
@@ -912,9 +915,35 @@ class CropView constructor(
         )
     }
 
+    private fun initSize() {
+        if (ratio == null) {
+            cropLeft= cropStrokeWidth * 3 / 2
+            cropTop = cropStrokeWidth * 3 / 2
+            cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+            cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+        } else {
+            val screenRatio = width / height.toFloat()
+            if (ratio!! > screenRatio) {
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = min(cropTop + (width.toFloat() - cropStrokeWidth * 3) / ratio!!, height.toFloat() - cropStrokeWidth * 3 / 2)
+            } else {
+                cropTop = cropStrokeWidth * 3 / 2
+                cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
+                cropLeft = cropStrokeWidth * 3 / 2
+                cropRight = min(cropLeft + (height.toFloat() - cropStrokeWidth * 3) * ratio!!, width.toFloat() - cropStrokeWidth * 3 / 2)
+            }
+        }
+    }
+
     enum class RectChangeType {
         EXPAND_RIGHT, EXPAND_LEFT, EXPAND_UP, EXPAND_DOWN,
         EXPAND_UP_RIGHT, EXPAND_UP_LEFT, EXPAND_DOWN_RIGHT, EXPAND_DOWN_LEFT,
         STAY, MOVE
+    }
+
+    interface IListener {
+        fun onCropSizeChange(widthRatio: Float, heightRatio: Float)
     }
 }

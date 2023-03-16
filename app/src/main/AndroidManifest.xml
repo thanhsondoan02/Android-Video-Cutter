@@ -36,10 +36,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.select.selectlibrary.SelectLibraryFolderActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".presentation.home.mystudio.MyStudioActivity"
             android:exported="false" />
 
@@ -65,6 +61,9 @@
 
         <activity
             android:name=".presentation.addmusic.AddMusicActivity"
+            android:exported="false" />
+
+        <activity android:name=".presentation.adjust.crop.CropActivity"
             android:exported="false" />
 
     </application>
