@@ -69,9 +69,4 @@
         <attr name="tbv_right_text" format="string" />
     </declare-styleable>
 
-    <!--Custom ViewPager-->
-    <declare-styleable name="CustomViewPager">
-
-    </declare-styleable>
-
 </resources>

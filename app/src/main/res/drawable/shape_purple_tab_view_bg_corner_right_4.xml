@@ -7,8 +7,4 @@
         android:bottomRightRadius="@dimen/dimen_corner_4"
         android:topRightRadius="@dimen/dimen_corner_4" />
 
-    <stroke
-        android:width="@dimen/dimen_1"
-        android:color="@color/color_purple_tab_view" />
-
 </shape>

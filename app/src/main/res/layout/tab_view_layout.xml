@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginHorizontal="@dimen/dimen_20"
-    android:background="@drawable/shape_white_tab_view_corner_all_4">
+    android:background="@drawable/shape_white_tab_view_bg_purple_tab_view_stroke_corner_right_4">
 
     <TextView
         android:id="@+id/tvTabViewLeft"
@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/shape_purple_tab_view_corner_left_4"
+        android:background="@drawable/shape_purple_tab_view_bg_corner_left_4"
         android:gravity="center"
         android:padding="@dimen/dimen_6"
         android:text="iTunes" />
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/shape_white_tab_view_stroke_purple_tab_view_corner_right_4"
+        android:background="@drawable/shape_white_tab_view_bg_purple_tab_view_stroke_corner_right_4"
         android:gravity="center"
         android:padding="@dimen/dimen_6"
         android:text="Music Track" />

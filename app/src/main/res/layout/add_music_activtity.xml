@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvAddMusicMusic" />
 
-        <com.mobile.videocutter.presentation.addmusic.CustomViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/cvpAddMusic"
             android:layout_width="match_parent"
             android:layout_height="400dp"
