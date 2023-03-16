@@ -194,6 +194,8 @@ class VideoPlayerControl constructor(
         initPlayer()
         currentVideo = 0
         if (listUrl.isEmpty()) {
+            // xóa toàn bộ runable
+            _handler?.removeCallbacksAndMessages(null)
             tvRight?.text = getAppString(R.string.time_start)
             sbSeekBar?.progress = INT_DEFAULT
             if (player?.isPlaying == true) {

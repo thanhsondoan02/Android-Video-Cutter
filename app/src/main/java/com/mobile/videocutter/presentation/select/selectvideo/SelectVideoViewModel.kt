@@ -9,6 +9,7 @@ import com.mobile.videocutter.domain.model.VideoDisplay
 import com.mobile.videocutter.domain.usecase.GetAlbumListUseCase
 import com.mobile.videocutter.domain.usecase.GetVideoListInAlbumUseCase
 import com.mobile.videocutter.thread.FlowResult
+import data
 import failure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 import loading
 import onException
 import success
+import java.util.*
 
 class SelectVideoViewModel : BaseViewModel() {
     var idAlbum: String? = STRING_DEFAULT
@@ -67,11 +69,13 @@ class SelectVideoViewModel : BaseViewModel() {
                 it.video.getPathVideo()
             }
 
+            listVideoDisplay = _video.data()?.toMutableList()
+
             // chưa hiểu tại sao thằng này ko cần update nên main thread
-            listVideoAdd.removeIf {
+            listVideoDisplay?.removeIf {
                 listPath.contains(it.video.getPathVideo())
             }
-            _count.success(listVideoAdd.size)
+            _video.success(listVideoDisplay?: listOf())
         }
     }
 
@@ -130,13 +134,66 @@ class SelectVideoViewModel : BaseViewModel() {
     }
 
     fun getListSelected(): MutableList<VideoDisplay> {
-        return listVideoAdd
+        return _video.data()?.toMutableList() ?: arrayListOf()
     }
 
     fun addVideoDisplay(videoDisplay: VideoDisplay) {
         viewModelScope.launch(Dispatchers.IO) {
-            listVideoDisplay?.clear()
+            listVideoDisplay = if (_video.data() == null) {
+                arrayListOf()
+            } else {
+                _video.data()!!.toMutableList()
+            }
+            val listVideo = _selectVideoState.data()?.toMutableList()
+            val item = listVideo?.find {
+                it == videoDisplay
+            }
+
+            val position = listVideo?.indexOfFirst {
+                it == videoDisplay
+            }
+
+            if (item != null && position != null && position > -1) {
+                val newItem = VideoDisplay(item.video, true)
+                listVideo[position] = newItem
+                _selectVideoState.success(listVideo)
+            }
+
+            listVideoDisplay?.add(videoDisplay)
+            _video.success(listVideoDisplay ?: listOf())
+        }
+    }
+
+    fun removeVideoDisplay(videoDisplay: VideoDisplay) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val listVideo = _selectVideoState.data()?.toMutableList()
+
+            val item = listVideo?.find {
+                it.video == videoDisplay.video
+            }
+
+            val position = listVideo?.indexOfFirst {
+                it.video == videoDisplay.video
+            }
+
+            if (item != null && position != null && position > -1) {
+                val newItem = VideoDisplay(item.video, false)
+                listVideo[position] = newItem
+                _selectVideoState.success(listVideo)
+            }
+
             listVideoDisplay = _video.value.data?.toMutableList()
+            listVideoDisplay?.remove(videoDisplay)
+
+            _video.success(listVideoDisplay ?: listOf())
+        }
+    }
+
+    fun dragVideo(oldPosition: Int, newPosition: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            listVideoDisplay = _video.data()?.toMutableList()
+            listVideoDisplay?.let { Collections.swap(it, oldPosition, newPosition) }
+            _video.success(listVideoDisplay ?: listOf())
         }
     }
 }

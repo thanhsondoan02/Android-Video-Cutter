@@ -44,17 +44,17 @@ class SelectVideoAddAdapter : BaseAdapter() {
     class DiffCallback(oldData: List<VideoDisplay>, newData: List<VideoDisplay>) :
         BaseDiffUtilCallback<VideoDisplay>(oldData, newData) {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? VideoDisplay)
+            val oldData = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newData = (getNewItem(newItemPosition) as? VideoDisplay)
 
-            return oldUser?.hashCode() == newUser?.hashCode()
+            return oldData?.hashCode() == newData?.hashCode()
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? VideoDisplay)
+            val oldData = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newData = (getNewItem(newItemPosition) as? VideoDisplay)
 
-            return oldUser?.isSelected == newUser?.isSelected
+            return oldData?.isSelected == newData?.isSelected
         }
     }
 

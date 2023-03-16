@@ -56,7 +56,6 @@ class AdjustViewModel : BaseViewModel() {
     fun deleteVideo(videoDisplay: VideoDisplay) {
         viewModelScope.launch(Dispatchers.IO) {
             val list = _localVideoAdjust.value.data?.toMutableList()
-            paths?.clear()
             paths = _listPath.value.data?.toMutableList()
 
             val item = list?.find {
@@ -75,7 +74,6 @@ class AdjustViewModel : BaseViewModel() {
 
     fun dragVideo(oldPosion: Int, newPosition: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            paths?.clear()
             paths = _listPath.value.data?.toMutableList()
 
             paths?.let {

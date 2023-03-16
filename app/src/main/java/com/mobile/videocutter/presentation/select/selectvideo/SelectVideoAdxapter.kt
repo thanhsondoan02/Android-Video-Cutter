@@ -1,8 +1,10 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import com.mobile.videocutter.R
-import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
+import com.mobile.videocutter.base.common.adapter.BaseGridAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.show
@@ -10,13 +12,14 @@ import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.VideoDisplay
 import loadImage
 
-class SelectVideoAdapter : BaseAdapter() {
+class SelectVideoAdxapter : BaseGridAdapter() {
     companion object {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
     }
 
     var listener: IListener? = null
-    private var selectedIndexList = mutableListOf<Int>()
+
+    override fun getItemCountInRow(viewType: Int) = 4
 
     override fun getLayoutResource(viewType: Int) = R.layout.my_studio_video_item
 
@@ -24,26 +27,21 @@ class SelectVideoAdapter : BaseAdapter() {
         return VideoVH(binding as MyStudioVideoItemBinding)
     }
 
-    fun updateSelect(path: String, isSelected: Boolean) {
-        val index = dataList.indexOfFirst { (it as? VideoDisplay)?.video?.videoPath == path }
-        if (index != -1) {
-            (dataList[index] as? VideoDisplay)?.isSelected = isSelected
-            notifyItemChanged(index, SELECT_PAYLOAD)
-        }
+    override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
+        return DiffCallback(oldList as List<VideoDisplay>, newList as List<VideoDisplay>)
     }
 
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
         init {
             itemBinding.root.setOnClickListener {
-                val item = getDataAtPosition(adapterPosition) as? VideoDisplay
+                val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
                 if (item != null) {
                     item.isSelected = !item.isSelected
-                    updateSelect(item.isSelected)
                     listener?.onVideoClick(item)
                 }
             }
             itemBinding.root.setOnLongClickListener {
-                val item = getDataAtPosition(adapterPosition) as? VideoDisplay
+                val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
                 if (item != null) {
                     item.video.videoPath?.let { path ->
                         listener?.onVideoLongClick(path)
@@ -62,8 +60,12 @@ class SelectVideoAdapter : BaseAdapter() {
         }
 
         override fun onBind(data: VideoDisplay, payloads: List<Any>) {
-            if (payloads.contains(SELECT_PAYLOAD)) {
-                updateSelect(data.isSelected)
+            payloads.forEach {
+                when (it) {
+                    SELECT_PAYLOAD -> {
+                        updateSelect(data.isSelected)
+                    }
+                }
             }
         }
 
@@ -74,6 +76,35 @@ class SelectVideoAdapter : BaseAdapter() {
             } else {
                 itemBinding.ivMyStudioVideoItmSelected.setImageResource(R.drawable.ic_unselect)
                 itemBinding.mcvMyStudioVideoItmRoot.strokeWidth = 0
+            }
+        }
+    }
+
+    class DiffCallback(oldData: List<VideoDisplay>, newData: List<VideoDisplay>) :
+        BaseDiffUtilCallback<VideoDisplay>(oldData, newData) {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldData = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newData = (getNewItem(newItemPosition) as? VideoDisplay)
+
+            return oldData?.video == newData?.video
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldData = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newData = (getNewItem(newItemPosition) as? VideoDisplay)
+
+            return oldData?.hashCode() == newData?.hashCode()
+        }
+
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+
+            val oldData = (getOldItem(oldItemPosition) as? VideoDisplay)
+            val newData = (getNewItem(newItemPosition) as? VideoDisplay)
+
+            return if (oldData?.hashCode() != newData?.hashCode()) {
+                SELECT_PAYLOAD
+            } else {
+                null
             }
         }
     }
