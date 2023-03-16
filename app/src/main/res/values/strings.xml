@@ -26,6 +26,7 @@
     <string name="high">High</string>
     <string name="home">Home</string>
     <string name="select_add">Add(0)</string>
+    <string name="video">Video</string>
 
     // filter
     <string name="filter">Filter</string>
@@ -46,4 +47,17 @@
     <string name="_3x">3x</string>
     <string name="_4x">4x</string>
     <string name="permission_not_granted">Permissions are not granted</string>
+
+    // Crop
+    <string name="ratio_custom">Custom</string>
+    <string name="ratio_instagram">Instagram</string>
+    <string name="ratio_4x5">4x5</string>
+    <string name="ratio_5x4">5x4</string>
+    <string name="ratio_9x16">9x16</string>
+    <string name="ratio_16x9">16x9</string>
+    <string name="ratio_3x2">3x2</string>
+    <string name="ratio_2x3">2x3</string>
+    <string name="ratio_4x3">4x3</string>
+    <string name="ratio_3x4">3x4</string>
+    <string name="crop">Crop</string>
 </resources>

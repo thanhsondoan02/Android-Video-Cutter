@@ -10,5 +10,5 @@ class GetVideoListInAlbumUseCase : BaseUseCase<GetVideoListInAlbumUseCase.GetVid
         return repo.getMyStudioVideoList(rv.albumId)
     }
 
-    class GetVideoListRV(val albumId: String) : RequestValue
+    class GetVideoListRV(val albumId: String?) : RequestValue
 }

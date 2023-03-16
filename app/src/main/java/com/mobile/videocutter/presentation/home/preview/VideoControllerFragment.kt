@@ -26,6 +26,11 @@ class VideoControllerFragment: BaseBindingFragment<VideoControllerFragmentBindin
         initSeekBar()
     }
 
+    override fun onPause() {
+        super.onPause()
+        updatePlayPauseButton()
+    }
+
     private fun initOnClick() {
         updatePlayPauseButton()
         binding.llVideoControllerBack.setOnSafeClick {
