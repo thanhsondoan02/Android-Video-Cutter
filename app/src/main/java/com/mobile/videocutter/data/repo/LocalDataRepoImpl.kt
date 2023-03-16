@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.domain.model.MusicTrack
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
 
 class LocalDataRepoImpl: ILocalDataRepo {
@@ -85,6 +86,33 @@ class LocalDataRepoImpl: ILocalDataRepo {
             it.close()
         }
         return videoList
+    }
+
+    override fun getMusicTrackList(): List<MusicTrack> {
+        val musicTrackList = mutableListOf<MusicTrack>()
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.DURATION
+        )
+
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        if (cursor != null) {
+            val filePath = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val name = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
+            val duration = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+
+            while (cursor.moveToNext()) {
+                musicTrackList.add(MusicTrack().apply {
+                    this.musicTrackPath = cursor.getString(filePath)
+                    this.musicTrackName = cursor.getString(name)
+                    this.duration = cursor.getLong(duration)
+                })
+            }
+            cursor.close()
+        }
+        return musicTrackList
     }
 
     private fun getVideoCount(contentResolver: ContentResolver, albumId: String): Int {
