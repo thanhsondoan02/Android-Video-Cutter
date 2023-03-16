@@ -2,6 +2,8 @@ package com.mobile.videocutter.base.common
 
 import ai.ftech.base.common.navigation.FadeAnim
 import ai.ftech.base.common.navigation.IScreenAnim
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
@@ -96,6 +98,14 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
             keepToBackStack,
             screenAnim
         )
+    }
+
+    fun navigationTo(context: Context, kClass: Class<*>, bundle: Bundle? = null) {
+        val intent = Intent(context, kClass)
+        if (bundle != null) {
+            intent.putExtras(bundle)
+        }
+        startActivity(intent)
     }
 
     fun addFragment(
