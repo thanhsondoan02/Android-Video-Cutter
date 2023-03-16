@@ -3,6 +3,7 @@ package com.mobile.videocutter.presentation.home.start
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -98,7 +99,11 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
 //                    )
 //                )
 
+                val bundle = Bundle().apply {
+                    putString(CutVideoActivity.VIDEO_PATH, localVideo?.videoPath)
+                }
 
+                navigationTo(this@StartActivity, CutVideoActivity::class.java, bundle)
             }
         }
         binding.crvStartVideoList.setAdapter(startAdapter)

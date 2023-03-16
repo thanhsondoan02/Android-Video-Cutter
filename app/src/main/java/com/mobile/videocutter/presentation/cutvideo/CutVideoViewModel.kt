@@ -7,4 +7,5 @@ class CutVideoViewModel : BaseViewModel() {
     var totalTime: Long = 0L
     var videoPathType: String? = null
     var bitmapList: List<Bitmap> = arrayListOf()
+    var isCheck = true
 }

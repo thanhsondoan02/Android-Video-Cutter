@@ -290,6 +290,14 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
         }
     }
 
+    private fun getLengthTrimConvertFromVideo(time: Long): Int {
+        val totalLength = widthLayout - vStart.width - vEnd.width
+
+        val length = time * totalLength / getTotalTimeVideo()
+
+        return length.toInt()
+    }
+
     private fun getParam() {
         paramsTrimVideo = flSecond.layoutParams as LayoutParams
         paramsSelectTime = vSelectTime.layoutParams as LayoutParams
@@ -402,6 +410,12 @@ class CutVideoView(ctx: Context, attrs: AttributeSet?) : FrameLayout(ctx, attrs)
 
     fun getWidthListImage(): Int {
         return widthRecyclerView
+    }
+
+    fun setAction(time: Long) {
+        val leftSelectTime = getLengthTrimConvertFromVideo(time)
+
+        paramsSelectTime.leftMargin = leftSelectTime
     }
 
     interface IListener {

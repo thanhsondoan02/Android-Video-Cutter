@@ -1,10 +1,13 @@
 package com.mobile.videocutter.presentation.cutvideo
 
-import android.util.Log
+import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.getAppDimension
@@ -23,7 +26,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
     private val viewModel by viewModels<CutVideoViewModel>()
 
-    private lateinit var player: ExoPlayer
+    private var mHandler: Handler? = null
 
     override fun onInitView() {
         super.onInitView()
@@ -31,9 +34,18 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
         viewModel.videoPathType = intent.getStringExtra(VIDEO_PATH)
 
         initView()
+        setSelectTimeAction()
 
         binding.hvCutVideoBottom.setOnLeftIconClickListener {
             finish()
+        }
+
+        binding.vpcCutVideoTime.setOnLeftIconClickListener {
+            if (viewModel.isCheck) {
+                startVideo()
+            } else {
+                pauseVideo()
+            }
         }
     }
 
@@ -77,48 +89,79 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
                 setBitmapListDisplay(viewModel.bitmapList)
                 listener = object : CutVideoView.IListener {
                     override fun onTimeStart(timeStart: Long) {
-                        player.seekTo(timeStart)
+                        binding.pvCutVideoRoot.player?.seekTo(timeStart)
                     }
 
                     override fun onTimeCenter(timeCenter: Long) {
-                        player.seekTo(timeCenter)
+                        binding.pvCutVideoRoot.player?.seekTo(timeCenter)
                     }
 
                     override fun onTimeEnd(timeEnd: Long) {
-                        player.seekTo(timeEnd)
+                        binding.pvCutVideoRoot.player?.seekTo(timeEnd)
                     }
                 }
             }
         }
     }
 
-    private fun initializePlayer() {
-        player = ExoPlayer.Builder(this).build().also { exoPlayer ->
-
-            binding.pvCutVideoRoot.player = exoPlayer
-
-            val mediaItem = viewModel.videoPathType?.let { MediaItem.fromUri(it) }
-            if (mediaItem != null) {
-                exoPlayer.setMediaItem(mediaItem)
-            }
-            exoPlayer.seekTo(500L)
-            exoPlayer.playWhenReady = true
-            exoPlayer.prepare()
-        }
-    }
-
     override fun onResume() {
+        binding.pvCutVideoRoot.player?.playWhenReady = true
         super.onResume()
-        player.playWhenReady = true
     }
 
     override fun onStop() {
+        binding.pvCutVideoRoot.player?.playWhenReady = false
         super.onStop()
-        player.playWhenReady = false
     }
 
     override fun onDestroy() {
+        binding.pvCutVideoRoot.player?.release()
+        mHandler?.removeCallbacksAndMessages(null)
         super.onDestroy()
-        player.release()
+    }
+
+    private fun initializePlayer() {
+        binding.pvCutVideoRoot.player = ExoPlayer.Builder(this).build().apply {
+            viewModel.videoPathType?.let { MediaItem.fromUri(it) }?.let { setMediaItem(it) }
+            prepare()
+            playWhenReady = false
+
+            addListener(object : Player.Listener {
+                override fun onEvents(player: Player, events: Player.Events) {
+                    super.onEvents(player, events)
+                    if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
+                        if (player.playbackState == Player.STATE_ENDED) {
+                            binding.pvCutVideoRoot.player?.seekTo(0)
+                            binding.pvCutVideoRoot.player?.playWhenReady = true
+
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun setSelectTimeAction() {
+        mHandler = Handler(Looper.getMainLooper())
+//        this.runOnUiThread(object : Runnable {
+//            @SuppressLint("SetTextI18n")
+//            override fun run() {
+//                val time = binding.pvCutVideoRoot.player?.currentPosition
+//                time?.let { binding.cvvCutVideo.setAction(it) }
+//                mHandler?.postDelayed(this, 10)
+//            }
+//        })
+    }
+
+    private fun startVideo() {
+        binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_play_video)
+        binding.pvCutVideoRoot.player?.playWhenReady = true
+        viewModel.isCheck = false
+    }
+
+    private fun pauseVideo() {
+        binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_pause_video)
+        binding.pvCutVideoRoot.player?.playWhenReady = false
+        viewModel.isCheck = true
     }
 }

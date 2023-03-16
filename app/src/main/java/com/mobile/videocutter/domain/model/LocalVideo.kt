@@ -81,7 +81,7 @@ class LocalVideo {
         val heightBitmap = mediaMetadataRetriever
             .extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
 
-        if (heightBitmap != null && widthBitmap != null) {
+        if (heightBitmap != null && widthBitmap != null && heightBitmapScaled != 0) {
 
             val countBitmapFullSize = maxWidth / heightBitmapScaled
 
