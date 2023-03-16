@@ -20,6 +20,13 @@
         <item name="fontFamily">@font/font_bold</item>
     </style>
 
+    <style name="StyleRobotoBoldBlack38">
+        <item name="android:textSize">@dimen/dimen_text_size_38</item>
+        <item name="android:textColor">@color/color_black_player</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="fontFamily">@font/font_bold</item>
+    </style>
+
     <style name="StyleRobotoBoldWhite28">
         <item name="android:textSize">@dimen/dimen_text_size_28</item>
         <item name="android:textColor">@color/white</item>
@@ -60,6 +67,20 @@
         <item name="android:textColor">@color/color_red_loading</item>
         <item name="android:fontFamily">@font/font_bold</item>
         <item name="fontFamily">@font/font_bold</item>
+    </style>
+
+    <style name="StyleRobotoMediumWhite16">
+        <item name="android:textSize">@dimen/dimen_text_size_16</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_medium</item>
+    </style>
+
+    <style name="StyleRobotoLightPurple16">
+        <item name="android:textSize">@dimen/dimen_text_size_16</item>
+        <item name="android:textColor">@color/color_purple_tab_view</item>
+        <item name="android:fontFamily">@font/font_light</item>
+        <item name="fontFamily">@font/font_light</item>
     </style>
 
     <style name="StyleShapeableImageViewCornerTop4" parent="">
