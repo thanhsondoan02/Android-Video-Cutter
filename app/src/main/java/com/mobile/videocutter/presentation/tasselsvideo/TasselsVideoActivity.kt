@@ -3,7 +3,6 @@ package com.mobile.videocutter.presentation.tasselsvideo
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
@@ -21,7 +20,6 @@ import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MO
 import getFormattedTime
 import handleUiState
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
 

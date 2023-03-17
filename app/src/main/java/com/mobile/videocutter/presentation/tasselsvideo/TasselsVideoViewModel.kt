@@ -1,20 +1,14 @@
 package com.mobile.videocutter.presentation.tasselsvideo
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
-import com.mobile.videocutter.base.extension.INT_DEFAULT
 import com.mobile.videocutter.base.extension.LONG_DEFAULT
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
-import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.usecase.GetBitMapListUseCase
-import com.mobile.videocutter.domain.usecase.GetLocalVideoAdjustUseCase
-import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import com.mobile.videocutter.thread.FlowResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import onException
