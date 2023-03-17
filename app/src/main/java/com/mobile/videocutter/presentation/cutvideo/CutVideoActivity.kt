@@ -81,6 +81,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
             // lấy tổng time video và list ảnh bitmap
             val localVideo = LocalVideo().apply {
                 videoPath = viewModel.videoPathType
+                duration = viewModel.totalTime
             }
 
             viewModel.bitmapList = localVideo.getBitmapListFromVideo(
