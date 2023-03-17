@@ -1,4 +1,4 @@
-package com.mobile.videocutter.domain.repo
+package com.mobile.videocutter.presentation.filter
 
 import com.mobile.videocutter.presentation.filter.FilterAdapter
 

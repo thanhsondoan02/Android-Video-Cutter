@@ -1,8 +1,6 @@
-package com.mobile.videocutter.data.repo
+package com.mobile.videocutter.presentation.filter
 
 import com.mobile.videocutter.domain.model.FILTER_TYPE
-import com.mobile.videocutter.domain.repo.IFilterRepo
-import com.mobile.videocutter.presentation.filter.FilterAdapter
 
 class FilterRepoImpl : IFilterRepo {
     override fun getListFilter(): List<FilterAdapter.FilterDisplay> {
