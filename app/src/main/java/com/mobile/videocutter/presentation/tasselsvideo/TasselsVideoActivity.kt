@@ -14,7 +14,14 @@ import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.TasselsVideoActivityBinding
-import com.mobile.videocutter.domain.model.mockToolVideo
+import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
+import com.mobile.videocutter.domain.model.ToolVideo
+import com.mobile.videocutter.domain.model.getListAllToolVideo
+import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
+import com.mobile.videocutter.presentation.adjust.crop.CropActivity
+import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
+import com.mobile.videocutter.presentation.filter.FilterActivity
+import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import getFormattedTime
 import kotlinx.coroutines.Dispatchers
@@ -45,10 +52,53 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         initializePlayer()
         setTextTimeCount()
 
+        adapter.listener = object : TasselsVideoAdapter.IListener {
+            override fun onToolClick(toolVideo: ToolVideo?) {
+                when (toolVideo?.type) {
+                    CROP -> {
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            CropActivity::class.java,
+                        )
+                    }
+                    CUT -> {
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            CutVideoActivity::class.java
+                        )
+                    }
+                    SPEED -> {
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            SpeedVideoActivity::class.java
+                        )
+                    }
+                    FILTER -> {
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            FilterActivity::class.java
+                        )
+                    }
+                    MUSIC -> {
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            AddMusicActivity::class.java
+                        )
+                    }
+                    ROTATE -> {
+//                        navigateTo(
+//                            this@TasselsVideoActivity,
+//                            RotateActivity::class.java,
+//                        )
+                    }
+                    null -> {}
+                }
+            }
+        }
         binding.crvTasselsVideoTool.apply {
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-            submitList(mockToolVideo())
+            submitList(getListAllToolVideo())
         }
 
         binding.ivTasselsVideoStart.setOnSafeClick {

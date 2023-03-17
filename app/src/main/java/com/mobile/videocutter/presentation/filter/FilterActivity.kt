@@ -10,6 +10,10 @@ import com.mobile.videocutter.di.DisplayFactory
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filter_activity) {
+    companion object {
+        const val PATH_LIST = "PATH_LIST"
+    }
+
     private val viewModel by viewModels<FilterVideoModel>()
 
     private val adapter by lazy { FilterAdapter() }
