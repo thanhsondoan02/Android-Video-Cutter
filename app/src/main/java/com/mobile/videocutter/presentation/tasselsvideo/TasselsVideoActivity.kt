@@ -43,7 +43,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     override fun onInitView() {
         super.onInitView()
 
-        viewModel.videoPathCurrent = intent.getStringExtra(VIDEO_PATH).toString()
+        viewModel.videoPathCurrent = intent.getStringExtra(VIDEO_PATH)
         viewModel.totalTime = intent.getLongExtra(DURATION, 0L)
 
         setLayoutVideo()
@@ -129,7 +129,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     private fun initializePlayer() {
         startPlayer()
         binding.pvTasselsVideoPlay.player = ExoPlayer.Builder(this).build().apply {
-            viewModel.videoPathCurrent.let { MediaItem.fromUri(it) }.let { setMediaItem(it) }
+            if (viewModel.videoPathCurrent != null) {
+                val mediaItem = MediaItem.fromUri(viewModel.videoPathCurrent!!)
+                this.setMediaItem(mediaItem)
+            }
             prepare()
             playWhenReady = true
 
