@@ -1,7 +1,10 @@
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.widget.ImageView
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.common.loader.LoaderFactory
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.DataPage
@@ -10,6 +13,10 @@ import com.mobile.videocutter.thread.UI_STATE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
 
 fun <DATA> MutableStateFlow<FlowResult<DATA>>.data(): DATA? {
     return this.value.data
@@ -92,6 +99,29 @@ fun <T> BaseBindingActivity<*>.handleUiState(
     }
 }
 
+fun <T> BaseBindingFragment<*>.handleUiState(
+    flowResult: FlowResult<T>,
+    listener: IViewListener? = null,
+    canShowLoading: Boolean = false,
+    canHideLoading: Boolean = false,
+    canShowError: Boolean = true
+) {
+    when (flowResult.getUiState()) {
+        UI_STATE.INITIAL -> {
+            listener?.onInitial()
+        }
+        UI_STATE.LOADING -> {
+            listener?.onLoading()
+        }
+        UI_STATE.FAILURE -> {
+            listener?.onFailure()
+        }
+        UI_STATE.SUCCESS -> {
+            listener?.onSuccess()
+        }
+    }
+}
+
 fun <T> Flow<T>.onException(onCatch: suspend (Throwable) -> Unit): Flow<T> {
     return catch { e ->
         e.printStackTrace()
@@ -114,4 +144,32 @@ fun getFormattedTime(time: Long): String {
     } else {
         String.format("%02d:%02d", minutesLeft, secondsLeft)
     }
+}
+
+fun getVideoWidthOrHeight(path: String, isWidth: Boolean): Int? {
+    var retriever: MediaMetadataRetriever? = null
+    var bmp: Bitmap? = null
+    var inputStream: FileInputStream? = null
+    var mWidthHeight: Int? = 0
+    try {
+        retriever = MediaMetadataRetriever()
+        inputStream = FileInputStream(File(path).absolutePath)
+        retriever.setDataSource(inputStream.fd)
+        bmp = retriever.frameAtTime
+        mWidthHeight = if (isWidth){
+            bmp?.width
+        }else {
+            bmp?.height
+        }
+    } catch (e: FileNotFoundException) {
+        e.printStackTrace();
+    } catch (e: IOException) {
+        e.printStackTrace();
+    } catch (e: RuntimeException) {
+        e.printStackTrace();
+    } finally{
+        retriever?.release()
+        inputStream?.close()
+    }
+    return mWidthHeight
 }

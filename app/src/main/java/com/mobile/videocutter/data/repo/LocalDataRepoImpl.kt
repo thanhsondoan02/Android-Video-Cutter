@@ -30,14 +30,12 @@ class LocalDataRepoImpl: ILocalDataRepo {
         )
 
         if (cursor != null) {
-            val albumMap = mutableMapOf<Long, Album>()
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+            val albumMap = mutableMapOf<String, Album>()
             val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_ID)
             val albumNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
 
             while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
-                val albumId = cursor.getLong(albumIdColumn)
+                val albumId = cursor.getString(albumIdColumn)
                 val albumName = cursor.getString(albumNameColumn)
 
                 val videoCount = getVideoCount(contentResolver, albumId)
@@ -89,7 +87,7 @@ class LocalDataRepoImpl: ILocalDataRepo {
         return videoList
     }
 
-    private fun getVideoCount(contentResolver: ContentResolver, albumId: Long): Int {
+    private fun getVideoCount(contentResolver: ContentResolver, albumId: String): Int {
         val projection = arrayOf(
             MediaStore.Video.Media._ID
         )
@@ -111,7 +109,7 @@ class LocalDataRepoImpl: ILocalDataRepo {
         return videoCount
     }
 
-    private fun getAlbumCoverUri(contentResolver: ContentResolver, albumId: Long): Uri? {
+    private fun getAlbumCoverUri(contentResolver: ContentResolver, albumId: String): Uri? {
         val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Video.Media._ID)
         val selection = "${MediaStore.Video.Media.BUCKET_ID} = ? AND ${MediaStore.Video.Media._ID} != ?"
