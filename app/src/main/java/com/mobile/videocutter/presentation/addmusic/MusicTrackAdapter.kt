@@ -65,6 +65,16 @@ class MusicTrackAdapter : BaseAdapter() {
             }
         }
 
+        private fun unSelectOld() {
+            val indexOfOldSelect = dataList.indexOfFirst {
+                (it as? MusicTrackDisplay)?.isSelected == true
+            }
+            if(indexOfOldSelect!=-1){
+                (dataList[indexOfOldSelect] as? MusicTrackDisplay)?.isSelected = false
+                notifyItemChanged(indexOfOldSelect, SELECT_MUSIC_PAYLOAD)
+            }
+        }
+
         private fun updateSelected(isSelected: Boolean) {
             with(binding) {
                 if (isSelected) {
