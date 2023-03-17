@@ -2,23 +2,34 @@ package com.mobile.videocutter.presentation.select.selectvideo
 
 import androidx.databinding.ViewDataBinding
 import com.mobile.videocutter.R
-import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseGridAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
-import com.mobile.videocutter.base.extension.getAppDimension
+import com.mobile.videocutter.base.extension.getAppColor
+import com.mobile.videocutter.base.extension.getAppDrawable
+import com.mobile.videocutter.base.extension.getAppString
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import loadImage
 
-class SelectVideoAdapter : BaseAdapter() {
+class SelectVideoAdapter : BaseGridAdapter() {
     companion object {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
     }
 
     var listener: IListener? = null
-    private var selectedIndexList = mutableListOf<Int>()
 
     override fun getLayoutResource(viewType: Int) = R.layout.select_video_item
+
+    override fun getItemCountInRow(viewType: Int) = 4
+
+    override fun setupEmptyState(): Empty {
+        return Empty(
+            message = getAppString(R.string.select_empty_message),
+            messageColor = getAppColor(R.color.black),
+            iconEmpty = getAppDrawable(R.drawable.ic_select_empty_data)
+        )
+    }
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*> {
         return VideoVH(binding as SelectVideoItemBinding)
@@ -70,10 +81,8 @@ class SelectVideoAdapter : BaseAdapter() {
         private fun updateSelect(isSelected: Boolean) {
             if (isSelected) {
                 itemBinding.ivSelectVideoItmSelected.setImageResource(R.drawable.ic_select)
-                itemBinding.mcvSelectVideoItmRoot.strokeWidth = getAppDimension(R.dimen.dimen_2).toInt()
             } else {
                 itemBinding.ivSelectVideoItmSelected.setImageResource(R.drawable.ic_unselect)
-                itemBinding.mcvSelectVideoItmRoot.strokeWidth = 0
             }
         }
     }

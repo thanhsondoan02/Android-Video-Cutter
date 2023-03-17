@@ -11,10 +11,11 @@
 
         <ImageView
             android:id="@+id/ivBaseEmptyDefaultItmIcon"
-            android:layout_width="@dimen/dimen_180"
-            android:layout_height="@dimen/dimen_180"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerInside"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_select_empty_data" />
 
         <TextView
             android:id="@+id/tvBaseEmptyDefaultItmMessage"
