@@ -48,7 +48,7 @@ class MyStudioAdapter: BaseGridAdapter() {
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
 
         init {
-            itemBinding.root.setOnClickListener {
+            itemBinding.root.setOnSafeClick {
                 val videoDisplay = (getDataAtPosition(adapterPosition) as? VideoDisplay)
                 if (state == STATE.SELECT) {
                     (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not() ?: false
