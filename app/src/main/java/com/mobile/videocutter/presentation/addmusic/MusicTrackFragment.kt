@@ -14,7 +14,7 @@ class MusicTrackFragment : BaseBindingFragment<MusicTrackFragmentBinding>(R.layo
 
     private val musicTrackAdapter = MusicTrackAdapter()
     private val viewModel by viewModels<MusicTrackViewModel>()
-    private var listener: IListener? = null
+    var listener: IListener? = null
 
     override fun onInitView() {
         super.onInitView()
@@ -39,7 +39,7 @@ class MusicTrackFragment : BaseBindingFragment<MusicTrackFragmentBinding>(R.layo
     private fun initRecyclerView() {
         musicTrackAdapter.listener = object : MusicTrackAdapter.OnClickItem {
             override fun onMusicTrackClick(musicTrackDisplay: MusicTrackAdapter.MusicTrackDisplay) {
-                listener?.onSave(musicTrackDisplay)
+                listener?.onSave(musicTrackDisplay.musicTrack)
             }
         }
 
@@ -50,6 +50,6 @@ class MusicTrackFragment : BaseBindingFragment<MusicTrackFragmentBinding>(R.layo
     }
 
     interface IListener {
-        fun onSave(musicTrackDisplay: MusicTrackAdapter.MusicTrackDisplay)
+        fun onSave(musicTrack: MusicTrack)
     }
 }
