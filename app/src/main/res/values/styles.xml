@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--ShapeableImageView-->
-    <style name="roundedCorner">
-        <item name="cornerSize">@dimen/dimen_8</item>
+    <style name="StyleShapeableImageViewCorner2">
+        <item name="cornerSize">@dimen/dimen_2</item>
     </style>
 
     <style name="StyleRobotoSemiBoldBlack34">
@@ -81,6 +80,20 @@
         <item name="android:textColor">@color/color_purple_tab_view</item>
         <item name="android:fontFamily">@font/font_light</item>
         <item name="fontFamily">@font/font_light</item>
+    </style>
+
+    <style name="StyleRobotoRegularGray12">
+        <item name="android:textSize">@dimen/dimen_text_size_12</item>
+        <item name="android:textColor">@color/color_gray_home</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="fontFamily">@font/font_regular</item>
+    </style>
+
+    <style name="StyleRobotoRegularBlack18">
+        <item name="android:textSize">@dimen/dimen_text_size_18</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="fontFamily">@font/font_regular</item>
     </style>
 
     <style name="StyleShapeableImageViewCornerTop4" parent="">

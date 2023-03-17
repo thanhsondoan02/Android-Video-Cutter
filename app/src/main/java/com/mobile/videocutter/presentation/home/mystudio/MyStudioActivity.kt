@@ -3,7 +3,6 @@ package com.mobile.videocutter.presentation.home.mystudio
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.hide
@@ -13,6 +12,7 @@ import com.mobile.videocutter.databinding.MyStudioActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
 class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.my_studio_activity) {
@@ -91,7 +91,7 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
             viewModel.myStudioVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        myStudioAdapter.submitList(it.data?.map { video -> MyStudioAdapter.VideoDisplay(video) })
+                        binding.rvMyStudioVideoList.submitList(it.data?.map { video -> MyStudioAdapter.VideoDisplay(video) })
                     }
                 })
             }
@@ -125,8 +125,8 @@ class MyStudioActivity : BaseBindingActivity<MyStudioActivityBinding>(R.layout.m
                 }
             }
         }
-        binding.rvMyStudioVideoList.adapter = myStudioAdapter
-        binding.rvMyStudioVideoList.layoutManager = GridLayoutManager(this, 4)
+        binding.rvMyStudioVideoList.setAdapter(myStudioAdapter)
+        binding.rvMyStudioVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.GRID)
     }
 
     private fun setSelectedSize(size: Int) {

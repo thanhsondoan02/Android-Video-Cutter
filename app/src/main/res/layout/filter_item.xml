@@ -11,7 +11,6 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivFilterItm"
-            style="@style/roundedCorner"
             android:layout_width="@dimen/dimen_72"
             android:layout_height="@dimen/dimen_72"
             android:adjustViewBounds="true"
