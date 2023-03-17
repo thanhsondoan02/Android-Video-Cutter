@@ -60,7 +60,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             viewModel.selectVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        binding.rvSelectVideoToAdd.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
+                        binding.crvSelectVideoMain.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
                     }
                 })
             }
@@ -108,7 +108,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 )
             }
         }
-        binding.rvSelectVideoToAdd.apply {
+        binding.crvSelectVideoMain.apply {
             setAdapter(selectVideoAdapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.GRID)
         }
