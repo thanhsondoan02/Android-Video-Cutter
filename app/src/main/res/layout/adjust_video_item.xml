@@ -10,11 +10,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivAdjustVideoItmImage"
-            style="@style/roundedCorner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/dimen_6"
-            app:shapeAppearanceOverlay="@style/roundedCorner"
+            app:shapeAppearanceOverlay="@style/StyleShapeableImageViewCorner2"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H, 1:1"

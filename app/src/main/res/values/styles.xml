@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--ShapeableImageView-->
-    <style name="roundedCorner">
+    <style name="StyleShapeableImageViewCorner2">
         <item name="cornerSize">@dimen/dimen_2</item>
     </style>
 
