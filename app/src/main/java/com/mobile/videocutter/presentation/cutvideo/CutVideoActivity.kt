@@ -13,9 +13,9 @@ import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.CutVideoActivityBinding
-import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
-import kotlinx.coroutines.Dispatchers
+import handleUiState
 import kotlinx.coroutines.launch
 
 class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.cut_video_activity) {
@@ -37,13 +37,14 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
         initView()
         initializePlayer()
+        setSelectTimeAction()
 
         binding.hvCutVideoBottom.setOnLeftIconClickListener {
             finish()
         }
 
         binding.vpcCutVideoTime.setOnLeftIconClickListener {
-            if (viewModel.isCheck) {
+            if (viewModel.isCheckStartPause) {
                 if (viewModel.isCheckReplace) {
                     replaceVideo()
                 } else {
@@ -53,45 +54,14 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
                 pauseVideo()
             }
         }
-    }
 
-    private fun initView() {
+        binding.cvvCutVideo.post {
 
-        binding.hvCutVideoBottom.apply {
-            setTextViewRightPadding(
-                getAppDimension(R.dimen.dimen_14),
-                getAppDimension(R.dimen.dimen_4),
-                getAppDimension(R.dimen.dimen_14),
-                getAppDimension(R.dimen.dimen_4))
-
-            setTextViewRightMargin(getAppDimension(R.dimen.dimen_10),
-                getAppDimension(R.dimen.dimen_4),
-                getAppDimension(R.dimen.dimen_10),
-                getAppDimension(R.dimen.dimen_4))
-
-            getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let {
-                setBackgroundTextViewRight(it)
-            }
-        }
-
-        lifecycleScope.launch(Dispatchers.Main) {
-
-            setSelectTimeAction()
-
-            // lấy tổng time video và list ảnh bitmap
-            val localVideo = LocalVideo().apply {
-                videoPath = viewModel.videoPathType
-                duration = viewModel.totalTime
-            }
-
-            viewModel.bitmapList = localVideo.getBitmapListFromVideo(
-                binding.cvvCutVideo.getHeightListImage(),
-                binding.cvvCutVideo.getWidthListImage())
+            viewModel.getBitmapCutVideoList(binding.cvvCutVideo.getHeightListImage(), binding.cvvCutVideo.getWidthListImage())
 
             // hiển thị thanh cutVideo
             binding.cvvCutVideo.apply {
                 setConfigVideoBegin(viewModel.totalTime)
-                setBitmapListDisplay(viewModel.bitmapList)
                 listener = object : CutVideoView.IListener {
                     override fun onTimeStart(timeStart: Long) {
                         binding.pvCutVideoRoot.player?.seekTo(timeStart)
@@ -115,6 +85,26 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
         }
     }
 
+    private fun initView() {
+
+        binding.hvCutVideoBottom.apply {
+            setTextViewRightPadding(
+                getAppDimension(R.dimen.dimen_14),
+                getAppDimension(R.dimen.dimen_4),
+                getAppDimension(R.dimen.dimen_14),
+                getAppDimension(R.dimen.dimen_4))
+
+            setTextViewRightMargin(getAppDimension(R.dimen.dimen_10),
+                getAppDimension(R.dimen.dimen_4),
+                getAppDimension(R.dimen.dimen_10),
+                getAppDimension(R.dimen.dimen_4))
+
+            getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let {
+                setBackgroundTextViewRight(it)
+            }
+        }
+    }
+
     override fun onResume() {
         binding.pvCutVideoRoot.player?.playWhenReady = true
         super.onResume()
@@ -129,6 +119,21 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
         binding.pvCutVideoRoot.player?.release()
         mHandler?.removeCallbacksAndMessages(null)
         super.onDestroy()
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+        lifecycleScope.launch {
+            viewModel.bitmapCutVideoList.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        if (it.data != null) {
+                            binding.cvvCutVideo.setBitmapListDisplay(it.data!!)
+                        }
+                    }
+                })
+            }
+        }
     }
 
     private fun initializePlayer() {
@@ -177,7 +182,7 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
     private fun startVideo() {
         binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_play_video)
         binding.pvCutVideoRoot.player?.playWhenReady = true
-        viewModel.isCheck = false
+        viewModel.isCheckStartPause = false
     }
 
     private fun replaceVideo() {
@@ -191,6 +196,6 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
     private fun pauseVideo() {
         binding.vpcCutVideoTime.setLeftIcon(R.drawable.ic_black_pause_video)
         binding.pvCutVideoRoot.player?.playWhenReady = false
-        viewModel.isCheck = true
+        viewModel.isCheckStartPause = true
     }
 }
