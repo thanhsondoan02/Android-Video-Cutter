@@ -35,26 +35,20 @@ class LocalVideo {
         return getFormattedTime(duration)
     }
 
-
-    fun getBitmapListFromVideo(heightBitmapScaled: Int, maxWidth: Int): List<Bitmap> {
+    fun getBitmapListFromVideoByTime(heightBitmapScaled: Int, stepTime: Long): List<Bitmap> {
         val mediaMetadataRetriever = MediaMetadataRetriever()
+
         mediaMetadataRetriever.setDataSource(videoPath)
 
         val bitmapList: MutableList<Bitmap> = arrayListOf()
 
-        val widthBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+        if (heightBitmapScaled != 0) {
 
-        val heightBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+            val countBitmapFullSize = getTotalTime() / stepTime
 
-        if (heightBitmap != null && widthBitmap != null && heightBitmapScaled != 0) {
+            for (i in 0 until countBitmapFullSize) {
 
-            val countBitmapFullSize = maxWidth / heightBitmapScaled
-
-            val interval: Long = getTotalTime() / countBitmapFullSize
-
-            for (i in 0 until countBitmapFullSize + 1) {
-
-                val frameTime: Long = interval * i
+                val frameTime: Long = stepTime * i
 
                 var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
