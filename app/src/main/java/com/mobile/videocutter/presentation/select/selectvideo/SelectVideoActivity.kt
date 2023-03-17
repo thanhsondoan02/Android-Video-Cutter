@@ -98,7 +98,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 }
                 updateAddView()
                 updateSelectInAddAdapter()
-                autoScrollLog()
+                scrollAddListToLastItem()
             }
 
             override fun onVideoLongClick(path: String) {
@@ -137,9 +137,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
     }
 
-    private fun autoScrollLog() {
+    private fun scrollAddListToLastItem() {
         binding.crvSelectVideoAdd.smoothiePosition(viewModel.listVideoAdd.size - 1)
-        binding.crvSelectVideoAdd.invalidate()
     }
 
     private fun updateAddView() {
