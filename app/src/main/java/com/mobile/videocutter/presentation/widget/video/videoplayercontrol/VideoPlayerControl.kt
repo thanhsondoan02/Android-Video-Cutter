@@ -235,19 +235,15 @@ class VideoPlayerControl constructor(
 
                     when (playbackState) {
                         STATE_READY -> {
+                            Log.d(TAG, "onPlaybackStateChanged: ${concatenatingMediaSource!!.initialTimeline.windowCount}")
                             _runnable = object : Runnable {
                                 override fun run() {
-                                    Log.d(TAG, "run: $currentVideo")
-                                  //  if (currentVideo == 0) {
-                                        tvLeft?.text = getFormattedTime(player!!.currentPosition)
-                                        sbSeekBar?.progress = player!!.currentPosition.toInt()
-//                                    } else {
-//                                        val duration = concatenatingMediaSource!!.initialTimeline.getWindow(currentVideo, window).durationMs
-//                                        if (duration != C.TIME_UNSET) {
-//                                            tvLeft?.text = getFormattedTime(player!!.currentPosition + duration)
-//                                            sbSeekBar?.progress = (player!!.currentPosition.toInt() + duration).toInt()
-//                                        }
-//                                    }
+                                    Log.d(TAG, "run: ${currentVideo}")
+                                    val duration = concatenatingMediaSource!!.initialTimeline.getWindow(currentVideo, window).durationMs
+                                    if (duration != C.TIME_UNSET) {
+                                        tvLeft?.text = getFormattedTime(player!!.currentPosition + duration)
+                                        sbSeekBar?.progress = (player!!.currentPosition.toInt() + duration).toInt()
+                                    }
                                     _handler?.postDelayed(this, AppConfig.TIME_CONFIG)
                                 }
                             }
