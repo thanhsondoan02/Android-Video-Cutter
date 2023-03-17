@@ -67,4 +67,6 @@
     <string name="ratio_4x3">4x3</string>
     <string name="ratio_3x4">3x4</string>
     <string name="crop">Crop</string>
+    <string name="rotate">Rotate</string>
+    <string name="cut">Cut</string>
 </resources>

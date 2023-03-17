@@ -6,6 +6,7 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.hide
+import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
@@ -40,7 +41,7 @@ class MyStudioAdapter: BaseAdapter() {
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
 
         init {
-            itemBinding.root.setOnClickListener {
+            itemBinding.root.setOnSafeClick {
                 val videoDisplay = (getDataAtPosition(adapterPosition) as? VideoDisplay)
                 if (state == STATE.SELECT) {
                     (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not() ?: false

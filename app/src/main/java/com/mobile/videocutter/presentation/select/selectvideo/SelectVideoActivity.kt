@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.select.selectvideo
 
-import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
@@ -57,9 +56,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             }
         }
         binding.btnSelectVideoAdd.setOnSafeClick {
-            val intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
-            intent.putStringArrayListExtra(AdjustActivity.LIST_VIDEO, viewModel.getListPath())
-            startActivity(intent)
+            navigateTo(this, AdjustActivity::class.java, bundleOf(AdjustActivity.LIST_VIDEO to viewModel.getListPath()))
         }
 
         viewModel.getVideoList()
