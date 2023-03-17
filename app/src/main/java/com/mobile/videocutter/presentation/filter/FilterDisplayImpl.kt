@@ -2,7 +2,7 @@ package com.mobile.videocutter.presentation.filter
 
 import com.mobile.videocutter.domain.model.FILTER_TYPE
 
-class FilterRepoImpl : IFilterRepo {
+class FilterDisplayImpl : IFilterDisplay {
     override fun getListFilter(): List<FilterAdapter.FilterDisplay> {
         val list: MutableList<FilterAdapter.FilterDisplay> = arrayListOf()
 
