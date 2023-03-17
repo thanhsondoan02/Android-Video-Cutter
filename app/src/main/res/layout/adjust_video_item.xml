@@ -5,87 +5,40 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:layout_height="@dimen/dimen_100">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mcvAdjustVideoItmRoot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_10"
-            android:layout_marginTop="@dimen/dimen_10"
-            android:layout_marginEnd="@dimen/dimen_10"
-            android:maxHeight="@dimen/dimen_72"
-            app:cardCornerRadius="@dimen/dimen_corner_4"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivAdjustVideoItmImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimen_6"
+            app:shapeAppearanceOverlay="@style/StyleShapeableImageViewCorner2"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H, 1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/color_purple">
+            tools:ignore="ContentDescription"
+            tools:src="@tools:sample/avatars" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivAdjustVideoItmImage"
-                    style="@style/roundedCorner"
-                    android:layout_width="@dimen/dimen_72"
-                    android:layout_height="@dimen/dimen_72"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    tools:src="@tools:sample/avatars" />
-
-                <View
-                    android:id="@+id/vAdjustVideoItmInvisibleLine"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/dimen_6"
-                    app:layout_constraintBottom_toTopOf="@id/tvAdjustVideoItmDuration"
-                    app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <View
-                    android:id="@+id/vAdjustVideoItmBlackBlur"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/shape_black_gradient_angle_90_corner_4"
-                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
-                    app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vAdjustVideoItmInvisibleLine" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAdjustVideoItmDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen_6"
-                    android:layout_marginBottom="@dimen/dimen_6"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
-                    app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
-                    tools:text="00:22" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
-                    app:layout_constraintTop_toTopOf="@id/ivAdjustVideoItmImage" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAdjustVideoItmDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_text_size_10"
+            app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoItmImage"
+            app:layout_constraintEnd_toEndOf="@id/ivAdjustVideoItmImage"
+            tools:text="00:22" />
 
         <ImageView
             android:id="@+id/ivAdjustDeleteItm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/dimen_10"
-            android:padding="@dimen/dimen_4"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:src="@drawable/ic_red_close"
-            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
