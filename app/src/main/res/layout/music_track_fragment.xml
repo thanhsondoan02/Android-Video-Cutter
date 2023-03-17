@@ -7,10 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_26"
-        android:layout_marginTop="@dimen/dimen_22">
+        android:layout_marginTop="@dimen/dimen_12">
 
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
-           android:id="@+id/crvMusicTrack"
+            android:id="@+id/crvMusicTrack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
