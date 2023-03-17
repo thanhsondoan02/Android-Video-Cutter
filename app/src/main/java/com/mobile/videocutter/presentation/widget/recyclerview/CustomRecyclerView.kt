@@ -24,11 +24,11 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
     private var onLoadMore: (() -> Unit)? = null
 
     private var isLastPage: Boolean = false
+    private var isLoading: Boolean = false
     private var maxItemHorizontal: Int = 2
     private var layoutManagerMode: LAYOUT_MANAGER_MODE = LAYOUT_MANAGER_MODE.LINEAR_VERTICAL
 
     private var itemTouchHelper: TouchHelper? = null
-    private var hasLoadMore: Boolean = false
 
     private var _paddingTop = 0
     private var _paddingStart = 0
@@ -167,7 +167,7 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
             baseAdapter?.removeLoadMore()
         }
         hasLoadMore(hasLoadMore)
-        this.hasLoadMore = hasLoadMore
+
         baseAdapter?.submitList(newData)
         if (newData != null) {
             if (newData.isEmpty()) {
@@ -176,6 +176,7 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
         } else {
             baseAdapter?.makeLoading()
         }
+        this@CustomRecyclerView.isLoading = false
     }
 
     fun setLoadMore(onClick: (() -> Unit)?) {
@@ -185,10 +186,13 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
 
             override val lastPage: Boolean
                 get() = this@CustomRecyclerView.isLastPage
+            override val isLoading: Boolean
+                get() = this@CustomRecyclerView.isLoading
 
             override fun onLoadMore() {
                 baseAdapter?.makeLoadMore()
                 onLoadMore?.invoke()
+                this@CustomRecyclerView.isLoading = true
             }
         }
 
@@ -199,10 +203,13 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
 
     fun getCountData() = baseAdapter?.itemCount
 
-    fun setDragRecyclerView() {
+    fun setDragRecyclerView(isDragItemLast: Boolean = false) {
         itemTouchHelper = object : TouchHelper() {
             override val dataList: MutableList<Any>?
                 get() = baseAdapter?.dataList
+
+            override val isDragLastItem: Boolean
+                get() = isDragItemLast
 
             override fun eventMove(oldIndex: Int, newIndex: Int) {
                 if (dataList != null) {
@@ -211,7 +218,6 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
                     listener?.onScroll(newIndex,oldIndex)
                 }
             }
-
         }
         itemTouchHelper?.let {
             val itemTouchHelper = ItemTouchHelper(it)

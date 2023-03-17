@@ -79,7 +79,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         binding.crvSelectVideoAdd.apply {
             setAdapter(selectVideoAddAdapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-            setDragRecyclerView()
+            setDragRecyclerView(true)
             listener = object : CustomRecyclerView.IListener {
                 override fun onScroll(newPosition: Int, oldPosition: Int) {
                     binding.crvSelectVideoAdd.smoothiePosition(newPosition)

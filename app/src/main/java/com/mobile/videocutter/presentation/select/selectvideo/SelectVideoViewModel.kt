@@ -70,12 +70,11 @@ class SelectVideoViewModel : BaseViewModel() {
             }
 
             listVideoDisplay = _video.data()?.toMutableList()
-
-            // chưa hiểu tại sao thằng này ko cần update nên main thread
+            
             listVideoDisplay?.removeIf {
                 listPath.contains(it.video.getPathVideo())
             }
-            _video.success(listVideoDisplay?: listOf())
+            _video.success(listVideoDisplay ?: listOf())
         }
     }
 
@@ -167,13 +166,18 @@ class SelectVideoViewModel : BaseViewModel() {
     fun removeVideoDisplay(videoDisplay: VideoDisplay) {
         viewModelScope.launch(Dispatchers.IO) {
             val listVideo = _selectVideoState.data()?.toMutableList()
+            listVideoDisplay = _video.value.data?.toMutableList()
 
             val item = listVideo?.find {
-                it.video == videoDisplay.video
+                it.video.getImageThumbPath() == videoDisplay.video.getImageThumbPath()
             }
 
             val position = listVideo?.indexOfFirst {
-                it.video == videoDisplay.video
+                it.video.getImageThumbPath() == videoDisplay.video.getImageThumbPath()
+            }
+
+            val indexItemDelete = listVideoDisplay?.indexOfFirst {
+                it.video.getPathVideo() == videoDisplay.video.getPathVideo()
             }
 
             if (item != null && position != null && position > -1) {
@@ -181,11 +185,10 @@ class SelectVideoViewModel : BaseViewModel() {
                 listVideo[position] = newItem
                 _selectVideoState.success(listVideo)
             }
-
-            listVideoDisplay = _video.value.data?.toMutableList()
-            listVideoDisplay?.remove(videoDisplay)
-
-            _video.success(listVideoDisplay ?: listOf())
+            if (indexItemDelete != null && indexItemDelete > -1) {
+                listVideoDisplay?.removeAt(indexItemDelete)
+                _video.success(listVideoDisplay ?: listOf())
+            }
         }
     }
 
