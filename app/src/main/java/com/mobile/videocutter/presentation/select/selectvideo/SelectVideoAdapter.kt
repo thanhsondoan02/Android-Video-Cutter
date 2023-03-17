@@ -35,6 +35,13 @@ class SelectVideoAdapter : BaseGridAdapter() {
         return VideoVH(binding as SelectVideoItemBinding)
     }
 
+    fun unSelectAll() {
+        dataList.forEach {
+            (it as? VideoDisplay)?.isSelected = false
+        }
+        notifyItemRangeChanged(0, dataList.size, SELECT_PAYLOAD)
+    }
+
     fun updateSelect(path: String, isSelected: Boolean) {
         val index = dataList.indexOfFirst { (it as? VideoDisplay)?.video?.videoPath == path }
         if (index != -1) {

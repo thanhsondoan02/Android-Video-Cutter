@@ -19,7 +19,6 @@ import handleUiState
 
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
-    private val selectVideoAddAdapter by lazy { SelectVideoAddAdapter() }
     private val viewModel by viewModels<SelectVideoViewModel>()
 
     override fun getContainerId(): Int = R.id.flSelectVideoContainer
@@ -31,20 +30,15 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
         binding.hvSelectVideo.setOnCenterClickListener {
             if (getCurrentFragment() == null) {
+                setHeaderInFragment()
                 replaceFragment(SelectLibraryFolderFragment())
-                updateHeader()
             }
         }
 
         binding.hvSelectVideo.setOnLeftIconClickListener {
-            if (getCurrentFragment() == null) {
-                navigateBack()
-            } else {
-                backFragment()
-                updateHeader()
-            }
+            onBackPressed()
         }
-        binding.btnSelectVideoAdd.setOnSafeClick {
+        binding.tvSelectVideoAddButton.setOnSafeClick {
             navigateTo(this, AdjustActivity::class.java, bundleOf(AdjustActivity.LIST_VIDEO to viewModel.getListPath()))
         }
 
@@ -64,25 +58,43 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
     }
 
-    fun updateAlbumName() {
+    override fun onBackPressed() {
+        if (getCurrentFragment() == null) {
+            if (viewModel.listVideoAdd.isEmpty()) {
+                super.onBackPressed()
+            } else {
+                binding.llSelectVideoAdd.gone()
+                viewModel.listVideoAdd.clear()
+                selectVideoAdapter.unSelectAll()
+            }
+        } else {
+            backFragment()
+            setHeaderInActivity()
+        }
+    }
+
+    fun updateAlbum() {
         if (viewModel.nameAlbum.isNullOrEmpty()) {
             binding.hvSelectVideo.setTextCenter(getString(R.string.video))
         } else {
             binding.hvSelectVideo.setTextCenter(viewModel.nameAlbum)
         }
+        binding.llSelectVideoAdd.gone()
+        viewModel.listVideoAdd.clear()
     }
 
-    fun updateHeader() {
+    fun setHeaderInFragment() {
         binding.hvSelectVideo.apply {
-            if (getCurrentFragment() != null) {
-                setLeftIcon(R.drawable.ic_black_back)
-                setCenterIcon(R.drawable.ic_black_down)
-            } else {
-                setLeftIcon(R.drawable.ic_black_close)
-                setCenterIcon(R.drawable.ic_black_up)
-            }
+            setLeftIcon(R.drawable.ic_black_close)
+            setCenterIcon(R.drawable.ic_black_up)
         }
+    }
 
+    fun setHeaderInActivity() {
+        binding.hvSelectVideo.apply {
+            setLeftIcon(R.drawable.ic_black_back)
+            setCenterIcon(R.drawable.ic_black_down)
+        }
     }
 
     private fun initMainRecyclerView() {
@@ -112,18 +124,19 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
     }
 
     private fun initAddRecycleView() {
-        selectVideoAddAdapter.listener = object : SelectVideoAddAdapter.IListener {
-            override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
-                viewModel.listVideoAdd.remove(item)
-                updateSelectInAddAdapter()
-                updateAddView()
-                item.video.videoPath?.let {
-                    selectVideoAdapter.updateSelect(it, false)
-                }
-            }
-        }
         binding.crvSelectVideoAdd.apply {
-            setAdapter(selectVideoAddAdapter)
+            setAdapter(SelectVideoAddAdapter().apply {
+                listener = object : SelectVideoAddAdapter.IListener {
+                    override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
+                        viewModel.listVideoAdd.remove(item)
+                        updateSelectInAddAdapter()
+                        updateAddView()
+                        item.video.videoPath?.let {
+                            selectVideoAdapter.updateSelect(it, false)
+                        }
+                    }
+                }
+            })
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             setDragRecyclerView()
             listener = object : CustomRecyclerView.IListener {
@@ -148,6 +161,6 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     private fun updateSelectInAddAdapter() {
         binding.tvSelectVideoAddButton.text = getString(R.string.select_add).replaceFirst("0", viewModel.listVideoAdd.size.toString())
-        selectVideoAddAdapter.submitList(viewModel.listVideoAdd)
+        binding.crvSelectVideoAdd.submitList(viewModel.listVideoAdd)
     }
 }
