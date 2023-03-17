@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:padding="@dimen/dimen_10"
-            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoTool"
+            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoImage"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
@@ -57,9 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="00:00"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen_12" />
+                android:textSize="@dimen/dimen_12"
+                tools:text="00:00" />
 
             <ImageView
                 android:id="@+id/ivTasselsVideoEnd"
@@ -69,6 +69,14 @@
                 android:src="@drawable/ic_mute_off" />
 
         </FrameLayout>
+
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/crvTasselsVideoImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginBottom="@dimen/dimen_40"
+            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoTool"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
             android:id="@+id/crvTasselsVideoTool"

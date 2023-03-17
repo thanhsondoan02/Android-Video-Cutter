@@ -29,8 +29,12 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
 
     private val viewModel by viewModels<TasselsVideoViewModel>()
 
-    private val adapter by lazy {
-        TasselsVideoAdapter()
+    private val adapterTool by lazy {
+        TasselsVideoToolAdapter()
+    }
+
+    private val adapterTimeLine by lazy {
+        TasselsVideoTimeLineAdapter()
     }
 
     private var mHandler: Handler? = null
@@ -46,7 +50,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         setTextTimeCount()
 
         binding.crvTasselsVideoTool.apply {
-            setAdapter(adapter)
+            setAdapter(adapterTool)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             submitList(mockToolVideo())
         }
