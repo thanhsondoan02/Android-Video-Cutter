@@ -67,6 +67,14 @@
     <string name="ratio_4x3">4x3</string>
     <string name="ratio_3x4">3x4</string>
     <string name="crop">Crop</string>
+
+    // Tool Edit
     <string name="rotate">Rotate</string>
     <string name="cut">Cut</string>
+
+    // Select
+    <string name="select_empty_message">You haven\'t created any video yet!</string>
+
+    // My Studio
+    <string name="my_studio_empty_message">No video!</string>
 </resources>

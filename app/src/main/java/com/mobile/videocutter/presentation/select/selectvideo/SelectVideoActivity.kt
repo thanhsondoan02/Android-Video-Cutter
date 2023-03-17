@@ -3,7 +3,6 @@ package com.mobile.videocutter.presentation.select.selectvideo
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.gone
@@ -27,18 +26,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     override fun onInitView() {
         super.onInitView()
-        loadVideo()
+        initMainRecyclerView()
         initAddRecycleView()
-        binding.crvSelectVideoAdd.apply {
-            setAdapter(selectVideoAddAdapter)
-            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-            setDragRecyclerView()
-            listener = object : CustomRecyclerView.IListener {
-                override fun onScroll(position: Int) {
-                    binding.crvSelectVideoAdd.smoothiePosition(position)
-                }
-            }
-        }
 
         binding.hvSelectVideo.setOnCenterClickListener {
             if (getCurrentFragment() == null) {
@@ -68,7 +57,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             viewModel.selectVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        selectVideoAdapter.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
+                        binding.crvSelectVideoMain.submitList(it.data?.map { video -> SelectVideoAdapter.VideoDisplay(video) })
                     }
                 })
             }
@@ -96,13 +85,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
 
     }
 
-    private fun loadVideo() {
-        binding.rvSelectVideoToAdd.adapter = selectVideoAdapter
-        binding.rvSelectVideoToAdd.layoutManager = GridLayoutManager(this, 4)
-        initRecycleView()
-    }
-
-    private fun initRecycleView() {
+    private fun initMainRecyclerView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
             override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay) {
                 if (videoDisplay.isSelected) {
@@ -112,7 +95,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 }
                 updateAddView()
                 updateSelectInAddAdapter()
-                autoScrollLog()
+                scrollAddListToLastItem()
             }
 
             override fun onVideoLongClick(path: String) {
@@ -122,18 +105,9 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 )
             }
         }
-    }
-
-    private fun autoScrollLog() {
-        binding.crvSelectVideoAdd.smoothiePosition(viewModel.listVideoAdd.size - 1)
-        binding.crvSelectVideoAdd.invalidate()
-    }
-
-    private fun updateAddView() {
-        if (viewModel.listVideoAdd.size > 0) {
-            binding.llSelectVideoAdd.show()
-        } else {
-            binding.llSelectVideoAdd.gone()
+        binding.crvSelectVideoMain.apply {
+            setAdapter(selectVideoAdapter)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.GRID)
         }
     }
 
@@ -148,10 +122,32 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 }
             }
         }
+        binding.crvSelectVideoAdd.apply {
+            setAdapter(selectVideoAddAdapter)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+            setDragRecyclerView()
+            listener = object : CustomRecyclerView.IListener {
+                override fun onScroll(position: Int) {
+                    binding.crvSelectVideoAdd.smoothiePosition(position)
+                }
+            }
+        }
+    }
+
+    private fun scrollAddListToLastItem() {
+        binding.crvSelectVideoAdd.smoothiePosition(viewModel.listVideoAdd.size - 1)
+    }
+
+    private fun updateAddView() {
+        if (viewModel.listVideoAdd.size > 0) {
+            binding.llSelectVideoAdd.show()
+        } else {
+            binding.llSelectVideoAdd.gone()
+        }
     }
 
     private fun updateSelectInAddAdapter() {
-        binding.btnSelectVideoAdd.text = getString(R.string.select_add).replaceFirst("0", viewModel.listVideoAdd.size.toString())
+        binding.tvSelectVideoAddButton.text = getString(R.string.select_add).replaceFirst("0", viewModel.listVideoAdd.size.toString())
         selectVideoAddAdapter.submitList(viewModel.listVideoAdd)
     }
 }
