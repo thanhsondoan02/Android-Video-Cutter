@@ -31,7 +31,7 @@ class MusicTrackAdapter : BaseAdapter() {
                         notifyItemChanged(i, SELECT_MUSIC_PAYLOAD)
                     }
                 }
-                (dataList[adapterPosition] as MusicTrackDisplay).let {
+                (dataList[adapterPosition] as? MusicTrackDisplay)?.let {
                     it.isSelected = true
                     notifyItemChanged(adapterPosition, SELECT_MUSIC_PAYLOAD)
                     listener?.onMusicTrackClick(it)
