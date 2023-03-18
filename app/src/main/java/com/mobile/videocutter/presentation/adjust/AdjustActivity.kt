@@ -9,6 +9,7 @@ import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
@@ -39,6 +40,10 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             )
 
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
+
+            setOnRightTextClickListener {
+                navigateTo(this@AdjustActivity, TasselsVideoActivity::class.java)
+            }
         }
 
         binding.crvAdjust.apply {
