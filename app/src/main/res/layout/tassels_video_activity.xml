@@ -21,9 +21,9 @@
         <FrameLayout
             android:id="@+id/flTasselsVideoFirst"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10"
             android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/flTasselsVideoSecond"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hvTasselsVideoRoot">
@@ -43,8 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:padding="@dimen/dimen_10"
-            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoTool"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flTasselsVideoFirst">
 
             <ImageView
                 android:id="@+id/ivTasselsVideoStart"
@@ -58,9 +60,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="00:00"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dimen_12" />
+                android:textSize="@dimen/dimen_12"
+                tools:text="00:00" />
 
             <ImageView
                 android:id="@+id/ivTasselsVideoEnd"
@@ -72,11 +74,21 @@
         </FrameLayout>
 
         <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/crvTasselsVideoImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:layout_marginBottom="@dimen/dimen_40"
+            app:layout_constraintBottom_toTopOf="@id/crvTasselsVideoTool"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
             android:id="@+id/crvTasselsVideoTool"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_10"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
