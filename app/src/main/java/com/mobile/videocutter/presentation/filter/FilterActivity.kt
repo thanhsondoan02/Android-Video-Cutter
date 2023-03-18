@@ -76,7 +76,6 @@ class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filte
                     }
                 }
             }
-
         }
     }
 }
