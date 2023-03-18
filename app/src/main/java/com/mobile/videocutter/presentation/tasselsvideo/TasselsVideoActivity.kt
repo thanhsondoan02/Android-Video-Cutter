@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -21,17 +22,18 @@ import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropActivity
 import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterActivity
+import com.mobile.videocutter.presentation.model.IViewListener
+import com.mobile.videocutter.presentation.rotate.RotateFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import getFormattedTime
+import handleUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
-
     companion object {
-        const val VIDEO_PATH = "VIDEO_PATH"
         const val LIST_PATH = "VIDEO_PATH"
         const val DURATION = "DURATION"
     }
@@ -78,37 +80,37 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         adapterTool.listener = object : TasselsVideoToolAdapter.IListener {
             override fun onToolClick(toolVideo: ToolVideo?) {
                 when (toolVideo?.type) {
-                    TOOL_VIDEO_TYPE.CROP -> {
+                    CROP -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             CropActivity::class.java,
                         )
                     }
-                    TOOL_VIDEO_TYPE.CUT -> {
+                    CUT -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             CutVideoActivity::class.java
                         )
                     }
-                    TOOL_VIDEO_TYPE.SPEED -> {
+                    SPEED -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             SpeedVideoActivity::class.java
                         )
                     }
-                    TOOL_VIDEO_TYPE.FILTER -> {
+                    FILTER -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             FilterActivity::class.java
                         )
                     }
-                    TOOL_VIDEO_TYPE.MUSIC -> {
+                    MUSIC -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             AddMusicActivity::class.java
                         )
                     }
-                    TOOL_VIDEO_TYPE.ROTATE -> {
+                    ROTATE -> {
                         replaceFragment(
                             RotateFragment(),
                             bundleOf(RotateFragment.LIST_VIDEO to viewModel.listPath)
