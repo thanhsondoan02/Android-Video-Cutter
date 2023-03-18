@@ -45,10 +45,10 @@ class PreviewImageFragment: BaseBindingFragment<PreviewImageFragmentBinding>(R.l
         val layoutParams = binding.ivPreviewThumbnail.layoutParams
         layoutParams.apply {
             if (videoRatio > screenRatio) {
-                height = screenHeight - getAppDimension(R.dimen.dimen_18).toInt()
+                height = screenHeight - getAppDimension(R.dimen.dimen_100).toInt()
                 width = (height / videoRatio).toInt()
             } else {
-                width = screenWidth - getAppDimension(R.dimen.dimen_24).toInt()
+                width = screenWidth - getAppDimension(R.dimen.dimen_80).toInt()
                 height = (width * videoRatio).toInt()
             }
         }

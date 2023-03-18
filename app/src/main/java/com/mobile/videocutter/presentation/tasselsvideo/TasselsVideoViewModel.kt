@@ -1,6 +1,7 @@
 package com.mobile.videocutter.presentation.tasselsvideo
 
 import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.os.Handler
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
@@ -22,6 +23,9 @@ class TasselsVideoViewModel : BaseViewModel() {
     var degree: Float = 0f
     var flipHorizontal: Boolean = false
     var flipVertical: Boolean = false
+    var ratio = Float.MAX_VALUE
+    var resolutionHeight = 0
+    var resolutionWidth = 0
     // end region
 
     private var _bitmapTimeLineList = MutableStateFlow(FlowResult.newInstance<List<Bitmap>>())
@@ -53,5 +57,56 @@ class TasselsVideoViewModel : BaseViewModel() {
                     }
             }
         }
+    }
+
+    /**
+     * Lấy theo tỉ lệ của video đầu tiên
+     */
+    fun calculateVideoRatio() {
+        listPath?.firstOrNull()?.let {
+            ratio = getVideoRatio(it)
+        }
+    }
+
+    /**
+     * resolutionHeight bằng resolutionHeight video đầu
+     * resolutionWidth bằng resolutionWidth video đầu
+     */
+    fun calculateResolution() {
+        listPath?.firstOrNull()?.let {
+            resolutionHeight = getResolutionHeight(it)
+            resolutionWidth = getResolutionWidth(it)
+        }
+    }
+
+    private fun getVideoRatio(path: String): Float {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        val videoWidth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+        val videoHeight = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+        if (videoWidth != null && videoHeight != null) {
+            return videoWidth.toFloat() / videoHeight.toFloat()
+        }
+        return -1f
+    }
+
+    private fun getResolutionHeight(path: String): Int {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        val videoHeight = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+        if (videoHeight != null) {
+            return videoHeight.toInt()
+        }
+        return -1
+    }
+
+    private fun getResolutionWidth(path: String): Int {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        val videoWidth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+        if (videoWidth != null) {
+            return videoWidth.toInt()
+        }
+        return -1
     }
 }

@@ -7,24 +7,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/pvPlayerVideo"
+        <View
+            android:id="@+id/vPlayerVideoPlaceHolder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/color_white_crop_image_bg"
             app:layout_constraintDimensionRatio="H, 1:1"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/color_white_crop_image_bg"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/pvPlayerVideo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/vPlayerVideoPlaceHolder"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/vPlayerVideoPlaceHolder"
+            app:resize_mode="fit"
             app:surface_type="texture_view"
             app:use_controller="false" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPlayerPlayPause"
-            android:layout_width="@dimen/dimen_46"
-            android:layout_height="@dimen/dimen_46"
-            android:padding="@dimen/dimen_10"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_48"
+            android:padding="@dimen/dimen_12"
             android:src="@drawable/ic_black_pause_video"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pvPlayerVideo" />
+            app:layout_constraintTop_toBottomOf="@id/vPlayerVideoPlaceHolder" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPlayerCurrentTime"

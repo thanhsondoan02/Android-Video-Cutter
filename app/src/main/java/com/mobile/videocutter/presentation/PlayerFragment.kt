@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation
 
 import android.annotation.SuppressLint
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
@@ -60,6 +61,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     }
 
     private fun initPlayer() {
+        calculatePlayerViewWidthAndHeight()
         binding.pvPlayerVideo.player = ExoPlayer.Builder(requireContext()).build().apply {
             viewModel.listPath?.forEach { path ->
                 addMediaItem(MediaItem.fromUri(path))
@@ -81,7 +83,6 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
                     }
                 }
             })
-
         }
     }
 
@@ -138,6 +139,27 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             binding.ivPlayerPlayPause.setImageResource(R.drawable.ic_black_play_video)
         } else {
             binding.ivPlayerPlayPause.setImageResource(R.drawable.ic_black_pause_video)
+        }
+    }
+
+    private fun calculatePlayerViewWidthAndHeight() {
+        if (viewModel.ratio == Float.MAX_VALUE) {
+            viewModel.calculateVideoRatio()
+        }
+        if (viewModel.ratio != Float.MAX_VALUE) {
+            val displayMetrics = DisplayMetrics()
+            baseActivity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            var videoWidth = displayMetrics.widthPixels
+            var videoHeight = displayMetrics.widthPixels
+            if (viewModel.ratio > 1) {
+                videoHeight = (videoWidth / viewModel.ratio).toInt()
+            } else {
+                videoWidth = (videoHeight * viewModel.ratio).toInt()
+            }
+            val params = binding.pvPlayerVideo.layoutParams
+            params.width = videoWidth
+            params.height = videoHeight
+            binding.pvPlayerVideo.layoutParams = params
         }
     }
 }
