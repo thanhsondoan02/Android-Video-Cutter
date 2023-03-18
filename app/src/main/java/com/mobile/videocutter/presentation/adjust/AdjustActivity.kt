@@ -30,6 +30,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
     private var isPlay = false
+    private val loadingFragment = LoadingFragment()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onPrepareInitView() {
@@ -126,7 +127,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
         super.onObserverViewModel()
 
         lifecycleScope.launchWhenCreated {
-            val loadingFragment = LoadingFragment()
             replaceFragment(loadingFragment)
             delay(3000)
             backFragment()

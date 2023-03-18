@@ -15,8 +15,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Player.*
+import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -49,6 +52,7 @@ class VideoPlayerControl constructor(
     private var sbSeekBar: SeekBar? = null
     private var isShowSeekBar: Boolean = false
     private var progress = 0
+    private var indexMediaSeekTo = 0
 
     private var onSeekBarClick: (() -> Unit)? = null
 
@@ -74,8 +78,15 @@ class VideoPlayerControl constructor(
 
     var total = 0L
     val window = Timeline.Window()
-    val mediaItems = ArrayList<MediaItem>()
+
     var concatenatingMediaSource: ConcatenatingMediaSource? = null
+
+    // old media item index
+    private var oldDurationDrag = 0L
+    private var oldDurationStopDrag = 0L
+    private var progressNew = 0L
+    private var durationOld = 0L
+
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.video_player_control_layout, this, true)
@@ -88,7 +99,6 @@ class VideoPlayerControl constructor(
         initPlayer()
     }
 
-    var listDuration = ArrayList<Long>()
     override fun onFinishInflate() {
         super.onFinishInflate()
         flLeft = findViewById(R.id.flVideoPlayerControl)
@@ -158,27 +168,48 @@ class VideoPlayerControl constructor(
         sbSeekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (seekBar != null && fromUser && player != null && concatenatingMediaSource != null) {
+                    this@VideoPlayerControl.indexMediaSeekTo = seekToProgress(progress)
                     this@VideoPlayerControl.progress = progress
                     tvLeft?.text = getFormattedTime(progress.toLong())
-                    seeBarListener?.onSeeBarProgreesListener(seekBar, progress, fromUser)
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 if (seekBar != null) {
                     _handler?.removeCallbacksAndMessages(null)
-                    seeBarListener?.onSeeBarStartTrackingTouch(seekBar)
                 }
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 if (seekBar != null && player != null) {
+                    oldDurationStopDrag = 0L
+                    if (indexMediaSeekTo != 0) {
+                        for (i in 0 until indexMediaSeekTo) {
+                            oldDurationStopDrag += concatenatingMediaSource!!.initialTimeline.getWindow(i, window).durationMs
+                        }
+                        progressNew = this@VideoPlayerControl.progress - oldDurationStopDrag
 
-                    resumePlayer()
-                    seeBarListener?.onSeeBaronStopTrackingTouch(seekBar)
+                    } else {
+                        progressNew = this@VideoPlayerControl.progress.toLong()
+                    }
+                    player?.seekToDefaultPosition(indexMediaSeekTo)
+                    player?.seekTo(progressNew)
+                    pausePlayer()
                 }
             }
         })
+    }
+
+    private fun seekToProgress(progress: Int): Int {
+        oldDurationDrag = 0
+        var index = 0
+        for (i in 0 until concatenatingMediaSource!!.size) {
+            if (progress > oldDurationDrag) {
+                oldDurationDrag += concatenatingMediaSource!!.initialTimeline.getWindow(i, window).durationMs
+                index = i
+            }
+        }
+        return index
     }
 
     //    fun set
@@ -189,61 +220,68 @@ class VideoPlayerControl constructor(
         listener?.onPlayerReady(player!!)
     }
 
-    var currentVideo = 0
     fun setUrl(listUrl: List<String>) {
         initPlayer()
-        currentVideo = 0
+        durationOld = 0L
         if (listUrl.isEmpty()) {
-            // xóa toàn bộ runable
-            _handler?.removeCallbacksAndMessages(null)
-            tvRight?.text = getAppString(R.string.time_start)
-            sbSeekBar?.progress = INT_DEFAULT
-            if (player?.isPlaying == true) {
-                player?.seekToDefaultPosition()
-            }
-            player?.pause()
+            pausePlayer(STATE_ENDED)
         } else {
             val listUri = listUrl.map {
                 Uri.parse(it)
             }
 
             concatenatingMediaSource = buildMediaSource(listUri as ArrayList<Uri>)
-            player?.setMediaSource(concatenatingMediaSource!!)
+
+            concatenatingMediaSource?.let {
+                player?.setMediaSource(it)
+            }
 
             player?.addListener(object : Player.Listener {
-
                 override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                    super.onTimelineChanged(timeline, reason)
-                    Log.d(TAG, "onTimelineChanged: ${timeline.windowCount}")
+                    if (player == null) {
+                        return
+                    }
 
+                    val timeline: Timeline = player!!.currentTimeline
+                    val currentWindowIndex: Int = player!!.currentMediaItemIndex
+                    var currentPosition: Long = player!!.currentPosition
+                    var totalTime: Long = 0
+                    val tmpWindow = Timeline.Window()
                     for (i in 0 until timeline.windowCount) {
-                        if (i == 0) {
-                            total = 0
-                        }
-                        val durations = timeline.getWindow(i, window).durationMs
-                        Log.d(TAG, "onTimelineChanged $i: ${durations}")
-                        if (durations != C.TIME_UNSET) {
-                            total += durations
+                        val windowDuration = timeline.getWindow(i, tmpWindow).durationMs
+                        totalTime += windowDuration
+                        if (i < currentWindowIndex) {
+                            currentPosition += windowDuration
                         }
                     }
-                    tvRight?.text = getFormattedTime(total)
-                    sbSeekBar?.max = total.toInt()
+                    tvRight?.text = getFormattedTime(totalTime)
+                    sbSeekBar?.max = totalTime.toInt()
+
+                    super.onTimelineChanged(timeline, reason)
                 }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     super.onPlaybackStateChanged(playbackState)
-
                     when (playbackState) {
+                        STATE_BUFFERING -> {
+
+                        }
                         STATE_READY -> {
-                            Log.d(TAG, "onPlaybackStateChanged: ${concatenatingMediaSource!!.initialTimeline.windowCount}")
+                            var oldDurationSeebar = 0L
+                            if (indexMediaSeekTo > 0) {
+                                for (i in 0 until indexMediaSeekTo) {
+                                    oldDurationSeebar +=
+                                        concatenatingMediaSource?.initialTimeline?.getWindow(i, window)?.durationMs
+                                            ?: LONG_DEFAULT
+                                }
+                            }
+                            if (durationOld == 0L) {
+                                durationOld = oldDurationSeebar
+                            }
                             _runnable = object : Runnable {
                                 override fun run() {
-                                    Log.d(TAG, "run: ${currentVideo}")
-                                    val duration = concatenatingMediaSource!!.initialTimeline.getWindow(currentVideo, window).durationMs
-                                    if (duration != C.TIME_UNSET) {
-                                        tvLeft?.text = getFormattedTime(player!!.currentPosition + duration)
-                                        sbSeekBar?.progress = (player!!.currentPosition.toInt() + duration).toInt()
-                                    }
+                                    tvLeft?.text = getFormattedTime(player!!.currentPosition + durationOld)
+                                    sbSeekBar?.progress = (player!!.currentPosition + durationOld).toInt()
                                     _handler?.postDelayed(this, AppConfig.TIME_CONFIG)
                                 }
                             }
@@ -258,7 +296,19 @@ class VideoPlayerControl constructor(
 
                 override fun onPositionDiscontinuity(oldPosition: PositionInfo, newPosition: PositionInfo, reason: Int) {
                     super.onPositionDiscontinuity(oldPosition, newPosition, reason)
-                    currentVideo++
+                    Log.d("tunglv", "onPositionDiscontinuity: ")
+                    when {
+                        newPosition.mediaItemIndex == 0 -> {
+                            durationOld = 0L
+                        }
+                        newPosition.mediaItemIndex > 0 -> {
+                            durationOld = 0L
+                            for (i in 0 until newPosition.mediaItemIndex) {
+                                durationOld += concatenatingMediaSource?.initialTimeline?.getWindow(i, window)?.durationMs
+                                    ?: LONG_DEFAULT
+                            }
+                        }
+                    }
                 }
             })
             player?.prepare()
@@ -301,6 +351,9 @@ class VideoPlayerControl constructor(
             // update ui khi end video
             tvLeft?.text = getAppString(R.string.time_start)
             sbSeekBar?.progress = INT_DEFAULT
+
+            indexMediaSeekTo = 0
+            durationOld = 0L
         }
         // xóa toàn bộ runable
         _handler?.removeCallbacksAndMessages(null)
@@ -309,14 +362,11 @@ class VideoPlayerControl constructor(
         player?.pause()
     }
 
-    fun resumePlayer(progress: Long = LONG_DEFAULT) {
+    fun resumePlayer() {
         if (_runnable != null) {
             _handler?.postDelayed(_runnable!!, AppConfig.TIME_CONFIG)
         }
         ivLeft?.setImageDrawable(getAppDrawable(R.drawable.ic_black_play))
-        if (progress != LONG_DEFAULT) {
-            player?.seekTo(progress)
-        }
         player?.play()
     }
 
