@@ -14,30 +14,35 @@ import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.TasselsVideoActivityBinding
-import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
+import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE
 import com.mobile.videocutter.domain.model.ToolVideo
 import com.mobile.videocutter.domain.model.getListAllToolVideo
 import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropActivity
 import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterActivity
+import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import getFormattedTime
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.launch
+import handleUiState
+import kotlinx.coroutines.*
 
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
 
     companion object {
         const val VIDEO_PATH = "VIDEO_PATH"
+        const val DURATION = "DURATION"
     }
 
     private val viewModel by viewModels<TasselsVideoViewModel>()
 
-    private val adapter by lazy {
-        TasselsVideoAdapter()
+    private val adapterTool by lazy {
+        TasselsVideoToolAdapter()
+    }
+
+    private val adapterTimeLine by lazy {
+        TasselsVideoTimeLineAdapter()
     }
 
     private var mHandler: Handler? = null
@@ -45,47 +50,57 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     override fun onInitView() {
         super.onInitView()
 
-        viewModel.videoPath = intent.getStringExtra(VIDEO_PATH)
+        viewModel.videoPathCurrent = intent.getStringExtra(VIDEO_PATH)
+        viewModel.totalTime = intent.getLongExtra(DURATION, 0L)
 
         setLayoutVideo()
         initView()
         initializePlayer()
         setTextTimeCount()
 
-        adapter.listener = object : TasselsVideoAdapter.IListener {
+        binding.crvTasselsVideoImage.post {
+            viewModel.getBitMapList(binding.crvTasselsVideoImage.height)
+        }
+
+        binding.crvTasselsVideoImage.apply {
+            setAdapter(adapterTimeLine)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+        }
+
+        adapterTool.listener = object : TasselsVideoToolAdapter.IListener {
             override fun onToolClick(toolVideo: ToolVideo?) {
                 when (toolVideo?.type) {
-                    CROP -> {
+                    TOOL_VIDEO_TYPE.CROP -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             CropActivity::class.java,
                         )
                     }
-                    CUT -> {
+                    TOOL_VIDEO_TYPE.CUT -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             CutVideoActivity::class.java
                         )
                     }
-                    SPEED -> {
+                    TOOL_VIDEO_TYPE.SPEED -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             SpeedVideoActivity::class.java
                         )
                     }
-                    FILTER -> {
+                    TOOL_VIDEO_TYPE.FILTER -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             FilterActivity::class.java
                         )
                     }
-                    MUSIC -> {
+                    TOOL_VIDEO_TYPE.MUSIC -> {
                         navigateTo(
                             this@TasselsVideoActivity,
                             AddMusicActivity::class.java
                         )
                     }
-                    ROTATE -> {
+                    TOOL_VIDEO_TYPE.ROTATE -> {
 //                        navigateTo(
 //                            this@TasselsVideoActivity,
 //                            RotateActivity::class.java,
@@ -96,7 +111,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
             }
         }
         binding.crvTasselsVideoTool.apply {
-            setAdapter(adapter)
+            setAdapter(adapterTool)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             submitList(getListAllToolVideo())
         }
@@ -135,6 +150,22 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         super.onDestroy()
     }
 
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+
+        lifecycleScope.launch {
+            viewModel.bitmapTimeLineList.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        if (it.data != null) {
+                            binding.crvTasselsVideoImage.submitList(it.data)
+                        }
+                    }
+                })
+            }
+        }
+    }
+
     private fun initView() {
         binding.hvTasselsVideoRoot.apply {
             setTextViewRightPadding(getAppDimension(R.dimen.dimen_14), getAppDimension(R.dimen.dimen_4), getAppDimension(R.dimen.dimen_14), getAppDimension(R.dimen.dimen_4))
@@ -148,7 +179,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     private fun initializePlayer() {
         startPlayer()
         binding.pvTasselsVideoPlay.player = ExoPlayer.Builder(this).build().apply {
-            viewModel.videoPath?.let { MediaItem.fromUri(it) }?.let { setMediaItem(it) }
+            if (viewModel.videoPathCurrent != null) {
+                val mediaItem = MediaItem.fromUri(viewModel.videoPathCurrent!!)
+                this.setMediaItem(mediaItem)
+            }
             prepare()
             playWhenReady = true
 
@@ -175,7 +209,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     }
 
     private fun releasePlayer() {
-        binding.ivTasselsVideoStart.background = getAppDrawable(R.drawable.ic_black_pause_video)
+        binding.ivTasselsVideoStart.setImageResource(R.drawable.ic_black_pause_video)
         binding.ivTasselsVideoEnd.setImageResource(R.drawable.ic_mute_off)
         viewModel.isCheck = true
         binding.pvTasselsVideoPlay.player?.playWhenReady = false

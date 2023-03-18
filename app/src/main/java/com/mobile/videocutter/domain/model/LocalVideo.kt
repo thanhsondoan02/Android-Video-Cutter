@@ -22,6 +22,10 @@ class LocalVideo {
         return thumbPath ?: STRING_DEFAULT
     }
 
+    fun getTotalTime(): Long {
+        return duration
+    }
+
     /**
      * duration to format 00:00 or 00:00:00
      */

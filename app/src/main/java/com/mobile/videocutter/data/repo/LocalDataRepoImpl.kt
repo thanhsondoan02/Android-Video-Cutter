@@ -2,6 +2,8 @@ package com.mobile.videocutter.data.repo
 
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
 import com.mobile.videocutter.base.extension.getApplication
@@ -117,6 +119,34 @@ class LocalDataRepoImpl: ILocalDataRepo {
             cursor.close()
         }
         return musicTrackList
+    }
+
+    override fun getBitmapListFromVideoByTime(localVideo: LocalVideo, heightBitmapScaled: Int, stepTime: Long): List<Bitmap> {
+        val mediaMetadataRetriever = MediaMetadataRetriever()
+
+        mediaMetadataRetriever.setDataSource(localVideo.videoPath)
+
+        val bitmapList: MutableList<Bitmap> = arrayListOf()
+
+        if (heightBitmapScaled != 0) {
+
+            val countBitmapFullSize = localVideo.getTotalTime() / stepTime
+
+            for (i in 0 until countBitmapFullSize) {
+
+                val frameTime: Long = stepTime * i
+
+                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+
+                bitmapFullSize = bitmapFullSize?.let {
+                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
+                }
+
+                bitmapFullSize?.let { bitmapList.add(it) }
+            }
+        }
+
+        return bitmapList
     }
 
     private fun getVideoCount(contentResolver: ContentResolver, albumId: String): Int {

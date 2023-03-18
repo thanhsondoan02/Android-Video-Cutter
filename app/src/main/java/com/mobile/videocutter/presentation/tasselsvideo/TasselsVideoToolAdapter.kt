@@ -8,7 +8,7 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.ToolItemBinding
 import com.mobile.videocutter.domain.model.ToolVideo
 
-class TasselsVideoAdapter : BaseAdapter() {
+class TasselsVideoToolAdapter : BaseAdapter() {
     var listener: IListener? = null
 
     override fun getLayoutResource(viewType: Int) = R.layout.tool_item
