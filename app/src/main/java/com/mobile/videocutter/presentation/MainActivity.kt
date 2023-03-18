@@ -22,32 +22,32 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>(R.layout.activity_
 
     override fun onInitView() {
         super.onInitView()
-        binding.rv.setAdapter(test)
-        binding.rv.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_VERTICAL)
-
-        binding.rv.setLoadMore {
-            Log.d(TAG, "onInitView: FGHJKLOKJNB BNKL:LKNBNJKL:LMN ")
-            viewModel.fakeData()
-        }
+//        binding.rv.setAdapter(test)
+//        binding.rv.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_VERTICAL)
+//
+//        binding.rv.setLoadMore {
+//            Log.d(TAG, "onInitView: FGHJKLOKJNB BNKL:LKNBNJKL:LMN ")
+//            viewModel.fakeData()
+//        }
     }
 
     override fun onObserverViewModel() {
         super.onObserverViewModel()
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.observerData.collect {
-                Log.d(TAG, "onInitView: ${it.data?.dataList?.size}")
-                if (it.data != null) {
-                    binding.rv.submitList(it.data?.dataList as List<TestAdapter.TestModel>, viewModel.dataPage.hasLoadMore())
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenResumed {
-            viewModel.testObserver.collect {
-                Log.d(TAG, "setDataERTYUI: ${it}")
-            }
-        }
+//        lifecycleScope.launchWhenResumed {
+//            viewModel.observerData.collect {
+//                Log.d(TAG, "onInitView: ${it.data?.dataList?.size}")
+//                if (it.data != null) {
+//                    binding.rv.submitList(it.data?.dataList as List<TestAdapter.TestModel>, viewModel.dataPage.hasLoadMore())
+//                }
+//            }
+//        }
+//
+//        lifecycleScope.launchWhenResumed {
+//            viewModel.testObserver.collect {
+//                Log.d(TAG, "setDataERTYUI: ${it}")
+//            }
+//        }
     }
 
 }
