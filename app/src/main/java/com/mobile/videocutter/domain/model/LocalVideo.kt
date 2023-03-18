@@ -1,7 +1,5 @@
 package com.mobile.videocutter.domain.model
 
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import getFormattedTime
 
@@ -24,7 +22,7 @@ class LocalVideo {
         return thumbPath ?: STRING_DEFAULT
     }
 
-    private fun getTotalTime(): Long {
+    fun getTotalTime(): Long {
         return duration
     }
 
@@ -33,34 +31,6 @@ class LocalVideo {
      */
     fun getFormattedDuration(): String {
         return getFormattedTime(duration)
-    }
-
-    fun getBitmapListFromVideoByTime(heightBitmapScaled: Int, stepTime: Long): List<Bitmap> {
-        val mediaMetadataRetriever = MediaMetadataRetriever()
-
-        mediaMetadataRetriever.setDataSource(videoPath)
-
-        val bitmapList: MutableList<Bitmap> = arrayListOf()
-
-        if (heightBitmapScaled != 0) {
-
-            val countBitmapFullSize = getTotalTime() / stepTime
-
-            for (i in 0 until countBitmapFullSize) {
-
-                val frameTime: Long = stepTime * i
-
-                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-
-                bitmapFullSize = bitmapFullSize?.let {
-                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
-                }
-
-                bitmapFullSize?.let { bitmapList.add(it) }
-            }
-        }
-
-        return bitmapList
     }
 }
 

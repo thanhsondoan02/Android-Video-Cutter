@@ -21,7 +21,7 @@ class StartAdapter : BaseAdapter() {
     inner class VideoVH(private val itemBinding: StartVideoItemBinding) : BaseVH<MyStudioAdapter.VideoDisplay>(itemBinding) {
         init {
             itemBinding.root.setOnClickListener {
-                listener?.onVideoClick((getDataAtPosition(adapterPosition) as? MyStudioAdapter.VideoDisplay)?.video!!)
+                listener?.onVideoClick((getDataAtPosition(adapterPosition) as? MyStudioAdapter.VideoDisplay)?.video)
             }
         }
 
