@@ -14,6 +14,8 @@ class FilterAdapter : BaseAdapter() {
         private const val CHANGE_STATE_FILTER_PAYLOAD = "CHANGE_STATE_FILTER_PAYLOAD"
     }
 
+    var listener: IListener? = null
+
     override fun getLayoutResource(viewType: Int) = R.layout.filter_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*>? {
@@ -40,6 +42,7 @@ class FilterAdapter : BaseAdapter() {
                 val item = getDataAtPosition(bindingAdapterPosition) as? FilterDisplay
                 if (item != null) {
                     select(bindingAdapterPosition)
+                    listener?.onFilter(item.type)
                 }
             }
         }
@@ -101,5 +104,9 @@ class FilterAdapter : BaseAdapter() {
                 FILTER_TYPE.WINTER -> getAppString(R.string.winter)
             }
         }
+    }
+
+    interface IListener {
+        fun onFilter(type: FILTER_TYPE)
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,6 +17,15 @@
             app:layout_constraintBottom_toTopOf="@+id/vpcFilter"
             app:layout_constraintDimensionRatio="H:1:1"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vFilterBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            tools:background="@color/black"
+            app:layout_constraintTop_toTopOf="@id/pvFilter"
+            app:layout_constraintBottom_toBottomOf="@id/pvFilter"/>
 
         <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
             android:id="@+id/vpcFilter"

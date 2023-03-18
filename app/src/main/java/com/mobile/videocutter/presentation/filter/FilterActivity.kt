@@ -3,10 +3,10 @@ package com.mobile.videocutter.presentation.filter
 import androidx.activity.viewModels
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
-import com.mobile.videocutter.base.extension.getAppDimension
-import com.mobile.videocutter.base.extension.getAppDrawable
+import com.mobile.videocutter.base.extension.*
 import com.mobile.videocutter.databinding.FilterActivityBinding
 import com.mobile.videocutter.di.DisplayFactory
+import com.mobile.videocutter.domain.model.FILTER_TYPE
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filter_activity) {
@@ -46,6 +46,37 @@ class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filte
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             submitList(this@FilterActivity.display.getListFilter())
+        }
+
+        adapter.listener = object : FilterAdapter.IListener {
+            override fun onFilter(type: FILTER_TYPE) {
+                when (type) {
+                    FILTER_TYPE.ORIGINAL -> {
+                        binding.vFilterBackground.gone()
+                    }
+
+                    FILTER_TYPE.SPRING -> {
+                        binding.vFilterBackground.show()
+                        binding.vFilterBackground.setBackgroundColor(getAppColor(R.color.color_purple_10))
+                    }
+
+                    FILTER_TYPE.SUMMER -> {
+                        binding.vFilterBackground.show()
+                        binding.vFilterBackground.setBackgroundColor(getAppColor(R.color.color_purple_20))
+                    }
+
+                    FILTER_TYPE.FALL -> {
+                        binding.vFilterBackground.show()
+                        binding.vFilterBackground.setBackgroundColor(getAppColor(R.color.color_purple_30))
+                    }
+
+                    FILTER_TYPE.WINTER -> {
+                        binding.vFilterBackground.show()
+                        binding.vFilterBackground.setBackgroundColor(getAppColor(R.color.color_purple_40))
+                    }
+                }
+            }
+
         }
     }
 }
