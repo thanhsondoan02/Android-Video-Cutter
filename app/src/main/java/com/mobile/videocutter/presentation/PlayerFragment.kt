@@ -15,16 +15,7 @@ import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import getFormattedTime
 
 class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player_fragment) {
-    companion object {
-        const val LIST_PATH = "LIST_PATH"
-    }
-
     private val viewModel by activityViewModels<TasselsVideoViewModel>()
-
-    override fun onPrepareInitView() {
-        super.onPrepareInitView()
-        viewModel.listPath = arguments?.getStringArrayList(LIST_PATH)
-    }
 
     override fun onInitView() {
         super.onInitView()
@@ -134,9 +125,12 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     }
 
     private fun initVariable() {
+        // rotate
         binding.pvPlayerVideo.rotation = viewModel.degree
         binding.pvPlayerVideo.scaleX = if (viewModel.flipHorizontal) -1f else 1f
         binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
+
+        // crop
     }
 
     private fun updatePlayPauseButton() {

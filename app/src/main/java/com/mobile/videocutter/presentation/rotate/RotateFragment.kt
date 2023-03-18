@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.rotate
 
-import androidx.core.os.bundleOf
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -8,10 +7,6 @@ import com.mobile.videocutter.databinding.RotateFragmentBinding
 import com.mobile.videocutter.presentation.PlayerFragment
 
 class RotateFragment: BaseBindingFragment<RotateFragmentBinding>(R.layout.rotate_fragment) {
-    companion object {
-        const val LIST_VIDEO = "LIST_VIDEO"
-    }
-
     private var playerFragment: PlayerFragment? = null
 
     override fun getContainerId() = R.id.flRotatePlayer
@@ -19,7 +14,7 @@ class RotateFragment: BaseBindingFragment<RotateFragmentBinding>(R.layout.rotate
     override fun onInitView() {
         super.onInitView()
         playerFragment = PlayerFragment()
-        addFragmentInsideFragment(playerFragment!!, bundleOf(PlayerFragment.LIST_PATH to arguments?.getStringArrayList(LIST_VIDEO)))
+        addFragmentInsideFragment(playerFragment!!)
         initOnClick()
     }
 

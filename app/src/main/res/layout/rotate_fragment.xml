@@ -12,6 +12,7 @@
         <FrameLayout
             android:id="@+id/flRotatePlayer"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dimen_48"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_height="@dimen/dimen_300" />

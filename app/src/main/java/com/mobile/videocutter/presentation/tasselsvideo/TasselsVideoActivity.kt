@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -111,10 +110,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         )
                     }
                     ROTATE -> {
-                        replaceFragment(
-                            RotateFragment(),
-                            bundleOf(RotateFragment.LIST_VIDEO to viewModel.listPath)
-                        )
+                        replaceFragment(RotateFragment())
                     }
                     null -> {}
                 }
