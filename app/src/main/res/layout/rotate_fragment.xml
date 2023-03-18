@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.home.start.StartActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/flRotatePlayer"
+        <View
+            android:id="@+id/vRotateHeader"
             android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vRotateVideoPlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H, 1:1"
             android:layout_marginTop="@dimen/dimen_48"
-            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_height="@dimen/dimen_300" />
+            tools:background="@color/black" />
+
+        <View
+            android:id="@+id/vRotateBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vRotateVideoPlaceHolder" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/flRotateFooter"
-            app:layout_constraintTop_toBottomOf="@id/flRotatePlayer">
+            app:layout_constraintTop_toTopOf="@id/vRotateBackground">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivRotateLeft"
@@ -37,9 +52,9 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivRotateRight"
                 android:layout_width="@dimen/dimen_48"
-                android:padding="@dimen/dimen_8"
                 android:layout_height="@dimen/dimen_48"
                 android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
                 android:src="@drawable/ic_rotate_right"
                 app:layout_constraintEnd_toStartOf="@id/ivRotateFlipHorizontal"
                 app:layout_constraintStart_toEndOf="@id/ivRotateLeft"
@@ -49,8 +64,8 @@
                 android:id="@+id/ivRotateFlipHorizontal"
                 android:layout_width="@dimen/dimen_48"
                 android:layout_height="@dimen/dimen_48"
-                android:padding="@dimen/dimen_8"
                 android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
                 android:src="@drawable/ic_flip_horizontal"
                 app:layout_constraintEnd_toStartOf="@id/ivRotateFlipVertical"
                 app:layout_constraintStart_toEndOf="@id/ivRotateRight"
@@ -59,10 +74,10 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivRotateFlipVertical"
                 android:layout_width="@dimen/dimen_48"
-                android:background="?android:attr/actionBarItemBackground"
                 android:layout_height="@dimen/dimen_48"
-                android:src="@drawable/ic_flip_vertical"
+                android:background="?android:attr/actionBarItemBackground"
                 android:padding="@dimen/dimen_8"
+                android:src="@drawable/ic_flip_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivRotateFlipHorizontal"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -23,7 +23,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         initPlayer()
         initSeekBar()
         initOnClick()
-        initVariable()
+        updateBaseOnData()
     }
 
     override fun onDestroy() {
@@ -36,6 +36,15 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         binding.pvPlayerVideo.player?.playWhenReady = false
         updatePlayPauseButton()
         super.onPause()
+    }
+
+    fun updateBaseOnData() {
+        // rotate
+        binding.pvPlayerVideo.rotation = viewModel.degree
+        binding.pvPlayerVideo.scaleX = if (viewModel.flipHorizontal) -1f else 1f
+        binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
+
+        // crop
     }
 
     fun saveRotateState() {
@@ -123,15 +132,6 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             binding.pvPlayerVideo.player?.playWhenReady = !(binding.pvPlayerVideo.player?.playWhenReady ?: false)
             updatePlayPauseButton()
         }
-    }
-
-    private fun initVariable() {
-        // rotate
-        binding.pvPlayerVideo.rotation = viewModel.degree
-        binding.pvPlayerVideo.scaleX = if (viewModel.flipHorizontal) -1f else 1f
-        binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
-
-        // crop
     }
 
     private fun updatePlayPauseButton() {

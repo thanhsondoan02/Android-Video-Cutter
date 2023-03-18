@@ -1,6 +1,5 @@
 package com.mobile.videocutter.presentation.tasselsvideo
 
-import android.os.Handler
 import androidx.activity.viewModels
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -19,6 +18,8 @@ import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
+    var playerFragment: PlayerFragment? = null
+
     companion object {
         const val LIST_PATH = "VIDEO_PATH"
         const val DURATION = "DURATION"
@@ -30,12 +31,6 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         TasselsVideoToolAdapter()
     }
 
-    private val adapterTimeLine by lazy {
-        TasselsVideoTimeLineAdapter()
-    }
-
-    private var mHandler: Handler? = null
-
     override fun getContainerId() = R.id.constTasselsVideoRoot
 
     override fun onPrepareInitView() {
@@ -46,7 +41,8 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     override fun onInitView() {
         super.onInitView()
         initOnClick()
-        addFragment(PlayerFragment(), containerId = R.id.flTasselsVideoPlayer)
+        playerFragment = PlayerFragment()
+        addFragment(playerFragment!!, containerId = R.id.flTasselsVideoPlayer)
         initToolsRecyclerView()
     }
 
@@ -99,7 +95,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         )
                     }
                     ROTATE -> {
-                        replaceFragment(RotateFragment())
+                        addFragment(RotateFragment())
                     }
                     null -> {}
                 }
