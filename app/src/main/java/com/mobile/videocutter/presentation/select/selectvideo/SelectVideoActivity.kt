@@ -2,12 +2,10 @@ package com.mobile.videocutter.presentation.select.selectvideo
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.getAppString
@@ -84,7 +82,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             listener = object : CustomRecyclerView.IListener {
                 override fun onScroll(newPosition: Int, oldPosition: Int) {
                     binding.crvSelectVideoAdd.smoothiePosition(newPosition)
-                    viewModel.dragVideo(oldPosition,newPosition)
+                    viewModel.dragVideo(oldPosition, newPosition)
                 }
             }
         }
@@ -112,14 +110,14 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             }
         }
 
-        binding.btnSelectVideoAdd.setOnSafeClick {
+        binding.tvSelectVideoAddButton.setOnSafeClick {
             val list = viewModel.getListSelected() as ArrayList<VideoDisplay>
             val intent = Intent(this@SelectVideoActivity, AdjustActivity::class.java)
             intent.putParcelableArrayListExtra(AdjustActivity.LIST_VIDEO, list)
             launcher.launch(intent)
         }
 
-        binding.btnSelectVideoAdd.text = getAppString(R.string.select_add,"0")
+        binding.tvSelectVideoAddButton.text = getAppString(R.string.select_add, "0")
     }
 
     override fun onObserverViewModel() {
@@ -138,7 +136,7 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             viewModel.count.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        binding.btnSelectVideoAdd.text = getString(R.string.select_add).replaceFirst("0", it.data.toString())
+                        binding.tvSelectVideoAddButton.text = getString(R.string.select_add).replaceFirst("0", it.data.toString())
                     }
                 })
             }
@@ -151,7 +149,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                         if (it.data != null) {
                             binding.crvSelectVideoAdd.submitList(it.data)
                             updateAddView(it.data!!)
-                            binding.btnSelectVideoAdd.text = getAppString(R.string.select_add,it.data!!.size.toString())
+                            binding.tvSelectVideoAddButton.text = getAppString(R.string.select_add, it.data!!.size.toString())
+                            binding.crvSelectVideoAdd.smoothiePosition(it.data!!.size - 1)
                         }
                     }
                 })

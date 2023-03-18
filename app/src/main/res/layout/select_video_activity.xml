@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:visibility="gone"
+                android:background="@color/white"
                 tools:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -74,10 +75,12 @@
                     android:id="@+id/crvSelectVideoAdd"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginHorizontal="@dimen/dimen_6"
-                    android:layout_marginBottom="@dimen/dimen_6"
+                    app:crv_padding_end="@dimen/dimen_6"
+                    app:crv_padding_start="@dimen/dimen_6"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="H, 11:2" />
+                    app:layout_constraintDimensionRatio="H, 11:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
