@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -21,6 +22,7 @@ import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropActivity
 import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterActivity
+import com.mobile.videocutter.presentation.rotate.RotateFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import getFormattedTime
@@ -31,7 +33,7 @@ import kotlinx.coroutines.launch
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
 
     companion object {
-        const val VIDEO_PATH = "VIDEO_PATH"
+        const val LIST_PATH = "VIDEO_PATH"
     }
 
     private val viewModel by viewModels<TasselsVideoViewModel>()
@@ -42,10 +44,17 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
 
     private var mHandler: Handler? = null
 
+    override fun getContainerId() = R.id.constTasselsVideoRoot
+
+    override fun onPrepareInitView() {
+        super.onPrepareInitView()
+        viewModel.listPath = intent?.getStringArrayListExtra(LIST_PATH)
+    }
+
     override fun onInitView() {
         super.onInitView()
 
-        viewModel.videoPath = intent.getStringExtra(VIDEO_PATH)
+        viewModel.videoPath = viewModel.listPath?.firstOrNull()
 
         setLayoutVideo()
         initView()
@@ -86,10 +95,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         )
                     }
                     ROTATE -> {
-//                        navigateTo(
-//                            this@TasselsVideoActivity,
-//                            RotateActivity::class.java,
-//                        )
+                        replaceFragment(
+                            RotateFragment(),
+                            bundleOf(RotateFragment.LIST_VIDEO to viewModel.listPath)
+                        )
                     }
                     null -> {}
                 }

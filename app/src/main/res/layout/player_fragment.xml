@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/pvPlayerVideo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/color_white_crop_image_bg"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:surface_type="texture_view"
+            app:use_controller="false" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlayerPlayPause"
+            android:layout_width="@dimen/dimen_46"
+            android:layout_height="@dimen/dimen_46"
+            android:padding="@dimen/dimen_10"
+            android:src="@drawable/ic_black_pause_video"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pvPlayerVideo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlayerCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_text_size_14"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerPlayPause"
+            app:layout_constraintStart_toEndOf="@id/ivPlayerPlayPause"
+            app:layout_constraintTop_toTopOf="@id/ivPlayerPlayPause"
+            tools:text="00:32" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlayerTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_text_size_14"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerPlayPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivPlayerPlayPause"
+            tools:text="01:39" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sbPlayerVideoController"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:progressBackgroundTint="@color/color_gray_setting_text"
+            android:progressTint="@color/black"
+            android:thumbTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlayerPlayPause"
+            app:layout_constraintEnd_toStartOf="@id/tvPlayerTotalTime"
+            app:layout_constraintStart_toEndOf="@id/tvPlayerCurrentTime"
+            app:layout_constraintTop_toTopOf="@id/ivPlayerPlayPause" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

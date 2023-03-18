@@ -85,7 +85,6 @@
             app:layout_constraintStart_toEndOf="@id/tvCropCurrentTime"
             app:layout_constraintTop_toTopOf="@id/ivCropPlayPause" />
 
-
         <FrameLayout
             android:id="@+id/flCropFooter"
             android:layout_width="match_parent"

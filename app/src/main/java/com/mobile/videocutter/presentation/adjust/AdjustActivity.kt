@@ -1,6 +1,7 @@
 package com.mobile.videocutter.presentation.adjust
 
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
@@ -16,11 +17,16 @@ import handleUiState
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
     companion object {
-        const val LIST_VIDEO = "list_video"
+        const val LIST_PATH = "LIST_PATH"
     }
 
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
+
+    override fun onPrepareInitView() {
+        super.onPrepareInitView()
+        viewModel.listPath = intent.getStringArrayListExtra(LIST_PATH)
+    }
 
     override fun onInitView() {
         super.onInitView()
@@ -42,7 +48,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
 
             setOnRightTextClickListener {
-                navigateTo(this@AdjustActivity, TasselsVideoActivity::class.java)
+                navigateTo(this@AdjustActivity, TasselsVideoActivity::class.java, bundleOf(TasselsVideoActivity.LIST_PATH to viewModel.listPath))
             }
         }
 
