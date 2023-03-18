@@ -16,6 +16,7 @@ import com.mobile.videocutter.databinding.AdjustActivityBinding
 import com.mobile.videocutter.domain.model.VideoDisplay
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
@@ -68,6 +69,10 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
             setOnLeftIconClickListener {
                 onBackPressed()
+            }
+
+            setOnRightTextClickListener {
+                navigateTo(this@AdjustActivity, TasselsVideoActivity::class.java)
             }
         }
 

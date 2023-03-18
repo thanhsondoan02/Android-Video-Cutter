@@ -29,7 +29,7 @@
                 app:hv_right_tv_text_color="@color/color_purple"
                 app:hv_right_tv_text_size="@dimen/dimen_text_size_18" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
                 android:id="@+id/rvMyStudioVideoList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

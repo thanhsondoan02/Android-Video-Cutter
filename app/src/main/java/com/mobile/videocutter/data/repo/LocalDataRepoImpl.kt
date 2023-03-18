@@ -2,11 +2,14 @@ package com.mobile.videocutter.data.repo
 
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
 import com.mobile.videocutter.base.extension.getApplication
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.domain.model.MusicTrack
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
 
 class LocalDataRepoImpl: ILocalDataRepo {
@@ -85,6 +88,65 @@ class LocalDataRepoImpl: ILocalDataRepo {
             it.close()
         }
         return videoList
+    }
+
+    override fun getMusicTrackList(): List<MusicTrack> {
+        val musicTrackList = mutableListOf<MusicTrack>()
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.DURATION
+        )
+
+        val selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0"
+        val sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC"
+
+        val cursor = contentResolver.query(uri, projection, selection, null, sortOrder)
+        if (cursor != null) {
+            val filePath = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            val name = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
+            val duration = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+
+            while (cursor.moveToNext()) {
+                musicTrackList.add(MusicTrack().apply {
+                    this.musicTrackPath = cursor.getString(filePath)
+                    this.musicTrackName = cursor.getString(name)
+                    this.duration = cursor.getLong(duration)
+                    this.musicTrackName = this.musicTrackName?.substringBeforeLast(".")
+                })
+            }
+            cursor.close()
+        }
+        return musicTrackList
+    }
+
+    override fun getBitmapListFromVideoByTime(localVideo: LocalVideo, heightBitmapScaled: Int, stepTime: Long): List<Bitmap> {
+        val mediaMetadataRetriever = MediaMetadataRetriever()
+
+        mediaMetadataRetriever.setDataSource(localVideo.videoPath)
+
+        val bitmapList: MutableList<Bitmap> = arrayListOf()
+
+        if (heightBitmapScaled != 0) {
+
+            val countBitmapFullSize = localVideo.getTotalTime() / stepTime
+
+            for (i in 0 until countBitmapFullSize) {
+
+                val frameTime: Long = stepTime * i
+
+                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+
+                bitmapFullSize = bitmapFullSize?.let {
+                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
+                }
+
+                bitmapFullSize?.let { bitmapList.add(it) }
+            }
+        }
+
+        return bitmapList
     }
 
     private fun getVideoCount(contentResolver: ContentResolver, albumId: String): Int {

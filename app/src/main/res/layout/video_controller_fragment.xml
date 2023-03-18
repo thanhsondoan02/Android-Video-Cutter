@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_158"
             android:layout_gravity="bottom"
-            android:background="@drawable/shape_black_gradient_angle_90_corner_4" />
+            android:background="@drawable/shape_black_gradient_angle_90" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

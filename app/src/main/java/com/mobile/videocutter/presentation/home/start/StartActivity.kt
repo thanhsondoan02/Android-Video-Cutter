@@ -3,6 +3,7 @@ package com.mobile.videocutter.presentation.home.start
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -23,6 +24,7 @@ import com.mobile.videocutter.presentation.home.preview.PreviewVideoFragment
 import com.mobile.videocutter.presentation.home.setting.SettingActivity
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
 
@@ -90,6 +92,7 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
                 replaceFragment(PreviewVideoFragment(), bundleOf(PreviewVideoFragment.VIDEO_PATH to localVideo?.videoPath, PreviewVideoFragment.VIDEO_DURATION to localVideo?.duration))
             }
         }
+
         binding.crvStartVideoList.setAdapter(startAdapter)
         binding.crvStartVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
 

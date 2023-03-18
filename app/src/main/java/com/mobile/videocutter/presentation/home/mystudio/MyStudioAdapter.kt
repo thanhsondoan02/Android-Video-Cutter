@@ -2,16 +2,14 @@ package com.mobile.videocutter.presentation.home.mystudio
 
 import androidx.databinding.ViewDataBinding
 import com.mobile.videocutter.R
-import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseGridAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
-import com.mobile.videocutter.base.extension.getAppDimension
-import com.mobile.videocutter.base.extension.hide
-import com.mobile.videocutter.base.extension.show
+import com.mobile.videocutter.base.extension.*
 import com.mobile.videocutter.databinding.MyStudioVideoItemBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import loadImage
 
-class MyStudioAdapter: BaseAdapter() {
+class MyStudioAdapter: BaseGridAdapter() {
     companion object {
         const val SELECT_PAYLOAD = "SELECT_PAYLOAD"
     }
@@ -33,6 +31,16 @@ class MyStudioAdapter: BaseAdapter() {
 
     override fun getLayoutResource(viewType: Int) = R.layout.my_studio_video_item
 
+    override fun getItemCountInRow(viewType: Int) = 4
+
+    override fun setupEmptyState(): Empty {
+        return Empty(
+            message = getAppString(R.string.my_studio_empty_message),
+            messageColor = getAppColor(R.color.color_gray_home),
+            iconEmpty = getAppDrawable(R.drawable.ic_my_studio_empty_data)
+        )
+    }
+
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*> {
         return VideoVH(binding as MyStudioVideoItemBinding)
     }
@@ -40,7 +48,7 @@ class MyStudioAdapter: BaseAdapter() {
     inner class VideoVH(private val itemBinding: MyStudioVideoItemBinding) : BaseVH<VideoDisplay>(itemBinding) {
 
         init {
-            itemBinding.root.setOnClickListener {
+            itemBinding.root.setOnSafeClick {
                 val videoDisplay = (getDataAtPosition(adapterPosition) as? VideoDisplay)
                 if (state == STATE.SELECT) {
                     (getDataAtPosition(adapterPosition) as? VideoDisplay)?.isSelected = videoDisplay?.isSelected?.not() ?: false

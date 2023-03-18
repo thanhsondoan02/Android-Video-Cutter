@@ -105,7 +105,7 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
         )
     }
 
-    fun navigationTo(context: Context, kClass: Class<*>, bundle: Bundle? = null) {
+    fun navigateTo(context: Context, kClass: Class<*>, bundle: Bundle? = null) {
         val intent = Intent(context, kClass)
         if (bundle != null) {
             intent.putExtras(bundle)
