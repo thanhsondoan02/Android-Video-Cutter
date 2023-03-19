@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.MusicTrack
+import com.mobile.videocutter.presentation.savelibrary.AppInfo
 
 interface ILocalDataRepo {
     fun getAlbumList(): List<Album>
@@ -11,4 +12,5 @@ interface ILocalDataRepo {
     fun getMusicTrackList(): List<MusicTrack>
     fun getBitmapListFromVideoByTime(localVideo: LocalVideo, heightBitmapScaled: Int, stepTime: Long): List<Bitmap>
     fun getBitmapListFromVideoByLength(localVideo: LocalVideo, heightBitmapScaled: Int, maxWidth: Int): List<Bitmap>
+    fun getPackageAppInfoList() : List<AppInfo>
 }

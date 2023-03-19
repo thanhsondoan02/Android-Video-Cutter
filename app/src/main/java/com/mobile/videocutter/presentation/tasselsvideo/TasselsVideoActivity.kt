@@ -15,6 +15,7 @@ import com.mobile.videocutter.presentation.adjust.crop.CropFragment
 import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterFragment
 import com.mobile.videocutter.presentation.rotate.RotateFragment
+import com.mobile.videocutter.presentation.savelibrary.SaveLibraryFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedFragment
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
@@ -61,7 +62,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
             onBackPressed()
         }
         binding.tvTasselsVideoSave.setOnSafeClick {
-            // TODO
+            replaceFragment(SaveLibraryFragment())
         }
     }
 
