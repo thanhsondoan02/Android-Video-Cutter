@@ -129,10 +129,6 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
                             if (player.playbackState == Player.STATE_READY) {
                                 binding.sbPlayerVideoController.max = viewModel.totalDuration.toInt()
                             }
-//                            if (player.playbackState == Player.STATE_ENDED) {
-//                                binding.pvPlayerVideo.player?.seekTo(0)
-//                                binding.pvPlayerVideo.player?.playWhenReady = true
-//                            }
                         }
                     }
                 })
@@ -149,8 +145,9 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             override fun run() {
                 if (binding.pvPlayerVideo.player != null) {
                     binding.sbPlayerVideoController.progress = getCurrentTime().toInt()
-                    binding.tvPlayerCurrentTime.text = getFormattedTime(getCurrentTime())
-                    binding.tvPlayerTotalTime.text = getFormattedTime(viewModel.totalDuration)
+                    val currentSpeed = binding.pvPlayerVideo.player!!.playbackParameters.speed
+                    binding.tvPlayerCurrentTime.text = getFormattedTime((getCurrentTime() / currentSpeed).toLong())
+                    binding.tvPlayerTotalTime.text = getFormattedTime((viewModel.totalDuration / currentSpeed).toLong())
                 }
                 viewModel.mHandler?.postDelayed(this, 10)
             }
