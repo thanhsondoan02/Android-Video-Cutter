@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.disable
+import com.mobile.videocutter.base.extension.enable
+import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.AdjustFragmentBinding
 import com.mobile.videocutter.domain.model.LocalVideo
@@ -92,7 +94,15 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
                 binding.crvAdjustVideoList.submitList(listVideoWithItemAdd())
                 playerAdjustFragment.restartPlayer()
                 if (viewModel.listVideoAdd.isEmpty()) {
-                    binding.tvAdjustVideoNext.disable()
+                    binding.tvAdjustVideoNext.apply {
+                        disable()
+                        background = getAppDrawable(R.drawable.shape_gray_bg_corner_4)
+                    }
+                } else {
+                    binding.tvAdjustVideoNext.apply {
+                        enable()
+                        background = getAppDrawable(R.drawable.shape_purple_bg_corner_4)
+                    }
                 }
             }
 

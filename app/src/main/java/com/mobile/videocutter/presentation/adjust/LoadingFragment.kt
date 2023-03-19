@@ -29,7 +29,7 @@ class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loa
 
     private fun initOnClick() {
         binding.flLoadingContainer.setOnSafeClick {
-            onBack?.invoke()
+            // do nothing
         }
 
         binding.constLoadingMainContainer.setOnSafeClick {
