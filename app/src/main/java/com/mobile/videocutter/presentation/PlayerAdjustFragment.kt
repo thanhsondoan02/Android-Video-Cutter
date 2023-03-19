@@ -7,7 +7,6 @@ import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.LoopingMediaSource
@@ -18,14 +17,12 @@ import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.PlayerFragmentBinding
 import com.mobile.videocutter.domain.model.FILTER_TYPE.*
-import com.mobile.videocutter.domain.model.Filter
-import com.mobile.videocutter.domain.model.Speed
 import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
-import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
+import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoViewModel
 import getFormattedTime
 
-class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player_fragment) {
-    private val viewModel by activityViewModels<TasselsVideoViewModel>()
+class PlayerAdjustFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player_fragment) {
+    private val viewModel by activityViewModels<SelectVideoViewModel>()
 
     override fun onInitView() {
         super.onInitView()
@@ -46,64 +43,12 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         super.onPause()
     }
 
-    fun updateBaseOnData() {
-        // rotate
-        binding.pvPlayerVideo.rotation = viewModel.degree
-        binding.vPlayerFilter.rotation = viewModel.degree
-        binding.pvPlayerVideo.scaleX = if (viewModel.flipHorizontal) -1f else 1f
-        binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
-
-        // crop
-
-        // filter
-        binding.vPlayerFilter.background = viewModel.filter.getFilterDrawable()
-
-        // speed
-        binding.pvPlayerVideo.player?.playbackParameters = PlaybackParameters(viewModel.speed.getSpeedValue())
-    }
-
-    fun saveSpeedState(speed: Speed) {
-        viewModel.speed = speed
-    }
-
-    fun saveFilterState(filter: Filter) {
-        viewModel.filter = filter
-    }
-
-    fun saveRotateState() {
-        viewModel.degree = binding.pvPlayerVideo.rotation
-        viewModel.flipHorizontal = binding.pvPlayerVideo.scaleX == -1f
-        viewModel.flipVertical = binding.pvPlayerVideo.scaleY == -1f
-    }
-
-    fun rotateVideoLeft() {
-        binding.pvPlayerVideo.rotation -= 90
-        binding.vPlayerFilter.rotation -= 90
-    }
-
-    fun rotateVideoRight() {
-        binding.pvPlayerVideo.rotation += 90
-        binding.vPlayerFilter.rotation += 90
-    }
-
-    fun flipVideoHorizontal() {
-        binding.pvPlayerVideo.scaleX = -binding.pvPlayerVideo.scaleX
-    }
-
-    fun flipVideoVertical() {
-        binding.pvPlayerVideo.scaleY = -binding.pvPlayerVideo.scaleY
-    }
-
-    fun getPlayerWidth() = binding.pvPlayerVideo.width
-
-    fun getPlayerHeight() = binding.pvPlayerVideo.height
-
-    fun applyFilter(filter: Filter) {
-        binding.vPlayerFilter.background = filter.getFilterDrawable()
-    }
-
-    fun applySpeed(speed: Speed) {
-        binding.pvPlayerVideo.player?.playbackParameters = PlaybackParameters(speed.getSpeedValue())
+    fun restartPlayer() {
+        binding.pvPlayerVideo.player?.release()
+        viewModel.mHandler?.removeCallbacksAndMessages(null)
+        initPlayer()
+        initSeekBar()
+        updatePlayPauseButton()
     }
 
     private fun initPlayer() {
@@ -145,9 +90,8 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             override fun run() {
                 if (binding.pvPlayerVideo.player != null) {
                     binding.sbPlayerVideoController.progress = getCurrentTime().toInt()
-                    val currentSpeed = binding.pvPlayerVideo.player!!.playbackParameters.speed
-                    binding.tvPlayerCurrentTime.text = getFormattedTime((getCurrentTime() / currentSpeed).toLong())
-                    binding.tvPlayerTotalTime.text = getFormattedTime((viewModel.totalDuration / currentSpeed).toLong())
+                    binding.tvPlayerCurrentTime.text = getFormattedTime(getCurrentTime())
+                    binding.tvPlayerTotalTime.text = getFormattedTime(viewModel.totalDuration)
                 }
                 viewModel.mHandler?.postDelayed(this, 10)
             }
@@ -186,9 +130,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     }
 
     private fun calculatePlayerViewWidthAndHeight() {
-        if (viewModel.ratio == Float.MAX_VALUE) {
-            viewModel.calculateVideoRatio()
-        }
+        viewModel.calculateVideoRatio()
         if (viewModel.ratio != Float.MAX_VALUE) {
             val displayMetrics = DisplayMetrics()
             baseActivity.windowManager.defaultDisplay.getMetrics(displayMetrics)

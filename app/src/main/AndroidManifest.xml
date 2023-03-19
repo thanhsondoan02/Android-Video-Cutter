@@ -48,10 +48,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.adjust.AdjustActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".presentation.home.setting.SettingActivity"
             android:exported="false" />
 

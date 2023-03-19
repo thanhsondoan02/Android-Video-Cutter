@@ -9,7 +9,8 @@ import com.mobile.videocutter.presentation.savelibrary.AppInfo
 interface ILocalDataRepo {
     fun getAlbumList(): List<Album>
     fun getMyStudioVideoList(albumId: String? = null): List<LocalVideo>
-    fun getMusicTrackList() : List<MusicTrack>
+    fun getMusicTrackList(): List<MusicTrack>
     fun getBitmapListFromVideoByTime(localVideo: LocalVideo, heightBitmapScaled: Int, stepTime: Long): List<Bitmap>
+    fun getBitmapListFromVideoByLength(localVideo: LocalVideo, heightBitmapScaled: Int, maxWidth: Int): List<Bitmap>
     fun getPackageAppInfoList() : List<AppInfo>
 }

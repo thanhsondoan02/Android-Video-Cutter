@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constAdjustRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAdjustVideoClose"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_48"
+            android:background="?android:attr/actionBarItemBackground"
+            android:padding="@dimen/dimen_10"
+            android:src="@drawable/ic_black_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAdjustVideoNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_18"
+            android:background="@drawable/shape_purple_bg_corner_4"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_10"
+            android:paddingVertical="@dimen/dimen_6"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/ivAdjustVideoClose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivAdjustVideoClose" />
+
+        <FrameLayout
+            android:id="@+id/flAdjustVideoPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ivAdjustVideoClose"
+            tools:background="@color/black"
+            tools:layout_height="@dimen/dimen_300" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_16"
+            android:text="@string/adjust_description"
+            android:textColor="@color/color_black_87"
+            app:layout_constraintBottom_toTopOf="@id/crvAdjustVideoList"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+            android:id="@+id/crvAdjustVideoList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/dimen_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H, 15:4"
+            app:layout_constraintTop_toBottomOf="@id/flAdjustVideoPlayer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

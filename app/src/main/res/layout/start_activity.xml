@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/tvStartTitle"
-            style="@style/StyleRobotoBoldBlack34"
+            style="@style/StyleRobotoBoldBlack40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_20"
@@ -39,7 +39,7 @@
             android:layout_height="@dimen/dimen_120"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_40"
-            android:background="@drawable/shape_orange_gradient_corner_12"
+            android:background="@drawable/shape_orange_gradient_corner_14"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackgroundBorderless"
@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_white_scissors" />
 
             <TextView
-                style="@style/StyleRobotoBoldWhite28"
+                style="@style/StyleRobotoBoldWhite32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -66,7 +66,7 @@
 
         <TextView
             android:id="@+id/tvStartMyStudio"
-            style="@style/StyleRobotoBoldBlack22"
+            style="@style/StyleRobotoBoldBlack24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_studio"
@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tvStartSeeAllMyStudio"
-            style="@style/StyleRobotoLightPurple18"
+            style="@style/StyleRobotoRegularPurple22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -91,7 +91,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_20"
-            android:background="@drawable/shape_gray_bg_corner_4"
+            android:background="@drawable/shape_gray_bg_corner_6"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:visibility="gone"

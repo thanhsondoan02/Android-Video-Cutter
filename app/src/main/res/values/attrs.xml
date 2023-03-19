@@ -69,4 +69,9 @@
         <attr name="tbv_right_text" format="string" />
     </declare-styleable>
 
+    <!--CutVideoView-->
+    <declare-styleable name="CutVideoView">
+
+    </declare-styleable>
+
 </resources>

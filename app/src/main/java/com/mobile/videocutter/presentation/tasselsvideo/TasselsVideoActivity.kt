@@ -1,6 +1,7 @@
 package com.mobile.videocutter.presentation.tasselsvideo
 
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -73,13 +74,18 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         addFragment(CropFragment())
                     }
                     CUT -> {
+//                        addFragment(CutFragment())
                         navigateTo(
                             this@TasselsVideoActivity,
-                            CutVideoActivity::class.java
+                            CutVideoActivity::class.java,
+                            bundleOf(
+                                CutVideoActivity.VIDEO_PATH to viewModel.listPath?.firstOrNull(),
+                                CutVideoActivity.VIDEO_DURATION to viewModel.listDuration?.firstOrNull()
+                            )
                         )
                     }
                     SPEED -> {
-                        replaceFragment(SpeedFragment())
+                        addFragment(SpeedFragment())
                     }
                     FILTER -> {
                         addFragment(FilterFragment())

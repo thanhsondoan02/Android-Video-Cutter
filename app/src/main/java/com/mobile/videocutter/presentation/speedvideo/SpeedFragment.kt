@@ -10,7 +10,7 @@ import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import com.mobile.videocutter.presentation.widget.video.speedvideo.SpeedVideoView
 
-class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fragment) {
+class SpeedFragment : BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fragment) {
     private val viewModel by activityViewModels<TasselsVideoViewModel>()
 
     override fun onInitView() {
@@ -33,6 +33,7 @@ class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fr
         }
         binding.ivSpeedDone.setOnSafeClick {
             (baseActivity as? TasselsVideoActivity)?.playerFragment?.saveSpeedState(binding.svvSpeedChooser.getCurrentSpeed())
+            binding.svvSpeedChooser.saveSpeed()
             backFragment()
         }
         binding.svvSpeedChooser.listener = object : SpeedVideoView.IListener {
