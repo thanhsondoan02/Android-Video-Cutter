@@ -43,6 +43,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     fun updateBaseOnData() {
         // rotate
         binding.pvPlayerVideo.rotation = viewModel.degree
+        binding.vPlayerFilter.rotation = viewModel.degree
         binding.pvPlayerVideo.scaleX = if (viewModel.flipHorizontal) -1f else 1f
         binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
 
@@ -64,10 +65,12 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
 
     fun rotateVideoLeft() {
         binding.pvPlayerVideo.rotation -= 90
+        binding.vPlayerFilter.rotation -= 90
     }
 
     fun rotateVideoRight() {
         binding.pvPlayerVideo.rotation += 90
+        binding.vPlayerFilter.rotation += 90
     }
 
     fun flipVideoHorizontal() {
