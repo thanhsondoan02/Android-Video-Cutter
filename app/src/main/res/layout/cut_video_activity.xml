@@ -1,13 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/pvCutVideoRoot"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_40"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/vpcCutVideoTime"
+            app:layout_constraintTop_toTopOf="parent"
+            app:use_controller="false" />
+
+        <com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
+            android:id="@+id/vpcCutVideoTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_20"
+            app:layout_constraintBottom_toTopOf="@id/tvCutVideoSelect"
+            app:layout_constraintStart_toStartOf="parent"
+            app:vpc_left_icon="@drawable/ic_black_pause_video"
+            app:vpc_left_icon_show="true"
+            app:vpc_left_text_show="false"
+            app:vpc_right_text_show="false"
+            app:vpc_seekbar_show="false" />
+
+        <com.mobile.videocutter.base.common.tabview.TabView
+            android:id="@+id/tvCutVideoSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_40"
+            android:layout_marginBottom="@dimen/dimen_20"
+            app:layout_constraintBottom_toTopOf="@id/cvvCutVideo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tbv_left_text="@string/cut_video_trim"
+            app:tbv_right_text="@string/cut_video_cut_out" />
+
+        <com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
+            android:id="@+id/cvvCutVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/hvCutVideoBottom"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.mobile.videocutter.presentation.widget.HeaderView
+            android:id="@+id/hvCutVideoBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hv_center_tv_text="@string/cut_video_center"
+            app:hv_left_ic="@drawable/ic_black_close"
+            app:hv_right_tv_text="Done"
+            app:hv_right_tv_text_color="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

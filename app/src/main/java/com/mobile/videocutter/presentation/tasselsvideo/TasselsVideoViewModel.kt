@@ -10,10 +10,12 @@ import com.mobile.videocutter.domain.model.FILTER_TYPE
 import com.mobile.videocutter.domain.model.Filter
 import com.mobile.videocutter.domain.model.SPEED_TYPE
 import com.mobile.videocutter.domain.model.Speed
+import com.mobile.videocutter.domain.usecase.GetBitMapCutVideoListUseCase
 import com.mobile.videocutter.domain.usecase.GetBitMapListUseCase
 import com.mobile.videocutter.thread.FlowResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import onException
@@ -109,6 +111,32 @@ class TasselsVideoViewModel : BaseViewModel() {
         listPath?.firstOrNull()?.let {
             resolutionHeight = getResolutionHeight(it)
             resolutionWidth = getResolutionWidth(it)
+        }
+    }
+
+    private var _bitmapCutVideoList = MutableStateFlow(FlowResult.newInstance<List<Bitmap>>())
+    val bitmapCutVideoList = _bitmapCutVideoList.asStateFlow()
+
+    fun getBitmapCutVideoList(heightBitmapScaled: Int, maxWidth: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (listPath?.firstOrNull() != null) {
+                val rv = GetBitMapCutVideoListUseCase.GetBitMapCutVideoListRV(
+                    listPath?.firstOrNull()!!,
+                    totalTime,
+                    heightBitmapScaled,
+                    maxWidth)
+
+                GetBitMapCutVideoListUseCase().invoke(rv)
+                    .onStart {
+
+                    }
+                    .onException {
+
+                    }
+                    .collect {
+                        _bitmapCutVideoList.success(it)
+                    }
+            }
         }
     }
 

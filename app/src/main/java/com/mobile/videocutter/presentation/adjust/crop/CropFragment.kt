@@ -49,7 +49,7 @@ class CropFragment : BaseBindingFragment<CropFragmentBinding>(R.layout.crop_frag
             backFragment()
         }
         binding.ivCropDone.setOnSafeClick {
-//            playerFragment?.saveRotateState()
+//            playerFragment?.saveCropState()
             backFragment()
         }
     }

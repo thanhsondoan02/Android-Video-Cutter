@@ -9,6 +9,8 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.LoadingFragmentBinding
 
 class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loading_fragment) {
+    var onBack: (() -> Unit)? = null
+
     override fun onInitView() {
         super.onInitView()
 
@@ -27,7 +29,7 @@ class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loa
 
     private fun initOnClick() {
         binding.flLoadingContainer.setOnSafeClick {
-            backFragment()
+            // do nothing
         }
 
         binding.constLoadingMainContainer.setOnSafeClick {
@@ -35,7 +37,7 @@ class LoadingFragment : BaseBindingFragment<LoadingFragmentBinding>(R.layout.loa
         }
 
         binding.tvLoadingStop.setOnSafeClick {
-            backFragment()
+            onBack?.invoke()
         }
     }
 }

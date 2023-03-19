@@ -70,4 +70,7 @@ dependencies {
 
     // media player
     implementation 'com.google.android.exoplayer:exoplayer:2.18.4'
+
+    // for ObservableList
+    implementation 'androidx.databinding:databinding-runtime:7.4.2'
 }

@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/dimen_10"
-        android:layout_marginTop="@dimen/dimen_10"
-        android:layout_marginEnd="@dimen/dimen_10"
-        android:maxWidth="@dimen/dimen_72"
-        android:maxHeight="@dimen/dimen_72">
+        tools:layout_height="@dimen/dimen_100">
 
-        <ImageView
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAddVideoItmButton"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_purple_add"
+            android:layout_marginVertical="@dimen/dimen_16"
+            android:layout_marginEnd="@dimen/dimen_16"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H, 1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/StyleShapeableImageViewCorner2"
+            tools:ignore="ContentDescription"
+            android:src="@drawable/ic_purple_add" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

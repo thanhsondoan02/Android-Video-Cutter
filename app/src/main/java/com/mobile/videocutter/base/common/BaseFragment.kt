@@ -2,6 +2,7 @@ package com.mobile.videocutter.base.common
 
 import ai.ftech.base.common.navigation.FadeAnim
 import ai.ftech.base.common.navigation.IScreenAnim
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,34 +58,41 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
 
     open fun getContainerId(): Int = LAYOUT_INVALID
 
+    fun navigateTo(context: Context, kClass: Class<*>, bundle: Bundle? = null) {
+        baseActivity.navigateTo(context, kClass, bundle)
+    }
+
     fun replaceFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
-        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim)
+        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim, containerId)
     }
 
     fun addFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
-        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim)
+        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim, containerId)
     }
 
     fun addFragmentInsideFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
         includeFragment(
             fragment,
             bundle,
-            getContainerId(),
+            containerId ?: getContainerId(),
             false,
             keepToBackStack,
             screenAnim

@@ -9,7 +9,8 @@ import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
-import com.mobile.videocutter.presentation.adjust.AdjustActivity
+import com.mobile.videocutter.domain.model.LocalVideo
+import com.mobile.videocutter.presentation.adjust.AdjustFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
 import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderFragment
@@ -20,6 +21,7 @@ import handleUiState
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val viewModel by viewModels<SelectVideoViewModel>()
+    private var adjustFragment: AdjustFragment? = null
 
     override fun getContainerId(): Int = R.id.flSelectVideoContainer
 
@@ -39,14 +41,10 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             onBackPressed()
         }
         binding.tvSelectVideoAddButton.setOnSafeClick {
-            navigateTo(
-                this,
-                AdjustActivity::class.java,
-                bundleOf(
-                    AdjustActivity.LIST_PATH to viewModel.getListPath(),
-                    AdjustActivity.LIST_DURATION to viewModel.getListDuration()
-                )
-            )
+            viewModel.listPath = viewModel.getListPath()
+            viewModel.listDuration = viewModel.getListDuration().toList()
+            adjustFragment = AdjustFragment()
+            replaceFragment(adjustFragment!!, containerId = R.id.flSelectVideoRoot)
         }
 
         viewModel.getVideoList()
@@ -74,6 +72,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 viewModel.listVideoAdd.clear()
                 selectVideoAdapter.unSelectAll()
             }
+        } else if (getCurrentFragment() is AdjustFragment) {
+            adjustFragment?.onBackPress()
         } else {
             backFragment()
             setHeaderInActivity()
@@ -104,13 +104,22 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
     }
 
+    fun delete(item: LocalVideo) {
+        viewModel.listVideoAdd.remove(item)
+        updateSelectInAddAdapter()
+        updateAddView()
+        item.videoPath?.let {
+            selectVideoAdapter.updateSelect(it, false)
+        }
+    }
+
     private fun initMainRecyclerView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
             override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay) {
                 if (videoDisplay.isSelected) {
-                    viewModel.listVideoAdd.add(videoDisplay)
+                    viewModel.listVideoAdd.add(videoDisplay.video)
                 } else {
-                    viewModel.listVideoAdd.remove(videoDisplay)
+                    viewModel.listVideoAdd.remove(videoDisplay.video)
                 }
                 updateAddView()
                 updateSelectInAddAdapter()
@@ -134,13 +143,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         binding.crvSelectVideoAdd.apply {
             setAdapter(SelectVideoAddAdapter().apply {
                 listener = object : SelectVideoAddAdapter.IListener {
-                    override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
-                        viewModel.listVideoAdd.remove(item)
-                        updateSelectInAddAdapter()
-                        updateAddView()
-                        item.video.videoPath?.let {
-                            selectVideoAdapter.updateSelect(it, false)
-                        }
+                    override fun onDelete(item: LocalVideo) {
+                        delete(item)
                     }
                 }
             })
