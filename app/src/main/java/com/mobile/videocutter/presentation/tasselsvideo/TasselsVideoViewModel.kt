@@ -74,23 +74,17 @@ class TasselsVideoViewModel : BaseViewModel() {
 
     fun getBitMapList(heightDefault: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (videoPathCurrent != null) {
-                val rv = GetBitMapListUseCase.GetBitMapListRV(
-                    heightDefault,
-                    stepTime,
-                    videoPathCurrent!!,
-                    totalTime)
+            if (listPath != null && listDuration != null) {
 
-                GetBitMapListUseCase().invoke(rv)
-                    .onStart {
+                val rv = GetBitMapListUseCase.GetBitMapListRV(heightDefault, stepTime, listPath!!, listDuration!!)
 
-                    }
-                    .onException {
+                GetBitMapListUseCase().invoke(rv).onStart {
 
-                    }
-                    .collect {
-                        _bitmapTimeLineList.success(it)
-                    }
+                }.onException {
+
+                }.collect {
+                    _bitmapTimeLineList.success(it)
+                }
             }
         }
     }
@@ -121,22 +115,15 @@ class TasselsVideoViewModel : BaseViewModel() {
     fun getBitmapCutVideoList(heightBitmapScaled: Int, maxWidth: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             if (listPath?.firstOrNull() != null) {
-                val rv = GetBitMapCutVideoListUseCase.GetBitMapCutVideoListRV(
-                    listPath?.firstOrNull()!!,
-                    totalTime,
-                    heightBitmapScaled,
-                    maxWidth)
+                val rv = GetBitMapCutVideoListUseCase.GetBitMapCutVideoListRV(listPath?.firstOrNull()!!, totalTime, heightBitmapScaled, maxWidth)
 
-                GetBitMapCutVideoListUseCase().invoke(rv)
-                    .onStart {
+                GetBitMapCutVideoListUseCase().invoke(rv).onStart {
 
-                    }
-                    .onException {
+                }.onException {
 
-                    }
-                    .collect {
-                        _bitmapCutVideoList.success(it)
-                    }
+                }.collect {
+                    _bitmapCutVideoList.success(it)
+                }
             }
         }
     }

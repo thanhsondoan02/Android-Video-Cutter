@@ -2,6 +2,7 @@ package com.mobile.videocutter.presentation.tasselsvideo
 
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -14,10 +15,13 @@ import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropFragment
 import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterFragment
+import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.rotate.RotateFragment
 import com.mobile.videocutter.presentation.savelibrary.SaveLibraryFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedFragment
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
+import handleUiState
+import kotlinx.coroutines.launch
 
 class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.layout.tassels_video_activity) {
     var playerFragment: PlayerFragment? = null
@@ -31,6 +35,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
 
     private val adapterTool by lazy {
         TasselsVideoToolAdapter()
+    }
+
+    private val adapterTimeLine by lazy {
+        TasselsVideoTimeLineAdapter()
     }
 
     override fun getContainerId() = R.id.constTasselsVideoRoot
@@ -47,6 +55,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
         playerFragment = PlayerFragment()
         addFragment(playerFragment!!, containerId = R.id.flTasselsVideoPlayer)
         initToolsRecyclerView()
+
+        binding.crvTasselsVideoTimeLine.post {
+            viewModel.getBitMapList(binding.crvTasselsVideoTimeLine.height)
+        }
     }
 
     override fun onBackPressed() {
@@ -103,10 +115,31 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                 }
             }
         }
+
         binding.crvTasselsVideoTool.apply {
             setAdapter(adapterTool)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             submitList(getListAllToolVideo())
+        }
+
+        binding.crvTasselsVideoTimeLine.apply {
+            setAdapter(adapterTimeLine)
+            setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
+        }
+    }
+
+    override fun onObserverViewModel() {
+        super.onObserverViewModel()
+        lifecycleScope.launch {
+            viewModel.bitmapTimeLineList.collect {
+                handleUiState(it, object : IViewListener {
+                    override fun onSuccess() {
+                        if (it.data != null) {
+                            binding.crvTasselsVideoTimeLine.submitList(it.data)
+                        }
+                    }
+                })
+            }
         }
     }
 }
