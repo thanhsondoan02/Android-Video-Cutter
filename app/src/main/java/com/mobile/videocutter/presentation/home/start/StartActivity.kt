@@ -9,12 +9,12 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.extension.getAppString
 import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.StartActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.domain.model.mockLocalVideoList
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioActivity
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioAdapter
 import com.mobile.videocutter.presentation.home.mystudio.MyStudioViewModel
@@ -29,8 +29,6 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
     private val startAdapter = StartAdapter()
 
     private val viewModel by viewModels<MyStudioViewModel>()
-
-    private val listStartVideo = mockLocalVideoList(50)
 
     override fun getContainerId(): Int = R.id.constStartContainer
 
@@ -56,7 +54,10 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
                         viewModel.getMyStudioVideos()
                     }
 
-                    override fun onDenied(neverAskAgainPermissionList: List<String>) {}
+                    override fun onDenied(neverAskAgainPermissionList: List<String>) {
+                        showToast(getAppString(R.string.start_permission_denied_content))
+                        viewModel.getMyStudioVideos()
+                    }
                 }
             )
         } else {
@@ -71,7 +72,16 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
             viewModel.myStudioVideoState.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        startAdapter.submitList(it.data?.map { video -> MyStudioAdapter.VideoDisplay(video) })
+                        it.data?.map { video -> MyStudioAdapter.VideoDisplay(video) }?.let { list ->
+                            if (list.isEmpty()) {
+                                binding.crvStartVideoList.gone()
+                                binding.llStartNoData.show()
+                            } else {
+                                startAdapter.submitList(list)
+                                binding.crvStartVideoList.show()
+                                binding.llStartNoData.gone()
+                            }
+                        }
                     }
                 })
             }
@@ -100,13 +110,5 @@ class StartActivity : BaseBindingActivity<StartActivityBinding>(R.layout.start_a
         }
         binding.crvStartVideoList.setAdapter(startAdapter)
         binding.crvStartVideoList.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-
-        if (listStartVideo.isEmpty()) {
-            binding.crvStartVideoList.gone()
-            binding.llStartNoData.show()
-        } else {
-            binding.crvStartVideoList.show()
-            binding.llStartNoData.gone()
-        }
     }
 }

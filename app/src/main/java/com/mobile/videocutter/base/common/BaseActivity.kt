@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.InflateException
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -175,6 +176,10 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun showToast(message : String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     interface PermissionListener {
