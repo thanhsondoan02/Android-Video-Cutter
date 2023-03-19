@@ -5,7 +5,7 @@ import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.FilterFragmentBinding
 import com.mobile.videocutter.di.DisplayFactory
-import com.mobile.videocutter.domain.model.FILTER_TYPE
+import com.mobile.videocutter.domain.model.Filter
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
@@ -41,8 +41,8 @@ class FilterFragment: BaseBindingFragment<FilterFragmentBinding>(R.layout.filter
 
     private fun initFilterRecyclerView() {
         adapter.listener = object : FilterAdapter.IListener {
-            override fun onFilterClick(filterType: FILTER_TYPE) {
-                (baseActivity as? TasselsVideoActivity)?.playerFragment?.applyFilter(filterType)
+            override fun onFilterClick(filter: Filter) {
+                (baseActivity as? TasselsVideoActivity)?.playerFragment?.applyFilter(filter)
             }
         }
         binding.rvFilterList.apply {

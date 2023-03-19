@@ -12,7 +12,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.PlayerFragmentBinding
-import com.mobile.videocutter.domain.model.FILTER_TYPE
+import com.mobile.videocutter.domain.model.Filter
 import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import getFormattedTime
@@ -78,7 +78,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
 
     fun getPlayerHeight() = binding.pvPlayerVideo.height
 
-    fun applyFilter(filterType: FILTER_TYPE) {
+    fun applyFilter(filter: Filter) {
 
     }
 
