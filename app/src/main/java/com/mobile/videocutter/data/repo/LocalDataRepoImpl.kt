@@ -121,28 +121,37 @@ class LocalDataRepoImpl : ILocalDataRepo {
         return musicTrackList
     }
 
-    override fun getBitmapListFromVideoByTime(localVideo: LocalVideo, heightBitmapScaled: Int, stepTime: Long): List<Bitmap> {
-        val mediaMetadataRetriever = MediaMetadataRetriever()
+    override fun getBitmapListFromVideoByTime(
+        pathList: List<String>,
+        durationList: List<Long>,
+        heightBitmapScaled: Int,
+        stepTime: Long
+    ): List<Bitmap> {
 
-        mediaMetadataRetriever.setDataSource(localVideo.videoPath)
+        val mediaMetadataRetriever = MediaMetadataRetriever()
 
         val bitmapList: MutableList<Bitmap> = arrayListOf()
 
-        if (heightBitmapScaled != 0) {
+        for (i in pathList.indices) {
 
-            val countBitmapFullSize = localVideo.getTotalTime() / stepTime
+            mediaMetadataRetriever.setDataSource(pathList[i])
 
-            for (i in 0 until countBitmapFullSize) {
+            if (heightBitmapScaled != 0) {
 
-                val frameTime: Long = stepTime * i
+                val countBitmapFullSize = durationList[i] / stepTime
 
-                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                for (j in 0 until countBitmapFullSize) {
 
-                bitmapFullSize = bitmapFullSize?.let {
-                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
+                    val frameTime: Long = stepTime * j
+
+                    var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+
+                    bitmapFullSize = bitmapFullSize?.let {
+                        Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
+                    }
+
+                    bitmapFullSize?.let { bitmapList.add(it) }
                 }
-
-                bitmapFullSize?.let { bitmapList.add(it) }
             }
         }
 
