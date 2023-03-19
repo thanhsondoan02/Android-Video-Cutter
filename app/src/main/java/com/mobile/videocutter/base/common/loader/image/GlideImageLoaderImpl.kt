@@ -6,7 +6,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-class GlideImageLoaderImpl: IImageLoader {
+class GlideImageLoaderImpl : IImageLoader {
     override fun loadImage(view: ImageView, uri: Uri?, placeHolder: Drawable?, ignoreCache: Boolean) {
         try {
             Glide.with(view)
@@ -24,6 +24,19 @@ class GlideImageLoaderImpl: IImageLoader {
         try {
             Glide.with(view)
                 .load(videoPath)
+                .placeholder(placeHolder)
+                .skipMemoryCache(ignoreCache)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(view)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun loadImage(view: ImageView, drawable: Drawable?, placeHolder: Drawable?, ignoreCache: Boolean) {
+        try {
+            Glide.with(view)
+                .load(drawable)
                 .placeholder(placeHolder)
                 .skipMemoryCache(ignoreCache)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

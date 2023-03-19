@@ -5,6 +5,10 @@
         <item name="cornerSize">@dimen/dimen_2</item>
     </style>
 
+    <style name="StyleShapeableCircleImageView">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="StyleRobotoSemiBoldBlack34">
         <item name="android:textSize">@dimen/dimen_text_size_34</item>
         <item name="android:textColor">@color/color_black_player</item>

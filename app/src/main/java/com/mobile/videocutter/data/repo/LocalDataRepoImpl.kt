@@ -2,6 +2,8 @@ package com.mobile.videocutter.data.repo
 
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
@@ -11,8 +13,9 @@ import com.mobile.videocutter.domain.model.Album
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.MusicTrack
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
+import com.mobile.videocutter.presentation.savelibrary.AppInfo
 
-class LocalDataRepoImpl: ILocalDataRepo {
+class LocalDataRepoImpl : ILocalDataRepo {
     private val contentResolver = getApplication().contentResolver
 
     override fun getAlbumList(): List<Album> {
@@ -147,6 +150,22 @@ class LocalDataRepoImpl: ILocalDataRepo {
         }
 
         return bitmapList
+    }
+
+    override fun getPackageAppInfoList(): List<AppInfo> {
+        val appInfo = mutableListOf<AppInfo>()
+        val pm: PackageManager = getApplication().packageManager
+        val intent = Intent(Intent.ACTION_SEND, null)
+        intent.type = "text/plain"
+        val resolveInfo = pm.queryIntentActivities(intent, 0)
+        resolveInfo.forEach { info ->
+            val applicationInfo = info.activityInfo.applicationInfo
+            val name = applicationInfo.loadLabel(pm)
+            val icon = applicationInfo.loadIcon(pm)
+            val packageName = applicationInfo.packageName
+            appInfo += AppInfo(name.toString(), icon, packageName)
+        }
+        return appInfo
     }
 
     private fun getVideoCount(contentResolver: ContentResolver, albumId: String): Int {
