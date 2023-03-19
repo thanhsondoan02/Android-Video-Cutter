@@ -1,5 +1,6 @@
 package com.mobile.videocutter.presentation.speedvideo
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
@@ -16,7 +17,7 @@ class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fr
     override fun onInitView() {
         super.onInitView()
         initOnClick()
-        binding.svvSpeedChooser.setSpeed(viewModel.speed)
+        binding.svvSpeedChooser.setSpeed(viewModel.speed,viewModel.oldPosition)
     }
 
     override fun onDestroy() {
@@ -38,6 +39,10 @@ class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fr
         binding.svvSpeedChooser.listener = object : SpeedVideoView.IListener {
             override fun onSpeedChange(speed: Speed) {
                 (baseActivity as? TasselsVideoActivity)?.playerFragment?.applySpeed(speed)
+            }
+
+            override fun onOldPositionOfView(position: Int) {
+                viewModel.oldPosition = position
             }
         }
     }
