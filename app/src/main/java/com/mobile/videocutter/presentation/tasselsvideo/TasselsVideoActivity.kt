@@ -11,7 +11,7 @@ import com.mobile.videocutter.domain.model.getListAllToolVideo
 import com.mobile.videocutter.presentation.PlayerFragment
 import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropFragment
-import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
+import com.mobile.videocutter.presentation.cut.CutFragment
 import com.mobile.videocutter.presentation.filter.FilterFragment
 import com.mobile.videocutter.presentation.rotate.RotateFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedFragment
@@ -72,13 +72,10 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         addFragment(CropFragment())
                     }
                     CUT -> {
-                        navigateTo(
-                            this@TasselsVideoActivity,
-                            CutVideoActivity::class.java
-                        )
+                        addFragment(CutFragment())
                     }
                     SPEED -> {
-                        replaceFragment(SpeedFragment())
+                        addFragment(SpeedFragment())
                     }
                     FILTER -> {
                         addFragment(FilterFragment())

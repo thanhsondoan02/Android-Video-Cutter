@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flCutVideoRoot"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_120"
+    android:layout_gravity="center"
+    android:layout_marginStart="@dimen/dimen_20"
+    android:layout_marginEnd="@dimen/dimen_20">
+
+    <com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
+        android:id="@+id/rvCutViewRoot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/dimen_20" />
+
+    <FrameLayout
+        android:id="@+id/flCutVideoFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/dimen_10">
+
+        <FrameLayout
+            android:id="@+id/flCutVideoSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_68">
+
+            <View
+                android:id="@+id/vCutVideoStart"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_68"
+                android:background="@drawable/ic_black_start" />
+
+            <View
+                android:id="@+id/vCutVideoEnd"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_68"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_black_start" />
+
+            <View
+                android:id="@+id/vCutVideoTop"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_4"
+                android:layout_marginHorizontal="@dimen/dimen_20"
+                android:background="@color/black" />
+
+            <View
+                android:id="@+id/vCutVideoBottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_4"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="@dimen/dimen_20"
+                android:background="@color/black" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvCutVideoTimeStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_6"
+        android:fontFamily="@font/font_semibold"
+        android:text="@string/cut_video_time_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_text_size_14" />
+
+    <TextView
+        android:id="@+id/tvCutVideoTimeCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/font_semibold"
+        android:text="@string/cut_video_time_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_text_size_14"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvCutVideoTimeEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/dimen_6"
+        android:fontFamily="@font/font_semibold"
+        android:text="@string/cut_video_time_end"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_text_size_14" />
+
+    <View
+        android:id="@+id/vCutVideoSelectTime"
+        android:layout_width="@dimen/dimen_6"
+        android:layout_height="@dimen/dimen_76"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dimen_34"
+        android:background="@drawable/bg_purple_corner_2"
+        android:gravity="center"
+        android:padding="@dimen/dimen_30" />
+
+</FrameLayout>
