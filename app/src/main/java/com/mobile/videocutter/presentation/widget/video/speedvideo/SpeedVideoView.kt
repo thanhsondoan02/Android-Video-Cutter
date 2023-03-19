@@ -16,6 +16,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.extension.*
 import com.mobile.videocutter.domain.model.SPEED_TYPE
 import com.mobile.videocutter.domain.model.Speed
+import kotlin.math.abs
 
 class SpeedVideoView constructor(
     ctx: Context,
@@ -101,7 +102,6 @@ class SpeedVideoView constructor(
         LayoutInflater.from(ctx).inflate(R.layout.speed_video_layout, this, true)
         mapView()
         initViewOrigin()
-        eventView()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -126,7 +126,8 @@ class SpeedVideoView constructor(
         vUnSelect3CoordinateX = getCoordinateXView(vUnSelect3X as View)
         vUnSelect4CoordinateX = getCoordinateXView(vUnSelect4X as View)
 
-        distanceSpeed = vUnSelect4CoordinateX - vUnSelect3CoordinateX
+        distanceSpeed = abs(vUnSelect4CoordinateX - vUnSelect3CoordinateX)
+        eventView()
     }
 
     fun getCurrentSpeed(): Speed {
@@ -360,11 +361,19 @@ class SpeedVideoView constructor(
 
                     var expectedMarginLeft = originMarginIvSelect + coordinateXSecond
 
-                    if (expectedMarginLeft <= vUnSelect0At75CoordinateX - widthParent / 2) {
-                        expectedMarginLeft = (vUnSelect0At75CoordinateX - widthParent / 2).toFloat()
-                    }
-                    if (expectedMarginLeft >= vUnSelect4CoordinateX - widthParent / 2) {
-                        expectedMarginLeft = (vUnSelect4CoordinateX - widthParent / 2).toFloat()
+                    when {
+                        vUnSelect0At75CoordinateX == 0 && expectedMarginLeft < oldPostion -> {
+                            expectedMarginLeft = oldPostion.toFloat()
+                        }
+                        vUnSelect0At75CoordinateX != 0 && expectedMarginLeft < vUnSelect0At75CoordinateX - widthParent / 2 -> {
+                            expectedMarginLeft = (vUnSelect0At75CoordinateX - widthParent / 2).toFloat()
+                        }
+                        vUnSelect4CoordinateX == 0 && expectedMarginLeft >= oldPostion -> {
+                            expectedMarginLeft = oldPostion.toFloat()
+                        }
+                        vUnSelect4CoordinateX != 0 && expectedMarginLeft >= vUnSelect4CoordinateX - widthParent / 2 -> {
+                            expectedMarginLeft = (vUnSelect4CoordinateX - widthParent / 2).toFloat()
+                        }
                     }
 
                     newParamsIVSelect?.leftMargin = expectedMarginLeft.toInt()
@@ -403,6 +412,7 @@ class SpeedVideoView constructor(
                 }
 
                 MotionEvent.ACTION_UP -> {
+
                     when {
                         event.rawX <= vUnSelect0At75CoordinateX.toFloat() + distanceSpeed / 2 -> {
                             selectSpeed0At75X()
