@@ -6,6 +6,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.AdjustFragmentBinding
+import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.PlayerAdjustFragment
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoViewModel
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
@@ -29,7 +30,7 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
 
     private fun initOnClick() {
         binding.ivAdjustVideoClose.setOnSafeClick {
-            backFragment()
+            baseActivity.onBackPressed()
         }
         binding.tvAdjustVideoNext.setOnSafeClick {
             navigateTo(
@@ -44,6 +45,15 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
     }
 
     private fun initRecyclerView() {
+        adapter.listener = object : AdjustFragmentAdapter.IListener {
+            override fun onDelete(item: LocalVideo) {
+
+            }
+
+            override fun onAdd() {
+                baseActivity.onBackPressed()
+            }
+        }
         binding.crvAdjustVideoList.apply {
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)

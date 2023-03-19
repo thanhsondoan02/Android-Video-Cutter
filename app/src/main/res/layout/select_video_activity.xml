@@ -82,7 +82,7 @@
                         android:layout_marginStart="@dimen/dimen_12"
                         android:layout_marginBottom="@dimen/dimen_6"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H, 11:2" />
+                        app:layout_constraintDimensionRatio="H, 19:4" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

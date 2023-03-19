@@ -9,6 +9,7 @@ import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
+import com.mobile.videocutter.presentation.PlayerFragment
 import com.mobile.videocutter.presentation.adjust.AdjustFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
@@ -69,6 +70,9 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 viewModel.listVideoAdd.clear()
                 selectVideoAdapter.unSelectAll()
             }
+        } else if (getCurrentFragment() is PlayerFragment) {
+            backFragment()
+            backFragment()
         } else {
             backFragment()
             setHeaderInActivity()

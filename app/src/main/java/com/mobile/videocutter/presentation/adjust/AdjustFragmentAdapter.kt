@@ -59,9 +59,16 @@ class AdjustFragmentAdapter : BaseAdapter() {
         }
     }
 
-    inner class AddVH(private val binding: AddVideoItemBinding) : BaseVH<LocalVideo>(binding)
+    inner class AddVH(private val binding: AddVideoItemBinding) : BaseVH<LocalVideo>(binding) {
+        init {
+            binding.ivAddVideoItmButton.setOnSafeClick {
+                listener?.onAdd()
+            }
+        }
+    }
 
     interface IListener {
         fun onDelete(item: LocalVideo)
+        fun onAdd()
     }
 }

@@ -46,7 +46,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
-            android:layout_marginBottom="@dimen/dimen_28"
             android:text="@string/adjust_description"
             android:textColor="@color/color_black_87"
             app:layout_constraintBottom_toTopOf="@id/crvAdjustVideoList"
@@ -58,7 +57,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/dimen_16"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="H, 9:2"
+            app:layout_constraintDimensionRatio="H, 15:4"
             app:layout_constraintTop_toBottomOf="@id/flAdjustVideoPlayer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
