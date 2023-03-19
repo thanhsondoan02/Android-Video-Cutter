@@ -21,9 +21,9 @@
 
         <com.mobile.videocutter.presentation.widget.video.editvideo.EditVideoView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_200"
+            android:layout_height="@dimen/dimen_80"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="@dimen/dimen_50" />
+            android:layout_marginHorizontal="@dimen/dimen_30" />
 
     </FrameLayout>
 
