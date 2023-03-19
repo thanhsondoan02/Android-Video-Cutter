@@ -1,3 +1,5 @@
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
@@ -156,9 +158,9 @@ fun getVideoWidthOrHeight(path: String, isWidth: Boolean): Int? {
         inputStream = FileInputStream(File(path).absolutePath)
         retriever.setDataSource(inputStream.fd)
         bmp = retriever.frameAtTime
-        mWidthHeight = if (isWidth){
+        mWidthHeight = if (isWidth) {
             bmp?.width
-        }else {
+        } else {
             bmp?.height
         }
     } catch (e: FileNotFoundException) {
@@ -167,9 +169,20 @@ fun getVideoWidthOrHeight(path: String, isWidth: Boolean): Int? {
         e.printStackTrace();
     } catch (e: RuntimeException) {
         e.printStackTrace();
-    } finally{
+    } finally {
         retriever?.release()
         inputStream?.close()
     }
     return mWidthHeight
+}
+
+fun Context.shareLink(message: String) {
+    try {
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+        share.putExtra(Intent.EXTRA_TEXT, message)
+        startActivity(Intent.createChooser(share, ""))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

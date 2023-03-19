@@ -5,6 +5,7 @@ import android.media.MediaMetadataRetriever
 import android.os.Handler
 import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
+import com.mobile.videocutter.base.extension.INT_DEFAULT
 import com.mobile.videocutter.base.extension.LONG_DEFAULT
 import com.mobile.videocutter.domain.model.FILTER_TYPE
 import com.mobile.videocutter.domain.model.Filter
