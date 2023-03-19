@@ -2,6 +2,7 @@ package com.mobile.videocutter.base.common
 
 import ai.ftech.base.common.navigation.FadeAnim
 import ai.ftech.base.common.navigation.IScreenAnim
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,10 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
     }
 
     open fun getContainerId(): Int = LAYOUT_INVALID
+
+    fun navigateTo(context: Context, kClass: Class<*>, bundle: Bundle? = null) {
+        baseActivity.navigateTo(context, kClass, bundle)
+    }
 
     fun replaceFragment(
         fragment: BaseFragment,

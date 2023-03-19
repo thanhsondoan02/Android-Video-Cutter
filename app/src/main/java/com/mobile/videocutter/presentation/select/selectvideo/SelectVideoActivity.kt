@@ -9,7 +9,7 @@ import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
-import com.mobile.videocutter.presentation.adjust.AdjustActivity
+import com.mobile.videocutter.presentation.adjust.AdjustFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
 import com.mobile.videocutter.presentation.select.selectlibrary.SelectLibraryFolderFragment
@@ -39,14 +39,9 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             onBackPressed()
         }
         binding.tvSelectVideoAddButton.setOnSafeClick {
-            navigateTo(
-                this,
-                AdjustActivity::class.java,
-                bundleOf(
-                    AdjustActivity.LIST_PATH to viewModel.getListPath(),
-                    AdjustActivity.LIST_DURATION to viewModel.getListDuration()
-                )
-            )
+            viewModel.listPath = viewModel.getListPath()
+            viewModel.listDuration = viewModel.getListDuration().toList()
+            replaceFragment(AdjustFragment(), containerId = R.id.flSelectVideoRoot)
         }
 
         viewModel.getVideoList()
