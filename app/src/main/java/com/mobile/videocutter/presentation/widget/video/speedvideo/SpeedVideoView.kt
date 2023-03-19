@@ -2,7 +2,6 @@ package com.mobile.videocutter.presentation.widget.video.speedvideo
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
@@ -22,6 +21,10 @@ class SpeedVideoView constructor(
     ctx: Context,
     attributeSet: AttributeSet?
 ) : ConstraintLayout(ctx, attributeSet) {
+    companion object {
+        private var oldPostion = 0
+    }
+
     var listener: IListener? = null
 
     private val TAG = "SpeedVideo"
@@ -93,7 +96,6 @@ class SpeedVideoView constructor(
 
     //khoảng cách giữa 2 speed
     private var distanceSpeed = 0
-    private var oldPostion = 0
 
     init {
         LayoutInflater.from(ctx).inflate(R.layout.speed_video_layout, this, true)
@@ -104,7 +106,8 @@ class SpeedVideoView constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        widthParent = MeasureSpec.getSize(widthMeasureSpec)
+        //12f độ dài của view chấm tròn trắng : vUnSelect (speed) X
+        widthParent = (MeasureSpec.getSize(widthMeasureSpec) - 12f).toInt()
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -123,7 +126,6 @@ class SpeedVideoView constructor(
         vUnSelect3CoordinateX = getCoordinateXView(vUnSelect3X as View)
         vUnSelect4CoordinateX = getCoordinateXView(vUnSelect4X as View)
 
-        widthParent -= vUnSelect1X!!.width
         distanceSpeed = vUnSelect4CoordinateX - vUnSelect3CoordinateX
     }
 
@@ -140,11 +142,17 @@ class SpeedVideoView constructor(
         }
     }
 
-    fun setSpeed(speed: Speed?, oldPosition: Int) {
-        this.oldPostion = oldPosition
+    fun saveSpeed() {
+        newParamsIVSelect?.leftMargin?.let {
+            oldPostion = it
+        }
+    }
+
+    fun setSpeed(speed: Speed?) {
         when (speed?.getSpeedTitle()) {
             getAppString(R.string._0_75x) -> {
                 selectSpeed0At75X()
+
             }
             getAppString(R.string._0_5x) -> {
                 selectSpeed0At5X()
@@ -239,7 +247,6 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_0_75))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed0At5X() {
@@ -251,7 +258,6 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_0_5))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed0At25X() {
@@ -263,7 +269,6 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_0_25))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed1X() {
@@ -275,7 +280,6 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_1))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed2X() {
@@ -287,21 +291,17 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_2))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed3X() {
         setEvent3X()
         if (vUnSelect3CoordinateX != 0) {
-            Log.d(TAG, "selectSpeed3X: !=")
             newParamsIVSelect?.leftMargin = vUnSelect3CoordinateX - widthParent / 2
         } else if (oldPostion != 0) {
-            Log.d(TAG, "selectSpeed3X: = $oldPostion")
             newParamsIVSelect?.leftMargin = oldPostion
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_3))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed4X() {
@@ -313,7 +313,6 @@ class SpeedVideoView constructor(
         }
         ivSelect?.layoutParams = newParamsIVSelect
         listener?.onSpeedChange(Speed(SPEED_TYPE.SPEED_4))
-        listener?.onOldPositionOfView(newParamsIVSelect?.leftMargin ?: INT_DEFAULT)
     }
 
     private fun selectSpeed() {
@@ -543,6 +542,5 @@ class SpeedVideoView constructor(
 
     interface IListener {
         fun onSpeedChange(speed: Speed)
-        fun onOldPositionOfView(position: Int)
     }
 }

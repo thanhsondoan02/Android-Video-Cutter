@@ -39,7 +39,6 @@ class TasselsVideoViewModel : BaseViewModel() {
     var resolutionWidth = 0
     var filter = Filter(FILTER_TYPE.ORIGINAL)
     var speed: Speed = Speed(SPEED_TYPE.SPEED_1)
-    var oldPosition =  INT_DEFAULT
     // end region
 
     private var _bitmapTimeLineList = MutableStateFlow(FlowResult.newInstance<List<Bitmap>>())
