@@ -37,7 +37,6 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
 
         initView()
         initializePlayer()
-        setSelectTimeAction()
 
         binding.hvCutVideoBottom.setOnLeftIconClickListener {
             finish()
@@ -56,6 +55,8 @@ class CutVideoActivity : BaseBindingActivity<CutVideoActivityBinding>(R.layout.c
         }
 
         binding.cvvCutVideo.post {
+
+            setSelectTimeAction()
 
             viewModel.getBitmapCutVideoList(binding.cvvCutVideo.getHeightListImage(), binding.cvvCutVideo.getWidthListImage())
 
