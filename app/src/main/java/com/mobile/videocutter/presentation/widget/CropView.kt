@@ -926,13 +926,13 @@ class CropView constructor(
             if (ratio!! > screenRatio) {
                 cropLeft = cropStrokeWidth * 3 / 2
                 cropRight = width.toFloat() - cropStrokeWidth * 3 / 2
-                cropTop = cropStrokeWidth * 3 / 2
-                cropBottom = min(cropTop + (width.toFloat() - cropStrokeWidth * 3) / ratio!!, height.toFloat() - cropStrokeWidth * 3 / 2)
+                cropTop = cropStrokeWidth * 3 / 2 + (height.toFloat() - cropStrokeWidth * 3) / 2 - (width.toFloat() - cropStrokeWidth * 3) / ratio!! / 2
+                cropBottom = cropTop + (width.toFloat() - cropStrokeWidth * 3) / ratio!!
             } else {
                 cropTop = cropStrokeWidth * 3 / 2
                 cropBottom = height.toFloat() - cropStrokeWidth * 3 / 2
-                cropLeft = cropStrokeWidth * 3 / 2
-                cropRight = min(cropLeft + (height.toFloat() - cropStrokeWidth * 3) * ratio!!, width.toFloat() - cropStrokeWidth * 3 / 2)
+                cropLeft = cropStrokeWidth * 3 / 2 + (width.toFloat() - cropStrokeWidth * 3) / 2 - (height.toFloat() - cropStrokeWidth * 3) * ratio!! / 2
+                cropRight = cropLeft + (height.toFloat() - cropStrokeWidth * 3) * ratio!!
             }
         }
     }

@@ -55,6 +55,8 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         return inflater.inflate(layoutId, container, false)
     }
 
+    open fun getContainerId(): Int = LAYOUT_INVALID
+
     fun replaceFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
@@ -73,6 +75,22 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim)
     }
 
+    fun addFragmentInsideFragment(
+        fragment: BaseFragment,
+        bundle: Bundle? = null,
+        keepToBackStack: Boolean = true,
+        screenAnim: IScreenAnim = FadeAnim()
+    ) {
+        includeFragment(
+            fragment,
+            bundle,
+            getContainerId(),
+            false,
+            keepToBackStack,
+            screenAnim
+        )
+    }
+
     fun backFragment() {
         baseActivity.backFragment()
     }
@@ -83,5 +101,43 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
 
     fun getCurrentFragment(): Fragment? {
         return baseActivity.getCurrentFragment()
+    }
+
+    private fun includeFragment(
+        fragment: Fragment,
+        bundle: Bundle?,
+        containerId: Int,
+        isReplace: Boolean,
+        keepToBackStack: Boolean,
+        screenAnim: IScreenAnim
+    ) {
+        if (getContainerId() == LAYOUT_INVALID) {
+            throw IllegalArgumentException("Cần phải gán container id để replace fragment")
+        }
+        try {
+            val tag = fragment::class.java.simpleName
+            bundle?.let {
+                fragment.arguments = it
+            }
+            childFragmentManager.beginTransaction().apply {
+                setCustomAnimations(
+                    screenAnim.enter(),
+                    screenAnim.exit(),
+                    screenAnim.popEnter(),
+                    screenAnim.popExit()
+                )
+                if (isReplace) {
+                    replace(containerId, fragment, tag)
+                } else {
+                    add(containerId, fragment, tag)
+                }
+                if (keepToBackStack) {
+                    addToBackStack(tag)
+                }
+                commit()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

@@ -77,4 +77,7 @@
 
     // My Studio
     <string name="my_studio_empty_message">No video!</string>
+
+    // Flip Rotate
+    <string name="flip_and_rotate"><![CDATA[Flip & Rotate]]></string>
 </resources>

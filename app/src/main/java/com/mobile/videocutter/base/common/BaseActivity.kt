@@ -88,12 +88,13 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
         includeFragment(
             fragment,
             bundle,
-            getContainerId(),
+            containerId ?: getContainerId(),
             true,
             keepToBackStack,
             screenAnim
@@ -112,12 +113,13 @@ abstract class BaseActivity(@LayoutRes protected val layoutId: Int) : AppCompatA
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
         includeFragment(
             fragment,
             bundle,
-            getContainerId(),
+            containerId ?: getContainerId(),
             false,
             keepToBackStack,
             screenAnim
