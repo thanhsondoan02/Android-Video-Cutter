@@ -130,9 +130,7 @@ class PlayerAdjustFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.
     }
 
     private fun calculatePlayerViewWidthAndHeight() {
-        if (viewModel.ratio == Float.MAX_VALUE) {
-            viewModel.calculateVideoRatio()
-        }
+        viewModel.calculateVideoRatio()
         if (viewModel.ratio != Float.MAX_VALUE) {
             val displayMetrics = DisplayMetrics()
             baseActivity.windowManager.defaultDisplay.getMetrics(displayMetrics)
