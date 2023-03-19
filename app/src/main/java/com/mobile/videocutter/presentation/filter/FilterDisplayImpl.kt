@@ -11,8 +11,6 @@ class FilterDisplayImpl : IFilterDisplay {
         list.add(FILTER_TYPE.SUMMER)
         list.add(FILTER_TYPE.FALL)
         list.add(FILTER_TYPE.WINTER)
-        return list.map { FilterAdapter.FilterDisplay(Filter(it)) }.apply {
-            firstOrNull()?.isSelect = true
-        }
+        return list.map { FilterAdapter.FilterDisplay(Filter(it)) }
     }
 }

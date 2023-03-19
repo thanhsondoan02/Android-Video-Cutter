@@ -22,6 +22,11 @@ class FilterAdapter : BaseAdapter() {
         return FilterVH(binding)
     }
 
+    fun getSelectFilter(): Filter {
+        return (dataList.firstOrNull { (it as FilterDisplay).isSelect } as? FilterDisplay)?.filter
+            ?: Filter(FILTER_TYPE.ORIGINAL)
+    }
+
     private fun select(newPosition: Int) {
         val oldDataPosition = dataList.indexOfFirst {
             (it as FilterDisplay).isSelect

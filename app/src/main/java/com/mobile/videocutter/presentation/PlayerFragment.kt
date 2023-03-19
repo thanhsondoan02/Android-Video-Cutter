@@ -12,6 +12,7 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.PlayerFragmentBinding
+import com.mobile.videocutter.domain.model.FILTER_TYPE.*
 import com.mobile.videocutter.domain.model.Filter
 import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
@@ -46,10 +47,13 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         binding.pvPlayerVideo.scaleY = if (viewModel.flipVertical) -1f else 1f
 
         // crop
+
+        // filter
+        binding.vPlayerFilter.background = viewModel.filter.getFilterDrawable()
     }
 
-    fun saveFilterState() {
-
+    fun saveFilterState(filter: Filter) {
+        viewModel.filter = filter
     }
 
     fun saveRotateState() {
@@ -79,7 +83,7 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     fun getPlayerHeight() = binding.pvPlayerVideo.height
 
     fun applyFilter(filter: Filter) {
-
+        binding.vPlayerFilter.background = filter.getFilterDrawable()
     }
 
     private fun initPlayer() {

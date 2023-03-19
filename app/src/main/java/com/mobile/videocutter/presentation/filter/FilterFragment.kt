@@ -1,5 +1,6 @@
 package com.mobile.videocutter.presentation.filter
 
+import androidx.fragment.app.activityViewModels
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -7,6 +8,7 @@ import com.mobile.videocutter.databinding.FilterFragmentBinding
 import com.mobile.videocutter.di.DisplayFactory
 import com.mobile.videocutter.domain.model.Filter
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 
 class FilterFragment: BaseBindingFragment<FilterFragmentBinding>(R.layout.filter_fragment) {
@@ -14,6 +16,7 @@ class FilterFragment: BaseBindingFragment<FilterFragmentBinding>(R.layout.filter
     private val display by lazy {
         DisplayFactory.getFilterDisplay()
     }
+    private val viewModel by activityViewModels<TasselsVideoViewModel>()
 
     override fun onInitView() {
         super.onInitView()
@@ -34,7 +37,7 @@ class FilterFragment: BaseBindingFragment<FilterFragmentBinding>(R.layout.filter
             backFragment()
         }
         binding.ivFilterDone.setOnSafeClick {
-            (baseActivity as? TasselsVideoActivity)?.playerFragment?.saveFilterState()
+            (baseActivity as? TasselsVideoActivity)?.playerFragment?.saveFilterState(adapter.getSelectFilter())
             backFragment()
         }
     }
@@ -48,7 +51,9 @@ class FilterFragment: BaseBindingFragment<FilterFragmentBinding>(R.layout.filter
         binding.rvFilterList.apply {
             setAdapter(adapter)
             setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
-            submitList(this@FilterFragment.display.getListFilter())
+            submitList(this@FilterFragment.display.getListFilter().apply {
+                firstOrNull { it.filter.type == viewModel.filter.type }?.isSelect = true
+            })
         }
     }
 }
