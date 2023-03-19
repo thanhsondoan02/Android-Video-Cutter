@@ -53,7 +53,7 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
             override fun onDelete(item: LocalVideo) {
                 (baseActivity as? SelectVideoActivity)?.delete(item)
                 binding.crvAdjustVideoList.submitList(listVideoWithItemAdd())
-                playerAdjustFragment.restartFragment()
+                playerAdjustFragment.restartPlayer()
             }
 
             override fun onAdd() {

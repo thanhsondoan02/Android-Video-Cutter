@@ -43,7 +43,7 @@ class PlayerAdjustFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.
         super.onPause()
     }
 
-    fun restartFragment() {
+    fun restartPlayer() {
         binding.pvPlayerVideo.player?.release()
         viewModel.mHandler?.removeCallbacksAndMessages(null)
         initPlayer()
