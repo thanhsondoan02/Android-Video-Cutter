@@ -170,20 +170,23 @@ class VideoPlayerControl constructor(
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 if (seekBar != null && player != null) {
-                    oldDurationStopDrag = 0L
-                    if (indexMediaSeekTo != 0) {
-                        for (i in 0 until indexMediaSeekTo) {
-                            oldDurationStopDrag += concatenatingMediaSource!!.initialTimeline.getWindow(i, window).durationMs
-                        }
-                        progressNew = this@VideoPlayerControl.progress - oldDurationStopDrag
-
+                    if (this@VideoPlayerControl.progress == sbSeekBar!!.max) {
+                        pausePlayer(STATE_ENDED)
                     } else {
-                        progressNew = this@VideoPlayerControl.progress.toLong()
+                        oldDurationStopDrag = 0L
+                        if (indexMediaSeekTo != 0) {
+                            for (i in 0 until indexMediaSeekTo) {
+                                oldDurationStopDrag += concatenatingMediaSource!!.initialTimeline.getWindow(i, window).durationMs
+                            }
+                            progressNew = this@VideoPlayerControl.progress - oldDurationStopDrag
+
+                        } else {
+                            progressNew = this@VideoPlayerControl.progress.toLong()
+                        }
+                        player?.seekToDefaultPosition(indexMediaSeekTo)
+                        player?.seekTo(progressNew)
+                        resumePlayer()
                     }
-                    player?.seekToDefaultPosition(indexMediaSeekTo)
-                    player?.seekTo(progressNew)
-                    pausePlayer()
-                    listener?.onPausePlayer(false)
                 }
             }
         })
@@ -217,12 +220,12 @@ class VideoPlayerControl constructor(
         return concatenatingMediaSource
     }
 
-    private fun disableView(){
+    private fun disableView() {
         sbSeekBar?.disable()
         flLeft?.disable()
     }
 
-    private fun enableView(){
+    private fun enableView() {
         sbSeekBar?.enable()
         flLeft?.enable()
     }
