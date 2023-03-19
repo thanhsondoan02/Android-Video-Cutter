@@ -12,7 +12,7 @@ import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.model.MusicTrack
 import com.mobile.videocutter.domain.repo.ILocalDataRepo
 
-class LocalDataRepoImpl: ILocalDataRepo {
+class LocalDataRepoImpl : ILocalDataRepo {
     private val contentResolver = getApplication().contentResolver
 
     override fun getAlbumList(): List<Album> {
@@ -135,6 +135,39 @@ class LocalDataRepoImpl: ILocalDataRepo {
             for (i in 0 until countBitmapFullSize) {
 
                 val frameTime: Long = stepTime * i
+
+                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+
+                bitmapFullSize = bitmapFullSize?.let {
+                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
+                }
+
+                bitmapFullSize?.let { bitmapList.add(it) }
+            }
+        }
+
+        return bitmapList
+    }
+
+    override fun getBitmapListFromVideoByLength(localVideo: LocalVideo, heightBitmapScaled: Int, maxWidth: Int): List<Bitmap> {
+        val mediaMetadataRetriever = MediaMetadataRetriever()
+        mediaMetadataRetriever.setDataSource(localVideo.videoPath)
+
+        val bitmapList: MutableList<Bitmap> = arrayListOf()
+
+        val widthBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+
+        val heightBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+
+        if (heightBitmap != null && widthBitmap != null && heightBitmapScaled != 0) {
+
+            val countBitmapFullSize = maxWidth / heightBitmapScaled
+
+            val interval: Long = localVideo.getTotalTime() / countBitmapFullSize
+
+            for (i in 0 until countBitmapFullSize + 1) {
+
+                val frameTime: Long = interval * i
 
                 var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 

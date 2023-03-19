@@ -13,7 +13,7 @@ class GetBitMapCutVideoListUseCase : BaseUseCase<GetBitMapCutVideoListUseCase.Ge
         }
         val repo = RepositoryFactory.getLocalDataRepo()
 
-        return repo.getBitmapListFromVideoByTime(localVideo, rv.heightBitmapScaled, rv.maxWidth.toLong())
+        return repo.getBitmapListFromVideoByLength(localVideo, rv.heightBitmapScaled, rv.maxWidth)
     }
 
     class GetBitMapCutVideoListRV(
