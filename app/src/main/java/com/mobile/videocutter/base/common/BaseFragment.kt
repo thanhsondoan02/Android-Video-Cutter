@@ -66,30 +66,33 @@ abstract class BaseFragment(@LayoutRes protected val layoutId: Int) : Fragment()
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
-        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim)
+        baseActivity.replaceFragment(fragment, bundle, keepToBackStack, screenAnim, containerId)
     }
 
     fun addFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
-        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim)
+        baseActivity.addFragment(fragment, bundle, keepToBackStack, screenAnim, containerId)
     }
 
     fun addFragmentInsideFragment(
         fragment: BaseFragment,
         bundle: Bundle? = null,
         keepToBackStack: Boolean = true,
-        screenAnim: IScreenAnim = FadeAnim()
+        screenAnim: IScreenAnim = FadeAnim(),
+        containerId: Int? = null
     ) {
         includeFragment(
             fragment,
             bundle,
-            getContainerId(),
+            containerId ?: getContainerId(),
             false,
             keepToBackStack,
             screenAnim

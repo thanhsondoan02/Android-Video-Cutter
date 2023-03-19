@@ -10,7 +10,6 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
 import com.mobile.videocutter.domain.model.LocalVideo
-import com.mobile.videocutter.presentation.PlayerFragment
 import com.mobile.videocutter.presentation.adjust.AdjustFragment
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.select.preview.PreviewImageFragment
@@ -22,6 +21,7 @@ import handleUiState
 class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.layout.select_video_activity) {
     private val selectVideoAdapter by lazy { SelectVideoAdapter() }
     private val viewModel by viewModels<SelectVideoViewModel>()
+    private var adjustFragment: AdjustFragment? = null
 
     override fun getContainerId(): Int = R.id.flSelectVideoContainer
 
@@ -43,7 +43,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         binding.tvSelectVideoAddButton.setOnSafeClick {
             viewModel.listPath = viewModel.getListPath()
             viewModel.listDuration = viewModel.getListDuration().toList()
-            replaceFragment(AdjustFragment(), containerId = R.id.flSelectVideoRoot)
+            adjustFragment = AdjustFragment()
+            replaceFragment(adjustFragment!!, containerId = R.id.flSelectVideoRoot)
         }
 
         viewModel.getVideoList()
@@ -71,9 +72,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
                 viewModel.listVideoAdd.clear()
                 selectVideoAdapter.unSelectAll()
             }
-        } else if (getCurrentFragment() is PlayerFragment) {
-            backFragment()
-            backFragment()
+        } else if (getCurrentFragment() is AdjustFragment) {
+            adjustFragment?.onBackPress()
         } else {
             backFragment()
             setHeaderInActivity()
