@@ -57,6 +57,10 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         binding.vPlayerFilter.background = viewModel.filter.getFilterDrawable()
     }
 
+    fun saveSpeedState() {
+
+    }
+
     fun saveFilterState(filter: Filter) {
         viewModel.filter = filter
     }
