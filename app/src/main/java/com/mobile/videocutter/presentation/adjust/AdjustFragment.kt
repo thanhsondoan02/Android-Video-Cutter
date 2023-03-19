@@ -8,6 +8,7 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.AdjustFragmentBinding
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.PlayerAdjustFragment
+import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoActivity
 import com.mobile.videocutter.presentation.select.selectvideo.SelectVideoViewModel
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerView
@@ -47,7 +48,10 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
     private fun initRecyclerView() {
         adapter.listener = object : AdjustFragmentAdapter.IListener {
             override fun onDelete(item: LocalVideo) {
-
+                childFragmentManager.popBackStack()
+                addFragmentInsideFragment(PlayerAdjustFragment())
+                (baseActivity as? SelectVideoActivity)?.delete(item)
+                binding.crvAdjustVideoList.submitList(listVideoWithItemAdd())
             }
 
             override fun onAdd() {
@@ -63,12 +67,16 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
                     binding.crvAdjustVideoList.smoothiePosition(position)
                 }
             }
-            val list = mutableListOf<Any>()
-            viewModel.listVideoAdd.forEach {
-                list.add(it.video)
-            }
-            list.add(list.lastIndex + 1, Any())
-            submitList(list)
+            submitList(listVideoWithItemAdd())
         }
+    }
+
+    private fun listVideoWithItemAdd(): List<Any> {
+        val list = mutableListOf<Any>()
+        viewModel.listVideoAdd.forEach {
+            list.add(it)
+        }
+        list.add(list.lastIndex + 1, Any())
+        return list
     }
 }

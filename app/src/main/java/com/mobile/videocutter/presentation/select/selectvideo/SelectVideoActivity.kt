@@ -9,6 +9,7 @@ import com.mobile.videocutter.base.extension.gone
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.base.extension.show
 import com.mobile.videocutter.databinding.SelectVideoActivityBinding
+import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.presentation.PlayerFragment
 import com.mobile.videocutter.presentation.adjust.AdjustFragment
 import com.mobile.videocutter.presentation.model.IViewListener
@@ -103,13 +104,22 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         }
     }
 
+    fun delete(item: LocalVideo) {
+        viewModel.listVideoAdd.remove(item)
+        updateSelectInAddAdapter()
+        updateAddView()
+        item.videoPath?.let {
+            selectVideoAdapter.updateSelect(it, false)
+        }
+    }
+
     private fun initMainRecyclerView() {
         selectVideoAdapter.listener = object : SelectVideoAdapter.IListener {
             override fun onVideoClick(videoDisplay: SelectVideoAdapter.VideoDisplay) {
                 if (videoDisplay.isSelected) {
-                    viewModel.listVideoAdd.add(videoDisplay)
+                    viewModel.listVideoAdd.add(videoDisplay.video)
                 } else {
-                    viewModel.listVideoAdd.remove(videoDisplay)
+                    viewModel.listVideoAdd.remove(videoDisplay.video)
                 }
                 updateAddView()
                 updateSelectInAddAdapter()
@@ -133,13 +143,8 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
         binding.crvSelectVideoAdd.apply {
             setAdapter(SelectVideoAddAdapter().apply {
                 listener = object : SelectVideoAddAdapter.IListener {
-                    override fun onDelete(item: SelectVideoAdapter.VideoDisplay) {
-                        viewModel.listVideoAdd.remove(item)
-                        updateSelectInAddAdapter()
-                        updateAddView()
-                        item.video.videoPath?.let {
-                            selectVideoAdapter.updateSelect(it, false)
-                        }
+                    override fun onDelete(item: LocalVideo) {
+                        delete(item)
                     }
                 }
             })

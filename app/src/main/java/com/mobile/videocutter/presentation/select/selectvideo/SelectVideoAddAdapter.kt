@@ -8,6 +8,7 @@ import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SelectVideoAddItemBinding
+import com.mobile.videocutter.domain.model.LocalVideo
 import loadImage
 
 class SelectVideoAddAdapter : BaseAdapter() {
@@ -20,44 +21,44 @@ class SelectVideoAddAdapter : BaseAdapter() {
     }
 
     override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
-        return DiffCallback(oldList as List<SelectVideoAdapter.VideoDisplay>, newList as List<SelectVideoAdapter.VideoDisplay>)
+        return DiffCallback(oldList as List<LocalVideo>, newList as List<LocalVideo>)
     }
 
-    inner class SelectVideoAddVH(private val binding: SelectVideoAddItemBinding) : BaseVH<SelectVideoAdapter.VideoDisplay>(binding) {
+    inner class SelectVideoAddVH(private val binding: SelectVideoAddItemBinding) : BaseVH<LocalVideo>(binding) {
         init {
             binding.ivAdjustDeleteItm.setOnSafeClick {
-                var item = getDataAtPosition(bindingAdapterPosition) as? SelectVideoAdapter.VideoDisplay
+                var item = getDataAtPosition(bindingAdapterPosition) as? LocalVideo
                 if (item != null) {
                     listener?.onDelete(item)
                 }
             }
         }
 
-        override fun onBind(data: SelectVideoAdapter.VideoDisplay) {
+        override fun onBind(data: LocalVideo) {
             super.onBind(data)
-            binding.tvAdjustVideoItmDuration.text = data.video.getFormattedDuration()
-            binding.ivAdjustVideoItmImage.loadImage(data.video.videoPath)
+            binding.tvAdjustVideoItmDuration.text = data.getFormattedDuration()
+            binding.ivAdjustVideoItmImage.loadImage(data.videoPath)
         }
     }
 
-    class DiffCallback(oldData: List<SelectVideoAdapter.VideoDisplay>, newData: List<SelectVideoAdapter.VideoDisplay>) :
-        BaseDiffUtilCallback<SelectVideoAdapter.VideoDisplay>(oldData, newData) {
+    class DiffCallback(oldData: List<LocalVideo>, newData: List<LocalVideo>) :
+        BaseDiffUtilCallback<LocalVideo>(oldData, newData) {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? SelectVideoAdapter.VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? SelectVideoAdapter.VideoDisplay)
+            val oldUser = (getOldItem(oldItemPosition) as? LocalVideo)
+            val newUser = (getNewItem(newItemPosition) as? LocalVideo)
 
             return oldUser?.hashCode() == newUser?.hashCode()
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUser = (getOldItem(oldItemPosition) as? SelectVideoAdapter.VideoDisplay)
-            val newUser = (getNewItem(newItemPosition) as? SelectVideoAdapter.VideoDisplay)
+            val oldUser = (getOldItem(oldItemPosition) as? LocalVideo)
+            val newUser = (getNewItem(newItemPosition) as? LocalVideo)
 
-            return oldUser?.isSelected == newUser?.isSelected
+            return oldUser?.videoPath == newUser?.videoPath
         }
     }
 
     interface IListener {
-        fun onDelete(item: SelectVideoAdapter.VideoDisplay)
+        fun onDelete(item: LocalVideo)
     }
 }

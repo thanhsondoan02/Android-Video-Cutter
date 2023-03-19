@@ -62,8 +62,8 @@ class SelectVideoViewModel : BaseViewModel() {
     fun getListPath(): ArrayList<String> {
         val arrayList = arrayListOf<String>()
         listVideoAdd.forEach {
-            if (it.video.videoPath != null) {
-                arrayList.add(it.video.videoPath!!)
+            if (it.videoPath != null) {
+                arrayList.add(it.videoPath!!)
             }
         }
         return arrayList
@@ -72,7 +72,7 @@ class SelectVideoViewModel : BaseViewModel() {
     fun getListDuration(): LongArray {
         val arrayList = arrayListOf<Long>()
         listVideoAdd.forEach {
-            arrayList.add(it.video.duration)
+            arrayList.add(it.duration)
         }
         return arrayList.toLongArray()
     }
@@ -154,31 +154,31 @@ class SelectVideoViewModel : BaseViewModel() {
         return totalDuration
     }
 
-    private fun initListAdd(): ObservableArrayList<SelectVideoAdapter.VideoDisplay> {
-        return ObservableArrayList<SelectVideoAdapter.VideoDisplay>().apply {
+    private fun initListAdd(): ObservableArrayList<LocalVideo> {
+        return ObservableArrayList<LocalVideo>().apply {
             // set on change listener
-            addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<SelectVideoAdapter.VideoDisplay>>() {
-                override fun onChanged(sender: ObservableList<SelectVideoAdapter.VideoDisplay>?) {
+            addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<LocalVideo>>() {
+                override fun onChanged(sender: ObservableList<LocalVideo>?) {
                     listPath = getListPath()
                     listDuration = getListDuration().toList()
                 }
 
-                override fun onItemRangeChanged(sender: ObservableList<SelectVideoAdapter.VideoDisplay>?, positionStart: Int, itemCount: Int) {
+                override fun onItemRangeChanged(sender: ObservableList<LocalVideo>?, positionStart: Int, itemCount: Int) {
                     listPath = getListPath()
                     listDuration = getListDuration().toList()
                 }
 
-                override fun onItemRangeInserted(sender: ObservableList<SelectVideoAdapter.VideoDisplay>?, positionStart: Int, itemCount: Int) {
+                override fun onItemRangeInserted(sender: ObservableList<LocalVideo>?, positionStart: Int, itemCount: Int) {
                     listPath = getListPath()
                     listDuration = getListDuration().toList()
                 }
 
-                override fun onItemRangeMoved(sender: ObservableList<SelectVideoAdapter.VideoDisplay>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
+                override fun onItemRangeMoved(sender: ObservableList<LocalVideo>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
                     listPath = getListPath()
                     listDuration = getListDuration().toList()
                 }
 
-                override fun onItemRangeRemoved(sender: ObservableList<SelectVideoAdapter.VideoDisplay>?, positionStart: Int, itemCount: Int) {
+                override fun onItemRangeRemoved(sender: ObservableList<LocalVideo>?, positionStart: Int, itemCount: Int) {
                     listPath = getListPath()
                     listDuration = getListDuration().toList()
                 }

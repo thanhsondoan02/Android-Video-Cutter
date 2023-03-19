@@ -1,8 +1,10 @@
 package com.mobile.videocutter.presentation.adjust
 
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
+import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.AddVideoItemBinding
@@ -42,6 +44,10 @@ class AdjustFragmentAdapter : BaseAdapter() {
         }
     }
 
+    override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
+        return DiffCallback(oldList as List<LocalVideo>, newList as List<LocalVideo>)
+    }
+
     inner class VideoVH(private val binding: AdjustVideoItemBinding) : BaseVH<LocalVideo>(binding) {
         init {
             binding.ivAdjustDeleteItm.setOnSafeClick {
@@ -64,6 +70,23 @@ class AdjustFragmentAdapter : BaseAdapter() {
             binding.ivAddVideoItmButton.setOnSafeClick {
                 listener?.onAdd()
             }
+        }
+    }
+
+    class DiffCallback(oldData: List<LocalVideo>, newData: List<LocalVideo>) :
+        BaseDiffUtilCallback<LocalVideo>(oldData, newData) {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldUser = (getOldItem(oldItemPosition) as? LocalVideo)
+            val newUser = (getNewItem(newItemPosition) as? LocalVideo)
+
+            return oldUser?.hashCode() == newUser?.hashCode()
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldUser = (getOldItem(oldItemPosition) as? LocalVideo)
+            val newUser = (getNewItem(newItemPosition) as? LocalVideo)
+
+            return oldUser == newUser
         }
     }
 
