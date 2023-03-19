@@ -6,15 +6,17 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.*
-import com.mobile.videocutter.databinding.FilterItemBinding
+import com.mobile.videocutter.databinding.MyFilterItemBinding
 import com.mobile.videocutter.domain.model.FILTER_TYPE
 
 class FilterAdapter : BaseAdapter() {
+    var listener: IListener? = null
+
     companion object {
         private const val CHANGE_STATE_FILTER_PAYLOAD = "CHANGE_STATE_FILTER_PAYLOAD"
     }
 
-    override fun getLayoutResource(viewType: Int) = R.layout.filter_item
+    override fun getLayoutResource(viewType: Int) = R.layout.my_filter_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*>? {
         return FilterVH(binding)
@@ -33,13 +35,14 @@ class FilterAdapter : BaseAdapter() {
     }
 
     inner class FilterVH(private val binding: ViewDataBinding) : BaseVH<FilterDisplay>(binding) {
-        private val viewBinding = binding as FilterItemBinding
+        private val viewBinding = binding as MyFilterItemBinding
 
         init {
             viewBinding.root.setOnSafeClick {
                 val item = getDataAtPosition(bindingAdapterPosition) as? FilterDisplay
                 if (item != null) {
                     select(bindingAdapterPosition)
+                    listener?.onFilterClick(item.type)
                 }
             }
         }
@@ -47,8 +50,8 @@ class FilterAdapter : BaseAdapter() {
         override fun onBind(data: FilterDisplay) {
             super.onBind(data)
 
-            viewBinding.ivFilterItm.setImageDrawable(data.getImage())
-            viewBinding.tvFilterItm.text = data.getTitle()
+            viewBinding.ivMyFilterItmPreview.setImageDrawable(data.getImage())
+            viewBinding.tvMyFilterItmTitle.text = data.getTitle()
 
             setStateData(data)
         }
@@ -67,16 +70,16 @@ class FilterAdapter : BaseAdapter() {
         private fun setStateData(data: FilterDisplay) {
             if (data.isSelect) {
                 if (data.type == FILTER_TYPE.ORIGINAL) {
-                    viewBinding.ivFilterItmNope.show()
+                    viewBinding.ivMyFilterItmNope.show()
                 }
-                viewBinding.ivFilterItmTransparent.show()
-                viewBinding.tvFilterItm.setTextColor(getAppColor(R.color.white))
-                viewBinding.tvFilterItm.background = getAppDrawable(R.drawable.shape_purple_bg_corner_bottom_4)
+                viewBinding.vMyFilterItmTransparent.show()
+                viewBinding.tvMyFilterItmTitle.setTextColor(getAppColor(R.color.white))
+                viewBinding.tvMyFilterItmTitle.background = getAppDrawable(R.drawable.shape_purple_bg_corner_bottom_4)
             } else {
-                viewBinding.tvFilterItm.background = null
-                viewBinding.ivFilterItmNope.gone()
-                viewBinding.tvFilterItm.setTextColor(getAppColor(R.color.color_black_54))
-                viewBinding.ivFilterItmTransparent.gone()
+                viewBinding.tvMyFilterItmTitle.background = null
+                viewBinding.ivMyFilterItmNope.gone()
+                viewBinding.tvMyFilterItmTitle.setTextColor(getAppColor(R.color.color_black_54))
+                viewBinding.vMyFilterItmTransparent.gone()
             }
         }
     }
@@ -101,5 +104,9 @@ class FilterAdapter : BaseAdapter() {
                 FILTER_TYPE.WINTER -> getAppString(R.string.winter)
             }
         }
+    }
+
+    interface IListener {
+        fun onFilterClick(filterType: FILTER_TYPE)
     }
 }

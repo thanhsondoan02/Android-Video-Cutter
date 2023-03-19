@@ -9,7 +9,7 @@ object DisplayFactory {
     private val filterRepoImpl = FilterDisplayImpl()
     private val cropDisplayImpl by lazy { CropDisplayImpl() }
 
-    fun getListFilter(): IFilterDisplay {
+    fun getFilterDisplay(): IFilterDisplay {
         return filterRepoImpl
     }
 

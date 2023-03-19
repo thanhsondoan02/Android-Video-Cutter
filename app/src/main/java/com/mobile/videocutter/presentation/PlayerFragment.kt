@@ -12,6 +12,8 @@ import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.PlayerFragmentBinding
+import com.mobile.videocutter.domain.model.FILTER_TYPE
+import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import getFormattedTime
 
@@ -23,7 +25,6 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         initPlayer()
         initSeekBar()
         initOnClick()
-        updateBaseOnData()
     }
 
     override fun onDestroy() {
@@ -47,6 +48,10 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
         // crop
     }
 
+    fun saveFilterState() {
+
+    }
+
     fun saveRotateState() {
         viewModel.degree = binding.pvPlayerVideo.rotation
         viewModel.flipHorizontal = binding.pvPlayerVideo.scaleX == -1f
@@ -67,6 +72,14 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
 
     fun flipVideoVertical() {
         binding.pvPlayerVideo.scaleY = -binding.pvPlayerVideo.scaleY
+    }
+
+    fun getPlayerWidth() = binding.pvPlayerVideo.width
+
+    fun getPlayerHeight() = binding.pvPlayerVideo.height
+
+    fun applyFilter(filterType: FILTER_TYPE) {
+
     }
 
     private fun initPlayer() {

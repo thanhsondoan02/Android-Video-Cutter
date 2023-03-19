@@ -1,7 +1,6 @@
 package com.mobile.videocutter.presentation.adjust.crop
 
 import android.annotation.SuppressLint
-import android.util.DisplayMetrics
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.videocutter.R
@@ -10,6 +9,7 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.CropFragmentBinding
 import com.mobile.videocutter.di.DisplayFactory
 import com.mobile.videocutter.domain.model.CropRatio
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 
 class CropFragment : BaseBindingFragment<CropFragmentBinding>(R.layout.crop_fragment) {
@@ -55,21 +55,9 @@ class CropFragment : BaseBindingFragment<CropFragmentBinding>(R.layout.crop_frag
     }
 
     private fun calculateCropViewWidthAndHeight() {
-        if (viewModel.ratio == Float.MAX_VALUE) {
-            viewModel.calculateVideoRatio()
-        }
-        if (viewModel.ratio != Float.MAX_VALUE) {
-            val displayMetrics = DisplayMetrics()
-            baseActivity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-            var videoWidth = displayMetrics.widthPixels
-            var videoHeight = displayMetrics.widthPixels
-            if (viewModel.ratio > 1) {
-                videoHeight = (videoWidth / viewModel.ratio).toInt()
-            } else {
-                videoWidth = (videoHeight * viewModel.ratio).toInt()
-            }
-            binding.cvCrop.layoutParams.width = videoWidth
-            binding.cvCrop.layoutParams.height = videoHeight
+        (baseActivity as? TasselsVideoActivity)?.playerFragment?.let {
+            binding.cvCrop.layoutParams.width = it.getPlayerWidth()
+            binding.cvCrop.layoutParams.height = it.getPlayerHeight()
         }
     }
 
