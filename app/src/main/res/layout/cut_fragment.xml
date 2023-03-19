@@ -77,6 +77,7 @@
         </FrameLayout>
 
         <com.mobile.videocutter.presentation.widget.cutvideo.CutVideoView
+            android:id="@+id/cvvCut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/vCutBackground"

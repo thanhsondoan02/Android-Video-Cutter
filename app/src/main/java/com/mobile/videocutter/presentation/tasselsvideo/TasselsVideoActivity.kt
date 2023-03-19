@@ -1,6 +1,7 @@
 package com.mobile.videocutter.presentation.tasselsvideo
 
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -11,7 +12,7 @@ import com.mobile.videocutter.domain.model.getListAllToolVideo
 import com.mobile.videocutter.presentation.PlayerFragment
 import com.mobile.videocutter.presentation.addmusic.AddMusicActivity
 import com.mobile.videocutter.presentation.adjust.crop.CropFragment
-import com.mobile.videocutter.presentation.cut.CutFragment
+import com.mobile.videocutter.presentation.cutvideo.CutVideoActivity
 import com.mobile.videocutter.presentation.filter.FilterFragment
 import com.mobile.videocutter.presentation.rotate.RotateFragment
 import com.mobile.videocutter.presentation.speedvideo.SpeedFragment
@@ -72,7 +73,15 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
                         addFragment(CropFragment())
                     }
                     CUT -> {
-                        addFragment(CutFragment())
+//                        addFragment(CutFragment())
+                        navigateTo(
+                            this@TasselsVideoActivity,
+                            CutVideoActivity::class.java,
+                            bundleOf(
+                                CutVideoActivity.VIDEO_PATH to viewModel.listPath?.firstOrNull(),
+                                CutVideoActivity.VIDEO_DURATION to viewModel.listDuration?.firstOrNull()
+                            )
+                        )
                     }
                     SPEED -> {
                         addFragment(SpeedFragment())
