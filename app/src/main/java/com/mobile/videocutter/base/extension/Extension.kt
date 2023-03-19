@@ -74,20 +74,6 @@ fun ImageView.loadImage(
     )
 }
 
-fun ImageView.loadImage(
-    drawable: Drawable?,
-    ignoreCache: Boolean = false,
-    placeHolder: Drawable? = getPlaceHolderDefault()
-) {
-    LoaderFactory.glide().loadImage(
-        view = this,
-        drawable = drawable,
-        placeHolder = placeHolder,
-        ignoreCache = ignoreCache
-    )
-}
-
-
 private fun getPlaceHolderDefault(): Drawable? {
     return null
 }

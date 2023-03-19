@@ -32,17 +32,4 @@ class GlideImageLoaderImpl : IImageLoader {
             e.printStackTrace()
         }
     }
-
-    override fun loadImage(view: ImageView, drawable: Drawable?, placeHolder: Drawable?, ignoreCache: Boolean) {
-        try {
-            Glide.with(view)
-                .load(drawable)
-                .placeholder(placeHolder)
-                .skipMemoryCache(ignoreCache)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(view)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 }
