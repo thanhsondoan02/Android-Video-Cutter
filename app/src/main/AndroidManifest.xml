@@ -64,10 +64,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.adjust.crop.CropActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".presentation.addmusic.AddMusicActivity"
             android:exported="false" />
 

@@ -19,7 +19,7 @@ class FilterActivity : BaseBindingActivity<FilterActivityBinding>(R.layout.filte
     private val adapter by lazy { FilterAdapter() }
 
     private val display by lazy {
-        DisplayFactory.getListFilter()
+        DisplayFactory.getFilterDisplay()
     }
 
     override fun onInitView() {

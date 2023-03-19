@@ -52,6 +52,14 @@ class SelectVideoViewModel : BaseViewModel() {
         return arrayList
     }
 
+    fun getListDuration(): LongArray {
+        val arrayList = arrayListOf<Long>()
+        listVideoAdd.forEach {
+            arrayList.add(it.video.duration)
+        }
+        return arrayList.toLongArray()
+    }
+
     private val _selectLibraryFolderState = MutableStateFlow(FlowResult.newInstance<List<Album>>())
     val selectLibraryFolderState = _selectLibraryFolderState.asStateFlow()
 

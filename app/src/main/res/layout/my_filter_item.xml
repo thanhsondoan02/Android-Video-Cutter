@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constMyFilterItm"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/dimen_8"
+        tools:layout_height="@dimen/dimen_100">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMyFilterItmPreview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_filter_original"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/StyleShapeableImageViewCornerTop4" />
+
+        <View
+            android:id="@+id/vMyFilterItmFilter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintEnd_toEndOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintStart_toStartOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintTop_toTopOf="@id/ivMyFilterItmPreview" />
+
+        <View
+            android:id="@+id/vMyFilterItmTransparent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_transparent_purple_40_bg_corner_top_4"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintEnd_toEndOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintStart_toStartOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintTop_toTopOf="@id/ivMyFilterItmPreview"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMyFilterItmNope"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
+            android:src="@drawable/ic_white_nope"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintEnd_toEndOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintStart_toStartOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintTop_toTopOf="@id/ivMyFilterItmPreview"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMyFilterItmTitle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textSize="@dimen/dimen_text_size_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintStart_toStartOf="@id/ivMyFilterItmPreview"
+            app:layout_constraintTop_toBottomOf="@id/ivMyFilterItmPreview"
+            tools:background="@drawable/shape_purple_bg_corner_bottom_4"
+            tools:text="Original"
+            tools:textColor="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

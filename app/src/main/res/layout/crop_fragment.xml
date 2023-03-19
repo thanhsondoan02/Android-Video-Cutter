@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.home.start.StartActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llCropHeader"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="@dimen/dimen_48"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCropResolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_bold"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_text_size_18"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1040 x 1040" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/vCropVideoPlaceholder"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/llCropHeader"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            android:layout_height="0dp" />
+
+        <View
+            android:id="@+id/vCropBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/vCropVideoPlaceholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:background="@color/white" />
+
+        <com.mobile.videocutter.presentation.widget.CropView
+            android:id="@+id/cvCrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/vCropVideoPlaceholder"
+            app:layout_constraintStart_toStartOf="@id/vCropVideoPlaceholder"
+            app:layout_constraintEnd_toEndOf="@id/vCropVideoPlaceholder"
+            app:layout_constraintTop_toTopOf="@id/vCropVideoPlaceholder" />
+
+        <FrameLayout
+            android:id="@+id/flCropFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dimen_50"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/font_bold"
+                android:text="@string/crop"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_text_size_16" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCropClose"
+                android:layout_width="@dimen/dimen_50"
+                android:layout_height="@dimen/dimen_50"
+                android:padding="@dimen/dimen_10"
+                android:src="@drawable/ic_black_close" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ivCropDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/dimen_18"
+                android:background="@drawable/shape_purple_bg_corner_4"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dimen_10"
+                android:paddingVertical="@dimen/dimen_4"
+                android:text="@string/done"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_gravity="top"
+                android:background="@color/color_gray" />
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCropRatioList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/vCropVideoPlaceholder"
+            app:layout_constraintBottom_toTopOf="@id/flCropFooter" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

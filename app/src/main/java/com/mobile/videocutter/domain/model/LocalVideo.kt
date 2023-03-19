@@ -1,12 +1,9 @@
 package com.mobile.videocutter.domain.model
 
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import getFormattedTime
 
 class LocalVideo {
-
     var videoId: Long = 0
     var videoName = ""
     var authorName = ""
@@ -25,7 +22,7 @@ class LocalVideo {
         return thumbPath ?: STRING_DEFAULT
     }
 
-    private fun getTotalTime(): Long {
+    fun getTotalTime(): Long {
         return duration
     }
 
@@ -34,39 +31,6 @@ class LocalVideo {
      */
     fun getFormattedDuration(): String {
         return getFormattedTime(duration)
-    }
-
-    fun getBitmapListFromVideo(heightBitmapScaled: Int, maxWidth: Int): List<Bitmap> {
-        val mediaMetadataRetriever = MediaMetadataRetriever()
-        mediaMetadataRetriever.setDataSource(videoPath)
-
-        val bitmapList: MutableList<Bitmap> = arrayListOf()
-
-        val widthBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-
-        val heightBitmap = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
-
-        if (heightBitmap != null && widthBitmap != null && heightBitmapScaled != 0) {
-
-            val countBitmapFullSize = maxWidth / heightBitmapScaled
-
-            val interval: Long = getTotalTime() / countBitmapFullSize
-
-            for (i in 0 until countBitmapFullSize + 1) {
-
-                val frameTime: Long = interval * i
-
-                var bitmapFullSize: Bitmap? = mediaMetadataRetriever.getFrameAtTime(frameTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-
-                bitmapFullSize = bitmapFullSize?.let {
-                    Bitmap.createScaledBitmap(it, heightBitmapScaled, heightBitmapScaled, false)
-                }
-
-                bitmapFullSize?.let { bitmapList.add(it) }
-            }
-        }
-
-        return bitmapList
     }
 }
 

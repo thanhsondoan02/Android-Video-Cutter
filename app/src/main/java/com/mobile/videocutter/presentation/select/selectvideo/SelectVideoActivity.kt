@@ -39,7 +39,14 @@ class SelectVideoActivity : BaseBindingActivity<SelectVideoActivityBinding>(R.la
             onBackPressed()
         }
         binding.tvSelectVideoAddButton.setOnSafeClick {
-            navigateTo(this, AdjustActivity::class.java, bundleOf(AdjustActivity.LIST_VIDEO to viewModel.getListPath()))
+            navigateTo(
+                this,
+                AdjustActivity::class.java,
+                bundleOf(
+                    AdjustActivity.LIST_PATH to viewModel.getListPath(),
+                    AdjustActivity.LIST_DURATION to viewModel.getListDuration()
+                )
+            )
         }
 
         viewModel.getVideoList()

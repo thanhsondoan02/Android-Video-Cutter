@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.mobile.videocutter.base.common.BaseViewModel
 import com.mobile.videocutter.domain.model.LocalVideo
 import com.mobile.videocutter.domain.usecase.GetLocalVideoAdjustUseCase
-import com.mobile.videocutter.presentation.widget.recyclerview.DataPage
 import com.mobile.videocutter.thread.FlowResult
 import data
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +15,8 @@ import onException
 import success
 
 class AdjustViewModel : BaseViewModel() {
+    var listPath: List<String>? = null
+    var listDuration:LongArray? = null
 
     private var _localVideoAdjust = MutableStateFlow(FlowResult.newInstance<List<Any>>())
 

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/vRotateHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vRotateVideoPlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            android:layout_marginTop="@dimen/dimen_48"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/black" />
+
+        <View
+            android:id="@+id/vRotateBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_48"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vRotateVideoPlaceHolder" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/flRotateFooter"
+            app:layout_constraintTop_toTopOf="@id/vRotateBackground">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRotateLeft"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/ic_rotate_left"
+                app:layout_constraintEnd_toStartOf="@id/ivRotateRight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRotateRight"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/ic_rotate_right"
+                app:layout_constraintEnd_toStartOf="@id/ivRotateFlipHorizontal"
+                app:layout_constraintStart_toEndOf="@id/ivRotateLeft"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRotateFlipHorizontal"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/ic_flip_horizontal"
+                app:layout_constraintEnd_toStartOf="@id/ivRotateFlipVertical"
+                app:layout_constraintStart_toEndOf="@id/ivRotateRight"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRotateFlipVertical"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:background="?android:attr/actionBarItemBackground"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/ic_flip_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivRotateFlipHorizontal"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/flRotateFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dimen_50"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/font_bold"
+                android:text="@string/flip_and_rotate"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_text_size_16" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRotateClose"
+                android:layout_width="@dimen/dimen_50"
+                android:layout_height="@dimen/dimen_50"
+                android:padding="@dimen/dimen_10"
+                android:src="@drawable/ic_black_close" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ivRotateDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/dimen_18"
+                android:background="@drawable/shape_purple_bg_corner_4"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dimen_10"
+                android:paddingVertical="@dimen/dimen_4"
+                android:text="@string/done"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_gravity="top"
+                android:background="@color/color_gray" />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
