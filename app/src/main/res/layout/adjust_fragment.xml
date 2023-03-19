@@ -56,7 +56,7 @@
             android:id="@+id/crvAdjustVideoList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingHorizontal="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H, 9:2"
             app:layout_constraintTop_toBottomOf="@id/flAdjustVideoPlayer" />

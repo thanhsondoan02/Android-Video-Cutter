@@ -7,23 +7,23 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseDiffUtilCallback
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.setOnSafeClick
-import com.mobile.videocutter.databinding.AdjustVideoItemBinding
+import com.mobile.videocutter.databinding.SelectVideoAddItemBinding
 import loadImage
 
 class SelectVideoAddAdapter : BaseAdapter() {
     var listener: IListener? = null
 
-    override fun getLayoutResource(viewType: Int): Int = R.layout.adjust_video_item
+    override fun getLayoutResource(viewType: Int): Int = R.layout.select_video_add_item
 
     override fun onCreateViewHolder(viewType: Int, binding: ViewDataBinding): BaseVH<*>? {
-        return SelectVideoAddVH(binding as AdjustVideoItemBinding)
+        return SelectVideoAddVH(binding as SelectVideoAddItemBinding)
     }
 
     override fun getDiffUtil(oldList: List<Any>, newList: List<Any>): DiffUtil.Callback {
         return DiffCallback(oldList as List<SelectVideoAdapter.VideoDisplay>, newList as List<SelectVideoAdapter.VideoDisplay>)
     }
 
-    inner class SelectVideoAddVH(private val binding: AdjustVideoItemBinding) : BaseVH<SelectVideoAdapter.VideoDisplay>(binding) {
+    inner class SelectVideoAddVH(private val binding: SelectVideoAddItemBinding) : BaseVH<SelectVideoAdapter.VideoDisplay>(binding) {
         init {
             binding.ivAdjustDeleteItm.setOnSafeClick {
                 var item = getDataAtPosition(bindingAdapterPosition) as? SelectVideoAdapter.VideoDisplay
