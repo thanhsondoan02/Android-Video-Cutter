@@ -43,6 +43,14 @@ class PlayerAdjustFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.
         super.onPause()
     }
 
+    fun restartFragment() {
+        binding.pvPlayerVideo.player?.release()
+        viewModel.mHandler?.removeCallbacksAndMessages(null)
+        initPlayer()
+        initSeekBar()
+        updatePlayPauseButton()
+    }
+
     private fun initPlayer() {
         calculatePlayerViewWidthAndHeight()
         binding.pvPlayerVideo.player = ExoPlayer.Builder(requireContext()).build().apply {
@@ -95,8 +103,6 @@ class PlayerAdjustFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
                         val currentIndex = viewModel.getCurrentIndex(progress.toLong())
-//                        player.seekToDefaultPosition(secondVideoIndex);
-
                         binding.pvPlayerVideo.player?.seekTo(currentIndex, getCurrentPositionInPlayer(currentIndex, progress))
                     }
                 }

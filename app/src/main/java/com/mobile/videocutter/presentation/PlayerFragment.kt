@@ -159,8 +159,6 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
                         val currentIndex = viewModel.getCurrentIndex(progress.toLong())
-//                        player.seekToDefaultPosition(secondVideoIndex);
-
                         binding.pvPlayerVideo.player?.seekTo(currentIndex, getCurrentPositionInPlayer(currentIndex, progress))
                     }
                 }

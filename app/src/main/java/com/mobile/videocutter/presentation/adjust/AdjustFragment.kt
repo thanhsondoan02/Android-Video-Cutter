@@ -19,6 +19,9 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
     private val adapter by lazy {
         AdjustFragmentAdapter()
     }
+    private val playerAdjustFragment by lazy {
+        PlayerAdjustFragment()
+    }
 
     override fun getContainerId() = R.id.flAdjustVideoPlayer
 
@@ -26,7 +29,7 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
         super.onInitView()
         initOnClick()
         initRecyclerView()
-        addFragmentInsideFragment(PlayerAdjustFragment())
+        addFragmentInsideFragment(playerAdjustFragment)
     }
 
     private fun initOnClick() {
@@ -48,10 +51,9 @@ class AdjustFragment: BaseBindingFragment<AdjustFragmentBinding>(R.layout.adjust
     private fun initRecyclerView() {
         adapter.listener = object : AdjustFragmentAdapter.IListener {
             override fun onDelete(item: LocalVideo) {
-                childFragmentManager.popBackStack()
-                addFragmentInsideFragment(PlayerAdjustFragment())
                 (baseActivity as? SelectVideoActivity)?.delete(item)
                 binding.crvAdjustVideoList.submitList(listVideoWithItemAdd())
+                playerAdjustFragment.restartFragment()
             }
 
             override fun onAdd() {
