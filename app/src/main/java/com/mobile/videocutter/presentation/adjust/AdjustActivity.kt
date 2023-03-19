@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingActivity
+import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import com.mobile.videocutter.base.extension.getAppDimension
 import com.mobile.videocutter.base.extension.getAppDrawable
 import com.mobile.videocutter.databinding.AdjustActivityBinding
@@ -21,7 +22,6 @@ import com.mobile.videocutter.presentation.widget.recyclerview.CustomRecyclerVie
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import com.mobile.videocutter.presentation.widget.video.videoplayercontrol.VideoPlayerControl
 import handleUiState
-import kotlinx.coroutines.delay
 
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
     companion object {
@@ -30,8 +30,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
     private val viewModel by viewModels<AdjustViewModel>()
     private val adapter = AdjustAdapter()
-    private var isPlay = false
-    private val loadingFragment = LoadingFragment()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onPrepareInitView() {
@@ -40,8 +38,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             listVideo.addAll(intent?.extras?.getParcelableArrayList(LIST_VIDEO) ?: arrayListOf())
 
             getListVideo()
-
-            getListPath()
         }
     }
 
@@ -49,7 +45,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
     override fun onInitView() {
         super.onInitView()
-
+        binding.vpcAdjust.initPlayer()
         binding.hvAdjust.apply {
             setTextViewRightPadding(
                 getAppDimension(R.dimen.dimen_14),
@@ -90,18 +86,22 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
         binding.vpcAdjust.apply {
             listener = object : VideoPlayerControl.IListener {
-                override fun onPlayerReady(player: ExoPlayer) {
+                override fun onPlayerReady(player: ExoPlayer?) {
                     binding.pvAdjust.player = player
                 }
 
                 override fun onPlayerEnd(isPlay: Boolean) {
-                    this@AdjustActivity.isPlay = isPlay
+                    viewModel.isPlay = isPlay
+                }
+
+                override fun onPausePlayer(isPlay: Boolean) {
+                    viewModel.isPlay = isPlay
                 }
             }
 
             setOnLeftIconClickListener {
-                isPlay = !isPlay
-                if (isPlay) {
+                viewModel.isPlay = !viewModel.isPlay
+                if (viewModel.isPlay) {
                     resumePlayer()
                 } else {
                     pausePlayer()
@@ -115,12 +115,6 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
                 viewModel.deleteVideo(localVideo)
             }
 
-            override fun onClick(localVideo: VideoDisplay) {
-            }
-
-            override fun onLoadLocalVideoDefault(localVideo: VideoDisplay) {
-            }
-
             override fun onAddMore() {
                 sendResultData()
                 finish()
@@ -131,17 +125,12 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     override fun onObserverViewModel() {
         super.onObserverViewModel()
 
-        lifecycleScope.launchWhenCreated {
-            replaceFragment(loadingFragment)
-            delay(3000)
-            backFragment()
-        }
-
         lifecycleScope.launchWhenResumed {
             viewModel.localVideoAdjust.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
                         binding.crvAdjust.submitList(it.data)
+                        viewModel.getPathsVideo()
                     }
                 })
             }
@@ -151,7 +140,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             viewModel.listPath.collect {
                 handleUiState(it, object : IViewListener {
                     override fun onSuccess() {
-                        binding.vpcAdjust.setUrl(it.data ?: listOf())
+                        binding.vpcAdjust.setUrl(it.data ?: listOf(), viewModel.totalDuration)
                     }
                 })
             }
@@ -165,7 +154,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
 
     override fun onStop() {
         super.onStop()
-        isPlay = false
+        viewModel.isPlay = false
         binding.vpcAdjust.pausePlayer()
     }
 

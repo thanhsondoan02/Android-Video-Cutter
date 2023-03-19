@@ -215,11 +215,8 @@ class CustomRecyclerView constructor(ctx: Context, attr: AttributeSet?) : Constr
                 if (dataList != null) {
                     Collections.swap(dataList!!, oldIndex, newIndex)
                     baseAdapter?.notifyItemMoved(oldIndex, newIndex)
+                    listener?.onScroll(newIndex, oldIndex)
                 }
-            }
-
-            override fun onMoveSuccess(oldIndex: Int, newIndex: Int) {
-                listener?.onScroll(newIndex,oldIndex)
             }
         }
         itemTouchHelper?.let {

@@ -45,16 +45,9 @@ abstract class TouchHelper : ItemTouchHelper.Callback() {
         onSwipe?.invoke()
     }
 
-    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-        super.clearView(recyclerView, viewHolder)
-        onMoveSuccess(oldIndex, newIndex)
-    }
-
     abstract val dataList: MutableList<Any>?
 
     abstract fun eventMove(oldIndex: Int, newIndex: Int)
-
-    abstract fun onMoveSuccess(oldIndex: Int,newIndex: Int)
 
     open val isDragLastItem: Boolean = false
 

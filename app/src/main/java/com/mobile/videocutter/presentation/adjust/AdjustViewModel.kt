@@ -5,6 +5,7 @@ import com.mobile.videocutter.base.common.BaseViewModel
 import com.mobile.videocutter.base.extension.STRING_DEFAULT
 import com.mobile.videocutter.domain.model.VideoDisplay
 import com.mobile.videocutter.thread.FlowResult
+import data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,33 +14,22 @@ import success
 import java.util.*
 
 class AdjustViewModel : BaseViewModel() {
-
     private var _localVideoAdjust = MutableStateFlow(FlowResult.newInstance<List<Any>>())
     val localVideoAdjust = _localVideoAdjust.asStateFlow()
 
     private var _listPath = MutableStateFlow(FlowResult.newInstance<List<String>>())
     val listPath = _listPath.asStateFlow()
 
-    private var paths: MutableList<String>? = null
-
     var listVideo: MutableList<VideoDisplay> = arrayListOf()
 
     var listVideoDelete: MutableList<VideoDisplay> = arrayListOf()
 
+    var totalDuration = 0L
+
+    var isPlay = false
+
     init {
 
-    }
-
-    fun getListPath() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list: MutableList<String> = arrayListOf()
-            if (listVideo.isNotEmpty()) {
-                listVideo.forEach {
-                    list.add(it.video.getPathVideo())
-                }
-                _listPath.success(list)
-            }
-        }
     }
 
     fun getListVideo() {
@@ -53,33 +43,52 @@ class AdjustViewModel : BaseViewModel() {
         }
     }
 
+    fun getPathsVideo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = _localVideoAdjust.data()?.toMutableList() ?: return@launch
+            val listPath: MutableList<String> = arrayListOf()
+            totalDuration = 0L
+
+            list.forEach {
+                if (it is VideoDisplay) {
+                    listPath.add(it.video.getPathVideo())
+                    totalDuration += it.video.duration
+                    _listPath.success(listPath)
+                }
+            }
+        }
+    }
+
     fun deleteVideo(videoDisplay: VideoDisplay) {
         viewModelScope.launch(Dispatchers.IO) {
             val list = _localVideoAdjust.value.data?.toMutableList()
-            paths = _listPath.value.data?.toMutableList()
 
             val item = list?.find {
                 it == videoDisplay
             }
 
             if (item != null) {
-                paths?.remove((item as VideoDisplay).video.getPathVideo())
                 list.remove(item)
+
                 listVideoDelete.add(item as VideoDisplay)
+                totalDuration -= (item).video.duration
+
                 _localVideoAdjust.success(list)
-                _listPath.success(paths?.toList() ?: listOf())
+                isPlay = false
             }
         }
     }
 
     fun dragVideo(oldPosion: Int, newPosition: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            paths = _listPath.value.data?.toMutableList()
+            val list = _localVideoAdjust.value.data?.toMutableList()
 
-            paths?.let {
+            list?.let {
                 Collections.swap(it, oldPosion, newPosition)
             }
-            _listPath.success(paths ?: listOf())
+
+            isPlay = false
+            _localVideoAdjust.success(list!!)
         }
     }
 }

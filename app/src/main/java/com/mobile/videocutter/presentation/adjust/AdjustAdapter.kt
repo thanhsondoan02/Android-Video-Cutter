@@ -65,23 +65,10 @@ class AdjustAdapter : BaseAdapter() {
         private val viewBinding = binding as AdjustVideoItemBinding
 
         init {
-            if (dataList.size > 0) {
-                val item = getDataAtPosition(0) as? VideoDisplay
-                if (item != null) {
-                    listener?.onLoadLocalVideoDefault(item)
-                }
-            }
             viewBinding.ivAdjustDeleteItm.setOnSafeClick {
                 val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
                 if (item != null) {
                     listener?.onDelete(item)
-                }
-            }
-
-            viewBinding.root.setOnSafeClick {
-                val item = getDataAtPosition(bindingAdapterPosition) as? VideoDisplay
-                if (item != null) {
-                    listener?.onClick(item)
                 }
             }
         }
@@ -112,8 +99,6 @@ class AdjustAdapter : BaseAdapter() {
 
     interface IListener {
         fun onDelete(localVideo: VideoDisplay)
-        fun onClick(localVideo: VideoDisplay)
-        fun onLoadLocalVideoDefault(localVideo: VideoDisplay)
         fun onAddMore()
     }
 }
