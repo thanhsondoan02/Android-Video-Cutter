@@ -1,19 +1,22 @@
 package com.mobile.videocutter.presentation.speedvideo
 
-import android.util.Log
+import androidx.fragment.app.activityViewModels
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SpeedFragmentBinding
 import com.mobile.videocutter.domain.model.Speed
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoActivity
+import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import com.mobile.videocutter.presentation.widget.video.speedvideo.SpeedVideoView
 
 class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fragment) {
+    private val viewModel by activityViewModels<TasselsVideoViewModel>()
 
     override fun onInitView() {
         super.onInitView()
         initOnClick()
+        binding.svvSpeedChooser.setSpeed(viewModel.speed)
     }
 
     override fun onDestroy() {
@@ -29,12 +32,12 @@ class SpeedFragment: BaseBindingFragment<SpeedFragmentBinding>(R.layout.speed_fr
             backFragment()
         }
         binding.ivSpeedDone.setOnSafeClick {
-            (baseActivity as? TasselsVideoActivity)?.playerFragment?.saveSpeedState()
+            (baseActivity as? TasselsVideoActivity)?.playerFragment?.saveSpeedState(binding.svvSpeedChooser.getCurrentSpeed())
             backFragment()
         }
         binding.svvSpeedChooser.listener = object : SpeedVideoView.IListener {
             override fun onSpeedChange(speed: Speed) {
-                Log.d("TAG", "onSpeedChange: ${speed.getSpeedTitle()}")
+                (baseActivity as? TasselsVideoActivity)?.playerFragment?.applySpeed(speed)
             }
         }
     }

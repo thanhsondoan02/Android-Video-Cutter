@@ -7,6 +7,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.LoopingMediaSource
@@ -18,6 +19,7 @@ import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.PlayerFragmentBinding
 import com.mobile.videocutter.domain.model.FILTER_TYPE.*
 import com.mobile.videocutter.domain.model.Filter
+import com.mobile.videocutter.domain.model.Speed
 import com.mobile.videocutter.domain.model.TOOL_VIDEO_TYPE.*
 import com.mobile.videocutter.presentation.tasselsvideo.TasselsVideoViewModel
 import getFormattedTime
@@ -55,10 +57,13 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
 
         // filter
         binding.vPlayerFilter.background = viewModel.filter.getFilterDrawable()
+
+        // speed
+        binding.pvPlayerVideo.player?.playbackParameters = PlaybackParameters(viewModel.speed.getSpeedValue())
     }
 
-    fun saveSpeedState() {
-
+    fun saveSpeedState(speed: Speed) {
+        viewModel.speed = speed
     }
 
     fun saveFilterState(filter: Filter) {
@@ -95,6 +100,10 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
 
     fun applyFilter(filter: Filter) {
         binding.vPlayerFilter.background = filter.getFilterDrawable()
+    }
+
+    fun applySpeed(speed: Speed) {
+        binding.pvPlayerVideo.player?.playbackParameters = PlaybackParameters(speed.getSpeedValue())
     }
 
     private fun initPlayer() {

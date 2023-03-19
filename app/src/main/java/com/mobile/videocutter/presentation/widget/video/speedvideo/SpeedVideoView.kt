@@ -124,6 +124,23 @@ class SpeedVideoView constructor(
         distanceSpeed = vUnSelect4CoordinateX - vUnSelect3CoordinateX
     }
 
+    fun getCurrentSpeed(): Speed {
+        return when (ivOld) {
+            ivChose0Dot75X -> Speed(SPEED_TYPE.SPEED_0_75)
+            ivChose0Dot5X -> Speed(SPEED_TYPE.SPEED_0_5)
+            ivChose0Dot25X -> Speed(SPEED_TYPE.SPEED_0_25)
+            ivChose1X -> Speed(SPEED_TYPE.SPEED_1)
+            ivChose2X -> Speed(SPEED_TYPE.SPEED_2)
+            ivChose3X -> Speed(SPEED_TYPE.SPEED_3)
+            ivChose4X -> Speed(SPEED_TYPE.SPEED_4)
+            else -> Speed(SPEED_TYPE.SPEED_1)
+        }
+    }
+
+    fun setSpeed(speed: Speed) {
+
+    }
+
     private fun eventView() {
         dragSelectSpeed()
         selectSpeed()

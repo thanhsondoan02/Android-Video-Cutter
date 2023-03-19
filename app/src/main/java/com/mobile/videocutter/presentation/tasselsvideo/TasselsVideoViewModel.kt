@@ -8,6 +8,8 @@ import com.mobile.videocutter.base.common.BaseViewModel
 import com.mobile.videocutter.base.extension.LONG_DEFAULT
 import com.mobile.videocutter.domain.model.FILTER_TYPE
 import com.mobile.videocutter.domain.model.Filter
+import com.mobile.videocutter.domain.model.SPEED_TYPE
+import com.mobile.videocutter.domain.model.Speed
 import com.mobile.videocutter.domain.usecase.GetBitMapListUseCase
 import com.mobile.videocutter.thread.FlowResult
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,7 @@ class TasselsVideoViewModel : BaseViewModel() {
     var resolutionHeight = 0
     var resolutionWidth = 0
     var filter = Filter(FILTER_TYPE.ORIGINAL)
+    var speed: Speed = Speed(SPEED_TYPE.SPEED_1)
     // end region
 
     private var _bitmapTimeLineList = MutableStateFlow(FlowResult.newInstance<List<Bitmap>>())
