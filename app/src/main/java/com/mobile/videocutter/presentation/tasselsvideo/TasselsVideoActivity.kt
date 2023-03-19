@@ -62,7 +62,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
             onBackPressed()
         }
         binding.tvTasselsVideoSave.setOnSafeClick {
-            navigateTo(this@TasselsVideoActivity, SaveLibraryFragment::class.java)
+            replaceFragment(SaveLibraryFragment())
         }
     }
 

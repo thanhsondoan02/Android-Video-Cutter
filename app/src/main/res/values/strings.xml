@@ -29,6 +29,7 @@
     <string name="home">Home</string>
     <string name="select_add">Add(0)</string>
     <string name="video">Video</string>
+    <string name="undeveloped_feature">Undeveloped feature!</string>
 
     // filter
     <string name="filter">Filter</string>

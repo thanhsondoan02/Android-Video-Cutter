@@ -4,11 +4,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
+import com.mobile.videocutter.base.extension.getAppString
+import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SaveLibraryFragmentBinding
 import com.mobile.videocutter.presentation.model.IViewListener
 import com.mobile.videocutter.presentation.widget.recyclerview.LAYOUT_MANAGER_MODE
 import handleUiState
-import shareLink
 
 class SaveLibraryFragment : BaseBindingFragment<SaveLibraryFragmentBinding>(R.layout.save_library_fragment) {
 
@@ -21,12 +22,17 @@ class SaveLibraryFragment : BaseBindingFragment<SaveLibraryFragmentBinding>(R.la
 
     override fun onInitView() {
         super.onInitView()
-        initView()
+        initOnClick()
         setDataToListSocial()
     }
 
-    fun initView() {
-//        binding.
+    fun initOnClick() {
+        binding.root.setOnSafeClick {
+            // do nothing
+        }
+        binding.tvSaveLibrarySave.setOnSafeClick {
+            baseActivity.showToast(getAppString(R.string.undeveloped_feature))
+        }
     }
 
     override fun onObserverViewModel() {
@@ -48,7 +54,7 @@ class SaveLibraryFragment : BaseBindingFragment<SaveLibraryFragmentBinding>(R.la
             crvSaveLibrary.setLayoutManagerMode(LAYOUT_MANAGER_MODE.LINEAR_HORIZATION)
             shareInfoAdapter.listener = object : ShareInfoAdapter.IClickSocialItem {
                 override fun onItemClick(socialItem: AppInfo) {
-                    context?.shareLink(LINKED)
+                    baseActivity.showToast(getAppString(R.string.undeveloped_feature))
                 }
             }
         }

@@ -6,7 +6,6 @@ import com.mobile.videocutter.base.common.adapter.BaseAdapter
 import com.mobile.videocutter.base.common.adapter.BaseVH
 import com.mobile.videocutter.base.extension.setOnSafeClick
 import com.mobile.videocutter.databinding.SocialNetworkItemBinding
-import loadImage
 
 class ShareInfoAdapter : BaseAdapter() {
     var listener: IClickSocialItem?= null
@@ -33,7 +32,7 @@ class ShareInfoAdapter : BaseAdapter() {
         override fun onBind(data: AppInfo) {
             super.onBind(data)
 
-            binding.ivSocialNetworkItm.loadImage(data.icon)
+            binding.ivSocialNetworkItm.setImageDrawable(data.icon)
             binding.tvSocialNetworkItm.text = data.label
         }
     }
