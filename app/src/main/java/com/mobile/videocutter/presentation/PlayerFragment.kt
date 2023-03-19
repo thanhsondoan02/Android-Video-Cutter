@@ -8,6 +8,10 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
+import com.google.android.exoplayer2.source.LoopingMediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.mobile.videocutter.R
 import com.mobile.videocutter.base.common.binding.BaseBindingFragment
 import com.mobile.videocutter.base.extension.setOnSafeClick
@@ -92,26 +96,34 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
     private fun initPlayer() {
         calculatePlayerViewWidthAndHeight()
         binding.pvPlayerVideo.player = ExoPlayer.Builder(requireContext()).build().apply {
-            viewModel.listPath?.forEach { path ->
-                addMediaItem(MediaItem.fromUri(path))
-            }
-            prepare()
+            viewModel.listPath?.let { listPath ->
+                val dataSourceFactory = DefaultDataSourceFactory(requireContext(), "exoplayer-codelab")
+                val mediaSourceList = mutableListOf<ProgressiveMediaSource>()
+                listPath.forEach {
+                    mediaSourceList.add(ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(it)))
+                }
+                val concatenatingMediaSource = ConcatenatingMediaSource()
+                mediaSourceList.forEach { concatenatingMediaSource.addMediaSource(it) }
+                val loopingMediaSource = LoopingMediaSource(concatenatingMediaSource)
+                setMediaSource(loopingMediaSource)
+                prepare()
 
-            // restart video when it ends
-            addListener(object : Player.Listener {
-                override fun onEvents(player: Player, events: Player.Events) {
-                    super.onEvents(player, events)
-                    if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
-                        if (player.playbackState == Player.STATE_READY) {
-                            binding.sbPlayerVideoController.max = player.duration.toInt()
-                        }
-                        if (player.playbackState == Player.STATE_ENDED) {
-                            binding.pvPlayerVideo.player?.seekTo(0)
-                            binding.pvPlayerVideo.player?.playWhenReady = true
+                // init max seekbar
+                addListener(object : Player.Listener {
+                    override fun onEvents(player: Player, events: Player.Events) {
+                        super.onEvents(player, events)
+                        if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
+                            if (player.playbackState == Player.STATE_READY) {
+                                binding.sbPlayerVideoController.max = viewModel.totalDuration.toInt()
+                            }
+//                            if (player.playbackState == Player.STATE_ENDED) {
+//                                binding.pvPlayerVideo.player?.seekTo(0)
+//                                binding.pvPlayerVideo.player?.playWhenReady = true
+//                            }
                         }
                     }
-                }
-            })
+                })
+            }
         }
     }
 
@@ -123,9 +135,9 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             @SuppressLint("SetTextI18n")
             override fun run() {
                 if (binding.pvPlayerVideo.player != null) {
-                    binding.sbPlayerVideoController.progress = binding.pvPlayerVideo.player!!.currentPosition.toInt()
-                    binding.tvPlayerCurrentTime.text = getFormattedTime(binding.pvPlayerVideo.player!!.currentPosition)
-                    binding.tvPlayerTotalTime.text = getFormattedTime(binding.pvPlayerVideo.player!!.duration)
+                    binding.sbPlayerVideoController.progress = getCurrentTime().toInt()
+                    binding.tvPlayerCurrentTime.text = getFormattedTime(getCurrentTime())
+                    binding.tvPlayerTotalTime.text = getFormattedTime(viewModel.totalDuration)
                 }
                 viewModel.mHandler?.postDelayed(this, 10)
             }
@@ -136,7 +148,10 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
-                        binding.pvPlayerVideo.player?.seekTo(progress.toLong())
+                        val currentIndex = viewModel.getCurrentIndex(progress.toLong())
+//                        player.seekToDefaultPosition(secondVideoIndex);
+
+                        binding.pvPlayerVideo.player?.seekTo(currentIndex, getCurrentPositionInPlayer(currentIndex, progress))
                     }
                 }
 
@@ -181,5 +196,17 @@ class PlayerFragment: BaseBindingFragment<PlayerFragmentBinding>(R.layout.player
             params.height = videoHeight
             binding.pvPlayerVideo.layoutParams = params
         }
+    }
+
+    private fun getCurrentTime(): Long {
+        if (binding.pvPlayerVideo.player == null) return 0
+        binding.pvPlayerVideo.player!!.apply {
+            return viewModel.getBeforeDuration(currentWindowIndex) + currentPosition.toInt()
+        }
+    }
+
+    private fun getCurrentPositionInPlayer(currentWindowIndex: Int, progress: Int): Long {
+        val beforeDuration = viewModel.getBeforeDuration(currentWindowIndex)
+        return progress - beforeDuration
     }
 }

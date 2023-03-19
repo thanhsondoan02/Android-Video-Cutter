@@ -21,6 +21,12 @@ class TasselsVideoViewModel : BaseViewModel() {
 
     // Video state variable
     var listPath: List<String>? = null
+    var listDuration: List<Long>? = null
+        set(value) {
+            field = value
+            totalDuration = getCalculatedTotalDuration()
+        }
+    var totalDuration: Long = 0L
     var mHandler: Handler? = null
     var degree: Float = 0f
     var flipHorizontal: Boolean = false
@@ -38,6 +44,27 @@ class TasselsVideoViewModel : BaseViewModel() {
     var isCheck: Boolean = false
     var totalTime: Long = LONG_DEFAULT
     var stepTime: Long = 2500L
+
+    fun getBeforeDuration(index: Int): Long {
+        var beforeDuration = 0L
+        for (i in 0 until index) {
+            beforeDuration += listDuration?.get(i) ?: 0L
+        }
+        return beforeDuration
+    }
+
+    fun getCurrentIndex(progress: Long): Int {
+        if (listDuration != null) {
+            var beforeDuration = 0L
+            for (i in 0 until listDuration!!.size) {
+                beforeDuration += listDuration!![i]
+                if (progress <= beforeDuration) {
+                    return i
+                }
+            }
+        }
+        return 0
+    }
 
     fun getBitMapList(heightDefault: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -111,5 +138,13 @@ class TasselsVideoViewModel : BaseViewModel() {
             return videoWidth.toInt()
         }
         return -1
+    }
+
+    private fun getCalculatedTotalDuration(): Long {
+        var totalDuration = 0L
+        listDuration?.forEach {
+            totalDuration += it
+        }
+        return totalDuration
     }
 }

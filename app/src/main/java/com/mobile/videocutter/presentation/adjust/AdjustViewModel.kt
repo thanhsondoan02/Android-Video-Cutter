@@ -16,6 +16,7 @@ import success
 
 class AdjustViewModel : BaseViewModel() {
     var listPath: List<String>? = null
+    var listDuration:LongArray? = null
 
     private var _localVideoAdjust = MutableStateFlow(FlowResult.newInstance<List<Any>>())
 

@@ -18,6 +18,7 @@ import handleUiState
 class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjust_activity) {
     companion object {
         const val LIST_PATH = "LIST_PATH"
+        const val LIST_DURATION = "LIST_DURATION"
     }
 
     private val viewModel by viewModels<AdjustViewModel>()
@@ -26,6 +27,7 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
     override fun onPrepareInitView() {
         super.onPrepareInitView()
         viewModel.listPath = intent.getStringArrayListExtra(LIST_PATH)
+        viewModel.listDuration = intent.getLongArrayExtra(LIST_DURATION)
     }
 
     override fun onInitView() {
@@ -48,7 +50,14 @@ class AdjustActivity : BaseBindingActivity<AdjustActivityBinding>(R.layout.adjus
             getAppDrawable(R.drawable.shape_purple_bg_corner_6)?.let { setBackgroundTextViewRight(it) }
 
             setOnRightTextClickListener {
-                navigateTo(this@AdjustActivity, TasselsVideoActivity::class.java, bundleOf(TasselsVideoActivity.LIST_PATH to viewModel.listPath))
+                navigateTo(
+                    this@AdjustActivity,
+                    TasselsVideoActivity::class.java,
+                    bundleOf(
+                        TasselsVideoActivity.LIST_PATH to viewModel.listPath,
+                        TasselsVideoActivity.LIST_DURATION to viewModel.listDuration
+                    )
+                )
             }
         }
 

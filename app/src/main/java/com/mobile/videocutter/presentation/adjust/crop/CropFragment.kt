@@ -59,6 +59,7 @@ class CropFragment : BaseBindingFragment<CropFragmentBinding>(R.layout.crop_frag
             binding.cvCrop.layoutParams.width = it.getPlayerWidth()
             binding.cvCrop.layoutParams.height = it.getPlayerHeight()
         }
+        binding.cvCrop.rotation = viewModel.degree
     }
 
     private fun initResolution() {

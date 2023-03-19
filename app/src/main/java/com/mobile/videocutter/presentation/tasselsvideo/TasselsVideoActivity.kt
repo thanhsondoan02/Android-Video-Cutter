@@ -22,7 +22,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
 
     companion object {
         const val LIST_PATH = "VIDEO_PATH"
-        const val DURATION = "DURATION"
+        const val LIST_DURATION = "DURATION"
     }
 
     private val viewModel by viewModels<TasselsVideoViewModel>()
@@ -36,6 +36,7 @@ class TasselsVideoActivity : BaseBindingActivity<TasselsVideoActivityBinding>(R.
     override fun onPrepareInitView() {
         super.onPrepareInitView()
         viewModel.listPath = intent?.getStringArrayListExtra(LIST_PATH)
+        viewModel.listDuration = intent?.getLongArrayExtra(LIST_DURATION)?.toList()
     }
 
     override fun onInitView() {
